@@ -1,6 +1,9 @@
 #include "engine/SceneGuide.h"
+
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
+
+#include "filePath/SceneFilePath.h"
 
 USING_NS_CC;
 
@@ -28,7 +31,7 @@ bool SceneGuide::init()
 
 	// TODO{
 	// 后续将此处载入的场景文件改为特定的场景文件
-	rootNode = CSLoader::createNode("SceneDebug.csb");
+	rootNode = CSLoader::createNode(FILE_PATH_SCENE_DEBUG);
 	// }TODO
 
 	addChild(rootNode);

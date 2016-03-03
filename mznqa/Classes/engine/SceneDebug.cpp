@@ -3,6 +3,7 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
+#include "filePath/SceneFilePath.h"
 #include "engine/SceneGuide.h"
 
 USING_NS_CC;
@@ -29,7 +30,7 @@ bool SceneDebug::init()
 		return false;
 	}
 
-	rootNode = CSLoader::createNode("SceneDebug.csb");
+	rootNode = CSLoader::createNode(FILE_PATH_SCENE_DEBUG);
 
 	addChild(rootNode);
 
