@@ -3,6 +3,9 @@
 
 #include "cocos2d.h"
 
+// Debug 场景。该场景用于游戏最初载入，即第一个载入的场景
+// 该场景仅作下一个场景的引导作用，暂时不实现任何内容
+// 请保持该场景干净，不再添加任何东西！
 class SceneDebug : public cocos2d::Layer
 {
 private:

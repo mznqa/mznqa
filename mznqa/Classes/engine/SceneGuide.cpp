@@ -26,7 +26,10 @@ bool SceneGuide::init()
 		return false;
 	}
 
+	// TODO{
+	// 后续将此处载入的场景文件改为特定的场景文件
 	rootNode = CSLoader::createNode("SceneDebug.csb");
+	// }TODO
 
 	addChild(rootNode);
 

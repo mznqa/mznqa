@@ -35,6 +35,7 @@ bool SceneDebug::init()
 
 	log("<<<< SceneDebug.init()");
 
+	// 载入场景 SceneDebug 后立即跳转到场景 SceneGuide。
 	Director::getInstance()->replaceScene(SceneGuide::createScene());
 
 	return true;
