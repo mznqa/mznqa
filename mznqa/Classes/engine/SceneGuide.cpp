@@ -1,28 +1,25 @@
-#include "engine/SceneDebug.h"
-
+#include "engine/SceneGuide.h"
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
-
-#include "engine/SceneGuide.h"
 
 USING_NS_CC;
 
 using namespace cocostudio::timeline;
 
-Scene* SceneDebug::createScene()
+Scene* SceneGuide::createScene()
 {
 	auto scene = Scene::create();
 
-	auto layer = SceneDebug::create();
+	auto layer = SceneGuide::create();
 
 	scene->addChild(layer);
 
 	return scene;
 }
 
-bool SceneDebug::init()
+bool SceneGuide::init()
 {
-	log(">>>> SceneDebug.init()");
+	log(">>>> SceneGuide.init()");
 
 	if (!Layer::init())
 	{
@@ -33,9 +30,7 @@ bool SceneDebug::init()
 
 	addChild(rootNode);
 
-	log("<<<< SceneDebug.init()");
-
-	Director::getInstance()->replaceScene(SceneGuide::createScene());
+	log("<<<< SceneGuide.init()");
 
 	return true;
 }
