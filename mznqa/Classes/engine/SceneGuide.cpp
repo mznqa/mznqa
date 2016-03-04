@@ -4,6 +4,8 @@
 #include "ui/CocosGUI.h"
 
 #include "filePath/SceneFilePath.h"
+#include "runtime/SceneGuideState.h"
+#include "engine/SceneLoadRes.h"
 
 USING_NS_CC;
 
@@ -47,7 +49,11 @@ bool SceneGuide::init()
 void SceneGuide::onEnter()
 {
 	log("++++ SceneGuide.onEnter()");
+	// 首先，调用基类方法
 	Layer::onEnter();
+	// 调用场景状态方法
+	SceneGuideState::Instance()->enter(this);
+
 	log("---- SceneGuide.onEnter()");
 }
 
@@ -55,6 +61,10 @@ void SceneGuide::onEnter()
 void SceneGuide::onExit()
 {
 	log("++++ SceneGuide.onExit()");
+	// 首先，调用基类方法
 	Layer::onExit();
+	// 调用场景状态方法
+	SceneGuideState::Instance()->exit(this);
+
 	log("---- SceneGuide.onExit()");
 }

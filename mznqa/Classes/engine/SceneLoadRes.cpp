@@ -4,6 +4,7 @@
 #include "ui/CocosGUI.h"
 
 #include "filePath/SceneFilePath.h"
+#include "runtime/SceneLoadResState.h"
 
 USING_NS_CC;
 
@@ -46,7 +47,11 @@ bool SceneLoadRes::init()
 void SceneLoadRes::onEnter()
 {
 	log("++++ SceneLoadRes.onEnter()");
+	// 首先，调用基类方法
 	Layer::onEnter();
+	// 调用场景状态方法
+	SceneLoadResState::Instance()->enter(this);
+
 	log("---- SceneLoadRes.onEnter()");
 }
 
@@ -54,6 +59,9 @@ void SceneLoadRes::onEnter()
 void SceneLoadRes::onExit()
 {
 	log("++++ SceneLoadRes.onExit()");
+	// 首先，调用基类方法
 	Layer::onExit();
+	// 调用场景状态方法
+	SceneLoadResState::Instance()->exit(this);
 	log("---- SceneLoadRes.onExit()");
 }
