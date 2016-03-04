@@ -7,13 +7,21 @@
 class SceneGuide : public cocos2d::Layer
 {
 private:
+	// 用于存放外部场景文件载入的资源
 	cocos2d::Node *rootNode;
 protected:
 
 public:
 	static cocos2d::Scene* createScene();
 
+	// 重写场景的初始化方法
 	virtual bool init();
+
+	// 重写场景的进入方法
+	virtual void onEnter();
+
+	// 重写场景的离开方法
+	virtual void onExit();
 
 	CREATE_FUNC(SceneGuide);
 };

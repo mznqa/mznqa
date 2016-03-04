@@ -20,10 +20,12 @@ Scene* SceneGuide::createScene()
 	return scene;
 }
 
+// 创建场景时的初始化操作
 bool SceneGuide::init()
 {
-	log(">>>> SceneGuide.init()");
+	log("++++ SceneGuide.init()");
 
+	// 首先，调用基类方法
 	if (!Layer::init())
 	{
 		return false;
@@ -36,7 +38,23 @@ bool SceneGuide::init()
 
 	addChild(rootNode);
 
-	log("<<<< SceneGuide.init()");
+	log("---- SceneGuide.init()");
 
 	return true;
+}
+
+// 进入场景时的操作
+void SceneGuide::onEnter()
+{
+	log("++++ SceneGuide.onEnter()");
+	Layer::onEnter();
+	log("---- SceneGuide.onEnter()");
+}
+
+// 离开场景时的操作
+void SceneGuide::onExit()
+{
+	log("++++ SceneGuide.onExit()");
+	Layer::onExit();
+	log("---- SceneGuide.onExit()");
 }

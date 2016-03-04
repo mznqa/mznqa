@@ -9,13 +9,21 @@
 class SceneDebug : public cocos2d::Layer
 {
 private:
+	// 从外部文件载入的场景文件所存放的位置
 	cocos2d::Node *rootNode;
 protected:
 
 public:
 	static cocos2d::Scene* createScene();
 
+	// 重写场景的初始化操作
 	virtual bool init();
+
+	// 重写场景启动时的操作
+	virtual void onEnter();
+
+	// 重写场景离开时的操作
+	virtual void onExit();
 
 	CREATE_FUNC(SceneDebug);
 };

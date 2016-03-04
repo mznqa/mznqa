@@ -20,9 +20,10 @@ Scene* SceneLoadRes::createScene()
 	return scene;
 }
 
+// 场景创建时的初始化操作
 bool SceneLoadRes::init()
 {
-	log(">>>> SceneLoadRes.init()");
+	log("++++ SceneLoadRes.init()");
 
 	if (!Layer::init())
 	{
@@ -36,7 +37,23 @@ bool SceneLoadRes::init()
 
 	addChild(rootNode);
 
-	log("<<<< SceneLoadRes.init()");
+	log("---- SceneLoadRes.init()");
 
 	return true;
+}
+
+// 进入场景时的操作
+void SceneLoadRes::onEnter()
+{
+	log("++++ SceneLoadRes.onEnter()");
+	Layer::onEnter();
+	log("---- SceneLoadRes.onEnter()");
+}
+
+// 离开场景时的操作
+void SceneLoadRes::onExit()
+{
+	log("++++ SceneLoadRes.onExit()");
+	Layer::onExit();
+	log("---- SceneLoadRes.onExit()");
 }

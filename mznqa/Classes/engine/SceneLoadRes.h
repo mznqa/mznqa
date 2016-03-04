@@ -7,13 +7,21 @@
 class SceneLoadRes : public cocos2d::Layer
 {
 private:
+	// 用于存放从外部载入的场景文件的资源
 	cocos2d::Node *rootNode;
 protected:
 
 public:
 	static cocos2d::Scene* createScene();
 
+	// 重写场景初始化方法
 	virtual bool init();
+
+	// 重写场景进入时的方法
+	virtual void onEnter();
+
+	// 重写场景离开时的方法
+	virtual void onExit();
 
 	CREATE_FUNC(SceneLoadRes);
 };
