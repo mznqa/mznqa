@@ -5,7 +5,6 @@
 
 #include "filePath/SceneFilePath.h"
 #include "runtime/SceneGuideState.h"
-#include "engine/SceneLoadRes.h"
 
 USING_NS_CC;
 
@@ -33,12 +32,12 @@ bool SceneGuide::init()
 		return false;
 	}
 
-	// TODO{
-	// 后续将此处载入的场景文件改为特定的场景文件
-	rootNode = CSLoader::createNode(FILE_PATH_SCENE_DEBUG);
-	// }TODO
+	rootNode = CSLoader::createNode(FILE_PATH_SCENE_GUIDE);
 
 	addChild(rootNode);
+
+	// 添加单次调度器
+	this->scheduleOnce(schedule_selector(SceneGuide::updateOnce), 1.0f);
 
 	log("---- SceneGuide.init()");
 
@@ -67,4 +66,11 @@ void SceneGuide::onExit()
 	SceneGuideState::Instance()->exit(this);
 
 	log("---- SceneGuide.onExit()");
+}
+
+void SceneGuide::updateOnce(float dt)
+{
+	log("++++ SceneGuide.updateOnce()");
+	SceneGuideState::Instance()->update(this, 1.0f);
+	log("---- SceneGuide.updateOnce()");
 }

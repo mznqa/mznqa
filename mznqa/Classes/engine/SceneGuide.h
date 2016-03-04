@@ -9,6 +9,8 @@ class SceneGuide : public cocos2d::Layer
 private:
 	// 用于存放外部场景文件载入的资源
 	cocos2d::Node *rootNode;
+
+	void updateOnce(float dt);
 protected:
 
 public:

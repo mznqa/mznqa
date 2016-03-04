@@ -1,7 +1,5 @@
 #include "runtime/SceneLoadResState.h"
 
-#include "cocos2d.h"
-
 SceneLoadResState*SceneLoadResState::instance = nullptr;
 
 SceneLoadResState::~SceneLoadResState()

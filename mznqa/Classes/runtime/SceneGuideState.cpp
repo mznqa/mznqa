@@ -1,6 +1,5 @@
 #include "runtime/SceneGuideState.h"
 
-#include "cocos2d.h"
 #include "engine/SceneLoadRes.h"
 #include "runtime/SceneLoadResState.h"
 
@@ -33,6 +32,7 @@ bool SceneGuideState::enter(cocos2d::Layer *scene)
 bool SceneGuideState::update(cocos2d::Layer *scene, double intervalTime)
 {
 	cocos2d::log("++++ SceneGuideState::excute()");
+	cocos2d::Director::getInstance()->replaceScene(SceneLoadRes::createScene());
 	cocos2d::log("---- SceneGuideState::excute()");
 	return true;
 }
