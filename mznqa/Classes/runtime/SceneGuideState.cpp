@@ -21,7 +21,7 @@ SceneGuideState* SceneGuideState::Instance()
 }
 
 // 进入状态前的操作
-bool SceneGuideState::enter(cocos2d::Layer *scene)
+bool SceneGuideState::enter(SceneGuide *scene)
 {
 	cocos2d::log("++++ SceneGuideState::enter()");
 	cocos2d::log("---- SceneGuideState::enter()");
@@ -29,16 +29,17 @@ bool SceneGuideState::enter(cocos2d::Layer *scene)
 }
 
 // 状态执行时的操作
-bool SceneGuideState::update(cocos2d::Layer *scene, double intervalTime)
+bool SceneGuideState::update(SceneGuide *scene, double intervalTime)
 {
-	cocos2d::log("++++ SceneGuideState::excute()");
-	cocos2d::Director::getInstance()->replaceScene(SceneLoadRes::createScene());
-	cocos2d::log("---- SceneGuideState::excute()");
+	cocos2d::log("++++ SceneGuideState::update()");
+	// 调用场景API，跳转到指定场景
+	scene->replaceSceneLoadRes();
+	cocos2d::log("---- SceneGuideState::update()");
 	return true;
 }
 
 // 离开状态前的操作
-bool SceneGuideState::exit(cocos2d::Layer *Scene)
+bool SceneGuideState::exit(SceneGuide *Scene)
 {
 	cocos2d::log("++++ SceneGuideState::exit()");
 	cocos2d::log("---- SceneGuideState::exit()");

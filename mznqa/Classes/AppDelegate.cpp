@@ -1,6 +1,5 @@
 #include "AppDelegate.h"
 #include "engine/SceneDebug.h"
-#include "engine/SceneGuide.h"
 
 USING_NS_CC;
 

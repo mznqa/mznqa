@@ -3,8 +3,9 @@
 
 #include "runtime/BaseSceneState.h"
 #include "cocos2d.h"
+#include "engine/SceneGuide.h"
 
-class SceneGuideState : public BaseSceneState<cocos2d::Layer>
+class SceneGuideState : public BaseSceneState<SceneGuide>
 {
 private:
 	static SceneGuideState *instance;
@@ -18,11 +19,11 @@ public:
 	static SceneGuideState* Instance();
 
 	// 进入状态前的操作
-	bool enter(cocos2d::Layer *scene);
+	bool enter(SceneGuide *scene);
 	// 状态执行时的操作
-	bool update(cocos2d::Layer *scene, double intervalTime);
+	bool update(SceneGuide *scene, double intervalTime);
 	// 离开状态前的操作
-	bool exit(cocos2d::Layer *Scene);
+	bool exit(SceneGuide *Scene);
 };
 
 #endif

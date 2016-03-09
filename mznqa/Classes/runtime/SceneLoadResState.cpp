@@ -18,7 +18,7 @@ SceneLoadResState* SceneLoadResState::Instance()
 }
 
 // 进入状态前的操作
-bool SceneLoadResState::enter(cocos2d::Layer *scene)
+bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("++++ SceneLoadResState.enter()");
 	cocos2d::log("---- SceneLoadResState.enter()");
@@ -26,7 +26,7 @@ bool SceneLoadResState::enter(cocos2d::Layer *scene)
 }
 
 // 状态执行时的操作
-bool SceneLoadResState::update(cocos2d::Layer *scene, double intervalTime)
+bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 {
 	cocos2d::log("++++ SceneLoadResState.excute()");
 	cocos2d::log("---- SceneLoadResState.excute()");
@@ -34,7 +34,7 @@ bool SceneLoadResState::update(cocos2d::Layer *scene, double intervalTime)
 }
 
 // 离开状态前的操作
-bool SceneLoadResState::exit(cocos2d::Layer *Scene)
+bool SceneLoadResState::exit(SceneLoadRes *Scene)
 {
 	cocos2d::log("++++ SceneLoadResState.exit()");
 	cocos2d::log("---- SceneLoadResState.exit()");
