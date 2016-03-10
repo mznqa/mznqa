@@ -6,6 +6,7 @@
 #include <functional>
 #include "message/Message.h"
 
+// 于逻辑使用的消息队列
 class LogicMessagePQ
 {
 private:

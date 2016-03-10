@@ -6,6 +6,7 @@
 #include <functional>
 #include "message/Message.h"
 
+// 于引擎使用的消息队列
 class EngineMessagePQ
 {
 private:
