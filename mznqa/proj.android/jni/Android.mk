@@ -15,6 +15,9 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/engine/SceneDebug.cpp \
                    ../../Classes/engine/SceneGuide.cpp \
                    ../../Classes/engine/SceneLoadRes.cpp \
+                   ../../Classes/message/EngineMessagePQ.cpp \
+                   ../../Classes/message/LogicMessagePQ.cpp \
+                   ../../Classes/message/MsgInterpreter.cpp \
                    ../../Classes/runtime/SceneGuideState.cpp \
                    ../../Classes/runtime/SceneLoadResState.cpp
 
