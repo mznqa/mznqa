@@ -21,18 +21,15 @@ private:
 
 	// 3个（暂定3个）用于缓冲的区域 //////////////////////////////////////////////////////////////////////////
 	// index 0
-	char *buffer0;
-	rapidjson::FileReadStream *frs0;
+	rapidjson::StringStream *ss0;
 	rapidjson::Document *jdom0;
 
 	// index 1
-	char *buffer1;
-	rapidjson::FileReadStream *frs1;
+	rapidjson::StringStream *ss1;
 	rapidjson::Document *jdom1;
 
 	// index 2
-	char *buffer2;
-	rapidjson::FileReadStream *frs2;
+	rapidjson::StringStream *ss2;
 	rapidjson::Document *jdom2;
 	//////////////////////////////////////////////////////////////////////////
 public:
@@ -51,8 +48,8 @@ public:
 	// 获取指定编号缓冲区下的JsonDOM
 	rapidjson::Document* getJsonDOMByBufferIndex(int index);
 
-	// 根据给定json文件和缓冲区大小来开辟缓冲区，成功将返回缓冲区编号
-	int createBuffer(FILE *file, size_t bufferSize);
+	// 根据给定json文件流来开辟缓冲区，成功将返回缓冲区编号
+	int createBuffer(char *stream);
 
 	// 回收指定编号缓冲区
 	void clearBuffer(int bufferIndex);

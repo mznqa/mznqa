@@ -57,13 +57,10 @@ rapidjson::Document* JsonParser::getJsonDOMByBufferIndex(int index)
 		return nullptr;
 }
 
-int JsonParser::createBuffer(FILE *file, size_t bufferSize)
+int JsonParser::createBuffer(char *stream)
 {
-	// 当传入无效文件时，中止操作
-	if (file == NULL)
-		return -1;
-	// 当指定缓冲区大小小于Rapidjson要求时，中止操作
-	if (bufferSize < 4)
+	// 当传入无效文件流时，中止操作
+	if (stream == NULL)
 		return -1;
 	// 当没有可用的缓冲区时，中止操作
 	int index = getNextBufferCount();
@@ -73,14 +70,12 @@ int JsonParser::createBuffer(FILE *file, size_t bufferSize)
 	clearBuffer(index);
 	if (index == 0)
 	{
-		buffer0 = new char[bufferSize];
-		frs0 = new rapidjson::FileReadStream(file, buffer0, bufferSize);
+		ss0 = new rapidjson::StringStream(stream);
 		jdom0 = new rapidjson::Document();
-		jdom0->ParseStream(*frs0);
+		jdom0->ParseStream(*ss0);
 		if (jdom0->HasParseError())
 		{
 			// TODO 发送解析错误消息
-
 			clearBuffer(index);
 			return -1;
 		}
@@ -92,10 +87,9 @@ int JsonParser::createBuffer(FILE *file, size_t bufferSize)
 	}
 	else if (index == 1)
 	{
-		buffer1 = new char[bufferSize];
-		frs1 = new rapidjson::FileReadStream(file, buffer1, bufferSize);
+		ss1 = new rapidjson::StringStream(stream);
 		jdom1 = new rapidjson::Document();
-		jdom1->ParseStream(*frs1);
+		jdom1->ParseStream(*ss1);
 		if (jdom0->HasParseError())
 		{
 			// TODO 发送解析错误消息
@@ -111,10 +105,9 @@ int JsonParser::createBuffer(FILE *file, size_t bufferSize)
 	}
 	else if (index == 2)
 	{
-		buffer2 = new char[bufferSize];
-		frs2 = new rapidjson::FileReadStream(file, buffer2, bufferSize);
+		ss2 = new rapidjson::StringStream(stream);
 		jdom2 = new rapidjson::Document();
-		jdom2->ParseStream(*frs2);
+		jdom2->ParseStream(*ss2);
 		if (jdom0->HasParseError())
 		{
 			// TODO 发送解析错误消息
@@ -138,30 +131,24 @@ void JsonParser::clearBuffer(int bufferIndex)
 	{
 		delete jdom0;
 		jdom0 = nullptr;
-		delete frs0;
-		frs0 = nullptr;
-		delete buffer0;
-		buffer0 = nullptr;
+		delete ss0;
+		ss0 = nullptr;
 		bufferCheck[bufferIndex] = false;
 	}
 	else if (bufferIndex = 1)
 	{
 		delete jdom0;
 		jdom0 = nullptr;
-		delete frs0;
-		frs0 = nullptr;
-		delete buffer0;
-		buffer0 = nullptr;
+		delete ss0;
+		ss0 = nullptr;
 		bufferCheck[bufferIndex] = false;
 	}
 	else if (bufferIndex = 2)
 	{
 		delete jdom0;
 		jdom0 = nullptr;
-		delete frs0;
-		frs0 = nullptr;
-		delete buffer0;
-		buffer0 = nullptr;
+		delete ss0;
+		ss0 = nullptr;
 		bufferCheck[bufferIndex] = false;
 	}
 	else
@@ -171,15 +158,16 @@ void JsonParser::clearBuffer(int bufferIndex)
 void JsonParser::test()
 {
 	cocos2d::log("++++ JsonParser::test()");
+	cocos2d::log("%s", cocos2d::CCFileUtils::sharedFileUtils()->getWritablePath().c_str());
+	cocos2d::log("%s", cocos2d::CCFileUtils::sharedFileUtils()->fullPathForFilename(STATIC_DATA_ROLE).c_str());
 	// 缓存文件
 	if (!FileCache::Instance()->loadRoleStaticDataFile(
 		cocos2d::CCFileUtils::sharedFileUtils()->fullPathForFilename(STATIC_DATA_ROLE).c_str(),
 		"r"
 		))
 		return;
-
 	// 创建json缓冲区
-	int bi = createBuffer(*(FileCache::Instance()->getRoleStaticDataFile()), 4096);
+	int bi = createBuffer(FileCache::Instance()->getRoleStaticDataFile());
 	// 如果常见成功
 	if (bi != -1)
 	{

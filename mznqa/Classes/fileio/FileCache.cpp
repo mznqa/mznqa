@@ -1,5 +1,7 @@
 #include "fileio/FileCache.h"
 
+#include "cocos2d.h"
+
 FileCache* FileCache::Instance()
 {
 	static FileCache instance;
@@ -8,13 +10,17 @@ FileCache* FileCache::Instance()
 
 FileCache::~FileCache()
 {
-	fclose(roleStaticData);
+	delete roleStaticData;
 	roleStaticData = nullptr;
 }
 
 bool FileCache::loadRoleStaticDataFile(const char *path, const char *mode)
 {
-	roleStaticData = fopen(path, mode);
+	ssize_t size = 0;
+	unsigned char * temp = cocos2d::CCFileUtils::sharedFileUtils()->getFileData(path, mode, &size);
+	roleStaticData = new char[size + 1];
+	roleStaticData = (char*)temp;
+
 	if (roleStaticData != NULL)
 	{
 		// TODO 发送文件打开成功消息
@@ -27,21 +33,13 @@ bool FileCache::loadRoleStaticDataFile(const char *path, const char *mode)
 	}
 }
 
-FILE** FileCache::getRoleStaticDataFile()
+char* FileCache::getRoleStaticDataFile()
 {
-	return &roleStaticData;
+	return roleStaticData;
 }
 
-bool FileCache::closeRoleStaticDataFile()
+void FileCache::closeRoleStaticDataFile()
 {
-	if (fclose(roleStaticData) == 0)
-	{
-		// TODO 发送文件关闭成功消息
-		return true;
-	}
-	else
-	{
-		// TODO 发送文件关闭失败消息
-		return false;
-	}
+	delete roleStaticData;
+	roleStaticData = nullptr;
 }
