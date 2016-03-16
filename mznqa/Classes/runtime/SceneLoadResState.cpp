@@ -1,5 +1,5 @@
 #include "runtime/SceneLoadResState.h"
-#include "fileio/JsonParser.h"
+#include "data/realTimeData/Role.h"
 
 SceneLoadResState*SceneLoadResState::instance = nullptr;
 
@@ -22,7 +22,7 @@ SceneLoadResState* SceneLoadResState::Instance()
 bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("++++ SceneLoadResState.enter()");
-	JsonParser::Instance()->test();
+	Role::Instance()->test();
 	cocos2d::log("---- SceneLoadResState.enter()");
 	return true;
 }
