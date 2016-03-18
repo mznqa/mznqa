@@ -5,4 +5,5 @@
 
 #define STATIC_DATA_ROLE "data/static/role.json"
 
+
 #endif	//	MZNQA_CLASSES_FILEPATH_DATAPATH_H_ 
