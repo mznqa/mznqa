@@ -1,3 +1,5 @@
+#pragma execution_character_set("utf-8")
+
 #ifndef  _APP_DELEGATE_H_
 #define  _APP_DELEGATE_H_
 

@@ -1,3 +1,5 @@
+#pragma execution_character_set("utf-8")
+
 #include "engine/SceneGuide.h"
 
 #include "cocostudio/CocoStudio.h"

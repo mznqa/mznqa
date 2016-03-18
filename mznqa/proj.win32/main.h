@@ -1,3 +1,5 @@
+#pragma execution_character_set("utf-8")
+
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
