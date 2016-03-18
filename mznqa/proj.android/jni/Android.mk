@@ -12,6 +12,8 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
+                   ../../Classes/data/realTimeData/Role.cpp \
+                   ../../Classes/data/realTimeData/Monster.cpp \
                    ../../Classes/engine/SceneDebug.cpp \
                    ../../Classes/engine/SceneGuide.cpp \
                    ../../Classes/engine/SceneLoadRes.cpp \
