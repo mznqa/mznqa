@@ -1,3 +1,4 @@
+#pragma execution_character_set("utf-8")
 #include "data/realTimeData/Monster.h"
 
 Monster::Monster()
