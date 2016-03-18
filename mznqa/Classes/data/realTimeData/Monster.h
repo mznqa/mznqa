@@ -1,19 +1,18 @@
 #pragma execution_character_set("utf-8")
+
 #ifndef MZNQA_CLASSES_DATA_REALTIMEDATA_MONSTER_H_
 #define MZNQA_CLASSES_DATA_REALTIMEDATA_MONSTER_H_
 
 #include <string>
-
-using namespace std;
 
 class Monster
 {
 public:
 	Monster();
 	~Monster();
-	
+
 	//获取名字
-	string getName();
+	std::string getName();
 
 	//获取当前血量
 	int getBloodValue();
@@ -48,11 +47,10 @@ public:
 	//更新血量上限
 	void updateBloodMax(int delta);
 
-
 private:
 
 	//怪物名字
-	string monsterName;
+	std::string monsterName;
 
 	//血量
 	int bloodValue;
@@ -65,10 +63,6 @@ private:
 
 	//血量上限
 	int bloodMax;
-
-
 };
-
-
 
 #endif
