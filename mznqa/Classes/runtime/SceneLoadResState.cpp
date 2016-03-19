@@ -1,7 +1,7 @@
 #pragma execution_character_set("utf-8")
 
 #include "runtime/SceneLoadResState.h"
-#include "data/realTimeData/Role.h"
+#include "fileio/JsonParser.h"
 
 SceneLoadResState*SceneLoadResState::instance = nullptr;
 
@@ -24,7 +24,7 @@ SceneLoadResState* SceneLoadResState::Instance()
 bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("++++ SceneLoadResState.enter()");
-	Role::Instance()->test();
+	JsonParser::Instance()->test();
 	cocos2d::log("---- SceneLoadResState.enter()");
 	return true;
 }

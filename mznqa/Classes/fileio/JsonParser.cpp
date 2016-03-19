@@ -43,7 +43,12 @@ int JsonParser::getNextBufferCount()
 {
 	for (int i = 0; i < bufferCount; ++i)
 		if (bufferCheck[i] == false)
+		{
+			cocos2d::log("提示：成功分配编号为%d的json缓冲区", i);
 			return i;
+		}
+
+	cocos2d::log("错误：当前无可用的json缓冲区");
 	return -1;
 }
 
@@ -59,25 +64,34 @@ rapidjson::Document* JsonParser::getJsonDOMByBufferIndex(int index)
 		return nullptr;
 }
 
-int JsonParser::createBuffer(char *stream)
+int JsonParser::createBuffer(const std::string *stream)
 {
 	// 当传入无效文件流时，中止操作
-	if (stream == NULL)
+	if (stream == nullptr || stream->empty() == true)
+	{
+		cocos2d::log("错误：尝试载入空的或不存在的文件数据流，json缓冲区创建失败");
 		return -1;
+	}
 	// 当没有可用的缓冲区时，中止操作
 	int index = getNextBufferCount();
 	if (index < 0)
+	{
+		cocos2d::log("错误：当前没有空余的json缓冲区可用，json缓冲区创建失败");
 		return -1;
+	}
+
+	const char *str = stream->c_str();
 
 	clearBuffer(index);
 	if (index == 0)
 	{
-		ss0 = new rapidjson::StringStream(stream);
+		ss0 = new rapidjson::StringStream(str);
 		jdom0 = new rapidjson::Document();
 		jdom0->ParseStream(*ss0);
 		if (jdom0->HasParseError())
 		{
 			// TODO 发送解析错误消息
+			cocos2d::log("错误：JSON解析出错");
 			clearBuffer(index);
 			return -1;
 		}
@@ -89,13 +103,13 @@ int JsonParser::createBuffer(char *stream)
 	}
 	else if (index == 1)
 	{
-		ss1 = new rapidjson::StringStream(stream);
+		ss1 = new rapidjson::StringStream(str);
 		jdom1 = new rapidjson::Document();
 		jdom1->ParseStream(*ss1);
 		if (jdom0->HasParseError())
 		{
 			// TODO 发送解析错误消息
-
+			cocos2d::log("错误：JSON解析出错");
 			clearBuffer(index);
 			return -1;
 		}
@@ -107,13 +121,13 @@ int JsonParser::createBuffer(char *stream)
 	}
 	else if (index == 2)
 	{
-		ss2 = new rapidjson::StringStream(stream);
+		ss2 = new rapidjson::StringStream(str);
 		jdom2 = new rapidjson::Document();
 		jdom2->ParseStream(*ss2);
 		if (jdom0->HasParseError())
 		{
 			// TODO 发送解析错误消息
-
+			cocos2d::log("错误：JSON解析出错");
 			clearBuffer(index);
 			return -1;
 		}
@@ -129,29 +143,32 @@ int JsonParser::createBuffer(char *stream)
 
 void JsonParser::clearBuffer(int bufferIndex)
 {
-	if (bufferIndex = 0)
+	if (bufferIndex == 0)
 	{
 		delete jdom0;
 		jdom0 = nullptr;
 		delete ss0;
 		ss0 = nullptr;
 		bufferCheck[bufferIndex] = false;
+		cocos2d::log("提示：json缓冲区（编号0）释放成功");
 	}
-	else if (bufferIndex = 1)
+	else if (bufferIndex == 1)
 	{
 		delete jdom0;
 		jdom0 = nullptr;
 		delete ss0;
 		ss0 = nullptr;
 		bufferCheck[bufferIndex] = false;
+		cocos2d::log("提示：json缓冲区（编号1）释放成功");
 	}
-	else if (bufferIndex = 2)
+	else if (bufferIndex == 2)
 	{
 		delete jdom0;
 		jdom0 = nullptr;
 		delete ss0;
 		ss0 = nullptr;
 		bufferCheck[bufferIndex] = false;
+		cocos2d::log("提示：json缓冲区（编号2）释放成功");
 	}
 	else
 		;
@@ -170,7 +187,7 @@ void JsonParser::test()
 		return;
 	// 创建json缓冲区
 	int bi = createBuffer(FileCache::Instance()->getRoleStaticDataFile());
-	// 如果常见成功
+	// 如果创建成功
 	if (bi != -1)
 	{
 		// 解析json
@@ -179,6 +196,7 @@ void JsonParser::test()
 	}
 	// 回收缓冲区
 	clearBuffer(bi);
+	// 释放文件缓存
 	FileCache::Instance()->closeRoleStaticDataFile();
 	cocos2d::log("---- JsonParser::test()");
 }

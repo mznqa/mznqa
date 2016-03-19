@@ -4,6 +4,7 @@
 #define MZNQA_CLASSES_FILEIO_JSONPARSER_H_
 
 #include <cstdio>
+#include <string>
 
 #include "json/filereadstream.h"
 #include "json/document.h"
@@ -51,7 +52,7 @@ public:
 	rapidjson::Document* getJsonDOMByBufferIndex(int index);
 
 	// 根据给定json文件流来开辟缓冲区，成功将返回缓冲区编号
-	int createBuffer(char *stream);
+	int createBuffer(const std::string *stream);
 
 	// 回收指定编号缓冲区
 	void clearBuffer(int bufferIndex);
