@@ -16,8 +16,6 @@ private:
 	// 从外部文件载入的场景文件所存放的位置
 	cocos2d::Node *rootNode;
 	//////////////////////////////////////////////////////////////////////////
-protected:
-
 public:
 	CREATE_FUNC(SceneDebug);
 	static cocos2d::Scene* createScene();

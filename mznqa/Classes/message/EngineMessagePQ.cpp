@@ -2,19 +2,14 @@
 
 #include "message/EngineMessagePQ.h"
 
-EngineMessagePQ* EngineMessagePQ::instance = nullptr;
-
 EngineMessagePQ* EngineMessagePQ::Instance()
 {
-	if (instance == nullptr)
-		instance = new EngineMessagePQ();
-
-	return instance;
+	static EngineMessagePQ instance;
+	return &instance;
 }
 
 EngineMessagePQ::~EngineMessagePQ()
 {
-	delete instance;
 }
 
 void EngineMessagePQ::pushMessage(const Message &eMessage)

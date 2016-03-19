@@ -9,13 +9,12 @@
 class MsgInterpreter
 {
 private:
-	static MsgInterpreter *instance;
-	// 消息映射表<EngineMessage, LogicMessage>
-	std::map<int, int> msgMap;
-protected:
 	MsgInterpreter();
 	MsgInterpreter(const MsgInterpreter &msgInterpreter);
 	MsgInterpreter& operator=(const MsgInterpreter &msgInterpreter);
+
+	// 消息映射表<EngineMessage, LogicMessage>
+	std::map<int, int> msgMap;
 public:
 	// 获取MsgInterpreter单例
 	static MsgInterpreter* Instance();

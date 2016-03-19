@@ -66,7 +66,7 @@ void SceneDebug::onExit()
 	log("++++ SceneDebug.onExit()");
 
 	// 首先，调用基类方法
-	Layer::onEnter();
+	Layer::onExit();
 
 	log("---- SceneDebug.onExit()");
 }

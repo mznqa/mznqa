@@ -5,21 +5,14 @@
 #include "engine/SceneLoadRes.h"
 #include "runtime/SceneLoadResState.h"
 
-SceneGuideState* SceneGuideState::instance = nullptr;
-
 SceneGuideState::~SceneGuideState()
 {
-	delete instance;
 }
 
 SceneGuideState* SceneGuideState::Instance()
 {
-	if (instance == nullptr)
-	{
-		instance = new SceneGuideState();
-	}
-
-	return instance;
+	static SceneGuideState instance;
+	return &instance;
 }
 
 // 进入状态前的操作

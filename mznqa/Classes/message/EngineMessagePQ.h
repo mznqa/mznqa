@@ -12,12 +12,11 @@
 class EngineMessagePQ
 {
 private:
-	static EngineMessagePQ *instance;
-	std::priority_queue<Message, std::vector<Message>, std::greater<Message>> msgPQ;
-protected:
 	EngineMessagePQ(){}
 	EngineMessagePQ(const EngineMessagePQ &engineMessagePQ);
 	EngineMessagePQ& operator=(const EngineMessagePQ &engineMessagePQ);
+
+	std::priority_queue<Message, std::vector<Message>, std::greater<Message>> msgPQ;
 public:
 	// ÏûÏ¢Ã¶¾Ù
 	enum EMessage

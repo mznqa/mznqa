@@ -14,8 +14,6 @@ private:
 	// 用于存放从外部载入的场景文件的资源
 	cocos2d::Node *rootNode;
 	//////////////////////////////////////////////////////////////////////////
-protected:
-
 public:
 	CREATE_FUNC(SceneLoadRes);
 	static cocos2d::Scene* createScene();

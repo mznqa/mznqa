@@ -2,14 +2,10 @@
 
 #include "message/MsgInterpreter.h"
 
-MsgInterpreter* MsgInterpreter::instance = nullptr;
-
 MsgInterpreter* MsgInterpreter::Instance()
 {
-	if (instance == nullptr)
-		instance = new MsgInterpreter();
-
-	return instance;
+	static MsgInterpreter instance;
+	return &instance;
 }
 
 MsgInterpreter::MsgInterpreter()
@@ -21,7 +17,6 @@ MsgInterpreter::MsgInterpreter()
 
 MsgInterpreter::~MsgInterpreter()
 {
-	delete instance;
 }
 
 Message MsgInterpreter::translation(const Message &eMessage)

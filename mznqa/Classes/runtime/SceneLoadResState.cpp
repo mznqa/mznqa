@@ -3,21 +3,14 @@
 #include "runtime/SceneLoadResState.h"
 #include "fileio/JsonParser.h"
 
-SceneLoadResState*SceneLoadResState::instance = nullptr;
-
 SceneLoadResState::~SceneLoadResState()
 {
-	delete instance;
 }
 
 SceneLoadResState* SceneLoadResState::Instance()
 {
-	if (instance == nullptr)
-	{
-		instance = new SceneLoadResState();
-	}
-
-	return instance;
+	static SceneLoadResState instance;
+	return &instance;
 }
 
 // 进入状态前的操作

@@ -10,8 +10,6 @@
 class SceneLoadResState : public BaseSceneState<SceneLoadRes>
 {
 private:
-	static SceneLoadResState *instance;
-
 	SceneLoadResState(){}
 	SceneLoadResState(const SceneLoadResState &SceneLoadResState){}
 	SceneLoadResState* operator=(const SceneLoadResState &SceneLoadResState){}

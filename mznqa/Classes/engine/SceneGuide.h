@@ -20,8 +20,6 @@ private:
 	// 单次调度器
 	void updateOnce(float dt);
 	//////////////////////////////////////////////////////////////////////////
-protected:
-
 public:
 	CREATE_FUNC(SceneGuide);
 	static cocos2d::Scene* createScene();

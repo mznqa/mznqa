@@ -10,8 +10,6 @@
 class SceneGuideState : public BaseSceneState<SceneGuide>
 {
 private:
-	static SceneGuideState *instance;
-
 	SceneGuideState(){}
 	SceneGuideState(const SceneGuideState &sceneGuideState){}
 	SceneGuideState* operator=(const SceneGuideState &sceneGuideState){}

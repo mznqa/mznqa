@@ -12,12 +12,11 @@
 class LogicMessagePQ
 {
 private:
-	static LogicMessagePQ *instance;
-	std::priority_queue<Message, std::vector<Message>, std::greater<Message>> msgPQ;
-protected:
 	LogicMessagePQ(){}
 	LogicMessagePQ(const LogicMessagePQ &logicMessagePQ);
 	LogicMessagePQ& operator=(const LogicMessagePQ &logicMessagePQ);
+
+	std::priority_queue<Message, std::vector<Message>, std::greater<Message>> msgPQ;
 public:
 	// ÏûÏ¢Ã¶¾Ù
 	enum LMessage

@@ -2,19 +2,14 @@
 
 #include "message/LogicMessagePQ.h"
 
-LogicMessagePQ* LogicMessagePQ::instance = nullptr;
-
 LogicMessagePQ* LogicMessagePQ::Instance()
 {
-	if (instance == nullptr)
-		instance = new LogicMessagePQ();
-
-	return instance;
+	static LogicMessagePQ instance;
+	return &instance;
 }
 
 LogicMessagePQ::~LogicMessagePQ()
 {
-	delete instance;
 }
 
 void LogicMessagePQ::pushMessage(const Message &lMessage)
