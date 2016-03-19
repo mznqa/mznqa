@@ -2,6 +2,7 @@
 
 #include "runtime/SceneLoadResState.h"
 #include "fileio/JsonParser.h"
+#include "combatSystem/EffectPQ.h"
 
 SceneLoadResState::~SceneLoadResState()
 {
@@ -17,7 +18,8 @@ SceneLoadResState* SceneLoadResState::Instance()
 bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("++++ SceneLoadResState.enter()");
-	JsonParser::Instance()->test();
+	EffectPQ epq;
+	epq.test();
 	cocos2d::log("---- SceneLoadResState.enter()");
 	return true;
 }
