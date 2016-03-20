@@ -8,11 +8,11 @@ class Card
 public:
 	enum CardType
 	{
-		CardType_None,
-		CardType_Road,
-		CardType_Treasure,
-		CardType_Monster,
-		CardType_Skill
+		CardType_None = 0,
+		CardType_Road = 1,
+		CardType_Treasure = 2,
+		CardType_Monster = 3,
+		CardType_Skill = 4
 	};
 	Card(int id, CardType cardType)
 	{
