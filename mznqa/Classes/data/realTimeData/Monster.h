@@ -5,6 +5,9 @@
 
 #include <string>
 
+#include "baseClass/CombatCardPool.h"
+#include "baseClass/HandCard.h"
+
 class Monster
 {
 public:
@@ -46,6 +49,11 @@ public:
 
 	//更新血量上限
 	void updateBloodMax(int delta);
+
+	// 战斗场景下的卡池
+	CombatCardPool combatCardPool;
+	// 战斗场景下的手牌
+	HandCard combatHandCard = HandCard(5);
 
 private:
 

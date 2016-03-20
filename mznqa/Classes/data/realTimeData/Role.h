@@ -5,10 +5,14 @@
 
 #include <string>
 
+#include "baseClass/ExploreCardPool.h"
+#include "baseClass/CombatCardPool.h"
+#include "baseClass/HandCard.h"
+
 class Role
 {
 private:
-	Role(){}
+	Role();
 	Role(const Role &role);
 	Role& operator=(const Role &role);
 
@@ -35,18 +39,22 @@ private:
 	//升级经验
 	int *experienceUpgrade;
 
+	// 探索场景下的卡池
+	ExploreCardPool exploreCardPool;
+	// 探索场景下的手牌
+	HandCard exploreHandCard = HandCard(5);
+
+	// 战斗场景下的卡池
+	CombatCardPool combatCardPool;
+	// 战斗场景下的手牌
+	HandCard combatHandCard = HandCard(5);
+
 	//设置等级
 	void setLevel(int level);
 	//更新等级
 	void updateLevel(int delta);
 	// 检查等级
 	void checkLevel();
-
-	//设置等级上限
-	//void setLevelMax(int levelMax);
-
-	//更新等级上限
-	//void updateLevelMax(int delta);
 
 	// 设置升级所需等级
 	void setLevelMaxAndExperienceUpgrade(int levelMax, int *experienceUpgrade);

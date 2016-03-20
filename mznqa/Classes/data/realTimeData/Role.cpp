@@ -4,6 +4,10 @@
 
 #include "cocos2d.h"
 
+Role::Role()
+{
+}
+
 Role* Role::Instance()
 {
 	static Role instance;
