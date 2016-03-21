@@ -1,7 +1,7 @@
 #pragma execution_character_set("utf-8")
 
 #include "combatSystem/EffectPQ.h"
-
+#include "combatSystem/EffectHistory.h"
 #include "cocos2d.h"
 
 EffectPQ::EffectPQ()
@@ -87,6 +87,6 @@ void EffectPQ::test()
 	{
 		temp = getRoleNextEffect();
 		cocos2d::log("role-effect-level : %d, isEmpty = %d", temp.level, rolePQ.empty());
-		(temp.fun)(temp.arr, temp.size);
+		(temp.fun)(temp.arr, temp.size);	
 	}
 }

@@ -3,6 +3,7 @@
 #include "runtime/SceneLoadResState.h"
 #include "fileio/JsonParser.h"
 #include "combatSystem/EffectPQ.h"
+#include "combatSystem/EffectHistory.h"
 
 SceneLoadResState::~SceneLoadResState()
 {
@@ -18,8 +19,10 @@ SceneLoadResState* SceneLoadResState::Instance()
 bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("++++ SceneLoadResState.enter()");
-	EffectPQ epq;
-	epq.test();
+	//EffectPQ epq;
+	//epq.test();
+	EffectHistory eh;
+	eh.test();
 	cocos2d::log("---- SceneLoadResState.enter()");
 	return true;
 }
