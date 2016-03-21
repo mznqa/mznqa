@@ -5,6 +5,7 @@
 
 #include "combatSystem/DeltaTable.h"
 #include <vector>
+#include <map>
 
 class EffectHistory
 {
@@ -14,30 +15,30 @@ public:
 
 	~EffectHistory();
 
-	//查找历史技能
-	bool effectIsRelease(int effectId);
 
 	//添加单个效果历史技能
-	bool addDTHistory(DeltaTable dt);
+	bool addRoleHistory(int round,DeltaTable dt);
 
-	//添加回合总表
-	bool addTRHiatory(TableRound tr);
+	//获取角色某回合内所有的历史效果表
+	std::vector<DeltaTable> getRoundAllRoleTable(int round);
+	
 
-	//获取某个回合内的结算总表
-	TableRound getTableRound(int round);
+	//添加单个效果历史技能
+	bool addMonsterHistory(int round, DeltaTable dt);
 
-	//计算回合总表
-	TableRound calcTableRound(int round);
+	//获取怪物某回合内所有的历史效果表
+	std::vector<DeltaTable> getRoundAllMonsterTable(int round);
 
 	void test();
 	
 private:
 
-	//存储单个效果表格
-	std::vector <DeltaTable> tableHistory;
+	//存储角色单个效果表格
+	std::multimap <int,std::vector< DeltaTable >> tableRoleHistory;
 
-	//存储每个回合总的结算表格
-	std::vector <TableRound> tableRound;
+	//存储怪物单个效果表格
+	std::multimap<int, std::vector< DeltaTable >> tableMonsterHistory;
+
 };
 
 
