@@ -64,29 +64,20 @@ void EffectPQ::clearMonsterEffectPQ()
 		monsterPQ.pop();
 }
 
-void rf(int *arr, int size)
-{
-	cocos2d::log("\trole\tarr={%d+%d+%d}, \tsize=%d", arr[0], arr[1], arr[2], size);
-}
-
-void mf(int *arr, int size)
-{
-	cocos2d::log("\tmonster\tarr={%d+%d+%d}, \tsize=%d", arr[0], arr[1], arr[2], size);
-}
 void EffectPQ::test()
 {
-	// 推送五个效果
-	pushRoleEffect(EffectEntity(1, rf, new int[3]{1, 2, 3}, 3));
-	pushRoleEffect(EffectEntity(5, rf, new int[3]{11, 12, 13}, 3));
-	pushRoleEffect(EffectEntity(4, rf, new int[3]{21, 22, 23}, 3));
-	pushRoleEffect(EffectEntity(3, rf, new int[3]{31, 32, 33}, 3));
-	pushRoleEffect(EffectEntity(2, rf, new int[3]{41, 42, 43}, 3));
+	//// 推送五个效果
+	//pushRoleEffect(EffectEntity(1, rf, new int[3]{1, 2, 3}, 3));
+	//pushRoleEffect(EffectEntity(5, rf, new int[3]{11, 12, 13}, 3));
+	//pushRoleEffect(EffectEntity(4, rf, new int[3]{21, 22, 23}, 3));
+	//pushRoleEffect(EffectEntity(3, rf, new int[3]{31, 32, 33}, 3));
+	//pushRoleEffect(EffectEntity(2, rf, new int[3]{41, 42, 43}, 3));
 
-	EffectEntity temp(0, nullptr, nullptr, 0);
-	for (int i = 0; i < 5; ++i)
-	{
-		temp = getRoleNextEffect();
-		cocos2d::log("role-effect-level : %d, isEmpty = %d", temp.level, rolePQ.empty());
-		(temp.fun)(temp.arr, temp.size);	
-	}
+	//EffectEntity temp(0, nullptr, nullptr, 0);
+	//for (int i = 0; i < 5; ++i)
+	//{
+	//	temp = getRoleNextEffect();
+	//	cocos2d::log("role-effect-level : %d, isEmpty = %d", temp.level, rolePQ.empty());
+	//	(temp.fun)(temp.arr, temp.size);
+	//}
 }

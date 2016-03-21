@@ -11,12 +11,12 @@ struct EffectEntity
 	int level;
 
 	// 效果函数指针
-	std::function<void(int*, int)> fun;
+	std::function<bool(int*, int)> fun;
 	// 函数参数:
 	int *arr;
 	int size;
 
-	EffectEntity(int level, std::function<void(int*, int)> fun, int *arr, int size)
+	EffectEntity(int level, std::function<bool(int*, int)> fun, int *arr, int size)
 	{
 		this->level = level;
 		this->fun = fun;
