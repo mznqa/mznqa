@@ -6,13 +6,13 @@
 struct DeltaTable
 {
 
-	enum EffectObject { Role, Monster };
+	enum GameObject { GameObject_Role, GameObject_Monster };
 
 	//技能接收者
-	EffectObject recver;
+	GameObject recver;
 
 	//技能释放者
-	EffectObject releaser;
+	GameObject releaser;
 
 	//技能影响的基础效果
 	int effectTable[5][2] = { 0 };
