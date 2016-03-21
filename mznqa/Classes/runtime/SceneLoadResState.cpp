@@ -2,6 +2,7 @@
 
 #include "runtime/SceneLoadResState.h"
 #include "cardParser/CardParserSkill.h"
+#include "combatSystem/DeltaTableHistory.h"
 
 SceneLoadResState::~SceneLoadResState()
 {
@@ -17,8 +18,10 @@ SceneLoadResState* SceneLoadResState::Instance()
 bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("++++ SceneLoadResState.enter()");
-	CardParserSkill cps;
-	cps.test();
+	//EffectPQ epq;
+	//epq.test();
+	DeltaTableHistory eh;
+	eh.test();
 	cocos2d::log("---- SceneLoadResState.enter()");
 	return true;
 }

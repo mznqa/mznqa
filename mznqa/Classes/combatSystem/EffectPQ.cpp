@@ -1,7 +1,7 @@
 #pragma execution_character_set("utf-8")
 
 #include "combatSystem/EffectPQ.h"
-
+#include "combatSystem/DeltaTableHistory.h"
 #include "cocos2d.h"
 
 EffectPQ::EffectPQ()
