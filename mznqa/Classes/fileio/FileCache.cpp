@@ -13,6 +13,7 @@ FileCache* FileCache::Instance()
 FileCache::~FileCache()
 {
 	closeRoleStaticDataFile();
+	closeCardSkillStaticDataFile();
 }
 
 bool FileCache::loadRoleStaticDataFile(const char *path, const char *mode)
@@ -46,5 +47,39 @@ void FileCache::closeRoleStaticDataFile()
 		delete roleStaticData;
 		roleStaticData = nullptr;
 		cocos2d::log("提示：成功释放角色静态文件缓冲");
+	}
+}
+
+bool FileCache::loadCardSkillStaticDataFile(const char *path, const char *mode)
+{
+	cocos2d::log("提示：开始载入技能卡静态数据...");
+	cardSkillStaticData = new std::string(cocos2d::CCFileUtils::sharedFileUtils()->getStringFromFile(path));
+
+	if (cardSkillStaticData != nullptr && cardSkillStaticData->empty() == false)
+	{
+		// TODO 发送文件打开成功消息
+		cocos2d::log("提示：成功缓冲技能卡静态数据");
+		return true;
+	}
+	else
+	{
+		// TODO 发送文件打开失败消息
+		cocos2d::log("错误：缓冲技能卡静态数据失败");
+		return false;
+	}
+}
+
+const std::string* FileCache::getCardSkillStaticDataFile()
+{
+	return cardSkillStaticData;
+}
+
+void FileCache::closeCardSkillStaticDataFile()
+{
+	if (cardSkillStaticData != nullptr)
+	{
+		delete cardSkillStaticData;
+		cardSkillStaticData = nullptr;
+		cocos2d::log("提示：成功释放技能卡静态文件缓冲");
 	}
 }

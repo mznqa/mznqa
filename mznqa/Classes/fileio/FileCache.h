@@ -15,6 +15,9 @@ private:
 
 	// 存放角色静态数据缓存
 	std::string *roleStaticData;
+
+	// 存放技能卡静态数据缓存
+	std::string *cardSkillStaticData;
 public:
 	static FileCache* Instance();
 	~FileCache();
@@ -25,6 +28,13 @@ public:
 	const std::string* getRoleStaticDataFile();
 	// 释放角色静态数据文件
 	void closeRoleStaticDataFile();
+
+	// 载入技能卡静态数据文件
+	bool loadCardSkillStaticDataFile(const char *path, const char *mode);
+	// 获取技能卡静态数据文件减缓
+	const std::string* getCardSkillStaticDataFile();
+	// 释放技能卡静态数据文件
+	void closeCardSkillStaticDataFile();
 };
 
 #endif	// MZNQA_CLASSES_FILEIO_FILECACHE_H_

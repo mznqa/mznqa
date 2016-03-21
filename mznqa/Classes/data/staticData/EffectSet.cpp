@@ -1,37 +1,67 @@
 #pragma execution_character_set("utf-8")
 
+#include "cocos2d.h"
+
 #include "data/staticData/EffectSet.h"
+
+std::map<int, std::function<bool(int*, int)>> EffectSet::effectMap = std::map<int, std::function<bool(int*, int)>>{
+	{ 0, EffectSet::effectBase0 },
+	{ 1, EffectSet::effectBase1 },
+	{ 2, EffectSet::effectBase2 },
+	{ 3, EffectSet::effectBase3 },
+	{ 4, EffectSet::effectBase4 },
+
+	{ 100, EffectSet::effectSpecial0 },
+	{ 101, EffectSet::effectSpecial1 },
+	{ 102, EffectSet::effectSpecial2 },
+
+	{ 200, EffectSet::effectCondition0 },
+	{ 201, EffectSet::effectCondition1 },
+	{ 202, EffectSet::effectCondition2 },
+	{ 203, EffectSet::effectCondition3 },
+	{ 204, EffectSet::effectCondition4 },
+	{ 205, EffectSet::effectCondition5 },
+	{ 206, EffectSet::effectCondition6 },
+	{ 207, EffectSet::effectCondition7 },
+	{ 208, EffectSet::effectCondition8 },
+	{ 209, EffectSet::effectCondition9 },
+	{ 210, EffectSet::effectCondition10 },
+	{ 211, EffectSet::effectCondition11 },
+	{ 212, EffectSet::effectCondition12 },
+	{ 213, EffectSet::effectCondition13 }
+};
+
+EffectSet::~EffectSet()
+{
+}
 
 EffectSet::EffectSet()
 {
-	effectMap.insert({ 1, EffectSet::effectBase1 });
-	effectMap.insert({ 2, EffectSet::effectBase2 });
-	effectMap.insert({ 3, EffectSet::effectBase3 });
-	effectMap.insert({ 4, EffectSet::effectBase4 });
-	effectMap.insert({ 5, EffectSet::effectBase5 });
+}
 
-	effectMap.insert({ 101, EffectSet::effectSpecial1 });
-	effectMap.insert({ 102, EffectSet::effectSpecial2 });
-	effectMap.insert({ 103, EffectSet::effectSpecial3 });
+std::function<bool(int*, int)> EffectSet::getFunByEffectID(int id)
+{
+	return effectMap.at(id);
+}
 
-	effectMap.insert({ 201, EffectSet::effectCondition1 });
-	effectMap.insert({ 202, EffectSet::effectCondition2 });
-	effectMap.insert({ 203, EffectSet::effectCondition3 });
-	effectMap.insert({ 204, EffectSet::effectCondition4 });
-	effectMap.insert({ 205, EffectSet::effectCondition5 });
-	effectMap.insert({ 206, EffectSet::effectCondition6 });
-	effectMap.insert({ 207, EffectSet::effectCondition7 });
-	effectMap.insert({ 208, EffectSet::effectCondition8 });
-	effectMap.insert({ 209, EffectSet::effectCondition9 });
-	effectMap.insert({ 210, EffectSet::effectCondition10 });
-	effectMap.insert({ 211, EffectSet::effectCondition11 });
-	effectMap.insert({ 212, EffectSet::effectCondition12 });
-	effectMap.insert({ 213, EffectSet::effectCondition13 });
-	effectMap.insert({ 214, EffectSet::effectCondition14 });
+bool EffectSet::effectBase0(int *arr, int size)
+{
+	cocos2d::log("使用了基础技能0：");
+	for (int i = 0; i < size; ++i)
+		cocos2d::log("\targ-%d : %d", i, arr[i]);
+
+	delete[] arr;
+	arr = nullptr;
+	return true;
 }
 
 bool EffectSet::effectBase1(int *arr, int size)
 {
+	cocos2d::log("使用了基础技能1：");
+	for (int i = 0; i < size; ++i)
+		cocos2d::log("\targ-%d : %d", i, arr[i]);
+	delete[] arr;
+	arr = nullptr;
 	return true;
 }
 
@@ -50,7 +80,7 @@ bool EffectSet::effectBase4(int *arr, int size)
 	return true;
 }
 
-bool EffectSet::effectBase5(int *arr, int size)
+bool EffectSet::effectSpecial0(int *arr, int size)
 {
 	return true;
 }
@@ -65,7 +95,7 @@ bool EffectSet::effectSpecial2(int *arr, int size)
 	return true;
 }
 
-bool EffectSet::effectSpecial3(int *arr, int size)
+bool EffectSet::effectCondition0(int *arr, int size)
 {
 	return true;
 }
@@ -131,11 +161,6 @@ bool EffectSet::effectCondition12(int *arr, int size)
 }
 
 bool EffectSet::effectCondition13(int *arr, int size)
-{
-	return true;
-}
-
-bool EffectSet::effectCondition14(int *arr, int size)
 {
 	return true;
 }
