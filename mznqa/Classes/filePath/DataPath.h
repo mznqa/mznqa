@@ -7,4 +7,6 @@
 
 #define STATIC_DATA_CARDSKILL "data/static/card_skill.json"
 
+#define ARCHIVES_DATA_MAP "data/archives/map.json"
+
 #endif	//	MZNQA_CLASSES_FILEPATH_DATAPATH_H_ 

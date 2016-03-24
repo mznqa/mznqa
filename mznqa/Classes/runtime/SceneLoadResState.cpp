@@ -20,8 +20,8 @@ bool SceneLoadResState::enter(SceneLoadRes *scene)
 	cocos2d::log("++++ SceneLoadResState.enter()");
 	//EffectPQ epq;
 	//epq.test();
-	DeltaTableHistory eh;
-	eh.test();
+	//DeltaTableHistory eh;
+	//eh.test();
 	cocos2d::log("---- SceneLoadResState.enter()");
 	return true;
 }

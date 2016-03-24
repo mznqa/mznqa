@@ -7,7 +7,8 @@
 
 #include "filePath/SceneFilePath.h"
 #include "runtime/SceneLoadResState.h"
-
+#include "map/MapParser.h"
+#include <map>
 USING_NS_CC;
 
 using namespace cocostudio::timeline;
@@ -36,6 +37,21 @@ bool SceneLoadRes::init()
 	rootNode = CSLoader::createNode(FILE_PATH_SCENE_LOADRES);
 
 	addChild(rootNode);
+
+	MapParser mp;
+	auto ms = mp.parseMap(1, 1, 14, 6);
+	std::map<int, cocos2d::Sprite*> mapSp;
+	auto it = ms.begin();
+	auto itEnd = ms.end();
+	while (it != itEnd)
+	{
+		mapSp.insert(std::pair<int, cocos2d::Sprite*>(it->first, cocos2d::Sprite::create("map_cell.png")));
+		mapSp[it->first]->setPosition(cocos2d::Vec2(it->second.x * 128, it->second.y * 128));
+		addChild(
+			mapSp[it->first]
+			);
+		++it;
+	}
 
 	log("---- SceneLoadRes.init()");
 

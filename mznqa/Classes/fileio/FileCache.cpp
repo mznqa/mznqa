@@ -83,3 +83,37 @@ void FileCache::closeCardSkillStaticDataFile()
 		cocos2d::log("提示：成功释放技能卡静态文件缓冲");
 	}
 }
+
+bool FileCache::loadMapArchivesDataFile(const char *path, const char *mode)
+{
+	cocos2d::log("提示：开始载入地图存档数据...");
+	mapArchivesData = new std::string(cocos2d::CCFileUtils::sharedFileUtils()->getStringFromFile(path));
+
+	if (mapArchivesData != nullptr && mapArchivesData->empty() == false)
+	{
+		// TODO 发送文件打开成功消息
+		cocos2d::log("提示：成功缓冲地图存档数据");
+		return true;
+	}
+	else
+	{
+		// TODO 发送文件打开失败消息
+		cocos2d::log("错误：缓冲地图存档数据失败");
+		return false;
+	}
+}
+
+const std::string* FileCache::getMapArchivesDataFile()
+{
+	return mapArchivesData;
+}
+
+void FileCache::closeMapArchivesDataFile()
+{
+	if (mapArchivesData != nullptr)
+	{
+		delete mapArchivesData;
+		mapArchivesData = nullptr;
+		cocos2d::log("提示：成功释放地图存档文件缓冲");
+	}
+}

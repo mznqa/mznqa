@@ -18,6 +18,12 @@ private:
 
 	// 存放技能卡静态数据缓存
 	std::string *cardSkillStaticData;
+
+	// 存放地图静态数据缓存
+	std::string *mapStaticData;
+
+	// 存放地图存档缓存
+	std::string *mapArchivesData;
 public:
 	static FileCache* Instance();
 	~FileCache();
@@ -35,6 +41,13 @@ public:
 	const std::string* getCardSkillStaticDataFile();
 	// 释放技能卡静态数据文件
 	void closeCardSkillStaticDataFile();
+
+	// 载入地图存档数据文件
+	bool loadMapArchivesDataFile(const char *path, const char *mode);
+	// 获取地图存档数据文件减缓
+	const std::string* getMapArchivesDataFile();
+	// 释放地图存档数据文件
+	void closeMapArchivesDataFile();
 };
 
 #endif	// MZNQA_CLASSES_FILEIO_FILECACHE_H_
