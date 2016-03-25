@@ -23,8 +23,11 @@ bool SceneLoadResState::enter(SceneLoadRes *scene)
 	//epq.test();
 	//DeltaTableHistory eh;
 	//eh.test();
+
 	CardParserSkill cps;
 	cps.test();
+
+
 	cocos2d::log("---- SceneLoadResState.enter()");
 	return true;
 }

@@ -31,6 +31,8 @@ public:
 	void clearRoleEffectPQ();
 	// 根据给定相对回合数获取当前角色最大优先级
 	int getRoleEPQLevelMaxByRound(int roundIndex);
+	//向角色效果队列的每个效果分级减少100
+	void decreaseRoleEffectLevel();
 
 	// 向怪物效果队列中推送新效果
 	void pushMonsterEffect(EffectEntity effect);
@@ -42,6 +44,8 @@ public:
 	void clearMonsterEffectPQ();
 	// 根据给定相对回合数获取当前怪物最大优先级
 	int getMonsterEPQLevelMaxByRound(int roundIndex);
+	//向怪物效果队列的每个效果分级减少100
+	void decreaseMonsterEffectLevel();
 
 	void test();
 };

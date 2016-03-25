@@ -16,6 +16,14 @@ struct EffectEntity
 	int *arr;
 	int size;
 
+	EffectEntity(const EffectEntity& effectEntity) :
+		level(effectEntity.level),
+		fun(effectEntity.fun),
+		arr(effectEntity.arr),
+		size(effectEntity.size)
+	{
+	}
+
 	EffectEntity(int level, std::function<bool(int*, int)> fun, int *arr, int size)
 	{
 		this->level = level;

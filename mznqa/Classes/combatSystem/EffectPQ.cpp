@@ -23,8 +23,12 @@ EffectEntity EffectPQ::getRoleNextEffect()
 		return EffectEntity(0, nullptr, nullptr, 0);
 
 	EffectEntity effect = rolePQ.top();
-	rolePQ.pop();
-	return effect;
+	if (effect.level/100 == 1)
+	{
+		rolePQ.pop();
+		return effect;
+	}
+	return EffectEntity(0, nullptr, nullptr, 0);
 }
 
 bool EffectPQ::isRoleEffectPQEmpty()
@@ -71,6 +75,25 @@ int EffectPQ::getRoleEPQLevelMaxByRound(int roundIndex)
 	return result;
 }
 
+void EffectPQ::decreaseRoleEffectLevel()
+{
+	if (rolePQ.empty())
+	{
+		return;
+	}
+	
+	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::greater<EffectEntity>> temp;
+	temp.swap(rolePQ);
+	while (temp.empty() == false)
+	{
+		EffectEntity ee(temp.top());
+		if (ee.level >= 100)
+			ee.level -= 100;
+		rolePQ.push(ee);
+		temp.pop();
+	}
+}
+
 void EffectPQ::pushMonsterEffect(EffectEntity effect)
 {
 	monsterPQ.push(effect);
@@ -82,8 +105,12 @@ EffectEntity EffectPQ::getMonsterNextEffect()
 		return EffectEntity(0, nullptr, nullptr, 0);
 
 	EffectEntity effect = monsterPQ.top();
-	monsterPQ.pop();
-	return effect;
+	if (effect.level / 100 == 1)
+	{
+		monsterPQ.pop();
+		return effect;
+	}
+	return EffectEntity(0, nullptr, nullptr, 0);
 }
 
 bool EffectPQ::isMonsterEffectPQEmpty()
@@ -128,6 +155,25 @@ int EffectPQ::getMonsterEPQLevelMaxByRound(int roundIndex)
 	}
 
 	return result;
+}
+
+void EffectPQ::decreaseMonsterEffectLevel()
+{
+	if (rolePQ.empty())
+	{
+		return;
+	}
+
+	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::greater<EffectEntity>> temp;
+	temp.swap(rolePQ);
+	while (temp.empty() == false)
+	{
+		EffectEntity ee(temp.top());
+		if (ee.level >= 100)
+			ee.level -= 100;
+		monsterPQ.push(ee);
+		temp.pop();
+	}
 }
 
 void EffectPQ::test()
