@@ -13,7 +13,7 @@ class SceneLoadResState : public BaseSceneState<SceneLoadRes>
 private:
 	SceneLoadResState(){}
 	SceneLoadResState(const SceneLoadResState &SceneLoadResState){}
-	SceneLoadResState* operator=(const SceneLoadResState &SceneLoadResState){}
+	SceneLoadResState& operator=(const SceneLoadResState &SceneLoadResState){}
 public:
 	~SceneLoadResState();
 

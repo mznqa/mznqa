@@ -13,7 +13,7 @@ class SceneGuideState : public BaseSceneState<SceneGuide>
 private:
 	SceneGuideState(){}
 	SceneGuideState(const SceneGuideState &sceneGuideState){}
-	SceneGuideState* operator=(const SceneGuideState &sceneGuideState){}
+	SceneGuideState& operator=(const SceneGuideState &sceneGuideState){}
 public:
 	~SceneGuideState();
 
