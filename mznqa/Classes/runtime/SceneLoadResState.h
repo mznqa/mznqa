@@ -3,8 +3,9 @@
 #ifndef MZNQA_CLASSES_RUNTIME_SCENELOADRESSTATE_H_
 #define MZNQA_CLASSES_RUNTIME_SCENELOADRESSTATE_H_
 
-#include "runtime/BaseSceneState.h"
 #include "cocos2d.h"
+
+#include "runtime/BaseSceneState.h"
 #include "engine/SceneLoadRes.h"
 
 class SceneLoadResState : public BaseSceneState<SceneLoadRes>

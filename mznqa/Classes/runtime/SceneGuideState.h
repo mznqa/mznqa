@@ -3,8 +3,9 @@
 #ifndef MZNQA_CLASSES_RUNTIME_SCENEGUIDESTATE_H_
 #define MZNQA_CLASSES_RUNTIME_SCENEGUIDESTATE_H_
 
-#include "runtime/BaseSceneState.h"
 #include "cocos2d.h"
+
+#include "runtime/BaseSceneState.h"
 #include "engine/SceneGuide.h"
 
 class SceneGuideState : public BaseSceneState<SceneGuide>

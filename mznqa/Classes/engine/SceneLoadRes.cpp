@@ -26,7 +26,7 @@ Scene* SceneLoadRes::createScene()
 // 场景创建时的初始化操作
 bool SceneLoadRes::init()
 {
-	log("++++ SceneLoadRes.init()");
+	log("[information] 场景 SceneLoadRes 启动中...");
 
 	if (!Layer::init())
 	{
@@ -37,7 +37,7 @@ bool SceneLoadRes::init()
 
 	addChild(rootNode);
 
-	log("---- SceneLoadRes.init()");
+	log("[information] 场景 SceneLoadRes 启动成功");
 
 	return true;
 }
@@ -45,22 +45,22 @@ bool SceneLoadRes::init()
 // 进入场景时的操作
 void SceneLoadRes::onEnter()
 {
-	log("++++ SceneLoadRes.onEnter()");
+	log("[information] 准备进入场景 SceneLoadRes 中...");
 	// 首先，调用基类方法
 	Layer::onEnter();
 	// 调用场景状态方法
 	SceneLoadResState::Instance()->enter(this);
 
-	log("---- SceneLoadRes.onEnter()");
+	log("[information] 进入场景 SceneLoadRes 成功");
 }
 
 // 离开场景时的操作
 void SceneLoadRes::onExit()
 {
-	log("++++ SceneLoadRes.onExit()");
+	log("[information] 准备离开场景 SceneLoadRes 中...");
 	// 首先，调用基类方法
 	Layer::onExit();
 	// 调用场景状态方法
 	SceneLoadResState::Instance()->exit(this);
-	log("---- SceneLoadRes.onExit()");
+	log("[information] 离开场景 SceneLoadRes 成功");
 }

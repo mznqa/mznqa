@@ -26,7 +26,7 @@ Scene* SceneDebug::createScene()
 // 场景创建时的初始化操作
 bool SceneDebug::init()
 {
-	log("++++ SceneDebug.init()");
+	log("[information] 启动 SceneDebug 场景中...");
 
 	// 首先，调用基类方法
 	if (!Layer::init())
@@ -40,7 +40,7 @@ bool SceneDebug::init()
 	// 添加到场景中
 	addChild(rootNode);
 
-	log("---- SceneDebug.init()");
+	log("[information] SceneDebug 场景启动成功");
 
 	return true;
 }
@@ -48,25 +48,26 @@ bool SceneDebug::init()
 // 进入场景时的操作
 void SceneDebug::onEnter()
 {
-	log("++++ SceneDebug.onEnter()");
+	log("[information] 开始准备进入 SceneDebug 场景...");
 
 	// 首先，调用基类方法
 	Layer::onEnter();
 
 	// 场景SceneDebug仅用于，引导作用，因此
 	// 载入场景 SceneDebug 后立即跳转到场景SceneGuide。
+	log("[information] 准备从 SceneDebug 场景跳转到 SceneGuide 场景...");
 	Director::getInstance()->replaceScene(SceneGuide::createScene());
 
-	log("---- SceneDebug.onEnter()");
+	log("[information] SceneDebug 场景进入成功");
 }
 
 // 离开场景时的操作
 void SceneDebug::onExit()
 {
-	log("++++ SceneDebug.onExit()");
+	log("[information] 开始准备离开 SceneDebug 场景...");
 
 	// 首先，调用基类方法
 	Layer::onExit();
 
-	log("---- SceneDebug.onExit()");
+	log("[information] SceneDebug 离开成功");
 }
