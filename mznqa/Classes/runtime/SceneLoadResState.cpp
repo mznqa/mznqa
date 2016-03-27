@@ -13,6 +13,8 @@
 #include "card/CardRoad.h"
 #include "card/CardSkill.h"
 #include <string>
+#include "effect/Effect.h"
+#include "effect/EffectFunSet.h"
 //////////////////////////////////////////////////////////////////////////
 
 SceneLoadResState::~SceneLoadResState()
@@ -30,13 +32,14 @@ bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机中...");
 	// 测试用 //////////////////////////////////////////////////////////////////////////
-	CardSkill cs0(3001, std::string("name"), std::string("describe"), CardBase::BelongTo_RoleMonsterBoth, 10);
-	cocos2d::log("%d", cs0.getID());
-	cocos2d::log("%d", cs0.getType());
-	cocos2d::log("%s", cs0.getName().c_str());
-	cocos2d::log("%s", cs0.getDescribe().c_str());
-	cocos2d::log("%d", cs0.getBelongTo());
-	cocos2d::log("%d", cs0.getEffectCount());
+	Effect ef(0, "去1血", Effect::Receiver_Other, 0, std::vector<int>());
+	cocos2d::log("%d", ef.getID());
+	cocos2d::log("%s", ef.getDescribe().c_str());
+	cocos2d::log("%d", ef.getReceiver());
+	cocos2d::log("%d", ef.getFunIndex());
+	cocos2d::log("%d", ef.getArgsCount());
+	(EffectFunSet::getFunByIndex(0))(std::vector<int>());
+
 	//CharBufferArea::Instance()->test();
 	//////////////////////////////////////////////////////////////////////////
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机成功");
