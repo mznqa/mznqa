@@ -74,17 +74,17 @@ public:
 
 private:
 	// 效果id
-	const int id;
+	int id;
 	// 效果描述
-	const std::string describe;
+	std::string describe;
 	// 效果的接收者
-	const Receiver receiver;
+	Receiver receiver;
 	// 对应函数指针索引
 	int funIndex;
 	// 参数表
-	const std::vector<int> args;
+	std::vector<int> args;
 	// 参数总数
-	const int argsCount;
+	int argsCount;
 };
 
 #endif

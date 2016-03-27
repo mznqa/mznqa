@@ -65,7 +65,7 @@ public:
 
 private:
 	// 道路类型
-	const RoadType roadType;
+	RoadType roadType;
 };
 
 #endif

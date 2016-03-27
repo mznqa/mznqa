@@ -132,15 +132,15 @@ public:
 
 protected:
 	// ¿¨ÅÆID
-	const int id;
+	int id;
 	// ¿¨ÅÆÀàĞÍ
-	const CardType type;
+	CardType type;
 	// ¿¨ÅÆÃû³Æ
-	const std::string name;
+	std::string name;
 	// ¿¨ÅÆÃèÊö
-	const std::string describe;
+	std::string describe;
 	// ¿¨ÅÆËùÊô
-	const BelongTo belongTo;
+	BelongTo belongTo;
 };
 
 #endif
