@@ -4,7 +4,7 @@
 #define MZNQA_CLASSES_EFFECT_EFFECT_H_
 
 #include <string>
-#include <queue>
+#include <vector>
 #include <functional>
 
 class Effect
@@ -23,7 +23,7 @@ public:
 		const std::string &describe,
 		Receiver receiver,
 		int funIndex,
-		const std::queue<int> &args
+		const std::vector<int> &args
 		) :
 		id(id),
 		describe(describe),
@@ -61,7 +61,7 @@ public:
 	}
 
 	// 获取参数表
-	const std::queue<int>& getArgs() const
+	const std::vector<int>& getArgs() const
 	{
 		return args;
 	}
@@ -82,7 +82,7 @@ private:
 	// 对应函数指针索引
 	int funIndex;
 	// 参数表
-	const std::queue<int> args;
+	const std::vector<int> args;
 	// 参数总数
 	const int argsCount;
 };
