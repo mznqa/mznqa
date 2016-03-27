@@ -30,9 +30,9 @@ public:
 	// 枚举卡牌所属方
 	enum BelongTo
 	{
+		BelongTo_RoleOnly = -1,
 		BelongTo_RoleMonsterBoth = 0,
-		BelongTo_RoleOnly = 1,
-		BelongTo_MonsterOnly = 2
+		BelongTo_MonsterOnly = 1
 	};
 
 	// 构造一张无效的卡，id=-1,type=CardType_None
