@@ -34,7 +34,7 @@ bool SceneLoadResState::enter(SceneLoadRes *scene)
 	cocos2d::log("%d", cs0.getID());
 	cocos2d::log("%d", cs0.getType());
 	cocos2d::log("%s", cs0.getName().c_str());
-	cocos2d::log("%s", cs0.getDescride().c_str());
+	cocos2d::log("%s", cs0.getDescribe().c_str());
 	cocos2d::log("%d", cs0.getBelongTo());
 	cocos2d::log("%d", cs0.getEffectCount());
 	//CharBufferArea::Instance()->test();

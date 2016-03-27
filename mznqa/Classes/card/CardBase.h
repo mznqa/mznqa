@@ -119,7 +119,7 @@ public:
 	}
 
 	// »ñÈ¡¿¨ÅÆÃèÊö
-	virtual const std::string& getDescride() const
+	virtual const std::string& getDescribe() const
 	{
 		return describe;
 	}
