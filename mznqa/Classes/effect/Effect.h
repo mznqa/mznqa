@@ -19,13 +19,11 @@ public:
 
 	Effect
 		(
-		int id,
 		const std::string &describe,
 		Receiver receiver,
 		int funIndex,
 		const std::vector<int> &args
 		) :
-		id(id),
 		describe(describe),
 		receiver(receiver),
 		funIndex(funIndex),
@@ -35,12 +33,6 @@ public:
 	}
 	~Effect()
 	{}
-
-	// 获取ID
-	int getID() const
-	{
-		return id;
-	}
 
 	// 获取卡牌描述
 	const std::string& getDescribe() const
@@ -73,8 +65,6 @@ public:
 	}
 
 private:
-	// 效果id
-	int id;
 	// 效果描述
 	std::string describe;
 	// 效果的接收者
