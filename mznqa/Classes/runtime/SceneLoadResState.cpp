@@ -7,6 +7,11 @@
 #include "json/filereadstream.h"
 #include "json/document.h"
 
+// 测试用 //////////////////////////////////////////////////////////////////////////
+#include "engine/FileController.h"
+#include "dataHandle/CharBufferArea.h"
+//////////////////////////////////////////////////////////////////////////
+
 SceneLoadResState::~SceneLoadResState()
 {
 }
@@ -21,6 +26,9 @@ SceneLoadResState* SceneLoadResState::Instance()
 bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机中...");
+	// 测试用 //////////////////////////////////////////////////////////////////////////
+	CharBufferArea::Instance()->test();
+	//////////////////////////////////////////////////////////////////////////
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机成功");
 	return true;
 }
