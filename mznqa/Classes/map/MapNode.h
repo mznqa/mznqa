@@ -126,7 +126,7 @@ struct MapNode
 
 	int getDownIndex()const
 	{
-		return getIndexByXY(getDownX(), getDownY())
+		return getIndexByXY(getDownX(), getDownY());
 	}
 	int getDownX()const
 	{
