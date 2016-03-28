@@ -8,6 +8,7 @@ struct MapNode
 	// 节点风格
 	enum NodeStyle
 	{
+		NodeStyle_None = 0,
 		// 草地
 		NodeStyle_Meadow
 	};
