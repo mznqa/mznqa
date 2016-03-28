@@ -15,6 +15,7 @@
 #include <string>
 #include "effect/Effect.h"
 #include "effect/EffectFunSet.h"
+#include "dataHandle/ParserCardSkill.h"
 //////////////////////////////////////////////////////////////////////////
 
 SceneLoadResState::~SceneLoadResState()
@@ -32,16 +33,9 @@ bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机中...");
 	// 测试用 //////////////////////////////////////////////////////////////////////////
-	Effect ef0("去0血", Effect::Receiver_Other, 0, std::vector<int>());
-	Effect ef1("去1血", Effect::Receiver_Other, 1, std::vector<int>());
-	Effect ef2("去2血", Effect::Receiver_Other, 2, std::vector<int>());
-	std::vector<Effect> effectSet = {
-		ef0, ef1, ef2
-	};
-	CardSkill cs(3000, "技能卡0", "describe", CardBase::BelongTo_RoleMonsterBoth, effectSet);
-	EffectFunSet::getFunByIndex(cs.getEffectSet().at(0).getFunIndex())(cs.getEffectSet().at(0).getArgs());
-
-	//CharBufferArea::Instance()->test();
+	CharBufferArea::Instance()->test();
+	ParserCardSkill pcs;
+	pcs.parse();
 	//////////////////////////////////////////////////////////////////////////
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机成功");
 	return true;
