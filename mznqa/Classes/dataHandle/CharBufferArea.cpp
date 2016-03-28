@@ -29,7 +29,7 @@ bool CharBufferArea::createBuffer(int bufferIndex, char *buffer)
 		cocos2d::log("[error] 缓冲区创建失败，给定的缓冲为空");
 		return false;
 	}
-	if (bufferSet.empty() == false && bufferSet.find(bufferIndex) == bufferSet.end())
+	if (bufferSet.empty() == false && bufferSet.find(bufferIndex) != bufferSet.end())
 	{
 		cocos2d::log("[error] 缓冲区创建失败，给定的索引的缓冲区已创建");
 		return false;
@@ -44,12 +44,15 @@ bool CharBufferArea::createBuffer(int bufferIndex, char *buffer)
 bool CharBufferArea::releaseBufferByIndex(int bufferIndex)
 {
 	cocos2d::log("[information] 正在尝试释放指定字符缓冲区...");
-	if (bufferSet.find(bufferIndex) == bufferSet.end())
+	auto it = bufferSet.find(bufferIndex);
+	if (it == bufferSet.end())
 	{
 		cocos2d::log("[error] 缓冲区释放失败，未找到给定的索引所对应的缓冲区");
 		return false;
 	}
 
+	free(it->second);
+	it->second = nullptr;
 	cocos2d::log("[information] 索引为%d的缓冲区释放成功", bufferIndex);
 	return true;
 }
@@ -60,7 +63,7 @@ void CharBufferArea::releaseAllBuffer()
 	auto itEnd = bufferSet.end();
 	while (it != itEnd)
 	{
-		delete it->second;
+		free(it->second);
 		it->second = nullptr;
 	}
 	cocos2d::log("[information] 所以缓冲区均已释放成功");
@@ -78,5 +81,6 @@ const char* CharBufferArea::getBufferByIndex(int bufferIndex)
 
 void CharBufferArea::test()
 {
-	createBuffer(CharBufferArea::BufferIndex_CardSkill, FileController::Instance()->getCharBufferFromFile("data/static/card_skill.json"));
+	//createBuffer(CharBufferArea::BufferIndex_CardSkill, FileController::Instance()->getCharBufferFromFile("data/static/card_skill.json"));
+	createBuffer(CharBufferArea::BufferIndex_MapArchives, FileController::Instance()->getCharBufferFromFile("data/archives/map.json"));
 }

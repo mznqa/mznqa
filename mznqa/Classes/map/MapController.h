@@ -10,7 +10,7 @@
 class MapController
 {
 private:
-	MapController();
+	MapController(){}
 	MapController(const MapController &mapController);
 	MapController& operator=(const MapController &mapController);
 

@@ -17,7 +17,8 @@ private:
 public:
 	enum BufferIndex
 	{
-		BufferIndex_CardSkill = 0
+		BufferIndex_CardSkill = 0,
+		BufferIndex_MapArchives = 1
 	};
 	static CharBufferArea* Instance();
 	~CharBufferArea();

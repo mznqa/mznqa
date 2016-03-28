@@ -16,6 +16,7 @@
 #include "effect/Effect.h"
 #include "effect/EffectFunSet.h"
 #include "dataHandle/ParserCardSkill.h"
+#include "dataHandle/ParserMapArchives.h"
 //////////////////////////////////////////////////////////////////////////
 
 SceneLoadResState::~SceneLoadResState()
@@ -34,8 +35,8 @@ bool SceneLoadResState::enter(SceneLoadRes *scene)
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机中...");
 	// 测试用 //////////////////////////////////////////////////////////////////////////
 	CharBufferArea::Instance()->test();
-	ParserCardSkill pcs;
-	pcs.parse();
+	ParserMapArchives pma;
+	pma.parse();
 	//////////////////////////////////////////////////////////////////////////
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机成功");
 	return true;
