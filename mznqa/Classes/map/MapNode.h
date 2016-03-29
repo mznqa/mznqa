@@ -33,9 +33,11 @@ struct MapNode
 		RoadType_L = 4
 	};
 	// 地图横向节点数
-	static const int MapNodecountHorizontal = 640;
+	static const int mapNodecountHorizontal = 640;
 	// 地图纵向节点数
-	static const int MapNodecountVertival = 360;
+	static const int mapNodecountVertical = 360;
+	// 无效索引
+	static const int invalidIndex = -1;
 	// 节点索引
 	const int index;
 	// 节点横坐标
@@ -82,76 +84,110 @@ struct MapNode
 	{
 	}
 
+	// 检查给定横坐标是否合法
+	static bool checkX(int x)
+	{
+		return 0 <= x && x < mapNodecountHorizontal;
+	}
+
+	// 检查给定纵坐标是否合法
+	static bool checkY(int y)
+	{
+		return 0 <= y && y < mapNodecountVertical;
+	}
+
+	// 检查给定横纵坐标是否合法
+	static bool checkXY(int x, int y)
+	{
+		return (
+			0 <= x && x < mapNodecountHorizontal &&
+			0 <= y && y < mapNodecountVertical
+			);
+	}
+
+	// 根据坐标值获取对应索引
 	static int getIndexByXY(int x, int y)
 	{
 		if (
-			0 <= x && x < MapNodecountHorizontal &&
-			0 <= y && y < MapNodecountVertival
+			0 <= x && x < mapNodecountHorizontal &&
+			0 <= y && y < mapNodecountVertical
 			)
-			return x + y * MapNodecountHorizontal;
+			return x + y * mapNodecountHorizontal;
 		else
-			return -1;
+			return invalidIndex;
 	}
 
+	// 获取当前节点上方的索引
 	int getUpIndex()const
 	{
 		return getIndexByXY(getUpX(), getUpY());
 	}
+	// 获取当前节点上方的横坐标
 	int getUpX()const
 	{
 		return x;
 	}
+	// 获取当前节点上方的纵坐标
 	int getUpY()const
 	{
 		if (y - 1 < 0)
-			return -1;
+			return invalidIndex;
 		else
 			return y - 1;
 	}
 
+	// 获取当前节点右方的索引
 	int getRightIndex()const
 	{
 		return getIndexByXY(getRightX(), getRightY());
 	}
+	// 获取当前节点右方的横坐标
 	int getRightX()const
 	{
-		if (x + 1 >= MapNodecountHorizontal)
-			return -1;
+		if (x + 1 >= mapNodecountHorizontal)
+			return invalidIndex;
 		else
 			return x + 1;
 	}
+	// 获取当前节点右方的纵坐标
 	int getRightY()const
 	{
 		return y;
 	}
 
+	// 获取当前节点下方的索引
 	int getDownIndex()const
 	{
 		return getIndexByXY(getDownX(), getDownY());
 	}
+	// 获取当前节点下方的横坐标
 	int getDownX()const
 	{
 		return x;
 	}
+	// 获取当前节点下方的纵坐标
 	int getDownY()const
 	{
-		if (y + 1 >= MapNodecountVertival)
-			return -1;
+		if (y + 1 >= mapNodecountVertical)
+			return invalidIndex;
 		else
 			return y + 1;
 	}
 
+	// 获取当前节点左方的索引
 	int getLeftIndex()const
 	{
 		return getIndexByXY(getLeftX(), getLeftY());
 	}
+	// 获取当前节点左方的横坐标
 	int getLeftX()const
 	{
 		if (x - 1 < 0)
-			return -1;
+			return invalidIndex;
 		else
 			return x - 1;
 	}
+	// 获取当前节点左方的纵坐标
 	int getLeftY()const
 	{
 		return y;

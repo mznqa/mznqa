@@ -16,7 +16,7 @@ CharBufferArea::~CharBufferArea()
 {
 }
 
-bool CharBufferArea::createBuffer(int bufferIndex, char *buffer)
+bool CharBufferArea::createBuffer(BufferIndex bufferIndex, char *buffer)
 {
 	cocos2d::log("[information] 正在尝试创建字符缓冲区...");
 	if (bufferIndex < 0)
@@ -41,7 +41,7 @@ bool CharBufferArea::createBuffer(int bufferIndex, char *buffer)
 	return true;
 }
 
-bool CharBufferArea::releaseBufferByIndex(int bufferIndex)
+bool CharBufferArea::releaseBufferByIndex(BufferIndex bufferIndex)
 {
 	cocos2d::log("[information] 正在尝试释放指定字符缓冲区...");
 	auto it = bufferSet.find(bufferIndex);
@@ -69,7 +69,7 @@ void CharBufferArea::releaseAllBuffer()
 	cocos2d::log("[information] 所以缓冲区均已释放成功");
 }
 
-const char* CharBufferArea::getBufferByIndex(int bufferIndex)
+const char* CharBufferArea::getBufferByIndex(BufferIndex bufferIndex)
 {
 	if (bufferSet.find(bufferIndex) == bufferSet.end())
 	{

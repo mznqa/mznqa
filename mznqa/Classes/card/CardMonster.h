@@ -5,6 +5,7 @@
 
 #include "card/CardBase.h"
 
+// ¹ÖÎïÅÆ
 class CardMonster : public CardBase
 {
 private:

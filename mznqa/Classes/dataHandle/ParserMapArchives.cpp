@@ -20,7 +20,7 @@ ParserMapArchives::~ParserMapArchives()
 {
 }
 
-// 记录json节点状态
+// 用于解析： 记录json节点状态
 struct ParserNode
 {
 	enum State
@@ -51,7 +51,7 @@ struct ParserNode
 	}
 };
 
-// 技能卡json数据处理器
+// 用于解析：地图存档json数据处理器
 struct HandlerMapArchives : public rapidjson::BaseReaderHandler<rapidjson::UTF8<>>
 {
 private:
@@ -138,15 +138,24 @@ public:
 
 void ParserMapArchives::parse()
 {
+	// 以下作为地图存档解析参考：
+
+	// 检查是否载入地图存档
 	if (CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_MapArchives) == nullptr)
 		return;
+	// 解析所需特定流
 	rapidjson::StringStream ss(CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_MapArchives));
+	// 解析器
 	rapidjson::Reader reader;
+	// 处理器
 	HandlerMapArchives handlerMapArchives;
+	// 解析
 	reader.Parse(ss, handlerMapArchives);
-	CharBufferArea::Instance()->releaseBufferByIndex(CharBufferArea::Instance()->BufferIndex_MapArchives);
-	while (true)
+	// 判断解析是否出错
+	if (reader.HasParseError())
 	{
-		cocos2d::log(".");
+		cocos2d::log("[error] 解析地图存档出错");
 	}
+	// 释放地图存档数据缓存
+	CharBufferArea::Instance()->releaseBufferByIndex(CharBufferArea::Instance()->BufferIndex_MapArchives);
 }

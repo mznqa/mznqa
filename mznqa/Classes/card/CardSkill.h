@@ -9,6 +9,7 @@
 #include "card/CardBase.h"
 #include "effect/Effect.h"
 
+// 技能卡
 class CardSkill : public CardBase
 {
 public:
@@ -42,7 +43,7 @@ public:
 	{
 		return effectSet.size();
 	}
-	
+
 	// 获取效果集合
 	const std::vector<Effect>& getEffectSet()const
 	{
@@ -50,8 +51,10 @@ public:
 	}
 
 private:
+	// 这些作为静态数据，不应修改它们 //////////////////////////////////////////////////////////////////////////
 	// 效果集合
 	std::vector<Effect> effectSet;
+	//////////////////////////////////////////////////////////////////////////
 };
 
 #endif

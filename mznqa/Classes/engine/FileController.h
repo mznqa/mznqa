@@ -19,7 +19,7 @@ public:
 
 	// 从文件获取字符缓存
 	char* getCharBufferFromFile(const std::string& fileName);
-	// 从文件获取字符缓存，并指定一个量获取缓存大小
+	// 从文件获取字符缓存，并指定一个量来记录缓存大小
 	char* getCharBufferFromFile(const std::string& fileName, int& bufferSize);
 
 	void test();

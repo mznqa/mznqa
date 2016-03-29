@@ -3,7 +3,7 @@
 #include "engine/FileController.h"
 
 #include <memory>
-#include<cstring>
+#include <cstring>
 
 #include "cocos2d.h"
 

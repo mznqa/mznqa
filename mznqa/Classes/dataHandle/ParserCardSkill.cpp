@@ -12,8 +12,6 @@
 #include "effect/Effect.h"
 #include "dataHandle/CharBufferArea.h"
 
-std::vector<CardSkill> cardSkillSet;
-
 ParserCardSkill::ParserCardSkill()
 {
 }
@@ -22,7 +20,7 @@ ParserCardSkill::~ParserCardSkill()
 {
 }
 
-// 记录json节点状态
+// 解析过程中使用，用于记录json节点状态
 struct ParserNode
 {
 	enum State
@@ -55,7 +53,7 @@ struct ParserNode
 	}
 };
 
-// 技能卡json数据处理器
+// 解析处理器：技能卡json数据处理器
 struct HandlerCardSkill : public rapidjson::BaseReaderHandler<rapidjson::UTF8<>>
 {
 private:
@@ -187,7 +185,8 @@ public:
 			iArgsArgs.clear();
 			break;
 		case ParserNode::State::State_CardSkill:
-			cardSkillSet.push_back(CardSkill(iCardSkillArgs[0], sCardSkillArgs[0], sCardSkillArgs[1], (CardSkill::BelongTo)iCardSkillArgs[2], effectSetTemp));
+			// 在这里获取逐一解析出来的技能卡数据，参考一下进行数据记录
+			//cardSkillSet.push_back(CardSkill(iCardSkillArgs[0], sCardSkillArgs[0], sCardSkillArgs[1], (CardSkill::BelongTo)iCardSkillArgs[2], effectSetTemp));
 			effectSetTemp.clear();
 			break;
 		default:
@@ -199,13 +198,24 @@ public:
 
 void ParserCardSkill::parse()
 {
+	// 以下模拟解析：
+
+	// 检查技能卡数据文件是否已经缓存
 	if (CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_CardSkill) == nullptr)
 		return;
+	// 解析器所需的流格式
 	rapidjson::StringStream ss(CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_CardSkill));
+	// 解析器
 	rapidjson::Reader reader;
+	// 处理器
 	HandlerCardSkill handlerCardSkill;
+	// 解析
 	reader.Parse(ss, handlerCardSkill);
+	// 判断解析是否出错
+	if (reader.HasParseError())
+	{
+		cocos2d::log("[error] 解析技能卡出错");
+	}
+	// 释放技能卡数据缓存
 	CharBufferArea::Instance()->releaseBufferByIndex(CharBufferArea::Instance()->BufferIndex_CardSkill);
-
-	cocos2d::log("%s", cardSkillSet[0].getEffectSet()[1].getDescribe().c_str());
 }

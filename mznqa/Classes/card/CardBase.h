@@ -7,6 +7,7 @@
 
 #include "cocos2d.h"
 
+// 作为所有卡牌的基类，所有卡牌均继承于此
 class CardBase
 {
 public:
@@ -17,25 +18,36 @@ public:
 	// idBaseNum*3 ~ idBaseNum*4-1 ==> CardSkill
 	static const int idBaseNum = 1000;
 public:
+	// 定义无效id值，当id为该值时，卡牌无效
 	static const int invalidID = -1;
+
+	// 卡牌类型
 	enum CardType
 	{
-		CardType_None = -1,
+		// 无效类型
+		CardType_Invalid = -1,
+		// 地形卡
 		CardType_Road = idBaseNum * 0,
+		// 宝物卡
 		CardType_Treasure = idBaseNum * 1,
+		// 怪物卡
 		CardType_Monster = idBaseNum * 2,
+		// 技能卡
 		CardType_Skill = idBaseNum * 3
 	};
 
 	// 枚举卡牌所属方
 	enum BelongTo
 	{
+		// 标识该卡牌仅仅属于角色
 		BelongTo_RoleOnly = -1,
+		// 标识该卡牌属于角色也属于怪物
 		BelongTo_RoleMonsterBoth = 0,
+		// 标识该卡牌仅仅属于怪物
 		BelongTo_MonsterOnly = 1
 	};
 
-	// 构造一张无效的卡，id=-1,type=CardType_None
+	// 构造一张无效的卡，id=-1,type=CardType_Incalid
 	CardBase(
 		int id,
 		CardType type
@@ -46,7 +58,7 @@ public:
 		describe(""),
 		belongTo(BelongTo_RoleMonsterBoth)
 	{
-		cocos2d::log("[warning] 生成一张空卡（即无效的卡:id=-1,type=CardType_None）成功");
+		cocos2d::log("[warning] 生成一张空卡（即无效的卡:id=-1,type=CardType_Invalid）成功");
 	}
 
 	// 根据给定id和type构造一张卡
@@ -63,25 +75,25 @@ public:
 		describe(describe),
 		belongTo(belongTo)
 	{
-		if (id == -1 && type == CardType_None)
+		if (id == -1 && type == CardType_Invalid)
 		{
-			cocos2d::log("[warning] 构造卡牌时有不确定行为，给定id为%d,type为CardType_None，此时将被声明为空卡（即无效的卡:id=-1,type=CardType_None），请确定是否为有意行为", id);
+			cocos2d::log("[warning] 构造卡牌时有不确定行为，给定id为%d,type为CardType_None，此时将被声明为空卡（即无效的卡:id=-1,type=CardType_Invalid），请确定是否为有意行为", id);
 			return;
 		}
 
 		if (id <= invalidID)
 		{
-			cocos2d::log("[warning] 构造卡牌失败，给定id(=%d)不合法，将被声明为空卡（即无效的卡:id=-1,type=CardType_None）", id);
+			cocos2d::log("[warning] 构造卡牌失败，给定id(=%d)不合法，将被声明为空卡（即无效的卡:id=-1,type=CardType_Invalid）", id);
 			id = -1;
-			type = CardType_None;
+			type = CardType_Invalid;
 			return;
 		}
 
-		if (type < CardType_None)
+		if (type < CardType_Invalid)
 		{
 			cocos2d::log("[warning] 构造卡牌失败，给定type(=%d)不合法，将被声明为空卡（即无效的卡:id=-1,type=CardType_None）", type);
 			id = -1;
-			type = CardType_None;
+			type = CardType_Invalid;
 			return;
 		}
 
@@ -89,7 +101,7 @@ public:
 		{
 			cocos2d::log("[warning] 构造卡牌失败，给定的id与给定卡牌类型不符，id=%d，type=%d", id, type);
 			id = -1;
-			type = CardType_None;
+			type = CardType_Invalid;
 			return;
 		}
 
@@ -124,13 +136,14 @@ public:
 		return describe;
 	}
 
-	// 获取卡牌所属
+	// 获取卡牌所属方
 	virtual const BelongTo getBelongTo() const
 	{
 		return belongTo;
 	}
 
 protected:
+	// 这些作为静态数据不应修改他们 //////////////////////////////////////////////////////////////////////////
 	// 卡牌ID
 	int id;
 	// 卡牌类型
@@ -141,6 +154,7 @@ protected:
 	std::string describe;
 	// 卡牌所属
 	BelongTo belongTo;
+	//////////////////////////////////////////////////////////////////////////
 };
 
 #endif

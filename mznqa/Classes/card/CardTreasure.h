@@ -5,6 +5,7 @@
 
 #include "card/CardBase.h"
 
+// ±¦Îï¿¨
 class CardTreasure : public CardBase
 {
 private:

@@ -7,10 +7,11 @@
 #include <vector>
 #include <functional>
 
+// 组成技能卡的效果
 class Effect
 {
 public:
-	// 效果的接收者
+	// 枚举效果的接收者
 	enum Receiver
 	{
 		Receiver_Other = 0,
@@ -65,6 +66,7 @@ public:
 	}
 
 private:
+	// 这些作为静态数据，请勿修改他们 //////////////////////////////////////////////////////////////////////////
 	// 效果描述
 	std::string describe;
 	// 效果的接收者
@@ -75,6 +77,7 @@ private:
 	std::vector<int> args;
 	// 参数总数
 	int argsCount;
+	//////////////////////////////////////////////////////////////////////////
 };
 
 #endif
