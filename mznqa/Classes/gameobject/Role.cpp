@@ -15,9 +15,9 @@ Role::~Role()
 void Role::test()
 {
 	bloodValue = 8;
-	bloodValueMax = 9;
+	baseBloodValueMax = 9;
 	armorValue = 10;
-	armorValueMax = 11;
+	baseArmorValueMax = 11;
 	levelValue = 1;
 	levelValueMax = 10;
 	exprienceValue = 20;

@@ -20,10 +20,10 @@ private:
 	std::string name;
 	// 描述
 	std::string describe;
-	// 血量上限
-	int bloodValueMax;
-	// 护甲上限
-	int armorValueMax;
+	// 基础血量上限
+	int baseBloodValueMax;
+	// 基础护甲上限
+	int baseArmorValueMax;
 	// 等级上限
 	int levelValueMax;
 	// 升级经验表
@@ -39,6 +39,10 @@ private:
 	int levelValue;
 	// 经验
 	int exprienceValue;
+	// 血量上限附加值
+	int additionalBloodlValueMax;
+	// 护甲上限附加值
+	int additionalArmorValueMax;
 	//////////////////////////////////////////////////////////////////////////
 
 	// 检查等级
@@ -75,16 +79,28 @@ public:
 		return describe;
 	}
 
-	// 获取血量上限
-	int getBloodValueMax()const
+	// 获取基础血量上限
+	int getBaseBloodValueMax()const
 	{
-		return bloodValueMax;
+		return baseBloodValueMax;
 	}
 
-	// 获取护甲上限
+	// 获取基础护甲上限
+	int getBaseArmorValueMax()const
+	{
+		return baseArmorValueMax;
+	}
+
+	// 获取当前血量上限
+	int getBloodValueMax()const
+	{
+		return baseBloodValueMax + additionalBloodlValueMax;
+	}
+
+	// 获取当前护甲上限
 	int getArmorValueMax()const
 	{
-		return armorValueMax;
+		return baseArmorValueMax + additionalArmorValueMax;
 	}
 
 	// 获取等级上限
@@ -116,24 +132,22 @@ public:
 	// 设置血量
 	void setBloodValue(int bloodValue)
 	{
-		if (0 <= bloodValue && bloodValue <= bloodValueMax)
+		if (0 <= bloodValue && bloodValue <= getBloodValueMax())
 			this->bloodValue = bloodValue;
 		else
 		{
 			cocos2d::log("[warning] 尝试为角色设置越界血量");
-			bloodValue = 0;
 		}
 	}
 	// 更新血量
 	void updateBloodValue(int delta)
 	{
 		int temp = bloodValue + delta;
-		if (0 <= bloodValue && bloodValue <= bloodValueMax)
+		if (0 <= bloodValue && bloodValue <= getBloodValueMax())
 			bloodValue = temp;
 		else
 		{
 			cocos2d::log("[waring] 尝试更改血量以至血量越界");
-			bloodValue = 0;
 		}
 	}
 
@@ -145,7 +159,7 @@ public:
 	// 设置护甲
 	void setArmorValue(int armorValue)
 	{
-		if (0 <= armorValue && armorValue <= armorValueMax)
+		if (0 <= armorValue && armorValue <= getArmorValueMax())
 			this->armorValue = armorValue;
 		else
 			cocos2d::log("[warning] 尝试为角色设置越界护甲");
@@ -154,7 +168,7 @@ public:
 	void updateArmorValue(int delta)
 	{
 		int temp = armorValue + delta;
-		if (0 <= armorValue && armorValue <= armorValueMax)
+		if (0 <= armorValue && armorValue <= getArmorValueMax())
 			armorValue = temp;
 		else
 			cocos2d::log("[waring] 尝试更改护甲以至护甲越界");
@@ -226,6 +240,58 @@ public:
 			// 根据当前经验判断还可以升级几次，就进行几次升级判断
 			for (int i = levelValue + 1; i <= levelValueMax; ++i)
 				checkLevelValue();
+		}
+	}
+
+	// 获取附加的血量上限值
+	int getAdditionalBloodlValueMax()const
+	{
+		return additionalBloodlValueMax;
+	}
+	// 设置附加的血量上限值值
+	void setAdditionalBloodValueMax(int additionalBloodValueMax)
+	{
+		if (baseBloodValueMax + additionalBloodlValueMax >= 0)
+			this->additionalBloodlValueMax = additionalBloodValueMax;
+		else
+		{
+			cocos2d::log("[warning] 尝试设置附加的血量上限为%d，这将会导致实际血量上限为不合法的值", additionalBloodValueMax);
+		}
+	}
+	// 更新附加的血量上限
+	void updateAdditionalBloodValueMax(int delta)
+	{
+		if (baseBloodValueMax + additionalBloodlValueMax + delta >= 0)
+			this->additionalBloodlValueMax += delta;
+		else
+		{
+			cocos2d::log("[warning] 尝试设置附加的血量上限为%d，这将会导致实际血量上限为不合法的值", additionalBloodlValueMax + delta);
+		}
+	}
+
+	// 获取附加的护甲上限
+	int getAdditionalArmorValueMax()const
+	{
+		return additionalArmorValueMax;
+	}
+	// 设置附加的护甲上限
+	void setAdditionalAromrValueMax(int additionalArmorValueMax)
+	{
+		if (baseArmorValueMax + additionalArmorValueMax >= 0)
+			this->additionalArmorValueMax = additionalArmorValueMax;
+		else
+		{
+			cocos2d::log("[warning] 尝试设置附加的护甲上限为%d，这将会导致实际的护甲上限为不合法的值", additionalArmorValueMax);
+		}
+	}
+	// 更新附加的花甲上限
+	void updateAdditionalArmorValueMax(int delta)
+	{
+		if (baseArmorValueMax + additionalArmorValueMax + delta >= 0)
+			this->additionalArmorValueMax += delta;
+		else
+		{
+			cocos2d::log("[warning] 尝试设置附加的护甲上限为%d，这将会导致实际的护甲上限为合法的值", additionalArmorValueMax + delta);
 		}
 	}
 
