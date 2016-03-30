@@ -16,7 +16,7 @@ public:
 	// idBaseNum*1 ~ idBaseNum*2-1 ==> CardTreasure
 	// idBaseNum*2 ~ idBaseNum*3-1 ==> CardMonster
 	// idBaseNum*3 ~ idBaseNum*4-1 ==> CardSkill
-	static const int idBaseNum = 1000;
+	static const int idBaseNum = 10000;
 public:
 	// 定义无效id值，当id为该值时，卡牌无效
 	static const int invalidID = -1;
@@ -46,6 +46,17 @@ public:
 		// 标识该卡牌仅仅属于怪物
 		BelongTo_MonsterOnly = 1
 	};
+
+	// 根据给定id判断卡牌类型
+	static CardType judgeCardTypeByID(int id)
+	{
+		if (id < 0)
+			return CardType_Invalid;
+		else if (id >= 40000)
+			return CardType_Invalid;
+		else
+			return CardType(id / idBaseNum * idBaseNum);
+	}
 
 	// 构造一张无效的卡，id=-1,type=CardType_Incalid
 	CardBase(

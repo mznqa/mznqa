@@ -18,6 +18,8 @@
 #include "dataHandle/ParserCardSkill.h"
 #include "dataHandle/ParserMapArchives.h"
 #include "staticData/CardSet.h"
+#include "cardController/CardBox.h"
+#include "cardController/CardBoxRTM.h"
 //////////////////////////////////////////////////////////////////////////
 
 SceneLoadResState::~SceneLoadResState()
@@ -35,6 +37,41 @@ bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机中...");
 	// 测试用 //////////////////////////////////////////////////////////////////////////
+	std::map<int, CardRoad> rcs;
+	rcs.insert(std::pair<int, CardRoad>(0, CardRoad(0, CardRoad::RoadType_URDL)));
+	rcs.insert(std::pair<int, CardRoad>(1, CardRoad(1, CardRoad::RoadType_URDL)));
+	rcs.insert(std::pair<int, CardRoad>(2, CardRoad(2, CardRoad::RoadType_URDL)));
+	rcs.insert(std::pair<int, CardRoad>(3, CardRoad(3, CardRoad::RoadType_URDL)));
+	rcs.insert(std::pair<int, CardRoad>(4, CardRoad(4, CardRoad::RoadType_URDL)));
+	std::map<int, CardTreasure> tcs;
+	tcs.insert(std::pair<int, CardTreasure>(10000, CardTreasure(10000)));
+	tcs.insert(std::pair<int, CardTreasure>(10001, CardTreasure(10001)));
+	tcs.insert(std::pair<int, CardTreasure>(10002, CardTreasure(10002)));
+	tcs.insert(std::pair<int, CardTreasure>(10003, CardTreasure(10003)));
+	tcs.insert(std::pair<int, CardTreasure>(10004, CardTreasure(10004)));
+	std::map<int, CardMonster> mcs;
+	mcs.insert(std::pair<int, CardMonster>(20000, CardMonster(20000)));
+	mcs.insert(std::pair<int, CardMonster>(20001, CardMonster(20001)));
+	mcs.insert(std::pair<int, CardMonster>(20002, CardMonster(20002)));
+	mcs.insert(std::pair<int, CardMonster>(20003, CardMonster(20003)));
+	mcs.insert(std::pair<int, CardMonster>(20004, CardMonster(20004)));
+	CardSet::Instance()->loadCardRoadSet(rcs);
+	CardSet::Instance()->loadCardTreasureSet(tcs);
+	CardSet::Instance()->loadCardMonsterSet(mcs);
+
+	CardBoxRTM rtm;
+	rtm.addCard(0);
+	rtm.addCard(1);
+	rtm.addCard(10000);
+	rtm.addCard(10001);
+	rtm.addCard(20000);
+	rtm.addCard(20001);
+
+	cocos2d::log("%d", rtm.getCardCount());
+	cocos2d::log("%d", rtm.getCardRoadCount());
+	cocos2d::log("%d", rtm.getCardTreasureCount());
+	cocos2d::log("%d", rtm.getCardMonsterCount());
+
 	//////////////////////////////////////////////////////////////////////////
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机成功");
 	return true;

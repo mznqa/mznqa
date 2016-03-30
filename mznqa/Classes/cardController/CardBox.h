@@ -3,6 +3,9 @@
 #ifndef MZNQA_CLASSES_CARDCONTROLLER_CARDBOX_H_
 #define MZNQA_CLASSES_CARDCONTROLLER_CARDBOX_H_
 
+#include <ctime>
+#include <cstdlib>
+
 #include <list>
 
 #include "cocos2d.h"
@@ -18,7 +21,7 @@ private:
 	std::list<int> cardSet;
 
 	// 容器大小
-	const int size;
+	int size;
 public:
 	CardBox() :
 		size(-1)
@@ -29,7 +32,8 @@ public:
 		if (this->size <= 0)
 			this->size = -1;
 	}
-	~CardBox();
+	~CardBox()
+	{}
 
 	// 获取卡牌数
 	int getCardCount()const
@@ -41,7 +45,7 @@ public:
 	{
 		if (size != -1 && cardSet.size() >= size)
 			return;
-		cardSet.push_back(card.id);
+		cardSet.push_back(card.getID());
 	}
 	// 给定一张卡的id以添加
 	void addCard(int id)
@@ -75,7 +79,7 @@ public:
 		}
 	}
 	// 根据id删除指定卡（注意：线性时间）
-	bool removeCard(int id)
+	int removeCardByID(int id)
 	{
 		auto it = cardSet.begin();
 		auto itEnd = cardSet.end();
@@ -84,11 +88,48 @@ public:
 			if (*it == id)
 			{
 				cardSet.erase(it);
-				return true;
+				return id;
 			}
 			++it;
 		}
-		return false;
+		return -1;
+	}
+	// 根据索引删除指定卡
+	int removeCardByIndex(int index)
+	{
+		int sTemp = cardSet.size();
+		if (!(0 <= index && index < sTemp))
+			return -1;
+
+		auto it = cardSet.begin();
+		auto itEnd = cardSet.end();
+		int i = 0;
+		while (it != itEnd)
+		{
+			if (i == index)
+			{
+				int result = *it;
+				cardSet.erase(it);
+				return result;
+			}
+			++it;
+			++i;
+		}
+
+		return -1;
+	}
+	// 随机移除一张卡
+	int removeCardByRandom()
+	{
+		if (cardSet.size() <= 0)
+			return -1;
+
+		// TODO 暂放
+		srand(unsigned(time(NULL)));
+
+		int index = rand() % (cardSet.size());
+
+		return removeCardByIndex(index);
 	}
 	// 清空
 	void clear()

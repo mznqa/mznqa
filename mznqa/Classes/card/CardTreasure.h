@@ -9,10 +9,11 @@
 class CardTreasure : public CardBase
 {
 private:
+
+public:
 	// ø®¿‡–Õ
 	static CardBase::CardType CARDTYPE;
 
-public:
 	CardTreasure(int id) :
 		CardBase(id, CARDTYPE)
 	{}
