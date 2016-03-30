@@ -16,8 +16,7 @@ public:
 	// idBaseNum*1 ~ idBaseNum*2-1 ==> CardTreasure
 	// idBaseNum*2 ~ idBaseNum*3-1 ==> CardMonster
 	// idBaseNum*3 ~ idBaseNum*4-1 ==> CardSkill
-	static const int idBaseNum = 1000;
-public:
+	static const int idBaseNum = 10000;
 	// 定义无效id值，当id为该值时，卡牌无效
 	static const int invalidID = -1;
 
