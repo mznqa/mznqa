@@ -31,7 +31,7 @@ public:
 	};
 
 	CardRoad(int id, RoadType roadType) :
-		CardBase(id, CardBase::CardType_Road),
+		CardBase(id, CARDTYPE),
 		roadType(roadType)
 	{
 		if (
@@ -65,6 +65,8 @@ public:
 	}
 
 private:
+	// 卡类型
+	static CardBase::CardType CARDTYPE;
 	// 这些作为静态数据不应修改它们 //////////////////////////////////////////////////////////////////////////
 	// 道路类型
 	RoadType roadType;

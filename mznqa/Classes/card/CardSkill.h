@@ -22,7 +22,7 @@ public:
 		) :
 		CardBase(
 		id,
-		CardBase::CardType_Skill,
+		CARDTYPE,
 		name,
 		describe,
 		belongTo
@@ -51,6 +51,7 @@ public:
 	}
 
 private:
+	static CardBase::CardType CARDTYPE;
 	// 这些作为静态数据，不应修改它们 //////////////////////////////////////////////////////////////////////////
 	// 效果集合
 	std::vector<Effect> effectSet;
