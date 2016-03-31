@@ -3,8 +3,6 @@
 #ifndef MZNQA_CLASSES_CARDCONTROLLER_CARDCONTROLLEREXPLORE_H_
 #define MZNQA_CLASSES_CARDCONTROLLER_CARDCONTROLLEREXPLORE_H_
 
-#include <list>
-
 #include "cardController/CardBoxRTM.h"
 
 class CardControllerExplore
@@ -28,18 +26,18 @@ public:
 	// 向卡池中添加一张卡
 	void addCardToCardPool(int id)
 	{
-		cocos2d::log("[information] 正在向索场景的卡池中加入一张id为%d的卡...", id);
+		cocos2d::log("[information] 正在向探索场景的卡池中加入一张id为%d的卡...", id);
 		int result = cardPool->addCard(id);
 		if (result != -1)
-			cocos2d::log("[information] 成功向索场景的卡池中加入一张id为%d的卡", id);
+			cocos2d::log("[information] 成功向探索场景的卡池中加入一张id为%d的卡", id);
 		else
-			cocos2d::log("[information] 向索场景的卡池中加入一张id为%d的卡失败");
+			cocos2d::log("[information] 向探索场景的卡池中加入一张id为%d的卡失败");
 	}
 
 	// 抽卡（暂定全随机）
 	int drawACard()
 	{
-		cocos2d::log("[information] 正在从索场景的卡池中抽取一张卡...");
+		cocos2d::log("[information] 正在从探索场景的卡池中抽取一张卡...");
 
 		if (cardPool->getCardCount() <= 0)
 		{
@@ -99,6 +97,14 @@ public:
 
 		recycleCard->clear();
 		cocos2d::log("[information] 成功完成探索场景的洗牌");
+	}
+
+	// 清空
+	void clear()
+	{
+		cardPool->clear();
+		handCard->clear();
+		recycleCard->clear();
 	}
 };
 

@@ -149,6 +149,16 @@ public:
 	{
 		cardSet.clear();
 	}
+
+	// 判断卡牌是否已满
+	bool isFull()
+	{
+		if (size != -1 && cardSet.size() >= size)
+			return true;
+		else
+			return false;
+	}
+
 	// 获取所有卡的id
 	const std::list<int>& getCardSet()const
 	{

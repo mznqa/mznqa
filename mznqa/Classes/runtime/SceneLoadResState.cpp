@@ -21,6 +21,7 @@
 #include "cardController/CardBox.h"
 #include "cardController/CardBoxRTM.h"
 #include "cardController/CardControllerExplore.h"
+#include "cardController/CardControllerCombat.h"
 //////////////////////////////////////////////////////////////////////////
 
 SceneLoadResState::~SceneLoadResState()
@@ -56,37 +57,39 @@ bool SceneLoadResState::enter(SceneLoadRes *scene)
 	mcs.insert(std::pair<int, CardMonster>(20002, CardMonster(20002)));
 	mcs.insert(std::pair<int, CardMonster>(20003, CardMonster(20003)));
 	mcs.insert(std::pair<int, CardMonster>(20004, CardMonster(20004)));
+	std::map<int, CardSkill> scs;
+	std::string str;
+	std::vector<Effect> effectSet;
+	scs.insert(std::pair<int, CardSkill>(30000, CardSkill(30000, str, str, CardBase::BelongTo_RoleMonsterBoth, effectSet)));
+	scs.insert(std::pair<int, CardSkill>(30001, CardSkill(30001, str, str, CardBase::BelongTo_RoleMonsterBoth, effectSet)));
+	scs.insert(std::pair<int, CardSkill>(30002, CardSkill(30002, str, str, CardBase::BelongTo_RoleMonsterBoth, effectSet)));
+	scs.insert(std::pair<int, CardSkill>(30003, CardSkill(30003, str, str, CardBase::BelongTo_RoleMonsterBoth, effectSet)));
+	scs.insert(std::pair<int, CardSkill>(30004, CardSkill(30004, str, str, CardBase::BelongTo_RoleMonsterBoth, effectSet)));
 	CardSet::Instance()->loadCardRoadSet(rcs);
 	CardSet::Instance()->loadCardTreasureSet(tcs);
 	CardSet::Instance()->loadCardMonsterSet(mcs);
+	CardSet::Instance()->loadCardSkillSet(scs);
 
-	CardControllerExplore::Instance()->addCardToCardPool(0);
-	CardControllerExplore::Instance()->addCardToCardPool(1);
-	CardControllerExplore::Instance()->addCardToCardPool(2);
-	CardControllerExplore::Instance()->addCardToCardPool(3);
-	CardControllerExplore::Instance()->addCardToCardPool(4);
-	CardControllerExplore::Instance()->addCardToCardPool(10000);
-	CardControllerExplore::Instance()->addCardToCardPool(10001);
-	CardControllerExplore::Instance()->addCardToCardPool(10002);
-	CardControllerExplore::Instance()->addCardToCardPool(10003);
-	CardControllerExplore::Instance()->addCardToCardPool(10004);
-	CardControllerExplore::Instance()->addCardToCardPool(20000);
-	CardControllerExplore::Instance()->addCardToCardPool(20001);
-	CardControllerExplore::Instance()->addCardToCardPool(20002);
-	CardControllerExplore::Instance()->addCardToCardPool(20003);
-	CardControllerExplore::Instance()->addCardToCardPool(20004);
+	CardControllerCombat ccc;
+	ccc.addCardToCardPool(30000);
+	ccc.addCardToCardPool(30001);
+	ccc.addCardToCardPool(30002);
+	ccc.addCardToCardPool(30003);
+	ccc.addCardToCardPool(30004);
 
-	CardControllerExplore::Instance()->drawACard();
-	CardControllerExplore::Instance()->drawACard();
-	CardControllerExplore::Instance()->drawACard();
-	CardControllerExplore::Instance()->drawACard();
-	CardControllerExplore::Instance()->drawACard();
+	ccc.drawACard();
+	ccc.drawACard();
+	ccc.drawACard();
+	ccc.drawACard();
+	ccc.drawACard();
 
-	CardControllerExplore::Instance()->playCardByIndex(0);
-	CardControllerExplore::Instance()->playCardByIndex(0);
-	CardControllerExplore::Instance()->playCardByIndex(0);
-	CardControllerExplore::Instance()->playCardByIndex(0);
-	CardControllerExplore::Instance()->playCardByIndex(0);
+	ccc.playCardByIndex(0);
+	ccc.playCardByIndex(0);
+	ccc.playCardByIndex(0);
+	ccc.playCardByIndex(0);
+	ccc.playCardByIndex(0);
+
+	ccc.shuffle();
 
 	//////////////////////////////////////////////////////////////////////////
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机成功");
