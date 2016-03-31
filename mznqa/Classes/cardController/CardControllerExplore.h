@@ -28,8 +28,12 @@ public:
 	// 向卡池中添加一张卡
 	void addCardToCardPool(int id)
 	{
-		cocos2d::log("[information] 正在向索场景的卡池中加入一张id为%d的卡", id);
-		cardPool->addCard(id);
+		cocos2d::log("[information] 正在向索场景的卡池中加入一张id为%d的卡...", id);
+		int result = cardPool->addCard(id);
+		if (result != -1)
+			cocos2d::log("[information] 成功向索场景的卡池中加入一张id为%d的卡", id);
+		else
+			cocos2d::log("[information] 向索场景的卡池中加入一张id为%d的卡失败");
 	}
 
 	// 抽卡（暂定全随机）

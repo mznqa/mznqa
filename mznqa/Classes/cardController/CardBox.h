@@ -48,34 +48,47 @@ public:
 		cardSet.push_back(card.getID());
 	}
 	// 给定一张卡的id以添加
-	void addCard(int id)
+	int addCard(int id)
 	{
 		if (size != -1 && cardSet.size() >= size)
-			return;
+			return -1;
 
 		if (
 			CardType::CARDTYPE == CardBase::CardType_Road &&
 			CardSet::Instance()->getCardRoadByID(id) != nullptr
 			)
+		{
 			cardSet.push_back(id);
+			return id;
+		}
 		else if (
 			CardType::CARDTYPE == CardBase::CardType_Treasure &&
 			CardSet::Instance()->getCardTreasureByID(id) != nullptr
 			)
+		{
 			cardSet.push_back(id);
+			return id;
+		}
 		else if (
 			CardType::CARDTYPE == CardBase::CardType_Monster &&
 			CardSet::Instance()->getCardMonsterByID(id) != nullptr
 			)
+		{
 			cardSet.push_back(id);
+			return id;
+		}
 		else if (
 			CardType::CARDTYPE == CardBase::CardType_Skill &&
 			CardSet::Instance()->getCardSkillByID(id) != nullptr
 			)
+		{
 			cardSet.push_back(id);
+			return id;
+		}
 		else
 		{
 			cocos2d::log("[warning] 向 CardBox 添加卡牌失败，给定的id有误");
+			return -1;
 		}
 	}
 	// 根据id删除指定卡（注意：线性时间）

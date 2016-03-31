@@ -108,18 +108,19 @@ public:
 	}
 
 	// 给定一张卡的id以添加
-	void addCard(int id)
+	int addCard(int id)
 	{
 		if (size != -1 && getCardCount() >= size)
-			return;
+			return -1;
 
+		int result = -1;
 		CardBase::CardType cType = CardBase::judgeCardTypeByID(id);
 		if (
 			cType == CardBase::CardType_Road &&
 			CardSet::Instance()->getCardRoadByID(id) != nullptr
 			)
 		{
-			cardBoxRoad.addCard(id);
+			result = cardBoxRoad.addCard(id);
 			if (index2ID.size() <= 0)
 				index2ID.insert(std::pair<int, int>(0, id));
 			else
@@ -130,7 +131,7 @@ public:
 			CardSet::Instance()->getCardTreasureByID(id) != nullptr
 			)
 		{
-			cardBoxTreasure.addCard(id);
+			result = cardBoxTreasure.addCard(id);
 			if (index2ID.size() <= 0)
 				index2ID.insert(std::pair<int, int>(0, id));
 			else
@@ -141,7 +142,7 @@ public:
 			CardSet::Instance()->getCardMonsterByID(id) != nullptr
 			)
 		{
-			cardBoxMonster.addCard(id);
+			result = cardBoxMonster.addCard(id);
 			if (index2ID.size() <= 0)
 				index2ID.insert(std::pair<int, int>(0, id));
 			else
@@ -150,7 +151,10 @@ public:
 		else
 		{
 			cocos2d::log("[warning] 向 CardBoxRTM 添加卡牌失败，给定的id=%d有误", id);
+			return -1;
 		}
+
+		return result;
 	}
 
 	// 根据id删除指定卡（注意：线性时间）

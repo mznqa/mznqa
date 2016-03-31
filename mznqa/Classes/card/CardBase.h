@@ -69,7 +69,7 @@ public:
 		describe(""),
 		belongTo(BelongTo_RoleMonsterBoth)
 	{
-		cocos2d::log("[warning] 生成一张空卡（即无效的卡:id=-1,type=CardType_Invalid）成功");
+		//cocos2d::log("[information] 生成一张空卡（即无效的卡:id=-1,type=CardType_Invalid）成功");
 	}
 
 	// 根据给定id和type构造一张卡
