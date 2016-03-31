@@ -9,10 +9,11 @@
 class CardMonster : public CardBase
 {
 private:
+
+public:
 	// ø®¿‡–Õ
 	static CardBase::CardType CARDTYPE;
 
-public:
 	CardMonster(int id) :
 		CardBase(id, CARDTYPE)
 	{}

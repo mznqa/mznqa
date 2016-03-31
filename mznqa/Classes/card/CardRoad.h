@@ -9,6 +9,8 @@
 class CardRoad : public CardBase
 {
 public:
+	// 卡类型
+	static CardBase::CardType CARDTYPE;
 	// 地形类型枚举
 	static enum RoadType
 	{
@@ -65,8 +67,6 @@ public:
 	}
 
 private:
-	// 卡类型
-	static CardBase::CardType CARDTYPE;
 	// 这些作为静态数据不应修改它们 //////////////////////////////////////////////////////////////////////////
 	// 道路类型
 	RoadType roadType;

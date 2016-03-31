@@ -13,6 +13,9 @@
 class CardSkill : public CardBase
 {
 public:
+	// 卡类型
+	static CardBase::CardType CARDTYPE;
+
 	CardSkill(
 		int id,
 		const std::string &name,
@@ -51,7 +54,6 @@ public:
 	}
 
 private:
-	static CardBase::CardType CARDTYPE;
 	// 这些作为静态数据，不应修改它们 //////////////////////////////////////////////////////////////////////////
 	// 效果集合
 	std::vector<Effect> effectSet;
