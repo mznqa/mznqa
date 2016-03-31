@@ -20,6 +20,7 @@
 #include "staticData/CardSet.h"
 #include "cardController/CardBox.h"
 #include "cardController/CardBoxRTM.h"
+#include "cardController/CardControllerExplore.h"
 //////////////////////////////////////////////////////////////////////////
 
 SceneLoadResState::~SceneLoadResState()
@@ -59,18 +60,33 @@ bool SceneLoadResState::enter(SceneLoadRes *scene)
 	CardSet::Instance()->loadCardTreasureSet(tcs);
 	CardSet::Instance()->loadCardMonsterSet(mcs);
 
-	CardBoxRTM rtm;
-	rtm.addCard(0);
-	rtm.addCard(1);
-	rtm.addCard(10000);
-	rtm.addCard(10001);
-	rtm.addCard(20000);
-	rtm.addCard(20001);
+	CardControllerExplore::Instance()->addCardToCardPool(0);
+	CardControllerExplore::Instance()->addCardToCardPool(1);
+	CardControllerExplore::Instance()->addCardToCardPool(2);
+	CardControllerExplore::Instance()->addCardToCardPool(3);
+	CardControllerExplore::Instance()->addCardToCardPool(4);
+	CardControllerExplore::Instance()->addCardToCardPool(10000);
+	CardControllerExplore::Instance()->addCardToCardPool(10001);
+	CardControllerExplore::Instance()->addCardToCardPool(10002);
+	CardControllerExplore::Instance()->addCardToCardPool(10003);
+	CardControllerExplore::Instance()->addCardToCardPool(10004);
+	CardControllerExplore::Instance()->addCardToCardPool(20000);
+	CardControllerExplore::Instance()->addCardToCardPool(20001);
+	CardControllerExplore::Instance()->addCardToCardPool(20002);
+	CardControllerExplore::Instance()->addCardToCardPool(20003);
+	CardControllerExplore::Instance()->addCardToCardPool(20004);
 
-	cocos2d::log("%d", rtm.getCardCount());
-	cocos2d::log("%d", rtm.getCardRoadCount());
-	cocos2d::log("%d", rtm.getCardTreasureCount());
-	cocos2d::log("%d", rtm.getCardMonsterCount());
+	CardControllerExplore::Instance()->drawACard();
+	CardControllerExplore::Instance()->drawACard();
+	CardControllerExplore::Instance()->drawACard();
+	CardControllerExplore::Instance()->drawACard();
+	CardControllerExplore::Instance()->drawACard();
+
+	CardControllerExplore::Instance()->playCardByIndex(0);
+	CardControllerExplore::Instance()->playCardByIndex(0);
+	CardControllerExplore::Instance()->playCardByIndex(0);
+	CardControllerExplore::Instance()->playCardByIndex(0);
+	CardControllerExplore::Instance()->playCardByIndex(0);
 
 	//////////////////////////////////////////////////////////////////////////
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机成功");

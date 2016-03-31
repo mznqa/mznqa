@@ -10,4 +10,7 @@ CardControllerExplore* CardControllerExplore::Instance()
 
 CardControllerExplore::~CardControllerExplore()
 {
+	delete cardPool;
+	delete handCard;
+	delete recycleCard;
 }
