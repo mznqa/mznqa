@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\card\CardBase.h
+ *
+ * \brief	定义类 CardBox
+ */
+
 #pragma execution_character_set("utf-8")
 
 #ifndef MZNQA_CLASSES_CARD_CARDBASE_H_
@@ -7,165 +13,201 @@
 
 #include "cocos2d.h"
 
-// 作为所有卡牌的基类，所有卡牌均继承于此
+/*!
+ * \class	CardBase
+ *
+ * \brief	所有卡牌的基类
+ *
+ */
 class CardBase
 {
 public:
-	// 用以区分卡的类型
-	// idBaseNum*0 ~ idBaseNum*1-1 ==> CardRoad
-	// idBaseNum*1 ~ idBaseNum*2-1 ==> CardTreasure
-	// idBaseNum*2 ~ idBaseNum*3-1 ==> CardMonster
-	// idBaseNum*3 ~ idBaseNum*4-1 ==> CardSkill
+	/*!
+	 * 用以区分卡的类型\n
+	 * idBaseNum*0 ~ idBaseNum*1-1 ==> CardRoad\n
+	 * idBaseNum*1 ~ idBaseNum*2-1 ==> CardTreasure\n
+	 * idBaseNum*2 ~ idBaseNum*3-1 ==> CardMonster\n
+	 * idBaseNum*3 ~ idBaseNum*4-1 ==> CardSkill
+	 */
 	static const int idBaseNum = 10000;
 public:
-	// 定义无效id值，当id为该值时，卡牌无效
+	/*! \brief	标识无效id值，当id为该值时，卡牌无效*/
 	static const int invalidID = -1;
 
-	// 卡牌类型
+	/*!
+	 * \enum	CardType
+	 *
+	 * \brief	枚举卡牌类型
+	 */
 	enum CardType
 	{
-		// 无效类型
-		CardType_Invalid = -1,
-		// 地形卡
-		CardType_Road = idBaseNum * 0,
-		// 宝物卡
-		CardType_Treasure = idBaseNum * 1,
-		// 怪物卡
-		CardType_Monster = idBaseNum * 2,
-		// 技能卡
-		CardType_Skill = idBaseNum * 3
+		CardType_Invalid = -1,				///< 标识无效卡牌
+		CardType_Road = idBaseNum * 0,		///< 地形卡
+		CardType_Treasure = idBaseNum * 1,	///< 宝物卡
+		CardType_Monster = idBaseNum * 2,	///< 怪物卡
+		CardType_Skill = idBaseNum * 3		///< 技能卡
 	};
 
-	// 枚举卡牌所属方
+	/*!
+	 * \enum	BelongTo
+	 *
+	 * \brief	枚举卡牌所属对象
+	 */
 	enum BelongTo
 	{
-		// 标识该卡牌仅仅属于角色
-		BelongTo_RoleOnly = -1,
-		// 标识该卡牌属于角色也属于怪物
-		BelongTo_RoleMonsterBoth = 0,
-		// 标识该卡牌仅仅属于怪物
-		BelongTo_MonsterOnly = 1
+		BelongTo_MonsterOnly = -1,		///< 标识该卡牌仅仅属于怪物
+		BelongTo_RoleMonsterBoth = 0,	///< 标识该卡牌属于角色也属于怪物
+		BelongTo_RoleOnly = 1			///< 标识该卡牌仅仅属于角色
 	};
 
-	// 根据给定id判断卡牌类型
+	/*!
+	 * \fn	static CardType CardBase::judgeCardTypeByID(int id)
+	 *
+	 * \brief	根据给定id判断卡牌类型
+	 *
+	 * \param	id	指定id值，非负数
+	 *
+	 * \return	卡牌类型枚举
+	 */
 	static CardType judgeCardTypeByID(int id)
 	{
-		if (id < 0)
+		// 此处id越界判定与 idBaseNum 和 CardType 相关
+
+		// 如果下越界
+		if (id <= -1)
 			return CardType_Invalid;
-		else if (id >= 40000)
+		// 如果上越界
+		else if (id >= idBaseNum * 4)
 			return CardType_Invalid;
+		// 如果未越界
 		else
 			return CardType(id / idBaseNum * idBaseNum);
 	}
 
-	// 构造一张无效的卡，id=-1,type=CardType_Incalid
-	CardBase(
-		int id,
-		CardType type
-		) :
-		id(id),
-		type(type),
-		name(""),
-		describe(""),
-		belongTo(BelongTo_RoleMonsterBoth)
+	/*!
+	 * \fn	static bool CardBase::checkCardType(CardType cardType)
+	 *
+	 * \brief	判断卡牌类型是否合法
+	 *
+	 * \param	cardType	给定卡牌类型
+	 *
+	 */
+	static bool checkCardType(CardType cardType)
 	{
-		//cocos2d::log("[information] 生成一张空卡（即无效的卡:id=-1,type=CardType_Invalid）成功");
+		// 此处卡牌类型判定与 idBaseNum 和 CardType 相关
+
+		if (
+			cardType == CardType_Road ||
+			cardType == CardType_Treasure ||
+			cardType == CardType_Monster ||
+			cardType == CardType_Skill
+			)
+			return true;
+		else
+			return false;
 	}
 
-	// 根据给定id和type构造一张卡
+	/*!
+	 * \fn	CardBase::CardBase( int id, CardType type, const std::string &name, const std::string &describe, BelongTo belongTo )
+	 *
+	 * \brief	给定构造一张卡牌的基本信息以构建一张卡，一般被用于派生类中
+	 *
+	 * \param	id			指定卡牌的id
+	 * \param	type		指定卡牌的类型
+	 * \param	name		指定卡牌的名称
+	 * \param	describe	指定卡牌的描述
+	 * \param	belongTo	指定卡牌所属方
+	 */
 	CardBase(
 		int id,
 		CardType type,
 		const std::string &name,
 		const std::string &describe,
 		BelongTo belongTo
-		) :
-		id(id),
-		type(type),
-		name(name),
-		describe(describe),
-		belongTo(belongTo)
-	{
-		if (id == -1 && type == CardType_Invalid)
-		{
-			cocos2d::log("[warning] 构造卡牌时有不确定行为，给定id为%d,type为CardType_None，此时将被声明为空卡（即无效的卡:id=-1,type=CardType_Invalid），请确定是否为有意行为", id);
-			return;
-		}
+		);
 
-		if (id <= invalidID)
-		{
-			cocos2d::log("[warning] 构造卡牌失败，给定id(=%d)不合法，将被声明为空卡（即无效的卡:id=-1,type=CardType_Invalid）", id);
-			id = -1;
-			type = CardType_Invalid;
-			return;
-		}
-
-		if (type < CardType_Invalid)
-		{
-			cocos2d::log("[warning] 构造卡牌失败，给定type(=%d)不合法，将被声明为空卡（即无效的卡:id=-1,type=CardType_None）", type);
-			id = -1;
-			type = CardType_Invalid;
-			return;
-		}
-
-		if (!(type <= id && id < type + idBaseNum))
-		{
-			cocos2d::log("[warning] 构造卡牌失败，给定的id与给定卡牌类型不符，id=%d，type=%d", id, type);
-			id = -1;
-			type = CardType_Invalid;
-			return;
-		}
-
-		cocos2d::log("[information] 成功创建一张卡牌，id=%d，type=%d", id, type);
-	}
+	/*!
+	 * \fn	virtual CardBase::~CardBase()
+	 *
+	 * \brief	析构函数
+	 *
+	 */
 
 	virtual ~CardBase()
 	{
 	}
 
-	// 获取卡id
+	/*!
+	 * \fn	virtual int CardBase::getID() const
+	 *
+	 * \brief	获取卡牌id
+	 *
+	 * \return	卡牌id
+	 */
 	virtual int getID() const
 	{
 		return id;
 	}
 
-	// 获取卡type
+	/*!
+	 * \fn	virtual CardType CardBase::getType() const
+	 *
+	 * \brief	获取卡牌类型
+	 *
+	 * \return	卡牌类型
+	 */
 	virtual CardType getType() const
 	{
 		return type;
 	}
 
-	// 获取卡牌名称
+	/*!
+	 * \fn	virtual const std::string& CardBase::getName() const
+	 *
+	 * \brief	获取卡牌名称
+	 *
+	 * \return	卡牌名称的const引用
+	 */
 	virtual const std::string& getName() const
 	{
 		return name;
 	}
 
-	// 获取卡牌描述
+	/*!
+	 * \fn	virtual const std::string& CardBase::getDescribe() const
+	 *
+	 * \brief	获取卡牌描述
+	 *
+	 * \return	卡牌描述的const引用
+	 */
 	virtual const std::string& getDescribe() const
 	{
 		return describe;
 	}
 
-	// 获取卡牌所属方
+	/*!
+	 * \fn	virtual const BelongTo CardBase::getBelongTo() const
+	 *
+	 * \brief	获取卡牌的所属方
+	 *
+	 * \return	卡牌的所属方
+	 */
 	virtual const BelongTo getBelongTo() const
 	{
 		return belongTo;
 	}
 
 protected:
-	// 这些作为静态数据不应修改他们 //////////////////////////////////////////////////////////////////////////
-	// 卡牌ID
+	/*! \brief	卡牌id */
 	int id;
-	// 卡牌类型
+	/*! \brief	卡牌类型 */
 	CardType type;
-	// 卡牌名称
+	/*! \brief	卡牌名称 */
 	std::string name;
-	// 卡牌描述
+	/*! \brief	卡牌描述 */
 	std::string describe;
-	// 卡牌所属
+	/*! \brief	卡牌所属方 */
 	BelongTo belongTo;
-	//////////////////////////////////////////////////////////////////////////
 };
 
 #endif

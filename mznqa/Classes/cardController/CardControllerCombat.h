@@ -21,7 +21,7 @@ public:
 	void addCardToCardPool(int id)
 	{
 		cocos2d::log("[information] 正在向战斗场景的卡池中加入一张id为%d的卡...", id);
-		int result = cardPool->addCard(id);
+		int result = cardPool->addCardByID(id);
 		if (result != -1)
 			cocos2d::log("[information] 成功向战斗场景的卡池中加入一张id为%d的卡", id);
 		else
@@ -46,7 +46,7 @@ public:
 
 		int id = cardPool->removeCardByRandom();
 
-		handCard->addCard(id);
+		handCard->addCardByID(id);
 
 		cocos2d::log("[information] 成功从战斗场景的卡池中抽取一张id为%d的卡", id);
 		return id;
@@ -61,7 +61,7 @@ public:
 			cocos2d::log("[information] 成功从战斗场景的手牌中使用一张id为%d卡", id);
 		else
 			cocos2d::log("[warning] 从战斗场景的手牌中使用一张id为%d卡失败", id);
-		recycleCard->addCard(result);
+		recycleCard->addCardByID(result);
 		return result;
 	}
 
@@ -74,7 +74,7 @@ public:
 			cocos2d::log("[information] 成功从战斗场景的手牌中使用一张索引为%d,id为%d的卡", index, id);
 		else
 			cocos2d::log("[warning] 从战斗场景的手牌中使用一张索引为%d卡失败", index);
-		recycleCard->addCard(id);
+		recycleCard->addCardByID(id);
 		return id;
 	}
 
@@ -85,7 +85,7 @@ public:
 		auto itEnd = recycleCard->getCardSet().cend();
 		while (it != itEnd)
 		{
-			cardPool->addCard(*it);
+			cardPool->addCardByID(*it);
 			++it;
 		}
 

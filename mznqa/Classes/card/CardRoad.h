@@ -33,7 +33,7 @@ public:
 	};
 
 	CardRoad(int id, RoadType roadType) :
-		CardBase(id, CARDTYPE),
+		CardBase(id, CARDTYPE, "", "", CardBase::BelongTo_RoleMonsterBoth),
 		roadType(roadType)
 	{
 		if (

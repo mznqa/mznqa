@@ -15,7 +15,7 @@ public:
 	static CardBase::CardType CARDTYPE;
 
 	CardMonster(int id) :
-		CardBase(id, CARDTYPE)
+		CardBase(id, CARDTYPE, "", "", CardBase::BelongTo_RoleMonsterBoth)
 	{}
 
 	~CardMonster()
