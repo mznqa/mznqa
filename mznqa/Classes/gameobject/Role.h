@@ -8,6 +8,8 @@
 
 #include "cocos2d.h"
 
+#include "cardController/CardControllerCombat.h"
+
 class Role
 {
 private:
@@ -66,6 +68,11 @@ private:
 public:
 	static Role* Instance();
 	~Role();
+
+	// 卡牌管理器 //////////////////////////////////////////////////////////////////////////
+	// 战斗场景下的卡牌管理器
+	CardControllerCombat cardControllerCombat;
+	//////////////////////////////////////////////////////////////////////////
 
 	// 获取名称
 	const std::string& getName()const
