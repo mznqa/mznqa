@@ -1,3 +1,8 @@
+/*!
+ * \file	Classes\effect\EffectFunSet.h
+ *
+ * \brief	定义类 EffectFunSet
+ */
 #pragma execution_character_set("utf-8")
 
 #ifndef MZNQA_CLASSES_EFFECT_EFFECTFUNSET_H_
@@ -9,14 +14,33 @@
 
 #include "cocos2d.h"
 
-// 效果对应函数集合
+/*!
+ * \class	EffectFunSet
+ *
+ * \brief	效果对应的函数集合
+ *
+ */
 class EffectFunSet
 {
 public:
 
+	/*!
+	 * \fn	EffectFunSet::~EffectFunSet();
+	 *
+	 * \brief	析构函数
+	 *
+	 */
 	~EffectFunSet();
 
-	//根据索引获取对应的效果函数指针
+	/*!
+	 * \fn	static const std::function<bool(const std::vector<int>&)>& getFunByIndex(int index)
+	 *
+	 * \brief	根据给定索引获取对应的效果函数
+	 *
+	 * \param	index	指定效果函数的索引
+	 *
+	 * \return	返回指定索引对应的效果函数
+	 */
 	static const std::function<bool(const std::vector<int>&)>& getFunByIndex(int index)
 	{
 		if (0 <= index && index < funCount)
@@ -60,15 +84,40 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 
 private:
+
+	/*!
+	 * \fn	EffectFunSet::EffectFunSet()
+	 *
+	 * \brief	隐藏的构造函数
+	 *
+	 */
 	EffectFunSet(){}
+
+	/*!
+	 * \fn	EffectFunSet::EffectFunSet(const EffectFunSet &effectFunSet);
+	 *
+	 * \brief	隐藏的拷贝构造函数
+	 *
+	 * \param	effectFunSet	EffectFunSet 实例
+	 */
 	EffectFunSet(const EffectFunSet &effectFunSet);
+
+	/*!
+	 * \fn	EffectFunSet& EffectFunSet::operator=(const EffectFunSet &effectFunSet);
+	 *
+	 * \brief	拷贝赋值运算符
+	 *
+	 * \param	effectFunSet	EffectFunSet 实例
+	 *
+	 * \return	EffectFunSet 实例
+	 */
 	EffectFunSet& operator=(const EffectFunSet &effectFunSet);
 
-	// 空的函数指针
+	/*! \brief	一个空的函数指针 */
 	static const std::function<bool(const std::vector<int>&)> nullFun;
-	// 效果函数总数，添加函数时记得更新
+	/*! \brief	效果总数 */
 	static const int funCount = 22;
-	// 存放效果函数的集合
+	/*! \brief	存放效果函数的集合 */
 	static const std::array<std::function<bool(const std::vector<int>&)>, funCount> funSet;
 };
 

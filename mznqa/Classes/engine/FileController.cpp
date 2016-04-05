@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\engine\FileController.cpp
+ *
+ * \brief	∂®“Â¿‡ FileController
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "engine/FileController.h"

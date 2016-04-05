@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\dataHandle\CharBufferArea.cpp
+ *
+ * \brief	∂®“Â¿‡ CharBufferArea
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "dataHandle/CharBufferArea.h"

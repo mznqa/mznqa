@@ -170,7 +170,7 @@ public:
 	 *
 	 * \brief	根据给定id移除容器内一张的卡牌（线性时间）
 	 *
-	 * \param	指定待移除卡的id
+	 * \param	id 指定待移除卡的id
 	 *
 	 * \return	成功返回该id，失败返回 CardBase::invalidID
 	 */

@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\card\CardRoad.h
+ *
+ * \brief	定义类 CardRoad
+ */
+
 #pragma execution_character_set("utf-8")
 
 #ifndef MZNQA_CLASSES_CARD_CARDROAD_H_
@@ -5,72 +11,75 @@
 
 #include "card/CardBase.h"
 
-// 地形卡
+/*!
+ * \class	CardRoad
+ *
+ * \brief	地形卡
+ *
+ */
 class CardRoad : public CardBase
 {
 public:
-	// 卡类型
-	static CardBase::CardType CARDTYPE;
-	// 地形类型枚举
-	static enum RoadType
+	/*! \brief	卡类型 */
+	static const  CardBase::CardType CARDTYPE = CardBase::CardType_Road;
+
+	/*!
+	 * \enum	RoadType
+	 *
+	 * \brief	枚举道路类型
+	 */
+	enum RoadType
 	{
-		RoadType_None = 0,
-		RoadType_URDL = 1234,
-		RoadType_RDL = 234,
-		RoadType_UDL = 134,
-		RoadType_URL = 124,
-		RoadType_URD = 123,
-		RoadType_DL = 34,
-		RoadType_UL = 14,
-		RoadType_UR = 12,
-		RoadType_RL = 24,
-		RoadType_UD = 13,
-		RoadType_RD = 23,
-		RoadType_U = 1,
-		RoadType_R = 2,
-		RoadType_D = 3,
-		RoadType_L = 4
+		RoadType_None = 0,		///< 无道路
+		RoadType_URDL = 1234,	///< 四方向道路
+		RoadType_RDL = 234,		///< 三方向道路
+		RoadType_UDL = 134,		///< 三方向道路
+		RoadType_URL = 124,		///< 三方向道路
+		RoadType_URD = 123,		///< 三方向道路
+		RoadType_DL = 34,		///< 双方向道路
+		RoadType_UL = 14,		///< 双方向道路
+		RoadType_UR = 12,		///< 双方向道路
+		RoadType_RL = 24,		///< 双方向道路
+		RoadType_UD = 13,		///< 双方向道路
+		RoadType_RD = 23,		///< 双方向道路
+		RoadType_U = 1,			///< 单方向道路
+		RoadType_R = 2,			///< 单方向道路
+		RoadType_D = 3,			///< 单方向道路
+		RoadType_L = 4			///< 单方向道路
 	};
 
-	CardRoad(int id, RoadType roadType) :
-		CardBase(id, CARDTYPE, "", "", CardBase::BelongTo_RoleMonsterBoth),
-		roadType(roadType)
-	{
-		if (
-			roadType == RoadType_URDL ||
-			roadType == RoadType_RDL ||
-			roadType == RoadType_UDL ||
-			roadType == RoadType_URL ||
-			roadType == RoadType_URD ||
-			roadType == RoadType_DL ||
-			roadType == RoadType_UL ||
-			roadType == RoadType_UR ||
-			roadType == RoadType_RL ||
-			roadType == RoadType_UD ||
-			roadType == RoadType_RD ||
-			roadType == RoadType_U ||
-			roadType == RoadType_R ||
-			roadType == RoadType_D ||
-			roadType == RoadType_L
-			)
-		{
-			return;
-		}
-		else
-		{
-			cocos2d::log("[warning] 指定的 RoadType = %d 不合法，将被指定为 RoadType_None，请确认是否为有意行为", roadType);
-			roadType = RoadType_None;
-		}
-	}
+	/*!
+	 * \fn	CardRoad::CardRoad( int id, const std::string &name, const std::string describe, CardBase::BelongTo belongTo, RoadType roadType )
+	 *
+	 * \brief	默认构造函数
+	 *
+	 * \param	id			卡牌id
+	 * \param	name		卡牌名称
+	 * \param	describe	卡牌描述
+	 * \param	belongTo	卡牌所属
+	 * \param	roadType	道路类型
+	 */
+	CardRoad(
+		int id,
+		const std::string &name,
+		const std::string describe,
+		CardBase::BelongTo belongTo,
+		RoadType roadType
+		);
+
+	/*!
+	 * \fn	CardRoad::~CardRoad()
+	 *
+	 * \brief	析构函数
+	 *
+	 */
 	~CardRoad()
 	{
 	}
 
 private:
-	// 这些作为静态数据不应修改它们 //////////////////////////////////////////////////////////////////////////
-	// 道路类型
+	/*! \brief	道路类型 */
 	RoadType roadType;
-	//////////////////////////////////////////////////////////////////////////
 };
 
 #endif

@@ -49,7 +49,7 @@ private:
 	 *
 	 * \brief	根据给定id向容器中添加索引
 	 *
-	 * \param	指定id
+	 * \param	id 指定id
 	 *
 	 * \return	成功返回索引，失败返回-1
 	 */
@@ -209,7 +209,7 @@ public:
 	 *
 	 * \brief	更具给定id移除容器中的卡牌，（注意移除的总是索引对应的id与给定的id相同的情况下，索引小的值，线性时间）
 	 *
-	 * \param	指定待移除的卡的id
+	 * \param	id 指定待移除的卡的id
 	 *
 	 * \return	成功返回卡牌id，失败返回 CardBase::invalidID
 	 */

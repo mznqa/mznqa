@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\effect\EffectFunSet.cpp
+ *
+ * \brief	∂®“Â¿‡ EffectFunSet
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "effect/EffectFunSet.h"
