@@ -46,11 +46,11 @@ bool SceneLoadResState::enter(SceneLoadRes *scene)
 	rcs.insert(std::pair<int, CardRoad>(3, CardRoad(3, "", "", CardBase::BelongTo_RoleMonsterBoth, CardRoad::RoadType_URDL)));
 	rcs.insert(std::pair<int, CardRoad>(4, CardRoad(4, "", "", CardBase::BelongTo_RoleMonsterBoth, CardRoad::RoadType_URDL)));
 	std::map<int, CardTreasure> tcs;
-	tcs.insert(std::pair<int, CardTreasure>(10000, CardTreasure(10000)));
-	tcs.insert(std::pair<int, CardTreasure>(10001, CardTreasure(10001)));
-	tcs.insert(std::pair<int, CardTreasure>(10002, CardTreasure(10002)));
-	tcs.insert(std::pair<int, CardTreasure>(10003, CardTreasure(10003)));
-	tcs.insert(std::pair<int, CardTreasure>(10004, CardTreasure(10004)));
+	tcs.insert(std::pair<int, CardTreasure>(10000, CardTreasure(10000, "", "", CardBase::BelongTo_RoleMonsterBoth)));
+	tcs.insert(std::pair<int, CardTreasure>(10001, CardTreasure(10001, "", "", CardBase::BelongTo_RoleMonsterBoth)));
+	tcs.insert(std::pair<int, CardTreasure>(10002, CardTreasure(10002, "", "", CardBase::BelongTo_RoleMonsterBoth)));
+	tcs.insert(std::pair<int, CardTreasure>(10003, CardTreasure(10003, "", "", CardBase::BelongTo_RoleMonsterBoth)));
+	tcs.insert(std::pair<int, CardTreasure>(10004, CardTreasure(10004, "", "", CardBase::BelongTo_RoleMonsterBoth)));
 	std::map<int, CardMonster> mcs;
 	mcs.insert(std::pair<int, CardMonster>(20000, CardMonster(20000, "", "", CardBase::BelongTo_RoleMonsterBoth)));
 	mcs.insert(std::pair<int, CardMonster>(20001, CardMonster(20001, "", "", CardBase::BelongTo_RoleMonsterBoth)));

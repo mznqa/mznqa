@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\gameobject\Role.h
+ *
+ * \brief	定义类 Role
+ */
+
 #pragma execution_character_set("utf-8")
 
 #ifndef MZNQA_CLASSES_GAMEOBJECT_ROLE_H_
@@ -10,113 +16,191 @@
 
 #include "cardController/CardControllerCombat.h"
 
+/*!
+ * \class	Role
+ *
+ * \brief	单例。角色
+ *
+ */
 class Role
 {
 private:
+
+	/*!
+	 * \fn	Role::Role()
+	 *
+	 * \brief	隐藏的构造函数
+	 *
+	 */
 	Role(){}
+
+	/*!
+	 * \fn	Role::Role(const Role &role);
+	 *
+	 * \brief	隐藏的拷贝构造函数
+	 *
+	 * \param	role	Role 实例
+	 */
 	Role(const Role &role);
+
+	/*!
+	 * \fn	Role& Role::operator=(const Role &role);
+	 *
+	 * \brief	隐藏的拷贝赋值运算符
+	 *
+	 * \param	role	Role 实例
+	 *
+	 * \return	Role 实例
+	 */
 	Role& operator=(const Role &role);
 
-	// 静态量 //////////////////////////////////////////////////////////////////////////
-	// 名称
+	/*! \brief	角色的名称 */
 	std::string name;
-	// 描述
+	/*! \brief	角色的描述 */
 	std::string describe;
-	// 基础血量上限
+	/*! \brief	角色的基础血量上限 */
 	int baseBloodValueMax;
-	// 基础护甲上限
+	/*! \brief	角色的基础护甲上限 */
 	int baseArmorValueMax;
-	// 等级上限
+	/*! \brief	角色的等级上限 */
 	int levelValueMax;
-	// 升级经验表
+	/*! \brief	角色升级经验表 */
 	std::vector<int> experienceTable;
-	//////////////////////////////////////////////////////////////////////////
 
-	// 实时量 //////////////////////////////////////////////////////////////////////////
-	// 血量
+	/*! \brief	角色血量实时量 */
 	int bloodValue;
-	// 护甲
+	/*! \brief	角色护甲实时量 */
 	int armorValue;
-	// 级数
+	/*! \brief	角色等级实时量 */
 	int levelValue;
-	// 经验
+	/*! \brief	角色经验实时量 */
 	int exprienceValue;
-	// 血量上限附加值
+	/*! \brief	角色血量附加上限实时量 */
 	int additionalBloodlValueMax;
-	// 护甲上限附加值
+	/*! \brief	角色护甲附加上限实时量 */
 	int additionalArmorValueMax;
-	//////////////////////////////////////////////////////////////////////////
 
-	// 检查等级
-	void checkLevelValue()
-	{
-		// 当等级值正常且未达到等级上限，即还可以升级
-		if (1 <= levelValue  && levelValue < levelValueMax)
-		{
-			// 当经验达到升级要求的经验值
-			if (exprienceValue >= experienceTable[levelValue - 1])
-			{
-				// 扣去经验值
-				exprienceValue -= experienceTable[levelValue - 1];
-				updateLevelValue(1);
-				// TODO 发送升级消息
-				cocos2d::log("[information] 角色升级，当前等级：%d", levelValue);
-			}
-		}
-	}
+	/*!
+	 * \fn	void Role::checkLevelValue()
+	 *
+	 * \brief	根据当前的经验值更新级数
+	 *
+	 */
+	void checkLevelValue();
 
 public:
+
+	/*!
+	 * \fn	static Role* Role::Instance();
+	 *
+	 * \brief	获取单例
+	 *
+	 * \return	返回单例
+	 */
 	static Role* Instance();
+
+	/*!
+	 * \fn	Role::~Role();
+	 *
+	 * \brief	析构函数
+	 *
+	 */
 	~Role();
 
-	// 卡牌管理器 //////////////////////////////////////////////////////////////////////////
-	// 战斗场景下的卡牌管理器
+	/*! \brief	战斗场景下的卡牌控制器 */
 	CardControllerCombat cardControllerCombat;
-	//////////////////////////////////////////////////////////////////////////
 
-	// 获取名称
+	/*!
+	 * \fn	const std::string& Role::getName()const
+	 *
+	 * \brief	获取角色名称
+	 *
+	 * \return	返回角色名称
+	 */
 	const std::string& getName()const
 	{
 		return name;
 	}
 
-	// 获取描述
+	/*!
+	 * \fn	const std::string& Role::getDescribe()const
+	 *
+	 * \brief	获取角色描述
+	 *
+	 * \return	返回角色描述
+	 */
 	const std::string& getDescribe()const
 	{
 		return describe;
 	}
 
-	// 获取基础血量上限
+	/*!
+	 * \fn	int Role::getBaseBloodValueMax()const
+	 *
+	 * \brief	获取角色基础血量上限
+	 *
+	 * \return	返回角色基础血量上限
+	 */
 	int getBaseBloodValueMax()const
 	{
 		return baseBloodValueMax;
 	}
 
-	// 获取基础护甲上限
+	/*!
+	 * \fn	int Role::getBaseArmorValueMax()const
+	 *
+	 * \brief	获取角色基础护甲上限
+	 *
+	 * \return	返回角色基础护甲上限
+	 */
 	int getBaseArmorValueMax()const
 	{
 		return baseArmorValueMax;
 	}
 
-	// 获取当前血量上限
+	/*!
+	 * \fn	int Role::getBloodValueMax()const
+	 *
+	 * \brief	获取角色当前血量上限
+	 *
+	 * \return	返回角色当前血量上限
+	 */
 	int getBloodValueMax()const
 	{
 		return baseBloodValueMax + additionalBloodlValueMax;
 	}
 
-	// 获取当前护甲上限
+	/*!
+	 * \fn	int Role::getArmorValueMax()const
+	 *
+	 * \brief	获取角色当前护甲上限
+	 *
+	 * \return	返回角色当前护甲上限
+	 */
 	int getArmorValueMax()const
 	{
 		return baseArmorValueMax + additionalArmorValueMax;
 	}
 
-	// 获取等级上限
+	/*!
+	 * \fn	int Role::getLevelValueMax()const
+	 *
+	 * \brief	获取角色等级上限
+	 *
+	 * \return	返回角色等级上限
+	 */
 	int getLevelValueMax()const
 	{
 		return levelValueMax;
 	}
 
-	// 获取升至下一级所需经验，当角色满级将返回-1
+	/*!
+	 * \fn	int Role::getNextLevelExprience()const
+	 *
+	 * \brief	获取角色升到下一级所需的经验
+	 *
+	 * \return	返回角色升到下一级所需的经验，若角色已达到等级上限则返回-1
+	 */
 	int getNextLevelExprience()const
 	{
 		if (1 <= levelValue && levelValue < levelValueMax)
@@ -125,18 +209,37 @@ public:
 			return -1;
 	}
 
-	// 获取升级经验表
+	/*!
+	 * \fn	const std::vector<int>& Role::getExprienceTable()const
+	 *
+	 * \brief	获取角色升级经验表
+	 *
+	 * \return	返回角色升级经验表
+	 */
 	const std::vector<int>& getExprienceTable()const
 	{
 		return experienceTable;
 	}
 
-	// 获取血量
+	/*!
+	 * \fn	int Role::getBloodValue()const
+	 *
+	 * \brief	获取角色当前血量
+	 *
+	 * \return	返回角色当前血量
+	 */
 	int getBloodValue()const
 	{
 		return bloodValue;
 	}
-	// 设置血量
+
+	/*!
+	 * \fn	void Role::setBloodValue(int bloodValue)
+	 *
+	 * \brief	根据给定值为角色设置血量
+	 *
+	 * \param	bloodValue	指定将为角色的血量值
+	 */
 	void setBloodValue(int bloodValue)
 	{
 		if (0 <= bloodValue && bloodValue <= getBloodValueMax())
@@ -146,7 +249,14 @@ public:
 			cocos2d::log("[warning] 尝试为角色设置越界血量");
 		}
 	}
-	// 更新血量
+
+	/*!
+	 * \fn	void Role::updateBloodValue(int delta)
+	 *
+	 * \brief	根据给定增减量更新角色血量
+	 *
+	 * \param	delta	指定将用于更新血量的增减量
+	 */
 	void updateBloodValue(int delta)
 	{
 		int temp = bloodValue + delta;
@@ -158,12 +268,25 @@ public:
 		}
 	}
 
-	// 获取护甲
+	/*!
+	 * \fn	int Role::getArmorValue()const
+	 *
+	 * \brief	获取角色当前护甲
+	 *
+	 * \return	返回角色当前护甲
+	 */
 	int getArmorValue()const
 	{
 		return armorValue;
 	}
-	// 设置护甲
+
+	/*!
+	 * \fn	void Role::setArmorValue(int armorValue)
+	 *
+	 * \brief	根据指定值设置角色护甲
+	 *
+	 * \param	armorValue	指定用于设置角色护甲的值
+	 */
 	void setArmorValue(int armorValue)
 	{
 		if (0 <= armorValue && armorValue <= getArmorValueMax())
@@ -171,7 +294,14 @@ public:
 		else
 			cocos2d::log("[warning] 尝试为角色设置越界护甲");
 	}
-	// 更新护甲
+
+	/*!
+	 * \fn	void Role::updateArmorValue(int delta)
+	 *
+	 * \brief	根据给定增减量来更新角色护甲
+	 *
+	 * \param	delta	指定将用于更新护甲的增减量
+	 */
 	void updateArmorValue(int delta)
 	{
 		int temp = armorValue + delta;
@@ -181,12 +311,25 @@ public:
 			cocos2d::log("[waring] 尝试更改护甲以至护甲越界");
 	}
 
-	// 获取当前等级
+	/*!
+	 * \fn	int Role::getLevleValue()const
+	 *
+	 * \brief	获取角色当前等级
+	 *
+	 * \return	返回角色当前等级
+	 */
 	int getLevleValue()const
 	{
 		return levelValue;
 	}
-	// 设置经验值
+
+	/*!
+	 * \fn	void Role::setLevelValue(int levelValue)
+	 *
+	 * \brief	根据给定值来设置角色当前等级
+	 *
+	 * \param	levelValue	指定用于设置等级的量
+	 */
 	void setLevelValue(int levelValue)
 	{
 		if (1 <= levelValue && levelValue <= levelValueMax)
@@ -194,7 +337,14 @@ public:
 		else
 			cocos2d::log("[warning] 尝试为角色设置越界等级");
 	}
-	// 更新经验值
+
+	/*!
+	 * \fn	void Role::updateLevelValue(int delta)
+	 *
+	 * \brief	根据给定增减量来更新角色的等级
+	 *
+	 * \param	delta	指定用于更新等级的增减量
+	 */
 	void updateLevelValue(int delta)
 	{
 		int temp = this->levelValue + delta;
@@ -204,58 +354,58 @@ public:
 			cocos2d::log("[warning] 尝试为角色设置越界等级");
 	}
 
-	// 获取经验值
+	/*!
+	 * \fn	int Role::getExprienceValue()const
+	 *
+	 * \brief	获取角色经验
+	 *
+	 * \return	返回角色经验
+	 */
 	int getExprienceValue()const
 	{
 		return exprienceValue;
 	}
-	// 设置经验值
-	void setExprienceValue(int exprienceValue)
-	{
-		if (levelValue >= levelValueMax)
-		{
-			this->exprienceValue = 0;
-			return;
-		}
-		this->exprienceValue = exprienceValue;
-		if (this->exprienceValue < 0)
-		{
-			this->exprienceValue = 0;
-		}
-		else
-		{
-			// 根据当前经验判断还可以升级几次，就进行几次升级判断
-			for (int i = levelValue + 1; i <= levelValueMax; ++i)
-				checkLevelValue();
-		}
-	}
-	// 更新经验值
-	void updateExprienceValue(int delta)
-	{
-		if (levelValue >= levelValueMax)
-		{
-			this->exprienceValue = 0;
-			return;
-		}
-		this->exprienceValue += delta;
-		if (this->exprienceValue < 0)
-		{
-			this->exprienceValue = 0;
-		}
-		else
-		{
-			// 根据当前经验判断还可以升级几次，就进行几次升级判断
-			for (int i = levelValue + 1; i <= levelValueMax; ++i)
-				checkLevelValue();
-		}
-	}
 
-	// 获取附加的血量上限值
+	/*!
+	 * \fn	void Role::setExprienceValue(int exprienceValue)
+	 *
+	 * \brief	根据给定值来设置角色当前的经验
+	 *
+	 * \param	exprienceValue	指定用于设置角色经验的值
+	 */
+	void setExprienceValue(int exprienceValue);
+
+	/*!
+	 * \fn	void Role::updateExprienceValue(int delta)
+	 *
+	 * \brief	根据给定的增减量来更新角色的
+	 *
+	 * \author	Yeshiyong
+	 * \date	2016/4/6
+	 *
+	 * \param	delta	The delta.
+	 */
+	void updateExprienceValue(int delta);
+
+	/*!
+	 * \fn	int Role::getAdditionalBloodlValueMax()const
+	 *
+	 * \brief	获取角色的附加血量上限
+	 *
+	 * \return	返回角色的附加血量上限
+	 */
 	int getAdditionalBloodlValueMax()const
 	{
 		return additionalBloodlValueMax;
 	}
-	// 设置附加的血量上限值值
+
+	/*!
+	 * \fn	void Role::setAdditionalBloodValueMax(int additionalBloodValueMax)
+	 *
+	 * \brief	根据给定值来设置角色的附加血量上限
+	 *
+	 * \param	additionalBloodValueMax	指定用于设置角色附加血量上限的值
+	 */
 	void setAdditionalBloodValueMax(int additionalBloodValueMax)
 	{
 		if (baseBloodValueMax + additionalBloodlValueMax >= 0)
@@ -265,7 +415,14 @@ public:
 			cocos2d::log("[warning] 尝试设置附加的血量上限为%d，这将会导致实际血量上限为不合法的值", additionalBloodValueMax);
 		}
 	}
-	// 更新附加的血量上限
+
+	/*!
+	 * \fn	void Role::updateAdditionalBloodValueMax(int delta)
+	 *
+	 * \brief	根据给定增减量来更新角色的附加血量上限
+	 *
+	 * \param	delta	指定将用于更新角色的附加血量上限的增减量
+	 */
 	void updateAdditionalBloodValueMax(int delta)
 	{
 		if (baseBloodValueMax + additionalBloodlValueMax + delta >= 0)
@@ -276,12 +433,26 @@ public:
 		}
 	}
 
-	// 获取附加的护甲上限
+	/*!
+	 * \fn	int Role::getAdditionalArmorValueMax()const
+	 *
+	 * \brief	获取角色附加的护甲上限
+	 *
+	 * \return	返回角色附加的护甲上限
+	 */
 	int getAdditionalArmorValueMax()const
 	{
 		return additionalArmorValueMax;
 	}
-	// 设置附加的护甲上限
+
+	/*!
+	 * \fn	void Role::setAdditionalAromrValueMax(int additionalArmorValueMax)
+	 *
+	 * \brief	根据给定的值来设置角色的附加护甲上限
+	 *
+	 * \param	additionalArmorValueMax	指定将用于设置角色的附加护甲上限的值
+	 */
+
 	void setAdditionalAromrValueMax(int additionalArmorValueMax)
 	{
 		if (baseArmorValueMax + additionalArmorValueMax >= 0)
@@ -291,7 +462,14 @@ public:
 			cocos2d::log("[warning] 尝试设置附加的护甲上限为%d，这将会导致实际的护甲上限为不合法的值", additionalArmorValueMax);
 		}
 	}
-	// 更新附加的花甲上限
+
+	/*!
+	 * \fn	void Role::updateAdditionalArmorValueMax(int delta)
+	 *
+	 * \brief	根据给定的增减量来更新角色的附加附加上限
+	 *
+	 * \param	delta	指定将用于更新角色的附加护甲上限的值
+	 */
 	void updateAdditionalArmorValueMax(int delta)
 	{
 		if (baseArmorValueMax + additionalArmorValueMax + delta >= 0)
