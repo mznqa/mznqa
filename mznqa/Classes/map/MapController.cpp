@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\map\MapController.cpp
+ *
+ * \brief	∂®“Â¿‡ MapController
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "map/MapController.h"

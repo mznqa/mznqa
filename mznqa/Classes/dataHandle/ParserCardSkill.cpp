@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\dataHandle\ParserCardSkill.cpp
+ *
+ * \brief	定义类 ParserCardSkill，以及特需的结构体： ParserNode 和 HandlerCardSkill
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "dataHandle/ParserCardSkill.h"
@@ -20,181 +26,195 @@ ParserCardSkill::~ParserCardSkill()
 {
 }
 
-// 解析过程中使用，用于记录json节点状态
-struct ParserNode
+namespace ForParseCardSkill
 {
-	enum State
+	/*!
+	 * \struct	ParserNode
+	 *
+	 * \brief	ParserCardSkill 特需的用于记录解析节点状态的结构体
+	 *
+	 */
+	struct ParserNode
 	{
-		State_Global = 0,
-		State_CardSkillArray = 1,
-		State_CardSkill = 2,
-		State_EffectArray = 3,
-		State_Effect = 4,
-		State_Args = 5
+		enum State
+		{
+			State_Global = 0,
+			State_CardSkillArray = 1,
+			State_CardSkill = 2,
+			State_EffectArray = 3,
+			State_Effect = 4,
+			State_Args = 5
+		};
+
+		int state;
+
+		ParserNode() :
+			state(State_Global)
+		{}
+
+		ParserNode& operator++()
+		{
+			if (state + 1 <= State_Args)
+				++state;
+			return *this;
+		}
+
+		ParserNode& operator--()
+		{
+			if (state - 1 >= State_Global)
+				--state;
+			return *this;
+		}
 	};
 
-	int state;
-
-	ParserNode() :
-		state(State_Global)
-	{}
-
-	ParserNode& operator++()
+	/*!
+	 * \struct	HandlerCardSkill
+	 *
+	 * \brief	ParserCardSkill 特需的用于处理解析过程的结构体
+	 *
+	 */
+	struct HandlerCardSkill : public rapidjson::BaseReaderHandler<rapidjson::UTF8<>>
 	{
-		if (state + 1 <= State_Args)
-			++state;
-		return *this;
-	}
-	ParserNode& operator--()
-	{
-		if (state - 1 >= State_Global)
-			--state;
-		return *this;
-	}
-};
+	private:
+		ParserNode pn;
 
-// 解析处理器：技能卡json数据处理器
-struct HandlerCardSkill : public rapidjson::BaseReaderHandler<rapidjson::UTF8<>>
-{
-private:
-	ParserNode pn;
+		std::vector<int> iCardSkillArgs;
+		std::vector<std::string> sCardSkillArgs;
 
-	std::vector<int> iCardSkillArgs;
-	std::vector<std::string> sCardSkillArgs;
+		std::vector<int> iEffectArgs;
+		std::vector<std::string> sEffectArgs;
 
-	std::vector<int> iEffectArgs;
-	std::vector<std::string> sEffectArgs;
+		std::vector<int> iArgsArgs;
 
-	std::vector<int> iArgsArgs;
+		std::vector<int> argsTemp;
+		std::vector<Effect> effectSetTemp;
 
-	std::vector<int> argsTemp;
-	std::vector<Effect> effectSetTemp;
-
-public:
-	bool Null()
-	{
-		return true;
-	}
-	bool Bool(bool b)
-	{
-		return true;
-	}
-	bool Int(int i)
-	{
-		switch (pn.state)
+	public:
+		bool Null()
 		{
-		case ParserNode::State::State_CardSkill:
-			iCardSkillArgs.push_back(i);
-			break;
-		case ParserNode::State::State_Effect:
-			iEffectArgs.push_back(i);
-			break;
-		case ParserNode::State::State_Args:
-			iArgsArgs.push_back(i);
-			break;
-		default:
-			break;
+			return true;
 		}
-		return true;
-	}
-	bool Uint(unsigned u)
-	{
-		switch (pn.state)
+		bool Bool(bool b)
 		{
-		case ParserNode::State::State_CardSkill:
-			iCardSkillArgs.push_back(u);
-			break;
-		case ParserNode::State::State_Effect:
-			iEffectArgs.push_back(u);
-			break;
-		case ParserNode::State::State_Args:
-			iArgsArgs.push_back(u);
-			break;
-		default:
-			break;
+			return true;
 		}
-		return true;
-	}
-	bool Int64(int64_t i)
-	{
-		return true;
-	}
-	bool Uint64(uint64_t u)
-	{
-		return true;
-	}
-	bool Double(double d)
-	{
-		return true;
-	}
-	bool String(const char* str, rapidjson::SizeType length, bool copy)
-	{
-		switch (pn.state)
+		bool Int(int i)
 		{
-		case ParserNode::State::State_CardSkill:
-			sCardSkillArgs.push_back(std::string(str));
-			break;
-		case ParserNode::State::State_Effect:
-			sEffectArgs.push_back(std::string(str));
-			break;
-		default:
-			break;
+			switch (pn.state)
+			{
+			case ParserNode::State::State_CardSkill:
+				iCardSkillArgs.push_back(i);
+				break;
+			case ParserNode::State::State_Effect:
+				iEffectArgs.push_back(i);
+				break;
+			case ParserNode::State::State_Args:
+				iArgsArgs.push_back(i);
+				break;
+			default:
+				break;
+			}
+			return true;
 		}
-		return true;
-	}
-	bool StartObject()
-	{
-		++pn;
-		return true;
-	}
-	bool Key(const char* str, rapidjson::SizeType length, bool copy)
-	{
-		return true;
-	}
-	bool EndObject(rapidjson::SizeType memberCount)
-	{
-		--pn;
-		switch (pn.state)
+		bool Uint(unsigned u)
 		{
-		case ParserNode::State::State_EffectArray:
-			effectSetTemp.push_back(Effect(sEffectArgs[0], (Effect::Receiver)iEffectArgs[0], iEffectArgs[1], argsTemp));
-			iEffectArgs.clear();
-			sEffectArgs.clear();
-			break;
-		case ParserNode::State::State_CardSkillArray:
-			iCardSkillArgs.clear();
-			sCardSkillArgs.clear();
-			break;
-		default:
-			break;
+			switch (pn.state)
+			{
+			case ParserNode::State::State_CardSkill:
+				iCardSkillArgs.push_back(u);
+				break;
+			case ParserNode::State::State_Effect:
+				iEffectArgs.push_back(u);
+				break;
+			case ParserNode::State::State_Args:
+				iArgsArgs.push_back(u);
+				break;
+			default:
+				break;
+			}
+			return true;
 		}
-		return true;
-	}
-	bool StartArray()
-	{
-		++pn;
-		return true;
-	}
-	bool EndArray(rapidjson::SizeType elementCount)
-	{
-		--pn;
-		switch (pn.state)
+		bool Int64(int64_t i)
 		{
-		case ParserNode::State::State_Effect:
-			argsTemp = iArgsArgs;
-			iArgsArgs.clear();
-			break;
-		case ParserNode::State::State_CardSkill:
-			// 在这里获取逐一解析出来的技能卡数据，参考一下进行数据记录
-			//cardSkillSet.push_back(CardSkill(iCardSkillArgs[0], sCardSkillArgs[0], sCardSkillArgs[1], (CardSkill::BelongTo)iCardSkillArgs[2], effectSetTemp));
-			effectSetTemp.clear();
-			break;
-		default:
-			break;
+			return true;
 		}
-		return true;
-	}
-};
+		bool Uint64(uint64_t u)
+		{
+			return true;
+		}
+		bool Double(double d)
+		{
+			return true;
+		}
+		bool String(const char* str, rapidjson::SizeType length, bool copy)
+		{
+			switch (pn.state)
+			{
+			case ParserNode::State::State_CardSkill:
+				sCardSkillArgs.push_back(std::string(str));
+				break;
+			case ParserNode::State::State_Effect:
+				sEffectArgs.push_back(std::string(str));
+				break;
+			default:
+				break;
+			}
+			return true;
+		}
+		bool StartObject()
+		{
+			++pn;
+			return true;
+		}
+		bool Key(const char* str, rapidjson::SizeType length, bool copy)
+		{
+			return true;
+		}
+		bool EndObject(rapidjson::SizeType memberCount)
+		{
+			--pn;
+			switch (pn.state)
+			{
+			case ParserNode::State::State_EffectArray:
+				effectSetTemp.push_back(Effect(sEffectArgs[0], (Effect::Receiver)iEffectArgs[0], iEffectArgs[1], argsTemp));
+				iEffectArgs.clear();
+				sEffectArgs.clear();
+				break;
+			case ParserNode::State::State_CardSkillArray:
+				iCardSkillArgs.clear();
+				sCardSkillArgs.clear();
+				break;
+			default:
+				break;
+			}
+			return true;
+		}
+		bool StartArray()
+		{
+			++pn;
+			return true;
+		}
+		bool EndArray(rapidjson::SizeType elementCount)
+		{
+			--pn;
+			switch (pn.state)
+			{
+			case ParserNode::State::State_Effect:
+				argsTemp = iArgsArgs;
+				iArgsArgs.clear();
+				break;
+			case ParserNode::State::State_CardSkill:
+				// 在这里获取逐一解析出来的技能卡数据，参考一下进行数据记录
+				//cardSkillSet.push_back(CardSkill(iCardSkillArgs[0], sCardSkillArgs[0], sCardSkillArgs[1], (CardSkill::BelongTo)iCardSkillArgs[2], effectSetTemp));
+				effectSetTemp.clear();
+				break;
+			default:
+				break;
+			}
+			return true;
+		}
+	};
+}
 
 void ParserCardSkill::parse()
 {
@@ -208,7 +228,7 @@ void ParserCardSkill::parse()
 	// 解析器
 	rapidjson::Reader reader;
 	// 处理器
-	HandlerCardSkill handlerCardSkill;
+	ForParseCardSkill::HandlerCardSkill handlerCardSkill;
 	// 解析
 	reader.Parse(ss, handlerCardSkill);
 	// 判断解析是否出错
