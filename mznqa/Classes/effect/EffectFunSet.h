@@ -8,7 +8,7 @@
 #ifndef MZNQA_CLASSES_EFFECT_EFFECTFUNSET_H_
 #define MZNQA_CLASSES_EFFECT_EFFECTFUNSET_H_
 
-#include <array>
+#include <map>
 #include <functional>
 #include <vector>
 
@@ -43,11 +43,12 @@ public:
 	 */
 	static const std::function<bool(const std::vector<int>&)>& getFunByIndex(int index)
 	{
-		if (0 <= index && index < funCount)
-			return funSet[index];
+		auto it = funSet.find(index);
+		if (it != funSet.end())
+			return it->second;
 		else
 		{
-			cocos2d::log("[warning] 尝试获取索引为%d的效果函数，而当前效果函数总数为%d，因为给定的索引无效", index, funCount);
+			cocos2d::log("[warning] 尝试获取索引为%d的效果函数，而给定的索引无效", index);
 			return nullFun;
 		}
 	}
@@ -115,10 +116,8 @@ private:
 
 	/*! \brief	一个空的函数指针 */
 	static const std::function<bool(const std::vector<int>&)> nullFun;
-	/*! \brief	效果总数 */
-	static const int funCount = 22;
 	/*! \brief	存放效果函数的集合 */
-	static const std::array<std::function<bool(const std::vector<int>&)>, funCount> funSet;
+	static const std::map<int, std::function<bool(const std::vector<int>&)>> funSet;
 };
 
 #endif

@@ -10,31 +10,31 @@
 
 #include "cocos2d.h"
 
-const std::array<std::function<bool(const std::vector<int>&)>, EffectFunSet::funCount> EffectFunSet::funSet = {
-	EffectFunSet::effectBase0,
-	EffectFunSet::effectBase1,
-	EffectFunSet::effectBase2,
-	EffectFunSet::effectBase3,
-	EffectFunSet::effectBase4,
+const std::map<int, std::function<bool(const std::vector<int>&)>> EffectFunSet::funSet = {
+	{ 0, EffectFunSet::effectBase0 },
+	{ 1, EffectFunSet::effectBase1 },
+	{ 2, EffectFunSet::effectBase2 },
+	{ 3, EffectFunSet::effectBase3 },
+	{ 4, EffectFunSet::effectBase4 },
 
-	EffectFunSet::effectSpecial0,
-	EffectFunSet::effectSpecial1,
-	EffectFunSet::effectSpecial2,
+	{ 1000, EffectFunSet::effectSpecial0 },
+	{ 1001, EffectFunSet::effectSpecial1 },
+	{ 1002, EffectFunSet::effectSpecial2 },
 
-	EffectFunSet::effectCondition0,
-	EffectFunSet::effectCondition1,
-	EffectFunSet::effectCondition2,
-	EffectFunSet::effectCondition3,
-	EffectFunSet::effectCondition4,
-	EffectFunSet::effectCondition5,
-	EffectFunSet::effectCondition6,
-	EffectFunSet::effectCondition7,
-	EffectFunSet::effectCondition8,
-	EffectFunSet::effectCondition9,
-	EffectFunSet::effectCondition10,
-	EffectFunSet::effectCondition11,
-	EffectFunSet::effectCondition12,
-	EffectFunSet::effectCondition13
+	{ 2000, EffectFunSet::effectCondition0 },
+	{ 2001, EffectFunSet::effectCondition1 },
+	{ 2002, EffectFunSet::effectCondition2 },
+	{ 2003, EffectFunSet::effectCondition3 },
+	{ 2004, EffectFunSet::effectCondition4 },
+	{ 2005, EffectFunSet::effectCondition5 },
+	{ 2006, EffectFunSet::effectCondition6 },
+	{ 2007, EffectFunSet::effectCondition7 },
+	{ 2008, EffectFunSet::effectCondition8 },
+	{ 2009, EffectFunSet::effectCondition9 },
+	{ 2010, EffectFunSet::effectCondition10 },
+	{ 2011, EffectFunSet::effectCondition11 },
+	{ 2012, EffectFunSet::effectCondition12 },
+	{ 2013, EffectFunSet::effectCondition13 }
 };
 
 EffectFunSet::~EffectFunSet()
