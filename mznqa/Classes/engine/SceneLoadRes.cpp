@@ -37,6 +37,9 @@ bool SceneLoadRes::init()
 
 	addChild(rootNode);
 
+	// 添加单次调度器，调度器均在 init() 方法中添加
+	this->scheduleOnce(schedule_selector(SceneLoadRes::updateOnce), 1.0f);
+
 	log("[information] 场景 SceneLoadRes 启动成功");
 
 	return true;
@@ -63,4 +66,13 @@ void SceneLoadRes::onExit()
 	// 调用场景状态方法
 	SceneLoadResState::Instance()->exit(this);
 	log("[information] 离开场景 SceneLoadRes 成功");
+}
+
+// 单次调度器
+void SceneLoadRes::updateOnce(float dt)
+{
+	log("[information] 进入 SceneLoadRes 场景的单次调度器...");
+	// 调用场景状态方法，参数二是距离上次调用的间隔时间，这里由于是单次调度，所以随意传入1.0f。
+	SceneLoadResState::Instance()->update(this, 1.0f);
+	log("[information] 离开 SceneLoadRes 场景的单次调度器");
 }

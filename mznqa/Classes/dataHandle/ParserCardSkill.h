@@ -9,6 +9,10 @@
 #ifndef MZNQA_CLASSES_DATAHANDLE_PARSERCARDSKILL_H_
 #define MZNQA_CLASSES_DATAHANDLE_PARSERCARDSKILL_H_
 
+#include <map>
+
+#include "card/CardSkill.h"
+
 /*!
  * \class	ParserCardSkill
  *
@@ -45,6 +49,9 @@ public:
 	 *
 	 */
 	void parse();
+
+	/*! \brief	临时用，暂存技能卡集合 */
+	static std::map<int, CardSkill> cardSkillSetTemp;
 };
 
 #endif

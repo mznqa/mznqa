@@ -53,7 +53,7 @@ public:
 		),
 		effectSet(effectSet)
 	{
-		if (!(0 <= this->belongTo && this->belongTo <= 2))
+		if (!(-1 <= this->belongTo && this->belongTo <= 1))
 			cocos2d::log("[warning] 为技能卡%d设置所属方失败，提供的值为：%d", id, this->belongTo);
 		if (this->effectSet.size() < 0)
 			cocos2d::log("[warning] 为技能卡%d设置包含技能数失败，提供的值为：%d", id, this->effectSet.size());

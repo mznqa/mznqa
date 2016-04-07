@@ -88,5 +88,5 @@ const char* CharBufferArea::getBufferByIndex(BufferIndex bufferIndex)
 void CharBufferArea::test()
 {
 	//createBuffer(CharBufferArea::BufferIndex_CardSkill, FileController::Instance()->getCharBufferFromFile("data/static/card_skill.json"));
-	createBuffer(CharBufferArea::BufferIndex_MapArchives, FileController::Instance()->getCharBufferFromFile("data/archives/map.json"));
+	//createBuffer(CharBufferArea::BufferIndex_MapArchives, FileController::Instance()->getCharBufferFromFile("data/archives/map.json"));
 }

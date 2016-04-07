@@ -14,9 +14,10 @@
 
 #include "json/reader.h"
 
-#include "card/CardSkill.h"
 #include "effect/Effect.h"
 #include "dataHandle/CharBufferArea.h"
+
+std::map<int, CardSkill> ParserCardSkill::cardSkillSetTemp;
 
 ParserCardSkill::ParserCardSkill()
 {
@@ -204,8 +205,10 @@ namespace ForParseCardSkill
 				iArgsArgs.clear();
 				break;
 			case ParserNode::State::State_CardSkill:
-				// 在这里获取逐一解析出来的技能卡数据，参考一下进行数据记录
-				//cardSkillSet.push_back(CardSkill(iCardSkillArgs[0], sCardSkillArgs[0], sCardSkillArgs[1], (CardSkill::BelongTo)iCardSkillArgs[2], effectSetTemp));
+				ParserCardSkill::cardSkillSetTemp.insert(
+					std::pair<int, CardSkill>(
+					iCardSkillArgs[0], CardSkill(iCardSkillArgs[0], sCardSkillArgs[0], sCardSkillArgs[1], (CardSkill::BelongTo)iCardSkillArgs[2], effectSetTemp)
+					));
 				effectSetTemp.clear();
 				break;
 			default:
@@ -218,13 +221,11 @@ namespace ForParseCardSkill
 
 void ParserCardSkill::parse()
 {
-	// 以下模拟解析：
-
 	// 检查技能卡数据文件是否已经缓存
-	if (CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_CardSkill) == nullptr)
+	if (CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_Static_CardSkillSet) == nullptr)
 		return;
 	// 解析器所需的流格式
-	rapidjson::StringStream ss(CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_CardSkill));
+	rapidjson::StringStream ss(CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_Static_CardSkillSet));
 	// 解析器
 	rapidjson::Reader reader;
 	// 处理器
@@ -236,6 +237,4 @@ void ParserCardSkill::parse()
 	{
 		cocos2d::log("[error] 解析技能卡出错");
 	}
-	// 释放技能卡数据缓存
-	CharBufferArea::Instance()->releaseBufferByIndex(CharBufferArea::Instance()->BufferIndex_CardSkill);
 }

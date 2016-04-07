@@ -160,10 +160,10 @@ void ParserMapArchives::parse()
 	// 以下作为地图存档解析参考：
 
 	// 检查是否载入地图存档
-	if (CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_MapArchives) == nullptr)
+	if (CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_Archives_MapGlobal) == nullptr)
 		return;
 	// 解析所需特定流
-	rapidjson::StringStream ss(CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_MapArchives));
+	rapidjson::StringStream ss(CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_Archives_MapGlobal));
 	// 解析器
 	rapidjson::Reader reader;
 	// 处理器
@@ -176,5 +176,5 @@ void ParserMapArchives::parse()
 		cocos2d::log("[error] 解析地图存档出错");
 	}
 	// 释放地图存档数据缓存
-	CharBufferArea::Instance()->releaseBufferByIndex(CharBufferArea::Instance()->BufferIndex_MapArchives);
+	CharBufferArea::Instance()->releaseBufferByIndex(CharBufferArea::Instance()->BufferIndex_Archives_MapGlobal);
 }
