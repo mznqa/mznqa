@@ -123,7 +123,7 @@ public:
 		if (result != CardBase::invalidID)
 			cocos2d::log("[information] 成功向战斗场景的卡池中加入一张id为%d的卡", id);
 		else
-			cocos2d::log("[information] 向战斗场景的卡池中加入一张id为%d的卡失败");
+			cocos2d::log("[information] 向战斗场景的卡池中加入一张id为%d的卡失败", id);
 		return result;
 	}
 

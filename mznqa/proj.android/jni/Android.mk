@@ -12,18 +12,29 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
-                   ../../Classes/data/realTimeData/Role.cpp \
-                   ../../Classes/data/realTimeData/Monster.cpp \
+                   ../../Classes/card/CardBase.cpp \
+                   ../../Classes/card/CardMonster.cpp \
+                   ../../Classes/card/CardRoad.cpp \
+                   ../../Classes/card/CardSkill.cpp \
+                   ../../Classes/card/CardTreasure.cpp \
+                   ../../Classes/cardController/CardBoxRTM.cpp \
+                   ../../Classes/cardController/CardControllerCombat.cpp \
+                   ../../Classes/cardController/CardControllerExplore.cpp \
+                   ../../Classes/dataHandle/CharBufferArea.cpp \
+                   ../../Classes/dataHandle/ParserCardSkill.cpp \
+                   ../../Classes/dataHandle/ParserMapArchives.cpp \
+                   ../../Classes/dataHandle/StaticDataLoader.cpp \
+                   ../../Classes/effect/EffectFunSet.cpp \
+                   ../../Classes/engine/FileController.cpp \
                    ../../Classes/engine/SceneDebug.cpp \
                    ../../Classes/engine/SceneGuide.cpp \
                    ../../Classes/engine/SceneLoadRes.cpp \
-                   ../../Classes/fileio/FileCache.cpp \
-                   ../../Classes/fileio/JsonParser.cpp \
-                   ../../Classes/message/EngineMessagePQ.cpp \
-                   ../../Classes/message/LogicMessagePQ.cpp \
-                   ../../Classes/message/MsgInterpreter.cpp \
+                   ../../Classes/gameObject/Monster.cpp \
+                   ../../Classes/gameObject/Role.cpp \
+                   ../../Classes/map/MapController.cpp \
                    ../../Classes/runtime/SceneGuideState.cpp \
-                   ../../Classes/runtime/SceneLoadResState.cpp
+                   ../../Classes/runtime/SceneLoadResState.cpp \
+                   ../../Classes/staticData/CardSet.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

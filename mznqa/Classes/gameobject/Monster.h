@@ -177,7 +177,7 @@ public:
 			this->bloodValue = temp;
 		else
 		{
-			cocos2d::log("[warning] 尝试更新怪物血量，以至血量越界，变化量为%d, 而当前血量为", delta, bloodValue);
+			cocos2d::log("[warning] 尝试更新怪物血量，以至血量越界，变化量为%d, 而当前血量为%d", delta, bloodValue);
 		}
 	}
 

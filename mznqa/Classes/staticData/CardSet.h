@@ -146,7 +146,7 @@ public:
 		auto it = cardRoadSet.find(id);
 		if (it == cardRoadSet.end())
 		{
-			cocos2d::log("[warning] 未找到id为%d的地形卡");
+			cocos2d::log("[warning] 未找到id为%d的地形卡", id);
 			return nullptr;
 		}
 		else
@@ -169,7 +169,7 @@ public:
 		auto it = cardTreasureSet.find(id);
 		if (it == cardTreasureSet.end())
 		{
-			cocos2d::log("[warning] 未找到id为%d的宝物卡");
+			cocos2d::log("[warning] 未找到id为%d的宝物卡", id);
 			return nullptr;
 		}
 		else
@@ -192,7 +192,7 @@ public:
 		auto it = cardMonsterSet.find(id);
 		if (it == cardMonsterSet.end())
 		{
-			cocos2d::log("[warning] 未找到id为%d的怪物卡");
+			cocos2d::log("[warning] 未找到id为%d的怪物卡", id);
 			return nullptr;
 		}
 		else
@@ -215,7 +215,7 @@ public:
 		auto it = cardSkillSet.find(id);
 		if (it == cardSkillSet.end())
 		{
-			cocos2d::log("[warning] 未找到id为%d的技能卡");
+			cocos2d::log("[warning] 未找到id为%d的技能卡", id);
 			return nullptr;
 		}
 		else
