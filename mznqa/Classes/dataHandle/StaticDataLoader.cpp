@@ -16,6 +16,34 @@
 #include "filePath/DataFilePath.h"
 #include "staticData/CardSet.h"
 
+void StaticDataLoader::loadStaticDataCardRoadSet()
+{
+	cocos2d::log("[information] 开始载入静态数据：地形卡数据...");
+
+	std::map<int, CardRoad> cardRoadSetTemp;
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(1234, CardRoad(1234, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_URDL)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(234, CardRoad(234, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_RDL)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(134, CardRoad(134, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_UDL)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(124, CardRoad(124, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_URL)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(123, CardRoad(123, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_URD)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(34, CardRoad(34, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_DL)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(14, CardRoad(14, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_UL)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(12, CardRoad(12, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_UR)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(24, CardRoad(24, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_RL)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(13, CardRoad(13, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_UD)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(23, CardRoad(23, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_RD)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(1, CardRoad(1, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_U)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(2, CardRoad(2, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_R)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(3, CardRoad(3, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_D)));
+	cardRoadSetTemp.insert(std::pair<int, CardRoad>(4, CardRoad(4, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_L)));
+
+	CardSet::Instance()->loadCardRoadSet(cardRoadSetTemp);
+
+	cardRoadSetTemp.clear();
+
+	cocos2d::log("[information] 完成：载入静态数据：地形卡数据");
+}
+
 void StaticDataLoader::loadStaticDataCardSkillSet()
 {
 	CharBufferArea::BufferIndex bufferIndex = CharBufferArea::BufferIndex_Static_CardSkillSet;
@@ -46,6 +74,7 @@ void StaticDataLoader::loadStaticDataCardSkillSet()
 	//////////////////////////////////////////////////////////////////////////
 
 	cocos2d::log("[information] 开始释放缓存：静态数据：技能卡集合...");
+	ParserCardSkill::cardSkillSetTemp.clear();
 	CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
 	cocos2d::log("[information] 成功释放缓存：静态数据：技能卡集合");
 }

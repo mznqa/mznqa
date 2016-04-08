@@ -37,6 +37,14 @@ public:
 	~StaticDataLoader(){}
 
 	/*!
+	 * \fn	static void StaticDataLoader::loadStaticDataCardRoadSet();
+	 *
+	 * \brief	载入静态数据：地形卡集合
+	 *
+	 */
+	static void loadStaticDataCardRoadSet();
+
+	/*!
 	 * \fn	static void StaticDataLoader::loadStaticDataCardSkillSet();
 	 *
 	 * \brief	载入静态数据：技能卡集合

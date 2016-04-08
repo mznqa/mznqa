@@ -53,6 +53,8 @@ bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 
 	// 此区域用于载入资源，勿动 //////////////////////////////////////////////////////////////////////////
 	cocos2d::log("[information] 开始准备载入资源...");
+	// 载入：静态数据：地形卡卡集合
+	StaticDataLoader::loadStaticDataCardRoadSet();
 	// 载入：静态数据：技能卡集合
 	StaticDataLoader::loadStaticDataCardSkillSet();
 	cocos2d::log("[information] 完成资源载入");
