@@ -8,16 +8,16 @@
 
 int CombatSystem::round = 0;
 
+CombatSystem::CombatSystem()
+{
+
+}
+
 CombatSystem::~CombatSystem()
 {
 	
 }
 
-CombatSystem* CombatSystem::getInstance()
-{
-	static	CombatSystem instance;
-	return &instance;
-}
 
 void CombatSystem::executeGlobalEffect()
 {
@@ -33,13 +33,12 @@ void CombatSystem::executeRoleBeforeTheCombatEffect()
 	{
 
 		EffectEntity ee = epq.getRoleNextEffect();
-		int continueRound = CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs().at(1);
 		if (ee.cardId == -1)
 		{
 			cocos2d::log("[information] 当前回合的角色技能，已经没有可执行的效果了!");
 			return;
 		}
-		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		//EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 	}
 
 }
@@ -51,9 +50,6 @@ void CombatSystem::excuteRoleInCombatEffect(int cardId)
 	EffectEntity temp(-1,-1,-1);
 	int indexTemp = 0;
 
-	//int i = 0;
-	//int j = 0;
-	//int k = 0;
 
 	int effectSize = cs->getEffectSet().size();
 	while (effectSize--)
@@ -61,12 +57,6 @@ void CombatSystem::excuteRoleInCombatEffect(int cardId)
 		int startRound = cs->getEffectSet().back().getArgs().at(0);
 		int continueRound = cs->getEffectSet().back().getArgs().at(1);
 
-		//if (startRound == 0)
-		//	temp.level = i++;
-		//else if (startRound == 1)
-		//	temp.level = (j++) + 100;
-		//else if (startRound == 2)
-		//	temp.level = (k++) + 200;
 		temp.cardId = cardId;
 		temp.effectIndex = indexTemp++;
 		while (--continueRound)
@@ -86,7 +76,12 @@ void CombatSystem::excuteRoleInCombatEffect(int cardId)
 			return;
 		}
 		
-		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		std::vector<int> vvv;
+		
+		(EffectFunSet::getFunByIndex(1/*ee.cardId*/))(
+			vvv
+			/*CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs()*/
+			);
 	}
 
 }
@@ -96,12 +91,12 @@ void CombatSystem::excuteRoleAfterCombatEffect()
 	while (true)
 	{
 		EffectEntity ee = epq.getRoleNextEffect();
-		if ( ee.cardId == -1)
+		if (ee.cardId == -1)
 		{
 			cocos2d::log("[information] 当前回合的角色技能，已经没有可执行的效果了!");
 			return;
 		}
-		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		//EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 		epq.popRoleEffect();
 	}
 }
@@ -118,7 +113,7 @@ void CombatSystem::executeMonsterBeforeTheCombatEffect()
 			cocos2d::log("[information] 当前回合的怪物技能，已经没有可执行的效果了!");
 			return;
 		}
-		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		//EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 	}
 
 }
@@ -130,22 +125,13 @@ void CombatSystem::excuteMonsterInCombatEffect(int cardId)
 	EffectEntity temp(-1, -1, -1);
 	int indexTemp = 0;
 
-	//int i = 0;
-	//int j = 0;
-	//int k = 0;
-
 	int effectSize = cs->getEffectSet().size();
 	while (effectSize--)
 	{
 		int startRound = cs->getEffectSet().back().getArgs().at(0);
 		int continueRound = cs->getEffectSet().back().getArgs().at(1);
 
-		//if (startRound == 0)
-		//	temp.level = i++;
-		//else if (startRound == 1)
-		//	temp.level = (j++) + 100;
-		//else if (startRound == 2)
-		//	temp.level = (k++) + 200;
+
 		temp.cardId = cardId;
 		temp.effectIndex = indexTemp++;
 		while (continueRound--)
@@ -168,7 +154,7 @@ void CombatSystem::excuteMonsterInCombatEffect(int cardId)
 			cocos2d::log("[information] 当前回合的怪物技能，已经没有可执行的效果了!");
 			return;
 		}
-		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		//EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 	}
 
 }
@@ -178,12 +164,13 @@ void CombatSystem::excuteMonsterAfterCombatEffect()
 	while (true)
 	{
 		EffectEntity ee = epq.getMonsterNextEffect();
+
 		if (ee.cardId == -1)
 		{
 			cocos2d::log("[information] 当前回合的怪物技能，已经没有可执行的效果了!");
 			return;
 		}
-		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		//EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 		epq.popMonsterEffect();
 	}
 }
@@ -208,15 +195,15 @@ void CombatSystem::excuteCombat(int cardId)
 
 void CombatSystem::test()
 {
-	//std::vector<int> id = { 1,2,3,4,5 };
-	//auto it = id.begin();
-	//for (it; it != id.end();++it)
-	//{
-	//	excuteCombat(*it);
-	//}
-	//while (!id.empty())
-	//{
-	//	id.pop_back();
-	//}
+	std::vector<int> id = { 1, 2, 3, 4, 5 };
+	auto it = id.begin();
+	for (it; it != id.end(); ++it)
+	{
+		excuteCombat(*it);
+	}
+	while (!id.empty())
+	{
+		id.pop_back();
+	}
 
 }

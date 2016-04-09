@@ -20,7 +20,7 @@ void EffectPQ::pushRoleEffect(EffectEntity effect)
 EffectEntity EffectPQ::getRoleNextEffect()
 {
 	if (rolePQ.empty())
-		return EffectEntity(-1,-1,-1);
+		return EffectEntity(-1, -1, -1);
 
 	EffectEntity effect = rolePQ.top();
 	//判断下一个效果是否可用

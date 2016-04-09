@@ -9,10 +9,10 @@
 class CombatSystem
 {
 public:	
+	CombatSystem();
 	~CombatSystem();
 
-	static CombatSystem* getInstance();
-
+	
 	//执行战斗回合内的全局属性
 	void executeGlobalEffect();
 
@@ -39,10 +39,6 @@ public:
 	void test();
 
 private:
-
-	CombatSystem() {};
-	CombatSystem & operator =(const CombatSystem &combatSystem);
-
 	//战斗回合数
 	static int round;
 

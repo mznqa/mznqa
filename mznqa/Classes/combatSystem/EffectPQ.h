@@ -9,12 +9,8 @@
 
 struct EffectEntity
 {
+
 	//效果优先级
-	union MyUnion
-	{
-		int curLevel;
-		int afterLevel;
-	};
 	int level;
 
 	//效果函数指针

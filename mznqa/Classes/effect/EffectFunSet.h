@@ -58,14 +58,14 @@ public:
 	static bool effectCondition12(const std::vector<int> &args);
 	static bool effectCondition13(const std::vector<int> &args);
 	//////////////////////////////////////////////////////////////////////////
-
+	// 空的函数指针
+	static const std::function<bool(const std::vector<int>&)> nullFun;
 private:
 	EffectFunSet(){}
 	EffectFunSet(const EffectFunSet &effectFunSet);
 	EffectFunSet& operator=(const EffectFunSet &effectFunSet);
+	//
 
-	// 空的函数指针
-	static const std::function<bool(const std::vector<int>&)> nullFun;
 	// 效果函数总数，添加函数时记得更新
 	static const int funCount = 22;
 	// 存放效果函数的集合
