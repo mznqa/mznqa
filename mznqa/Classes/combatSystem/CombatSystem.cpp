@@ -29,39 +29,45 @@ void CombatSystem::executeGlobalEffect()
 
 void CombatSystem::executeRoleBeforeTheCombatEffect()
 {
+	cocos2d::log("[information] Ö´ĞĞ ½ÇÉ«Ç° µÄ³ÖĞøĞ§¹û£¬µ±Ç°»ØºÏÎª %d ", round);
 	while (true)
 	{
-
 		EffectEntity ee = epq.getRoleNextEffect();
 		if (ee.cardId == -1)
 		{
-			cocos2d::log("[information] å½“å‰å›åˆçš„è§’è‰²æŠ€èƒ½ï¼Œå·²ç»æ²¡æœ‰å¯æ‰§è¡Œçš„æ•ˆæœäº†!");
+			cocos2d::log("[information] µ±Ç°»ØºÏµÄ½ÇÉ«¼¼ÄÜ£¬ÒÑ¾­Ã»ÓĞ¿ÉÖ´ĞĞµÄĞ§¹ûÁË!");
 			return;
 		}
-		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		//Èô¸ÃĞ§¹ûÊôÓÚ³ÖĞøºóÖ´ĞĞ£¬ÔòÓÅÏÈ¼¶ÔÚÔö¼Ó100
+		if (ee.level / 100 == 1)
+		{
+			break;
+		}
+		//Ö´ĞĞĞ§¹û
+		EffectFunSet::getFunByIndex(ee.effectIndex)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 	}
 
 }
 
 void CombatSystem::excuteRoleInCombatEffect(int cardId)
 {
+	cocos2d::log("[information] Ö´ĞĞ ½ÇÉ«ÖĞ µÄĞ§¹û£¬µ±Ç°»ØºÏÎª %d ", round);
 	const CardSkill *cs = CardSet::Instance()->getCardSkillByID(cardId);
-	
 	EffectEntity temp(-1,-1,-1);
-	int indexTemp = 0;
-
-
 	int effectSize = cs->getEffectSet().size();
 	while (effectSize--)
 	{
-		int startRound = cs->getEffectSet().back().getArgs().at(0);
-		int continueRound = cs->getEffectSet().back().getArgs().at(1);
-
+		int startRound = cs->getEffectSet().at(effectSize).getArgs().at(0);
+		int continueRound = cs->getEffectSet().at(effectSize).getArgs().at(1);
 		temp.cardId = cardId;
-		temp.effectIndex = indexTemp++;
-		while (--continueRound)
+		temp.effectIndex = cs->getEffectSet().at(effectSize).getFunIndex();
+		while (continueRound--)
 		{
-			temp.level = (continueRound + startRound) * 100 + epq.getRoleEPQLevelMaxByRound(continueRound + 1) + 1;
+			temp.level = (continueRound + startRound) * 200 + epq.getRoleEPQLevelMaxByRound(continueRound) + 1;
+			if (cs->getEffectSet().at(effectSize).getArgs().size() == 2)
+			{
+				temp.level += 100;
+			}
 			epq.pushRoleEffect(temp);
 		}
 		
@@ -72,31 +78,32 @@ void CombatSystem::excuteRoleInCombatEffect(int cardId)
 		EffectEntity ee = epq.getRoleNextEffect();
 		if (ee.cardId == -1)
 		{
-			cocos2d::log("[information] å½“å‰å›åˆçš„è§’è‰²æŠ€èƒ½ï¼Œå·²ç»æ²¡æœ‰å¯æ‰§è¡Œçš„æ•ˆæœäº†!");
+			cocos2d::log("[information] µ±Ç°»ØºÏµÄ½ÇÉ«¼¼ÄÜ£¬ÒÑ¾­Ã»ÓĞ¿ÉÖ´ĞĞµÄĞ§¹ûÁË!");
 			return;
 		}
-		
-
-		
-		(EffectFunSet::getFunByIndex(ee.cardId))(
-
-			CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs()
+		//Èô¸ÃĞ§¹ûÊôÓÚ½ÇÉ«³ÖĞøºóÖ´ĞĞ£¬ÔòÌø¹ı¸ÃĞ§¹ûµÄÖ´ĞĞ
+		if (ee.level / 100 == 1)
+		{
+			break;
+		}
+		EffectFunSet::getFunByIndex(ee.effectIndex)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs()
 			);
 	}
-
 }
 
 void CombatSystem::excuteRoleAfterCombatEffect()
 {
+	cocos2d::log("[information] Ö´ĞĞ ½ÇÉ«ºó µÄ³ÖĞøĞ§¹û£¬µ±Ç°»ØºÏÎª %d ", round);
+
 	while (true)
 	{
 		EffectEntity ee = epq.getRoleNextEffect();
 		if (ee.cardId == -1)
 		{
-			cocos2d::log("[information] å½“å‰å›åˆçš„è§’è‰²æŠ€èƒ½ï¼Œå·²ç»æ²¡æœ‰å¯æ‰§è¡Œçš„æ•ˆæœäº†!");
+			cocos2d::log("[information] µ±Ç°»ØºÏµÄ½ÇÉ«¼¼ÄÜ£¬ÒÑ¾­Ã»ÓĞ¿ÉÖ´ĞĞµÄĞ§¹ûÁË!");
 			return;
 		}
-		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		EffectFunSet::getFunByIndex(ee.effectIndex)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 		epq.popRoleEffect();
 	}
 }
@@ -104,39 +111,41 @@ void CombatSystem::excuteRoleAfterCombatEffect()
 
 void CombatSystem::executeMonsterBeforeTheCombatEffect()
 {
+	cocos2d::log("[information] Ö´ĞĞ ¹ÖÎïÇ° µÄ³ÖĞøĞ§¹û£¬µ±Ç°»ØºÏÎª %d ", round);
+
 	while (true)
 	{
 		EffectEntity ee = epq.getMonsterNextEffect();
 		if (ee.cardId == -1)
 		{
-			cocos2d::log("[information] å½“å‰å›åˆçš„æ€ªç‰©æŠ€èƒ½ï¼Œå·²ç»æ²¡æœ‰å¯æ‰§è¡Œçš„æ•ˆæœäº†!");
+			cocos2d::log("[information] µ±Ç°»ØºÏµÄ¹ÖÎï¼¼ÄÜ£¬ÒÑ¾­Ã»ÓĞ¿ÉÖ´ĞĞµÄĞ§¹ûÁË!");
 			return;
 		}
-		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().rbegin()->getArgs());
+		if (ee.level/100 == 1)
+		{
+			break;
+		}
+		EffectFunSet::getFunByIndex(ee.effectIndex)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 	}
 
 }
 
 void CombatSystem::excuteMonsterInCombatEffect(int cardId)
 {
+	cocos2d::log("[information] Ö´ĞĞ ¹ÖÎïÖĞ µÄĞ§¹û£¬µ±Ç°»ØºÏÎª %d ", round);
 	const CardSkill *cs = CardSet::Instance()->getCardSkillByID(cardId);
-
 	EffectEntity temp(-1, -1, -1);
-	int indexTemp = 0;
-
 	int effectSize = cs->getEffectSet().size();
 	while (effectSize--)
 	{
-		int startRound = cs->getEffectSet().back().getArgs().at(0);
-		int continueRound = cs->getEffectSet().back().getArgs().at(1);
-
-
+		int startRound = cs->getEffectSet().at(effectSize).getArgs().at(0);
+		int continueRound = cs->getEffectSet().at(effectSize).getArgs().at(1);
 		temp.cardId = cardId;
-		temp.effectIndex = indexTemp++;
+		temp.effectIndex = cs->getEffectSet().at(effectSize).getFunIndex();
 		while (continueRound--)
 		{
-			temp.level = (continueRound + startRound) * 200 + epq.getMonsterEPQLevelMaxByRound(continueRound + 1) + 1;
-			if (cs->getEffectSet().back().getArgs().size() == 2)
+			temp.level = (continueRound + startRound) * 200 + epq.getMonsterEPQLevelMaxByRound(continueRound) + 1;
+			if (cs->getEffectSet().at(effectSize).getArgs().size() == 2)
 			{
 				temp.level += 100;
 			}
@@ -150,59 +159,94 @@ void CombatSystem::excuteMonsterInCombatEffect(int cardId)
 		EffectEntity ee = epq.getMonsterNextEffect();
 		if (ee.cardId == -1)
 		{
-			cocos2d::log("[information] å½“å‰å›åˆçš„æ€ªç‰©æŠ€èƒ½ï¼Œå·²ç»æ²¡æœ‰å¯æ‰§è¡Œçš„æ•ˆæœäº†!");
+			cocos2d::log("[information] µ±Ç°»ØºÏµÄ¹ÖÎï¼¼ÄÜ£¬ÒÑ¾­Ã»ÓĞ¿ÉÖ´ĞĞµÄĞ§¹ûÁË!");
 			return;
 		}
-		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		if (ee.level/100 == 1)
+		{
+			break;
+		}
+		EffectFunSet::getFunByIndex(ee.effectIndex)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 	}
 
 }
  
 void CombatSystem::excuteMonsterAfterCombatEffect()
 {
+	cocos2d::log("[information] Ö´ĞĞ ¹ÖÎïºó µÄ³ÖĞøĞ§¹û£¬µ±Ç°»ØºÏÎª %d ", round);
+
 	while (true)
 	{
 		EffectEntity ee = epq.getMonsterNextEffect();
 
 		if (ee.cardId == -1)
 		{
-			cocos2d::log("[information] å½“å‰å›åˆçš„æ€ªç‰©æŠ€èƒ½ï¼Œå·²ç»æ²¡æœ‰å¯æ‰§è¡Œçš„æ•ˆæœäº†!");
+			cocos2d::log("[information] µ±Ç°»ØºÏµÄ¹ÖÎï¼¼ÄÜ£¬ÒÑ¾­Ã»ÓĞ¿ÉÖ´ĞĞµÄĞ§¹ûÁË!");
 			return;
 		}
-	EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+	EffectFunSet::getFunByIndex(ee.effectIndex)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 		epq.popMonsterEffect();
 	}
 }
 
-void CombatSystem::excuteCombat(int cardId)
+void CombatSystem::excuteCombat(int roleUseCardId,int monsterUseCardId)
 {
-	//æ‰§è¡Œå…¨å±€æ•ˆæœ
+	//Ö´ĞĞÈ«¾ÖĞ§¹û
 	executeGlobalEffect();
 
-	//æˆ˜æ–—å‰æ‰§è¡Œæ•ˆæœ
+	//Õ½¶·Ç°Ö´ĞĞĞ§¹û
 	executeRoleBeforeTheCombatEffect();
 	executeMonsterBeforeTheCombatEffect();
 	
-	//æˆ˜æ–—æ—¶æ‰§è¡Œæ•ˆæœ
-	excuteRoleInCombatEffect(cardId);
-	excuteMonsterInCombatEffect(cardId);
+	//Õ½¶·Ê±Ö´ĞĞĞ§¹û
+	excuteRoleInCombatEffect(roleUseCardId);
+	excuteMonsterInCombatEffect(monsterUseCardId);
 	
-	//æˆ˜æ–—åæ‰§è¡Œæ•ˆæœ
+	//Õ½¶·ºóÖ´ĞĞĞ§¹û
 	excuteRoleAfterCombatEffect();
 	excuteMonsterAfterCombatEffect();
 }
 
+void CombatSystem::pushRoleUseCardId(int useCardId)
+{
+	roleUseCardId.push(useCardId);
+}
+
+void CombatSystem::pushMonsterUseCardId(int useCardId)
+{
+	monsterUseCardId.push(useCardId);
+}
+
+void CombatSystem::popRoleUseCardId()
+{
+	roleUseCardId.pop();
+}
+
+void CombatSystem::popMonsterUseCardId()
+{
+	monsterUseCardId.pop();
+}
+
 void CombatSystem::test()
 {
-	std::vector<int> id = { 1, 2, 3, 4, 5 };
-	auto it = id.begin();
-	for (it; it != id.end(); ++it)
+	cocos2d::log("[warning] ×¢Òâ£º¼´½«½øÈëÕ½¶·ÏµÍ³£¡");
+	
+	for (int i = 0; i < 5;++i)
 	{
-		excuteCombat(*it);
+		pushMonsterUseCardId(i + 30004);
 	}
-	while (!id.empty())
+	for (int i = 0; i < 5;++i)
 	{
-		id.pop_back();
+		pushRoleUseCardId(i + 30026);
 	}
+
+	while (!roleUseCardId.empty() || !monsterUseCardId.empty())
+	{
+		excuteCombat(roleUseCardId.front(), monsterUseCardId.front());
+		popRoleUseCardId();
+		popMonsterUseCardId();
+	}
+	
+	cocos2d::log("[warning] ×¢Òâ£ºÍË³öÕ½¶·ÏµÍ³£¡");
 
 }

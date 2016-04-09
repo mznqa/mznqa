@@ -26,6 +26,8 @@
 #include "combatSystem/CombatSystem.h"
 #include "filePath/DataFilePath.h"
 #include "dataHandle/StaticDataLoader.h"
+#include "combatSystem/DeltaTable.h"
+#include "combatSystem/TableHistory.h"
 //////////////////////////////////////////////////////////////////////////
 
 SceneLoadResState::~SceneLoadResState()
@@ -42,123 +44,8 @@ SceneLoadResState* SceneLoadResState::Instance()
 bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机中...");
-<<<<<<< .mine
 	// ！！！ 不要在此写任何东西 ！！！ //////////////////////////////////////////////////////////////////////////
 	// ！！！ 要写测试的话，写在下面那个函数内 ！！！ //////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
-	// 测试用 //////////////////////////////////////////////////////////////////////////
-	//std::map<int, CardRoad> rcs;
-	//rcs.insert(std::pair<int, CardRoad>(0, CardRoad(0, CardRoad::RoadType_URDL)));
-	//rcs.insert(std::pair<int, CardRoad>(1, CardRoad(1, CardRoad::RoadType_URDL)));
-	//rcs.insert(std::pair<int, CardRoad>(2, CardRoad(2, CardRoad::RoadType_URDL)));
-	//rcs.insert(std::pair<int, CardRoad>(3, CardRoad(3, CardRoad::RoadType_URDL)));
-	//rcs.insert(std::pair<int, CardRoad>(4, CardRoad(4, CardRoad::RoadType_URDL)));
-	//std::map<int, CardTreasure> tcs;
-	//tcs.insert(std::pair<int, CardTreasure>(10000, CardTreasure(10000)));
-	//tcs.insert(std::pair<int, CardTreasure>(10001, CardTreasure(10001)));
-	//tcs.insert(std::pair<int, CardTreasure>(10002, CardTreasure(10002)));
-	//tcs.insert(std::pair<int, CardTreasure>(10003, CardTreasure(10003)));
-	//tcs.insert(std::pair<int, CardTreasure>(10004, CardTreasure(10004)));
-	//std::map<int, CardMonster> mcs;
-	//mcs.insert(std::pair<int, CardMonster>(20000, CardMonster(20000)));
-	//mcs.insert(std::pair<int, CardMonster>(20001, CardMonster(20001)));
-	//mcs.insert(std::pair<int, CardMonster>(20002, CardMonster(20002)));
-	//mcs.insert(std::pair<int, CardMonster>(20003, CardMonster(20003)));
-	//mcs.insert(std::pair<int, CardMonster>(20004, CardMonster(20004)));
-	//std::map<int, CardSkill> scs;
-	//std::string str;
-	//std::vector<Effect> effectSet;
-	//scs.insert(std::pair<int, CardSkill>(30000, CardSkill(30000, str, str, CardBase::BelongTo_RoleMonsterBoth, effectSet)));
-	//scs.insert(std::pair<int, CardSkill>(30001, CardSkill(30001, str, str, CardBase::BelongTo_RoleMonsterBoth, effectSet)));
-	//scs.insert(std::pair<int, CardSkill>(30002, CardSkill(30002, str, str, CardBase::BelongTo_RoleMonsterBoth, effectSet)));
-	//scs.insert(std::pair<int, CardSkill>(30003, CardSkill(30003, str, str, CardBase::BelongTo_RoleMonsterBoth, effectSet)));
-	//scs.insert(std::pair<int, CardSkill>(30004, CardSkill(30004, str, str, CardBase::BelongTo_RoleMonsterBoth, effectSet)));
-	//CardSet::Instance()->loadCardRoadSet(rcs);
-	//CardSet::Instance()->loadCardTreasureSet(tcs);
-	//CardSet::Instance()->loadCardMonsterSet(mcs);
-	//CardSet::Instance()->loadCardSkillSet(scs);
-
-	//CardControllerCombat ccc;
-	//ccc.addCardToCardPool(30000);
-	//ccc.addCardToCardPool(30001);
-	//ccc.addCardToCardPool(30002);
-	//ccc.addCardToCardPool(30003);
-	//ccc.addCardToCardPool(30004);
-
-	//ccc.drawACard();
-	//ccc.drawACard();
-	//ccc.drawACard();
-	//ccc.drawACard();
-	//ccc.drawACard();
-
-	//ccc.playCardByIndex(0);
-	//ccc.playCardByIndex(0);
-	//ccc.playCardByIndex(0);
-	//ccc.playCardByIndex(0);
-	//ccc.playCardByIndex(0);
-
-	//ccc.shuffle();
-
-	CombatSystem cs;
-	cs.test();
-
-	//////////////////////////////////////////////////////////////////////////
->>>>>>> .theirs
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机成功");
 	return true;
 }
@@ -177,6 +64,17 @@ bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 
 	// 测试用区域 //////////////////////////////////////////////////////////////////////////
 	// xxxx->text();
+	//////////////////////////////////////////////////////////////////////////
+
+
+	// 测试用 //////////////////////////////////////////////////////////////////////////
+
+	CombatSystem cs;
+	cs.test();
+
+	//TableHistory th;
+	//th.test();
+
 	//////////////////////////////////////////////////////////////////////////
 
 	cocos2d::log("[information] 执行场景 SceneLoadRes 对应的状态机成功");

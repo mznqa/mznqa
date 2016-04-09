@@ -44,9 +44,9 @@ class EffectPQ
 private:
 
 	//角色效果队列
-	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::less<EffectEntity>> rolePQ;
+	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::greater<EffectEntity>> rolePQ;
 	//怪物效果队列
-	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::less<EffectEntity>> monsterPQ;
+	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::greater<EffectEntity>> monsterPQ;
 
 public:
 	EffectPQ();

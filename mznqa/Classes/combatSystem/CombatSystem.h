@@ -13,37 +13,55 @@ public:
 	~CombatSystem();
 
 	
-	//æ‰§è¡Œæˆ˜æ–—å›åˆå†…çš„å…¨å±€å±æ€§
+	//Ö´ĞĞÕ½¶·»ØºÏÄÚµÄÈ«¾ÖÊôĞÔ
 	void executeGlobalEffect();
 
 
-	//æ‰§è¡Œè§’è‰²æŒç»­æ•ˆæœ
+	//Ö´ĞĞ½ÇÉ«³ÖĞøĞ§¹û
 	void executeRoleBeforeTheCombatEffect();
-	//æ‰§è¡Œè§’è‰²æˆ˜æ–—æ—¶æ•ˆæœ
+	//Ö´ĞĞ½ÇÉ«Õ½¶·Ê±Ğ§¹û
 	void excuteRoleInCombatEffect(int cardId);
-	//æ‰§è¡Œè§’è‰²æˆ˜æ–—åçš„æ•ˆæœ
+	//Ö´ĞĞ½ÇÉ«Õ½¶·ºóµÄĞ§¹û
 	void excuteRoleAfterCombatEffect();
 
 
-	//æ‰§è¡Œæ€ªç‰©æŒç»­æ•ˆæœ
+	//Ö´ĞĞ¹ÖÎï³ÖĞøĞ§¹û
 	void executeMonsterBeforeTheCombatEffect();
-	//æ‰§è¡Œæ€ªç‰©æˆ˜æ–—æ—¶çš„æ•ˆæœ
+	//Ö´ĞĞ¹ÖÎïÕ½¶·Ê±µÄĞ§¹û
 	void excuteMonsterInCombatEffect(int cardId);
-	//æ‰§è¡Œæ€ªç‰©æˆ˜æ–—åçš„æ•ˆæœ
+	//Ö´ĞĞ¹ÖÎïÕ½¶·ºóµÄĞ§¹û
 	void excuteMonsterAfterCombatEffect();
 
+	//Ö´ĞĞÕ½¶·
+	void excuteCombat(int roleUseCardId, int monsterUseCardId);
 
-	//æ‰§è¡Œæˆ˜æ–—
-	void excuteCombat(int cardId);
+	//Ìí¼Ó½ÇÉ«Ê¹ÓÃµÄ¼¼ÄÜ¿¨ID
+	void pushRoleUseCardId(int useCardId);
+
+	//Ìí¼Ó¹ÖÎïÊ¹ÓÃµÄ¼¼ÄÜ¿¨ID
+	void pushMonsterUseCardId(int useCardId);
+
+	//É¾³ı½ÇÉ«Ê¹ÓÃµÄ¼¼ÄÜ¿¨ID
+	void popRoleUseCardId();
+
+	//É¾³ı¹ÖÎïÊ¹ÓÃµÄ¼¼ÄÜ¿¨ID
+	void popMonsterUseCardId();
+
 
 	void test();
 
 private:
-	//æˆ˜æ–—å›åˆæ•°
+	//Õ½¶·»ØºÏÊı
 	static int round;
 
-	//æ•ˆæœé˜Ÿåˆ—
+	//Ğ§¹û¶ÓÁĞ
 	EffectPQ epq;
+
+	//´æ·Å½ÇÉ«ÒªÊ¹ÓÃµÄ¼¼ÄÜ¿¨µÄid
+	std::queue<int> roleUseCardId;
+
+	//´æ·Å¹ÖÎïÒªÊ¹ÓÃµÄ¼¼ÄÜ¿¨id
+	std::queue<int> monsterUseCardId;
 };
 
 

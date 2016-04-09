@@ -20,21 +20,25 @@ void EffectPQ::pushRoleEffect(EffectEntity effect)
 EffectEntity EffectPQ::getRoleNextEffect()
 {
 	if (rolePQ.empty())
+	{
+		cocos2d::log("[warning] 角色效果队列为空，结构体成员全部返回-1！");
 		return EffectEntity(-1, -1, -1);
+	}
 
 	EffectEntity effect = rolePQ.top();
 	//判断下一个效果是否可用
 	if (effect.level / 100 == 0)
 	{
 		rolePQ.pop();
-		cocos2d::log("[information] 成功获取下一个可用的技能！");
+		cocos2d::log("[information] 成功获取下一个可用的角色技能！");
 		return effect;
 	}
 	else if (effect.level / 100 == 1)
 	{
+		cocos2d::log("[warning] 成功获取下一个可用的角色技能，但属于角色持续后执行！");
 		return effect;
 	}
-	cocos2d::log("[warning] 无下一个可用效果，返回空！");
+	cocos2d::log("[warning] 无下一个可用的角色效果，结构体成员全部返回-1！");
 	return EffectEntity(-1, -1, -1);
 }
 
@@ -50,7 +54,7 @@ void EffectPQ::decreaseRoleEffectLevel()
 		return;
 	}
 
-	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::less<EffectEntity>> temp;
+	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::greater<EffectEntity>> temp;
 	temp.swap(rolePQ);
 	while (temp.empty() == false)
 	{
@@ -66,11 +70,12 @@ int EffectPQ::getRoleEPQLevelMaxByRound(int relRound)
 {
 	if (relRound < 0)
 	{
+		cocos2d::log("[error] 相对回合数 %d 指定错误，将返回-1！", relRound);
 		return -1;
 	}
 
-	int levelMin = relRound * 200;
-	int levelMax = (relRound + 1) * 200 - 1;
+	int levelMin = relRound * 100;
+	int levelMax = (relRound + 1) * 100 - 1;
 	int result = -1;
 	int level;
 
@@ -107,17 +112,23 @@ void EffectPQ::pushMonsterEffect(EffectEntity effect)
 EffectEntity EffectPQ::getMonsterNextEffect()
 {
 	if (monsterPQ.empty())
+	{
+		cocos2d::log("[warning] 怪物效果队列为空，结构体成员全部返回-1！");
+	}
 		return EffectEntity(-1, -1, -1);
 
 	EffectEntity effect = monsterPQ.top();
 	if (effect.level / 100 == 0)
 	{
 		monsterPQ.pop();
+		cocos2d::log("[information] 成功获取下一个可用的怪物效果！");
 		return effect;
 	}else if (effect.level / 100 == 1)
 	{
+		cocos2d::log("warning] 成功获取下一个可用的怪物效果，但是属于怪物持续后执行！");
 		return effect;
 	}
+	cocos2d::log("[warning] 无下一个可用的怪物效果，结构体成员全部返回-1！");
 
 	return EffectEntity(-1, -1, -1);
 }
@@ -134,7 +145,7 @@ void EffectPQ::decreaseMonsterEffectLevel()
 		return;
 	}
 
-	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::less<EffectEntity>> temp;
+	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::greater<EffectEntity>> temp;
 	temp.swap(monsterPQ);
 	while (temp.empty() == false)
 	{
@@ -153,8 +164,8 @@ int EffectPQ::getMonsterEPQLevelMaxByRound(int relRound)
 		return -1;
 	}
 
-	int levelMin = relRound * 200;
-	int levelMax = (relRound + 1) * 200 - 1;
+	int levelMin = relRound * 100;
+	int levelMax = (relRound + 1) * 100 - 1;
 	int result = -1;
 	int level;
 

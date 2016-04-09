@@ -124,17 +124,8 @@ private:
 	EffectFunSet& operator=(const EffectFunSet &effectFunSet);
 	//
 
-<<<<<<< HEAD
-	/*! \brief	一个空的函数指针 */
-	static const std::function<bool(const std::vector<int>&)> nullFun;
 	/*! \brief	存放效果函数的集合 */
 	static const std::map<int, std::function<bool(const std::vector<int>&)>> funSet;
-=======
-	// 效果函数总数，添加函数时记得更新
-	static const int funCount = 22;
-	// 存放效果函数的集合
-	static const std::array<std::function<bool(const std::vector<int>&)>, funCount> funSet;
->>>>>>> d-combatSystem
 };
 
 #endif

@@ -10,6 +10,8 @@
 
 #include "cocos2d.h"
 
+const std::function<bool(const std::vector<int>&)> EffectFunSet::nullFun = EffectFunSet::effectNullFun;
+
 const std::map<int, std::function<bool(const std::vector<int>&)>> EffectFunSet::funSet = {
 	{ 0, EffectFunSet::effectBase0 },
 	{ 1, EffectFunSet::effectBase1 },
@@ -43,26 +45,31 @@ EffectFunSet::~EffectFunSet()
 
 bool EffectFunSet::effectBase0(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：effectBase0");
 	return true;
 }
 
 bool EffectFunSet::effectBase1(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：effectBase1");
 	return true;
 }
 
 bool EffectFunSet::effectBase2(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：effectBase2");
 	return true;
 }
 
 bool EffectFunSet::effectBase3(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：effectBase3");
 	return true;
 }
 
 bool EffectFunSet::effectBase4(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：effectBase4");
 	return true;
 }
 

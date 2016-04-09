@@ -20,13 +20,13 @@ bool TableHistory::addRoleHistory(int round, DeltaTable dt)
 {
 	if (round <= 0)
 	{
-		cocos2d::log("警告： 添加角色表失败，指定回合数为%d", round);
+		cocos2d::log("[error]： 添加角色表失败，指定回合数为%d", round);
 		return false;
 	}
 
 	tableRoleHistory[round].push_back(dt);
 
-	cocos2d::log("提示： 添加角色历史表成功！");
+	cocos2d::log("[information]： 添加角色历史表成功！");
 	return true;
 }
 
@@ -34,7 +34,7 @@ const std::vector<DeltaTable>& TableHistory::getRoundAllRoleTable(int round)
 {
 	if (round > 0 && round <= tableRoleHistory.size())
 	{
-		cocos2d::log("提示： 成功获取角色第 %d 回合内的所有表！", round);
+		cocos2d::log("[information]： 成功获取角色第 %d 回合内的所有表！", round);
 		return tableRoleHistory[round];
 	}
 
@@ -45,13 +45,13 @@ bool TableHistory::addMonsterHistory(int round, DeltaTable dt)
 {
 	if (round <= 0)
 	{
-		cocos2d::log("警告： 添加怪物表失败，指定回合数为%d", round);
+		cocos2d::log("[error]： 添加怪物表失败，指定回合数为%d", round);
 		return false;
 	};
 
 	tableMonsterHistory[round].push_back(dt);
 
-	cocos2d::log("提示： 添加怪物表成功！");
+	cocos2d::log("[information]： 添加怪物表成功！");
 	return true;
 }
 
@@ -59,17 +59,15 @@ const std::vector<DeltaTable>& TableHistory::getRoundAllMonsterTable(int round)
 {
 	if (round > 0 && round <= tableMonsterHistory.size())
 	{
-		cocos2d::log("提示： 成功获取怪物第 %d 回合内的所有表！", round);
+		cocos2d::log("[information]： 成功获取怪物第 %d 回合内的所有表！", round);
 		return tableMonsterHistory[round];
 	}
-
+	
 	return nullVector;
 }
 
 void TableHistory::test()
 {
-	cocos2d::log("+++++++EffectHistory.test()+++++++++");
-
 	DeltaTable dt;
 	dt.recver = DeltaTable::GameObject_Monster;
 	dt.releaser = DeltaTable::GameObject_Role;
@@ -89,5 +87,4 @@ void TableHistory::test()
 		}
 
 	}
-	cocos2d::log("--------EffectHistory.test()--------");
 }
