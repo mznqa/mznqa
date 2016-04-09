@@ -4,6 +4,8 @@
 
 #include "cocos2d.h"
 
+const std::function<bool(const std::vector<int>&)> EffectFunSet::nullFun = EffectFunSet::effectNullFun;
+
 const std::array<std::function<bool(const std::vector<int>&)>, EffectFunSet::funCount> EffectFunSet::funSet = {
 	EffectFunSet::effectBase0,
 	EffectFunSet::effectBase1,

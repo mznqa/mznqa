@@ -13,6 +13,8 @@
 class EffectFunSet
 {
 public:
+	// 空的函数指针
+	static const std::function<bool(const std::vector<int>&)> nullFun;
 
 	~EffectFunSet();
 
@@ -27,6 +29,14 @@ public:
 			return nullFun;
 		}
 	}
+
+	// 空的效果函数 //////////////////////////////////////////////////////////////////////////
+	static bool effectNullFun(const std::vector<int> &args)
+	{
+		cocos2d::log("[error] 尝试调用无效的效果函数：effectNullFun");
+		return true;
+	}
+	//////////////////////////////////////////////////////////////////////////
 
 	// 基础效果 //////////////////////////////////////////////////////////////////////////
 	static bool effectBase0(const std::vector<int> &args);
@@ -58,8 +68,6 @@ public:
 	static bool effectCondition12(const std::vector<int> &args);
 	static bool effectCondition13(const std::vector<int> &args);
 	//////////////////////////////////////////////////////////////////////////
-	// 空的函数指针
-	static const std::function<bool(const std::vector<int>&)> nullFun;
 private:
 	EffectFunSet(){}
 	EffectFunSet(const EffectFunSet &effectFunSet);

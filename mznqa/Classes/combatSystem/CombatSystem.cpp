@@ -38,7 +38,7 @@ void CombatSystem::executeRoleBeforeTheCombatEffect()
 			cocos2d::log("[information] 当前回合的角色技能，已经没有可执行的效果了!");
 			return;
 		}
-		//EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 	}
 
 }
@@ -76,11 +76,11 @@ void CombatSystem::excuteRoleInCombatEffect(int cardId)
 			return;
 		}
 		
-		std::vector<int> vvv;
+
 		
-		(EffectFunSet::getFunByIndex(1/*ee.cardId*/))(
-			vvv
-			/*CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs()*/
+		(EffectFunSet::getFunByIndex(ee.cardId))(
+
+			CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs()
 			);
 	}
 
@@ -96,7 +96,7 @@ void CombatSystem::excuteRoleAfterCombatEffect()
 			cocos2d::log("[information] 当前回合的角色技能，已经没有可执行的效果了!");
 			return;
 		}
-		//EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 		epq.popRoleEffect();
 	}
 }
@@ -107,13 +107,12 @@ void CombatSystem::executeMonsterBeforeTheCombatEffect()
 	while (true)
 	{
 		EffectEntity ee = epq.getMonsterNextEffect();
-		int continueRound = CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs().at(1);
 		if (ee.cardId == -1)
 		{
 			cocos2d::log("[information] 当前回合的怪物技能，已经没有可执行的效果了!");
 			return;
 		}
-		//EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().rbegin()->getArgs());
 	}
 
 }
@@ -154,7 +153,7 @@ void CombatSystem::excuteMonsterInCombatEffect(int cardId)
 			cocos2d::log("[information] 当前回合的怪物技能，已经没有可执行的效果了!");
 			return;
 		}
-		//EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 	}
 
 }
@@ -170,7 +169,7 @@ void CombatSystem::excuteMonsterAfterCombatEffect()
 			cocos2d::log("[information] 当前回合的怪物技能，已经没有可执行的效果了!");
 			return;
 		}
-		//EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+	EffectFunSet::getFunByIndex(ee.cardId)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
 		epq.popMonsterEffect();
 	}
 }
