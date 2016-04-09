@@ -23,6 +23,8 @@
 class EffectFunSet
 {
 public:
+	// 空的函数指针
+	static const std::function<bool(const std::vector<int>&)> nullFun;
 
 	/*!
 	 * \fn	EffectFunSet::~EffectFunSet();
@@ -52,6 +54,14 @@ public:
 			return nullFun;
 		}
 	}
+
+	// 空的效果函数 //////////////////////////////////////////////////////////////////////////
+	static bool effectNullFun(const std::vector<int> &args)
+	{
+		cocos2d::log("[error] 尝试调用无效的效果函数：effectNullFun");
+		return true;
+	}
+	//////////////////////////////////////////////////////////////////////////
 
 	// 基础效果 //////////////////////////////////////////////////////////////////////////
 	static bool effectBase0(const std::vector<int> &args);
@@ -83,7 +93,6 @@ public:
 	static bool effectCondition12(const std::vector<int> &args);
 	static bool effectCondition13(const std::vector<int> &args);
 	//////////////////////////////////////////////////////////////////////////
-
 private:
 
 	/*!
@@ -113,11 +122,19 @@ private:
 	 * \return	EffectFunSet 实例
 	 */
 	EffectFunSet& operator=(const EffectFunSet &effectFunSet);
+	//
 
+<<<<<<< HEAD
 	/*! \brief	一个空的函数指针 */
 	static const std::function<bool(const std::vector<int>&)> nullFun;
 	/*! \brief	存放效果函数的集合 */
 	static const std::map<int, std::function<bool(const std::vector<int>&)>> funSet;
+=======
+	// 效果函数总数，添加函数时记得更新
+	static const int funCount = 22;
+	// 存放效果函数的集合
+	static const std::array<std::function<bool(const std::vector<int>&)>, funCount> funSet;
+>>>>>>> d-combatSystem
 };
 
 #endif
