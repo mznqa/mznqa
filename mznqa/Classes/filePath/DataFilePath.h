@@ -19,7 +19,7 @@
 #define STATIC_DATA_ROLE "data/static/role.json"
 
 /*!
- * \def	STATIC_DATA_CARDSKILL
+ * \def	STATIC_DATA_CARDSKILLSET
  *
  * \brief	技能卡静态数据
  *

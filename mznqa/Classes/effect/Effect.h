@@ -25,6 +25,17 @@ class Effect
 public:
 
 	/*!
+	 * \enum	Behavior
+	 *
+	 * \brief	枚举该效果的主动释放与否
+	 */
+	enum Behavior
+	{
+		Behavior_Active = 0,	///< 主动释放的效果
+		Behavior_Passive = 1	///< 被动释放的效果
+	};
+
+	/*!
 	 * \enum	Receiver
 	 *
 	 * \brief	枚举效果的接收者
@@ -36,11 +47,12 @@ public:
 	};
 
 	/*!
-	 * \fn	Effect::Effect ( const std::string &describe, Receiver receiver, int funIndex, const std::vector<int> &args )
+	 * \fn	Effect::Effect ( const std::string &describe, Behavior behavior, Receiver receiver, int funIndex, const std::vector<int> &args )
 	 *
 	 * \brief	构造函数
 	 *
 	 * \param	describe	指定效果的描述
+	 * \param	behavior	指定效果的主动释放与否
 	 * \param	receiver	指定效果的接收者
 	 * \param	funIndex	指定效果对应的函数索引
 	 * \param	args		指向效果的参数表
@@ -48,11 +60,13 @@ public:
 	Effect
 		(
 		const std::string &describe,
+		Behavior behavior,
 		Receiver receiver,
 		int funIndex,
 		const std::vector<int> &args
 		) :
 		describe(describe),
+		behavior(behavior),
 		receiver(receiver),
 		funIndex(funIndex),
 		args(args),
@@ -78,6 +92,18 @@ public:
 	const std::string& getDescribe() const
 	{
 		return describe;
+	}
+
+	/*!
+	 * \fn	Behavior Effect::getBehavior()const
+	 *
+	 * \brief	获取效果的主动释放与否
+	 *
+	 * \return	返回效果的主动释放与否
+	 */
+	Behavior getBehavior()const
+	{
+		return behavior;
 	}
 
 	/*!
@@ -131,6 +157,8 @@ public:
 private:
 	/*! \brief	效果的描述 */
 	std::string describe;
+	/*! \brief	效果主动释放与否 */
+	Behavior behavior;
 	/*! \brief	效果的接收者 */
 	Receiver receiver;
 	/*! \brief	效果所对应的函数索引 */
