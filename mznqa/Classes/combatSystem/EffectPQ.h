@@ -57,13 +57,19 @@ struct EffectAffixes
 	{
 		return this->level > rhs.level;
 	}
-};
 
+	bool operator == (const EffectAffixes &rhs) const
+	{
+		return ((this->level == rhs.level) && (this->cardId == rhs.cardId) && (this->effectIndex == rhs.effectIndex));
+	}
+};
 
 
 class EffectPQ
 {
 private:
+
+	const static EffectAffixes nullEffectAffixes;
 
 	//角色效果队列
 	std::priority_queue<EffectAffixes, std::vector<EffectAffixes>, std::greater<EffectAffixes>> rolePQ;
@@ -71,6 +77,8 @@ private:
 	std::priority_queue<EffectAffixes, std::vector<EffectAffixes>, std::greater<EffectAffixes>> monsterPQ;
 
 public:
+	
+
 	EffectPQ();
 	~EffectPQ();
 	
@@ -92,6 +100,11 @@ public:
 	//对角色效果队列，弹出一个效果附加属性
 	void popRoleEffectAffixes();
 
+	//根据指定区间，对角色效果队列，弹出一个效果附加属性
+	void popRoleEffectAffixes(EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval);
+	//对角色效果队列，弹出指定的效果附加属性
+	void popRoleEffectAffixes(EffectAffixes effectAffixes);
+
 
 	//向怪物效果队列，推送一个效果附加属性
 	void pushMonsterEffectAffixes(EffectAffixes effectAffixes);
@@ -110,6 +123,11 @@ public:
 
 	//向怪物效果队列，弹出一个效果附加属性
 	void popMonsterEffectAffixes();
+
+	//根据指定区间，对怪物效果队列，弹出一个效果附加属性
+	void popMonsterEffectAffixes(EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval);
+	//对怪物效果队列，弹出指定的效果附加属性
+	void popMonsterEffectAffixes(EffectAffixes effectAffixes);
 
 	
 };
