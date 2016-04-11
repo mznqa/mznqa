@@ -18,8 +18,7 @@ CombatSystem::~CombatSystem()
 	
 }
 
-
-void CombatSystem::executeGlobalEffect()
+void CombatSystem::executeGlobalOperation()
 {
 	round++;
 	epq.decreaseRoleEffectLevel();
@@ -27,226 +26,248 @@ void CombatSystem::executeGlobalEffect()
 
 }
 
-void CombatSystem::executeRoleBeforeTheCombatEffect()
+void CombatSystem::executeRoleBeforeTheCombatOperation()
 {
-	cocos2d::log("[information] 执行 角色前 的持续效果，当前回合为 %d ", round);
+	cocos2d::log("[information] 执行 角色战斗前 的操作，当前回合为 %d ", round);
 	while (true)
 	{
-		EffectEntity ee = epq.getRoleNextEffect();
-		if (ee.cardId == -1)
+		EffectAffixes ea = epq.getRoleEffectAffixesByInterval(EffectAffixes::EffectLevelInterval::EffectLevelInterval_Before_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_Before_Right);
+		if (ea.cardId == EffectAffixes::invalidCardIdValue)
 		{
-			cocos2d::log("[information] 当前回合的角色技能，已经没有可执行的效果了!");
+			cocos2d::log("[information] 角色战斗前，已经没有可执行的效果了！");
 			return;
 		}
-		//若该效果属于持续后执行，则优先级在增加100
-		if (ee.level / 100 == 1)
+		//若该优先级所属的效果是在角色战斗后执行的，则在角色战斗前跳过该效果的执行
+		if (ea.level / EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left == 1)
 		{
 			break;
 		}
-		//执行效果
-		EffectFunSet::getFunByIndex(ee.effectIndex)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		//执行角色战斗前的效果
+		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
+		epq.popRoleEffectAffixes();
 	}
 
 }
 
-void CombatSystem::excuteRoleInCombatEffect(int cardId)
+void CombatSystem::excuteRoleInCombatOperation(int cardId)
 {
-	cocos2d::log("[information] 执行 角色中 的效果，当前回合为 %d ", round);
+	cocos2d::log("[information] 执行 角色战斗时 的操作，当前回合为 %d ", round);
 	const CardSkill *cs = CardSet::Instance()->getCardSkillByID(cardId);
-	EffectEntity temp(-1,-1,-1);
+	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
 	int effectSize = cs->getEffectSet().size();
 	while (effectSize--)
 	{
 		int startRound = cs->getEffectSet().at(effectSize).getArgs().at(0);
 		int continueRound = cs->getEffectSet().at(effectSize).getArgs().at(1);
 		temp.cardId = cardId;
-		temp.effectIndex = cs->getEffectSet().at(effectSize).getFunIndex();
+		temp.effectIndex = effectSize;
 		while (continueRound--)
 		{
-			temp.level = (continueRound + startRound) * 200 + epq.getRoleEPQLevelMaxByRound(continueRound) + 1;
-			if (cs->getEffectSet().at(effectSize).getArgs().size() == 2)
+			temp.level = (continueRound + startRound) * EffectAffixes::roundEffectLevel;
+			//若该效果是属于当前回合内执行
+			if (startRound == 0)
 			{
-				temp.level += 100;
+				temp.level += epq.getRoleEPQLevelMaxByRoundAndInterval(continueRound, EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Right) + 1;
+				//若该效果属于角色战斗后执行
+				if (cs->getEffectSet().at(effectSize).getArgs().size() == 2)
+				{
+					temp.level += EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left - EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Left;
+				}
 			}
-			epq.pushRoleEffect(temp);
+			//若该效果是不属于当前回合执行
+			else
+			{
+				temp.level += epq.getRoleEPQLevelMaxByRoundAndInterval(continueRound, EffectAffixes::EffectLevelInterval::EffectLevelInterval_Before_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_Before_Right) + 1;
+				//若该效果属于角色战斗后执行
+				if (cs->getEffectSet().at(effectSize).getArgs().size() == 2)
+				{
+					temp.level += EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left - EffectAffixes::EffectLevelInterval_Before_Left;
+				}
+			}
+			epq.pushRoleEffectAffixes(temp);
 		}
-		
 	}
 
 	while (epq.isRoleEffectPQEmpty() == false)
 	{
-		EffectEntity ee = epq.getRoleNextEffect();
-		if (ee.cardId == -1)
+		EffectAffixes ea = epq.getRoleEffectAffixesByInterval(EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Right);
+		if (ea.cardId == EffectAffixes::invalidCardIdValue)
 		{
-			cocos2d::log("[information] 当前回合的角色技能，已经没有可执行的效果了!");
+			cocos2d::log("[information] 角色战斗时，已经没有可执行的效果了!");
 			return;
 		}
-		//若该效果属于角色持续后执行，则跳过该效果的执行
-		if (ee.level / 100 == 1)
+		//若该优先级所属的效果是在角色战斗后执行的，则在角色战斗时跳过该效果的执行
+		if (ea.level / EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left == 1)
 		{
 			break;
 		}
-		EffectFunSet::getFunByIndex(ee.effectIndex)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs()
-			);
+		//执行角色战斗时效果
+		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
+		epq.popRoleEffectAffixes();
 	}
 }
 
-void CombatSystem::excuteRoleAfterCombatEffect()
+void CombatSystem::excuteRoleAfterCombatOperation()
 {
-	cocos2d::log("[information] 执行 角色后 的持续效果，当前回合为 %d ", round);
-
+	cocos2d::log("[information] 执行 角色战斗后 的操作，当前回合为 %d ", round);
 	while (true)
 	{
-		EffectEntity ee = epq.getRoleNextEffect();
-		if (ee.cardId == -1)
+		EffectAffixes ea = epq.getRoleEffectAffixesByInterval(EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Right);
+		if (ea.cardId == EffectAffixes::invalidCardIdValue)
 		{
-			cocos2d::log("[information] 当前回合的角色技能，已经没有可执行的效果了!");
+			cocos2d::log("[information] 角色战斗后，已经没有可执行的效果了!");
 			return;
 		}
-		EffectFunSet::getFunByIndex(ee.effectIndex)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
-		epq.popRoleEffect();
+		//执行角色战斗后效果
+		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
+		epq.popRoleEffectAffixes();
 	}
 }
 
-
-void CombatSystem::executeMonsterBeforeTheCombatEffect()
+void CombatSystem::executeMonsterBeforeTheCombatOperator()
 {
-	cocos2d::log("[information] 执行 怪物前 的持续效果，当前回合为 %d ", round);
-
+	cocos2d::log("[information] 执行 怪物战斗前 的操作，当前回合为 %d ", round);
 	while (true)
 	{
-		EffectEntity ee = epq.getMonsterNextEffect();
-		if (ee.cardId == -1)
+		EffectAffixes ea = epq.getMonsterEffectAffixesByInterval(EffectAffixes::EffectLevelInterval::EffectLevelInterval_Before_Left,EffectAffixes::EffectLevelInterval::EffectLevelInterval_Before_Right);
+		if (ea.cardId == EffectAffixes::invalidCardIdValue)
 		{
-			cocos2d::log("[information] 当前回合的怪物技能，已经没有可执行的效果了!");
+			cocos2d::log("[information] 怪物战斗前，已经没有可执行的效果了!");
 			return;
 		}
-		if (ee.level/100 == 1)
+		//若该优先级所属的效果是在怪物战斗后执行的，则在怪物战斗前跳过该效果的执行
+		if (ea.level / EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left == 1)
 		{
 			break;
 		}
-		EffectFunSet::getFunByIndex(ee.effectIndex)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		//执行怪物战斗前的效果
+		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
+		epq.popMonsterEffectAffixes();
 	}
 
 }
 
-void CombatSystem::excuteMonsterInCombatEffect(int cardId)
+void CombatSystem::excuteMonsterInCombatOperator(int cardId)
 {
-	cocos2d::log("[information] 执行 怪物中 的效果，当前回合为 %d ", round);
+	cocos2d::log("[information] 执行 怪物战斗时 的操作，当前回合为 %d ", round);
 	const CardSkill *cs = CardSet::Instance()->getCardSkillByID(cardId);
-	EffectEntity temp(-1, -1, -1);
+	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
 	int effectSize = cs->getEffectSet().size();
 	while (effectSize--)
 	{
 		int startRound = cs->getEffectSet().at(effectSize).getArgs().at(0);
 		int continueRound = cs->getEffectSet().at(effectSize).getArgs().at(1);
 		temp.cardId = cardId;
-		temp.effectIndex = cs->getEffectSet().at(effectSize).getFunIndex();
+		temp.effectIndex = effectSize;
 		while (continueRound--)
 		{
-			temp.level = (continueRound + startRound) * 200 + epq.getMonsterEPQLevelMaxByRound(continueRound) + 1;
-			if (cs->getEffectSet().at(effectSize).getArgs().size() == 2)
+			temp.level = (continueRound + startRound) * EffectAffixes::roundEffectLevel;
+			//若该效果是属于当前回合内执行
+			if (startRound == 0)
 			{
-				temp.level += 100;
+				temp.level += epq.getMonsterEPQLevelMaxByRoundAndInterval(continueRound, EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Right) + 1;
+				//若该效果属于怪物战斗后执行
+				if (cs->getEffectSet().at(effectSize).getArgs().size() == 2)
+				{
+					temp.level += EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left - EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Left;
+				}
 			}
-			epq.pushMonsterEffect(temp);
+			//若该效果是不属于当前回合执行
+			else
+			{
+				temp.level += epq.getMonsterEPQLevelMaxByRoundAndInterval(continueRound, EffectAffixes::EffectLevelInterval::EffectLevelInterval_Before_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_Before_Right) + 1;
+				//若该效果属于怪物战斗后执行
+				if (cs->getEffectSet().at(effectSize).getArgs().size() == 2)
+				{
+					temp.level += EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left - EffectAffixes::EffectLevelInterval_Before_Left;
+				}
+			}
+			epq.pushMonsterEffectAffixes(temp);
 		}
 
 	}
 
 	while (epq.isMonsterEffectPQEmpty() == false)
 	{
-		EffectEntity ee = epq.getMonsterNextEffect();
-		if (ee.cardId == -1)
+		EffectAffixes ea = epq.getMonsterEffectAffixesByInterval(EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Right);
+		if (ea.cardId == EffectAffixes::invalidCardIdValue)
 		{
-			cocos2d::log("[information] 当前回合的怪物技能，已经没有可执行的效果了!");
+			cocos2d::log("[information] 怪物战斗时，已经没有可执行的效果了!");
 			return;
 		}
-		if (ee.level/100 == 1)
+		//若该优先级所属的效果是在怪物战斗后执行的，则在怪物战斗时跳过该效果的执行
+		if (ea.level / EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left == 1)
 		{
 			break;
 		}
-		EffectFunSet::getFunByIndex(ee.effectIndex)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
+		//执行怪物战斗时的效果
+		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
+		epq.popMonsterEffectAffixes();
 	}
 
 }
  
-void CombatSystem::excuteMonsterAfterCombatEffect()
+void CombatSystem::excuteMonsterAfterCombatOperator()
 {
-	cocos2d::log("[information] 执行 怪物后 的持续效果，当前回合为 %d ", round);
+	cocos2d::log("[information] 执行 怪物战斗后 的操作，当前回合为 %d ", round);
 
 	while (true)
 	{
-		EffectEntity ee = epq.getMonsterNextEffect();
-
-		if (ee.cardId == -1)
+		EffectAffixes ea = epq.getMonsterEffectAffixesByInterval(EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Right);
+		if (ea.cardId == EffectAffixes::invalidCardIdValue)
 		{
-			cocos2d::log("[information] 当前回合的怪物技能，已经没有可执行的效果了!");
+			cocos2d::log("[information] 怪物战斗后，已经没有可执行的效果了!");
 			return;
 		}
-	EffectFunSet::getFunByIndex(ee.effectIndex)(CardSet::Instance()->getCardSkillByID(ee.cardId)->getEffectSet().back().getArgs());
-		epq.popMonsterEffect();
+		//执行怪物战斗后的效果
+		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
+		epq.popMonsterEffectAffixes();
 	}
 }
 
-void CombatSystem::excuteCombat(int roleUseCardId,int monsterUseCardId)
+void CombatSystem::excuteCombat()
 {
-	//执行全局效果
-	executeGlobalEffect();
+	//全局
+	executeGlobalOperation();
 
-	//战斗前执行效果
-	executeRoleBeforeTheCombatEffect();
-	executeMonsterBeforeTheCombatEffect();
+	//战斗前
+	executeRoleBeforeTheCombatOperation();
+	executeMonsterBeforeTheCombatOperator();
 	
-	//战斗时执行效果
-	excuteRoleInCombatEffect(roleUseCardId);
-	excuteMonsterInCombatEffect(monsterUseCardId);
+	//战斗时
+	excuteRoleInCombatOperation(roleUseCardId);
+	excuteMonsterInCombatOperator(monsterUseCardId);
 	
-	//战斗后执行效果
-	excuteRoleAfterCombatEffect();
-	excuteMonsterAfterCombatEffect();
+	//战斗后
+	excuteRoleAfterCombatOperation();
+	excuteMonsterAfterCombatOperator();
 }
 
-void CombatSystem::pushRoleUseCardId(int useCardId)
+void CombatSystem::setUseCardId(const int roleUseCardId, const int monsterUseCardId)
 {
-	roleUseCardId.push(useCardId);
+	this->roleUseCardId = roleUseCardId;
+	this->monsterUseCardId = monsterUseCardId;
 }
 
-void CombatSystem::pushMonsterUseCardId(int useCardId)
-{
-	monsterUseCardId.push(useCardId);
-}
 
-void CombatSystem::popRoleUseCardId()
-{
-	roleUseCardId.pop();
-}
 
-void CombatSystem::popMonsterUseCardId()
+bool CombatSystem::judgeEndToCombat()
 {
-	monsterUseCardId.pop();
+	return false;
 }
 
 void CombatSystem::test()
 {
 	cocos2d::log("[warning] 注意：即将进入战斗系统！");
-	
-	for (int i = 0; i < 5;++i)
+	CombatSystem cs;
+	for (int i = 0; i < 3;++i)
 	{
-		pushMonsterUseCardId(i + 30004);
+		cs.setUseCardId(i+30026,i+30004);
+		cs.excuteCombat();
+		if (judgeEndToCombat())
+		{
+			break;
+		}
 	}
-	for (int i = 0; i < 5;++i)
-	{
-		pushRoleUseCardId(i + 30026);
-	}
-
-	while (!roleUseCardId.empty() || !monsterUseCardId.empty())
-	{
-		excuteCombat(roleUseCardId.front(), monsterUseCardId.front());
-		popRoleUseCardId();
-		popMonsterUseCardId();
-	}
-	
 	cocos2d::log("[warning] 注意：退出战斗系统！");
-
 }

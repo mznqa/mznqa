@@ -1,6 +1,6 @@
 #pragma execution_character_set("utf-8")
 
-#include "combatSystem/TableHistory.h"
+#include "combatSystem/DeltaTableHistory.h"
 
 #include <vector>
 
@@ -8,15 +8,15 @@
 
 #include "combatSystem/DeltaTable.h"
 
-TableHistory::TableHistory()
+DeltaTableHistory::DeltaTableHistory()
 {
 }
 
-TableHistory::~TableHistory()
+DeltaTableHistory::~DeltaTableHistory()
 {
 }
 
-bool TableHistory::addRoleHistory(int round, DeltaTable dt)
+bool DeltaTableHistory::addRoleHistory(int round, DeltaTable dt)
 {
 	if (round <= 0)
 	{
@@ -30,7 +30,7 @@ bool TableHistory::addRoleHistory(int round, DeltaTable dt)
 	return true;
 }
 
-const std::vector<DeltaTable>& TableHistory::getRoundAllRoleTable(int round)
+const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllRoleTable(int round)
 {
 	if (round > 0 && round <= tableRoleHistory.size())
 	{
@@ -41,7 +41,7 @@ const std::vector<DeltaTable>& TableHistory::getRoundAllRoleTable(int round)
 	return nullVector;
 }
 
-bool TableHistory::addMonsterHistory(int round, DeltaTable dt)
+bool DeltaTableHistory::addMonsterHistory(int round, DeltaTable dt)
 {
 	if (round <= 0)
 	{
@@ -55,7 +55,7 @@ bool TableHistory::addMonsterHistory(int round, DeltaTable dt)
 	return true;
 }
 
-const std::vector<DeltaTable>& TableHistory::getRoundAllMonsterTable(int round)
+const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllMonsterTable(int round)
 {
 	if (round > 0 && round <= tableMonsterHistory.size())
 	{
@@ -66,7 +66,7 @@ const std::vector<DeltaTable>& TableHistory::getRoundAllMonsterTable(int round)
 	return nullVector;
 }
 
-void TableHistory::test()
+void DeltaTableHistory::test()
 {
 	DeltaTable dt;
 	dt.recver = DeltaTable::GameObject_Monster;

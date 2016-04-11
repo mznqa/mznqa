@@ -7,31 +7,53 @@
 #include <functional>
 #include <vector>
 
-struct EffectEntity
+struct EffectAffixes
 {
 
 	//效果优先级
 	int level;
 
-	//效果函数指针
+	//技能卡的ID
 	int cardId;
 
-	//效果索引
+	//效果索引下标
 	int effectIndex;
+
+	//无效的效果优先级值
+	static const int invalidLevelValue = -1;
+	//无效的技能卡id值
+	static const int invalidCardIdValue = -1;
+	//无效的效果索引下标值
+	static const int invalidEffectIndexValue = -1;
 	
-	EffectEntity(int level,int cardId,int effectIndex)
+	enum EffectLevelInterval
+	{
+		EffectLevelInterval_Global_Left = 0,
+		EffectLevelInterval_Global_Right = 99,
+		EffectLevelInterval_Before_Left = 100,
+		EffectLevelInterval_Before_Right = 199,
+		EffectLevelInterval_In_Left = 200,
+		EffectLevelInterval_In_Right = 299,
+		EffectLevelInterval_After_Left = 300,
+		EffectLevelInterval_After_Right = 399
+	};
+
+	//回合效果优先级值，每回合效果队列中的优先级应减少该值
+	static const int roundEffectLevel = 1000;
+	
+	EffectAffixes(int level,int cardId,int effectIndex)
 	{
 		this->level = level;
 		this->cardId = cardId;
 		this->effectIndex = effectIndex;
 	}
 
-	bool operator<(const EffectEntity &rhs) const
+	bool operator<(const EffectAffixes &rhs) const
 	{
 		return this->level < rhs.level;
 	}
 
-	bool operator>(const EffectEntity &rhs) const
+	bool operator>(const EffectAffixes &rhs) const
 	{
 		return this->level > rhs.level;
 	}
@@ -44,40 +66,50 @@ class EffectPQ
 private:
 
 	//角色效果队列
-	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::greater<EffectEntity>> rolePQ;
+	std::priority_queue<EffectAffixes, std::vector<EffectAffixes>, std::greater<EffectAffixes>> rolePQ;
 	//怪物效果队列
-	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::greater<EffectEntity>> monsterPQ;
+	std::priority_queue<EffectAffixes, std::vector<EffectAffixes>, std::greater<EffectAffixes>> monsterPQ;
 
 public:
 	EffectPQ();
 	~EffectPQ();
 	
-	//添加角色技能效果
-	void pushRoleEffect(EffectEntity effect);
-	//获取角色下一个技能效果
-	EffectEntity getRoleNextEffect();
+	//向角色效果队列，推送一个效果附加属性
+	void pushRoleEffectAffixes(EffectAffixes effectAffixes);
+
 	//判断角色效果队列是否为空
 	bool isRoleEffectPQEmpty();
-	//向角色效果队列的每个效果分级减少100
+
+	//通过效果优先级区间，获取指定区间内的角色可用效果附加属性
+	EffectAffixes getRoleEffectAffixesByInterval(EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval);
+
+	//向角色效果队列的每个效果附加属性的优先级减少一个回合优先级
 	void decreaseRoleEffectLevel();
-	// 根据给定相对回合数获取当前角色最大优先级
-	int getRoleEPQLevelMaxByRound(int relRound);
-	//删除角色技能效果
-	void popRoleEffect();
+
+	// 根据给定相对回合数和优先级区间，获取指定区间内的角色效果最大优先级
+	int getRoleEPQLevelMaxByRoundAndInterval(int relRound,EffectAffixes::EffectLevelInterval leftInterval,EffectAffixes::EffectLevelInterval rightInterval);
+
+	//对角色效果队列，弹出一个效果附加属性
+	void popRoleEffectAffixes();
 
 
-	//添加怪物技能效果
-	void pushMonsterEffect(EffectEntity effect);
-	//获取怪物下一个技能效果
-	EffectEntity getMonsterNextEffect();
+	//向怪物效果队列，推送一个效果附加属性
+	void pushMonsterEffectAffixes(EffectAffixes effectAffixes);
+
 	//判断怪物效果队列是否为空
 	bool isMonsterEffectPQEmpty();
-	//向怪物效果队列的每个效果分级减少100
+
+	//通过效果优先级区间，获取指定区间内的怪物可用效果附加属性
+	EffectAffixes getMonsterEffectAffixesByInterval(EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval);
+
+	//向角色效果队列的每个效果附加属性的优先级减少一个回合优先级
 	void decreaseMonsterEffectLevel();
-	// 根据给定相对回合数获取当前怪物最大优先级
-	int getMonsterEPQLevelMaxByRound(int relRound);
-	//删除怪物技能效果
-	void popMonsterEffect();
+
+	// 根据给定相对回合数和优先级区间，获取指定区间内的怪物效果最大优先级
+	int getMonsterEPQLevelMaxByRoundAndInterval(int relRound, EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval);
+
+	//向怪物效果队列，弹出一个效果附加属性
+	void popMonsterEffectAffixes();
 
 	
 };

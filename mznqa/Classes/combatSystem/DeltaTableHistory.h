@@ -8,13 +8,13 @@
 
 #include "combatSystem/DeltaTable.h"
 
-class TableHistory
+class DeltaTableHistory
 {
 public:
 
-	TableHistory();
+	DeltaTableHistory();
 
-	~TableHistory();
+	~DeltaTableHistory();
 
 
 	//Ìí¼Ó½ÇÉ«±í

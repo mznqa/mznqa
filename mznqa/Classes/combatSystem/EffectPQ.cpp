@@ -12,40 +12,42 @@ EffectPQ::~EffectPQ()
 {
 }
 
-void EffectPQ::pushRoleEffect(EffectEntity effect)
+void EffectPQ::pushRoleEffectAffixes(EffectAffixes effectAffixes)
 {
-	rolePQ.push(effect);
-}
-
-EffectEntity EffectPQ::getRoleNextEffect()
-{
-	if (rolePQ.empty())
-	{
-		cocos2d::log("[warning] 角色效果队列为空，结构体成员全部返回-1！");
-		return EffectEntity(-1, -1, -1);
-	}
-
-	EffectEntity effect = rolePQ.top();
-	//判断下一个效果是否可用
-	if (effect.level / 100 == 0)
-	{
-		rolePQ.pop();
-		cocos2d::log("[information] 成功获取下一个可用的角色技能！");
-		return effect;
-	}
-	else if (effect.level / 100 == 1)
-	{
-		cocos2d::log("[warning] 成功获取下一个可用的角色技能，但属于角色持续后执行！");
-		return effect;
-	}
-	cocos2d::log("[warning] 无下一个可用的角色效果，结构体成员全部返回-1！");
-	return EffectEntity(-1, -1, -1);
+	rolePQ.push(effectAffixes);
 }
 
 bool EffectPQ::isRoleEffectPQEmpty()
 {
 	return rolePQ.empty();
 }
+
+EffectAffixes EffectPQ::getRoleEffectAffixesByInterval(EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval)
+{
+	if (rolePQ.empty())
+	{
+		cocos2d::log("[information] 角色效果队列为空，将返回一个无效的效果附加属性！");
+		return EffectAffixes(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
+	}
+
+	std::priority_queue <EffectAffixes, std::vector<EffectAffixes>, std::greater<EffectAffixes>> temp = rolePQ;
+	if ((leftInterval <= temp.top().level) && (temp.top().level <=rightInterval))
+	{
+		EffectAffixes effectAffixes = temp.top();
+		cocos2d::log("[information] 成功获取一个角色效果附加属性！");
+		return effectAffixes;
+	}
+	else
+	{
+		temp.pop();
+	}
+
+	cocos2d::log("[information] 在指定区间 %d ~ %d 内，没有找到角色效果附加属性，将返回一个无效的效果附加属性！", leftInterval,rightInterval);
+	return EffectAffixes(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
+
+
+}
+
 
 void EffectPQ::decreaseRoleEffectLevel()
 {
@@ -54,32 +56,32 @@ void EffectPQ::decreaseRoleEffectLevel()
 		return;
 	}
 
-	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::greater<EffectEntity>> temp;
+	std::priority_queue <EffectAffixes, std::vector<EffectAffixes>, std::greater<EffectAffixes>> temp;
 	temp.swap(rolePQ);
 	while (temp.empty() == false)
 	{
-		EffectEntity ee(temp.top());
-		if (ee.level >= 200)
-			ee.level -= 200;
-		rolePQ.push(ee);
+		EffectAffixes ea(temp.top());
+		if (ea.level >= EffectAffixes::roundEffectLevel)
+			ea.level -= EffectAffixes::roundEffectLevel;
+		rolePQ.push(ea);
 		temp.pop();
 	}
 }
 
-int EffectPQ::getRoleEPQLevelMaxByRound(int relRound)
+int EffectPQ::getRoleEPQLevelMaxByRoundAndInterval(int relRound, EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval)
 {
 	if (relRound < 0)
 	{
-		cocos2d::log("[error] 相对回合数 %d 指定错误，将返回-1！", relRound);
+		cocos2d::log("[warning] 相对回合数 %d 指定有误，请检查！", relRound);
 		return -1;
 	}
 
-	int levelMin = relRound * 100;
-	int levelMax = (relRound + 1) * 100 - 1;
-	int result = -1;
+	int levelMin = relRound * EffectAffixes::roundEffectLevel + leftInterval;
+	int levelMax = (relRound + 1) * EffectAffixes::roundEffectLevel + rightInterval - 1;
+	int result = leftInterval - 1;
 	int level;
 
-	std::queue<EffectEntity> temp;
+	std::queue<EffectAffixes> temp;
 	while (rolePQ.empty() == false)
 	{
 		level = rolePQ.top().level;
@@ -99,43 +101,43 @@ int EffectPQ::getRoleEPQLevelMaxByRound(int relRound)
 	return result;
 }
 
-void EffectPQ::popRoleEffect()
+void EffectPQ::popRoleEffectAffixes()
 {
 	rolePQ.pop();
 }
 
-void EffectPQ::pushMonsterEffect(EffectEntity effect)
+void EffectPQ::pushMonsterEffectAffixes(EffectAffixes effectAffixes)
 {
-	monsterPQ.push(effect);
-}
-
-EffectEntity EffectPQ::getMonsterNextEffect()
-{
-	if (monsterPQ.empty())
-	{
-		cocos2d::log("[warning] 怪物效果队列为空，结构体成员全部返回-1！");
-	}
-		return EffectEntity(-1, -1, -1);
-
-	EffectEntity effect = monsterPQ.top();
-	if (effect.level / 100 == 0)
-	{
-		monsterPQ.pop();
-		cocos2d::log("[information] 成功获取下一个可用的怪物效果！");
-		return effect;
-	}else if (effect.level / 100 == 1)
-	{
-		cocos2d::log("warning] 成功获取下一个可用的怪物效果，但是属于怪物持续后执行！");
-		return effect;
-	}
-	cocos2d::log("[warning] 无下一个可用的怪物效果，结构体成员全部返回-1！");
-
-	return EffectEntity(-1, -1, -1);
+	monsterPQ.push(effectAffixes);
 }
 
 bool EffectPQ::isMonsterEffectPQEmpty()
 {
 	return monsterPQ.empty();
+}
+
+EffectAffixes EffectPQ::getMonsterEffectAffixesByInterval(EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval)
+{
+	if (monsterPQ.empty())
+	{
+		cocos2d::log("[information] 怪物效果队列为空，将返回一个无效的效果附加属性！");
+		return EffectAffixes(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
+	}
+	
+	std::priority_queue <EffectAffixes, std::vector<EffectAffixes>, std::greater<EffectAffixes>> temp = monsterPQ;
+	if ((leftInterval <= temp.top().level) && (temp.top().level <= rightInterval))
+	{
+		EffectAffixes effectAffixes = temp.top();
+		cocos2d::log("[information] 成功获取一个怪物效果附加属性！");
+		return effectAffixes;
+	}
+	else
+	{
+		temp.pop();
+	}
+
+	cocos2d::log("[information] 在指定区间 %d ~ %d 内，没有找到怪物效果附加属性，将返回一个无效的效果附加属性！", leftInterval, rightInterval);
+	return EffectAffixes(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
 }
 
 void EffectPQ::decreaseMonsterEffectLevel()
@@ -145,31 +147,32 @@ void EffectPQ::decreaseMonsterEffectLevel()
 		return;
 	}
 
-	std::priority_queue<EffectEntity, std::vector<EffectEntity>, std::greater<EffectEntity>> temp;
+	std::priority_queue<EffectAffixes, std::vector<EffectAffixes>, std::greater<EffectAffixes>> temp;
 	temp.swap(monsterPQ);
 	while (temp.empty() == false)
 	{
-		EffectEntity ee(temp.top());
-		if (ee.level >= 200)
-			ee.level -= 200;
-		monsterPQ.push(ee);
+		EffectAffixes ea(temp.top());
+		if (ea.level >= EffectAffixes::roundEffectLevel)
+			ea.level -= EffectAffixes::roundEffectLevel;
+		monsterPQ.push(ea);
 		temp.pop();
 	}
 }
 
-int EffectPQ::getMonsterEPQLevelMaxByRound(int relRound)
+int EffectPQ::getMonsterEPQLevelMaxByRoundAndInterval(int relRound, EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval)
 {
 	if (relRound < 0)
 	{
+		cocos2d::log("[warning] 相对回合数 %d 指定有误，请检查！", relRound);
 		return -1;
 	}
 
-	int levelMin = relRound * 100;
-	int levelMax = (relRound + 1) * 100 - 1;
-	int result = -1;
+	int levelMin = relRound * EffectAffixes::roundEffectLevel + leftInterval;
+	int levelMax = (relRound + 1) * EffectAffixes::roundEffectLevel + rightInterval - 1;
+	int result = leftInterval - 1;
 	int level;
 
-	std::queue<EffectEntity> temp;
+	std::queue<EffectAffixes> temp;
 	while (monsterPQ.empty() == false)
 	{
 		level = monsterPQ.top().level;
@@ -189,7 +192,7 @@ int EffectPQ::getMonsterEPQLevelMaxByRound(int relRound)
 	return result;
 }
 
-void EffectPQ::popMonsterEffect()
+void EffectPQ::popMonsterEffectAffixes()
 {
 	monsterPQ.pop();
 }

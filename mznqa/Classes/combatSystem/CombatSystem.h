@@ -13,41 +13,35 @@ public:
 	~CombatSystem();
 
 	
-	//执行战斗回合内的全局属性
-	void executeGlobalEffect();
+	//执行每回合内的全局操作
+	void executeGlobalOperation();
 
 
-	//执行角色持续效果
-	void executeRoleBeforeTheCombatEffect();
-	//执行角色战斗时效果
-	void excuteRoleInCombatEffect(int cardId);
-	//执行角色战斗后的效果
-	void excuteRoleAfterCombatEffect();
+	//执行角色战斗前操作
+	void executeRoleBeforeTheCombatOperation();
+	//执行角色战斗时操作
+	void excuteRoleInCombatOperation(int cardId);
+	//执行角色战斗后操作
+	void excuteRoleAfterCombatOperation();
 
 
-	//执行怪物持续效果
-	void executeMonsterBeforeTheCombatEffect();
-	//执行怪物战斗时的效果
-	void excuteMonsterInCombatEffect(int cardId);
-	//执行怪物战斗后的效果
-	void excuteMonsterAfterCombatEffect();
+	//执行怪物战斗前操作
+	void executeMonsterBeforeTheCombatOperator();
+	//执行怪物战斗时操作
+	void excuteMonsterInCombatOperator(int cardId);
+	//执行怪物战斗后操作
+	void excuteMonsterAfterCombatOperator();
 
 	//执行战斗
-	void excuteCombat(int roleUseCardId, int monsterUseCardId);
+	void excuteCombat();
 
-	//添加角色使用的技能卡ID
-	void pushRoleUseCardId(int useCardId);
+	//设置使用卡的id
+	void setUseCardId(const int roleUseCardId, const int monsterUseCardId);
 
-	//添加怪物使用的技能卡ID
-	void pushMonsterUseCardId(int useCardId);
+	//判断是否结束战斗
+	bool judgeEndToCombat();
 
-	//删除角色使用的技能卡ID
-	void popRoleUseCardId();
-
-	//删除怪物使用的技能卡ID
-	void popMonsterUseCardId();
-
-
+	//测试单元
 	void test();
 
 private:
@@ -58,10 +52,10 @@ private:
 	EffectPQ epq;
 
 	//存放角色要使用的技能卡的id
-	std::queue<int> roleUseCardId;
+	int roleUseCardId;
 
 	//存放怪物要使用的技能卡id
-	std::queue<int> monsterUseCardId;
+	int monsterUseCardId;
 };
 
 

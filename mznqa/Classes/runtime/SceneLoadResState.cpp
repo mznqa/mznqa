@@ -27,7 +27,7 @@
 #include "filePath/DataFilePath.h"
 #include "dataHandle/StaticDataLoader.h"
 #include "combatSystem/DeltaTable.h"
-#include "combatSystem/TableHistory.h"
+#include "combatSystem/DeltaTableHistory.h"
 //////////////////////////////////////////////////////////////////////////
 
 SceneLoadResState::~SceneLoadResState()
@@ -72,8 +72,8 @@ bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 	CombatSystem cs;
 	cs.test();
 
-	//TableHistory th;
-	//th.test();
+	/*DeltaTableHistory th;
+	th.test();*/
 
 	//////////////////////////////////////////////////////////////////////////
 
