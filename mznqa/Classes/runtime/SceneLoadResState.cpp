@@ -57,6 +57,9 @@ bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 	StaticDataLoader::loadStaticDataCardRoadSet();
 	// 载入：静态数据：技能卡集合
 	StaticDataLoader::loadStaticDataCardSkillSet();
+
+	// 载入：存档：全局地图
+	StaticDataLoader::loadArchivesDataGlobalMap();
 	cocos2d::log("[information] 完成资源载入");
 	//////////////////////////////////////////////////////////////////////////
 

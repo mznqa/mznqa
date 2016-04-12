@@ -8,6 +8,8 @@
 
 #include "map/MapController.h"
 
+#include "map/MapNode.h"
+
 MapController* MapController::Instance()
 {
 	static MapController instance;

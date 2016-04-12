@@ -18,6 +18,8 @@
 #include "map/MapController.h"
 #include "dataHandle/CharBufferArea.h"
 
+std::vector<MapNode> ParserMapArchives::globalMapArchivesTemp;
+
 ParserMapArchives::ParserMapArchives()
 {
 }
@@ -76,8 +78,6 @@ namespace ForParserMapArchives
 		ParserNode pn;
 
 		std::vector<int> mapNodeArgs;
-
-		std::vector<MapNode> mapNodeSet;
 
 	public:
 		bool Null()
@@ -140,13 +140,13 @@ namespace ForParserMapArchives
 			--pn;
 			if (pn.state == ParserNode::State::State_MapNodeArray)
 			{
-				mapNodeSet.push_back(MapNode(
+				ParserMapArchives::globalMapArchivesTemp.push_back(MapNode(
 					mapNodeArgs[0],
 					mapNodeArgs[1],
 					mapNodeArgs[2],
-					((mapNodeArgs[3] == 1) ? (true) : (false)),
-					MapNode::RoadType(mapNodeArgs[4]),
-					MapNode::NodeStyle(mapNodeArgs[5])
+					((mapNodeArgs[3] == 1) ? true : false),
+					MapNode::NodeType(mapNodeArgs[4]),
+					((mapNodeArgs[5] == 1) ? true : false)
 					));
 				mapNodeArgs.clear();
 			}
@@ -157,13 +157,11 @@ namespace ForParserMapArchives
 
 void ParserMapArchives::parse()
 {
-	// 以下作为地图存档解析参考：
-
 	// 检查是否载入地图存档
-	if (CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_Archives_MapGlobal) == nullptr)
+	if (CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_Archives_GlobalMap) == nullptr)
 		return;
 	// 解析所需特定流
-	rapidjson::StringStream ss(CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_Archives_MapGlobal));
+	rapidjson::StringStream ss(CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_Archives_GlobalMap));
 	// 解析器
 	rapidjson::Reader reader;
 	// 处理器
@@ -175,6 +173,4 @@ void ParserMapArchives::parse()
 	{
 		cocos2d::log("[error] 解析地图存档出错");
 	}
-	// 释放地图存档数据缓存
-	CharBufferArea::Instance()->releaseBufferByIndex(CharBufferArea::Instance()->BufferIndex_Archives_MapGlobal);
 }

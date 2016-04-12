@@ -11,7 +11,7 @@
 
 #include <vector>
 
-#include "map/MapNode.h"
+struct MapNode;
 
 /*!
  * \class	MapController
@@ -54,6 +54,11 @@ private:
 	/*! \brief	地图节点集合 */
 	std::vector<MapNode> mapNodeSet;
 public:
+
+	/*! \brief	地图横向节点总个数 */
+	static const int mapNodecountHorizontal = 640;
+	/*! \brief	地图纵向节点总个数 */
+	static const int mapNodecountVertical = 360;
 
 	/*!
 	 * \fn	static MapController* MapController::Instance();

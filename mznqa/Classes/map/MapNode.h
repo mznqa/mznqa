@@ -9,6 +9,8 @@
 #ifndef MZNQA_CLASSES_MAP_MAPNODE_H_
 #define MZNQA_CLASSES_MAP_MAPNODE_H_
 
+#include "map/MapController.h"
+
 /*!
  * \struct	MapNode
  *
@@ -18,45 +20,17 @@
 struct MapNode
 {
 	/*!
-	 * \enum	NodeStyle
+	 * \enum	NodeType
 	 *
-	 * \brief	该节点的风格（地貌）
+	 * \brief	节点类型
 	 */
-	enum NodeStyle
+	enum NodeType
 	{
-		NodeStyle_None = 0,	///< 无风格
-		NodeStyle_Meadow	///< 草地
+		NodeType_None = 0,		///< 无特定类型
+		NodeType_Road = 1,		///< 道路
+		NodeType_Wall = 2,		///< 墙
 	};
 
-	/*!
-	 * \enum	RoadType
-	 *
-	 * \brief	道路类型
-	 */
-	enum RoadType
-	{
-		RoadType_None = 0,		///< 无道路
-		RoadType_URDL = 1234,	///< 四方向道路
-		RoadType_RDL = 234,		///< 三方向道路
-		RoadType_UDL = 134,		///< 三方向道路
-		RoadType_URL = 124,		///< 三方向道路
-		RoadType_URD = 123,		///< 三方向道路
-		RoadType_DL = 34,		///< 双方向道路
-		RoadType_UL = 14,		///< 双方向道路
-		RoadType_UR = 12,		///< 双方向道路
-		RoadType_RL = 24,		///< 双方向道路
-		RoadType_UD = 13,		///< 双方向道路
-		RoadType_RD = 23,		///< 双方向道路
-		RoadType_U = 1,			///< 单方向道路
-		RoadType_R = 2,			///< 单方向道路
-		RoadType_D = 3,			///< 单方向道路
-		RoadType_L = 4			///< 单方向道路
-	};
-
-	/*! \brief	地图横向节点总个数 */
-	static const int mapNodecountHorizontal = 640;
-	/*! \brief	地图纵向节点总个数 */
-	static const int mapNodecountVertical = 360;
 	/*! \brief	标识无效的节点索引 */
 	static const int invalidIndex = -1;
 	/*! \brief	指向该图节点的索引 */
@@ -67,13 +41,13 @@ struct MapNode
 	const int y;
 	/*! \brief	标识地图节点是否已知 */
 	bool known;
-	/*! \brief	地图节点的道路类型 */
-	RoadType roadType;
-	/*! \brief	地图节点的风格 */
-	NodeStyle nodeStyle;
+	/*! \brief	节点类型 */
+	NodeType nodeType;
+	/*! \brief	是否含有附加物 */
+	bool hasExtra;
 
 	/*!
-	 * \fn	MapNode ( int index, int x, int y, bool known, RoadType roadType, NodeStyle nodeStyle )
+	 * \fn	MapNode ( int index, int x, int y, bool known, NodeType nodeType, bool hasExtra)
 	 *
 	 * \brief	构造函数
 	 *
@@ -81,8 +55,8 @@ struct MapNode
 	 * \param	x		 	指定地图节点的横坐标
 	 * \param	y		 	指定地图节点的纵坐标
 	 * \param	known	 	指定地图节点是否已知
-	 * \param	roadType 	指定地图节点的道路类型
-	 * \param	nodeStyle	指定地图节点的风格
+	 * \param	nodeType 	指定地图节点的类型
+	 * \param	hasExtra	指定地图节点的是否包含附加物
 	 */
 	MapNode
 		(
@@ -90,15 +64,15 @@ struct MapNode
 		int x,
 		int y,
 		bool known,
-		RoadType roadType,
-		NodeStyle nodeStyle
+		NodeType nodeType,
+		bool hasExtra
 		) :
 		index(index),
 		x(x),
 		y(y),
 		known(known),
-		roadType(roadType),
-		nodeStyle(nodeStyle)
+		nodeType(nodeType),
+		hasExtra(hasExtra)
 	{
 	}
 
@@ -114,8 +88,8 @@ struct MapNode
 		x(mapNode.x),
 		y(mapNode.y),
 		known(mapNode.known),
-		roadType(mapNode.roadType),
-		nodeStyle(mapNode.nodeStyle)
+		nodeType(mapNode.nodeType),
+		hasExtra(mapNode.hasExtra)
 
 	{
 	}
@@ -141,7 +115,7 @@ struct MapNode
 	 */
 	static bool checkX(int x)
 	{
-		return 0 <= x && x < mapNodecountHorizontal;
+		return 0 <= x && x < MapController::mapNodecountHorizontal;
 	}
 
 	/*!
@@ -155,7 +129,7 @@ struct MapNode
 	 */
 	static bool checkY(int y)
 	{
-		return 0 <= y && y < mapNodecountVertical;
+		return 0 <= y && y < MapController::mapNodecountVertical;
 	}
 
 	/*!
@@ -171,8 +145,8 @@ struct MapNode
 	static bool checkXY(int x, int y)
 	{
 		return (
-			0 <= x && x < mapNodecountHorizontal &&
-			0 <= y && y < mapNodecountVertical
+			0 <= x && x < MapController::mapNodecountHorizontal &&
+			0 <= y && y < MapController::mapNodecountVertical
 			);
 	}
 
@@ -189,10 +163,10 @@ struct MapNode
 	static int getIndexByXY(int x, int y)
 	{
 		if (
-			0 <= x && x < mapNodecountHorizontal &&
-			0 <= y && y < mapNodecountVertical
+			0 <= x && x < MapController::mapNodecountHorizontal &&
+			0 <= y && y < MapController::mapNodecountVertical
 			)
-			return x + y * mapNodecountHorizontal;
+			return x + y * MapController::mapNodecountHorizontal;
 		else
 			return invalidIndex;
 	}
@@ -257,7 +231,7 @@ struct MapNode
 	 */
 	int getRightX()const
 	{
-		if (x + 1 >= mapNodecountHorizontal)
+		if (x + 1 >= MapController::mapNodecountHorizontal)
 			return invalidIndex;
 		else
 			return x + 1;
@@ -308,7 +282,7 @@ struct MapNode
 	 */
 	int getDownY()const
 	{
-		if (y + 1 >= mapNodecountVertical)
+		if (y + 1 >= MapController::mapNodecountVertical)
 			return invalidIndex;
 		else
 			return y + 1;

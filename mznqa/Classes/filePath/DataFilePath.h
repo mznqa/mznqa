@@ -19,7 +19,7 @@
 #define STATIC_DATA_ROLE "data/static/role.json"
 
 /*!
- * \def	STATIC_DATA_CARDSKILL
+ * \def	STATIC_DATA_CARDSKILLSET
  *
  * \brief	技能卡静态数据
  *
@@ -30,12 +30,12 @@
 // Archives Data //////////////////////////////////////////////////////////////////////////
 
 /*!
- * \def	ARCHIVES_DATA_MAP
+ * \def	ARCHIVES_DATA_GLOBALMAP
  *
  * \brief	地图存档
  *
  */
-#define ARCHIVES_DATA_MAP "data/archives/map.json"
+#define ARCHIVES_DATA_GLOBALMAP "data/archives/map.json"
 //////////////////////////////////////////////////////////////////////////
 
 #endif	//	MZNQA_CLASSES_FILEPATH_DATAFILEPATH_H_ 
