@@ -59,12 +59,15 @@ void CombatSystem::excuteRoleInCombatOperation(int cardId)
 	const CardSkill *cs = CardSet::Instance()->getCardSkillByID(cardId);
 	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
 	int effectSize = cs->getEffectSet().size();
+	int efIndex = 0;
+
 	while (effectSize--)
 	{
+
 		int startRound = cs->getEffectSet().at(effectSize).getArgs().at(0);
 		int continueRound = cs->getEffectSet().at(effectSize).getArgs().at(1);
 		temp.cardId = cardId;
-		temp.effectIndex = effectSize;
+		temp.effectIndex = efIndex;
 		while (continueRound--)
 		{
 			temp.level = 0;
@@ -73,7 +76,7 @@ void CombatSystem::excuteRoleInCombatOperation(int cardId)
 			{
 				temp.level += epq.getRoleEPQLevelMaxByRoundAndInterval(continueRound, EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Right) + 1;
 				//若该效果属于角色战斗后执行
-				if (cs->getEffectSet().at(effectSize).getArgs().size() == 2)
+				if (cs->getEffectSet().at(efIndex).getArgs().size() == 2)
 				{
 					temp.level += EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left - EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Left;
 				}
@@ -83,12 +86,18 @@ void CombatSystem::excuteRoleInCombatOperation(int cardId)
 			{
 				temp.level += epq.getRoleEPQLevelMaxByRoundAndInterval(continueRound + 1, EffectAffixes::EffectLevelInterval::EffectLevelInterval_Before_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_Before_Right) + 1;
 				//若该效果属于角色战斗后执行
-				if (cs->getEffectSet().at(effectSize).getArgs().size() == 2)
+				if (cs->getEffectSet().at(efIndex).getArgs().size() == 2)
 				{
 					temp.level += EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left - EffectAffixes::EffectLevelInterval_Before_Left;
 				}
 			}
 			epq.pushRoleEffectAffixes(temp);
+			efIndex++;
+		}
+		//当该效果是一个条件效果，则不添加该技能卡的剩余效果
+		if (CardSet::Instance()->getCardSkillByID(temp.cardId)->getEffectSet().at(temp.effectIndex).getFunIndex() / EffectAffixes::conditionEffectDivision == 1)
+		{
+			break;
 		}
 	}
 
@@ -162,12 +171,13 @@ void CombatSystem::excuteMonsterInCombatOperator(int cardId)
 	const CardSkill *cs = CardSet::Instance()->getCardSkillByID(cardId);
 	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
 	int effectSize = cs->getEffectSet().size();
+	int efIndex = 0;
 	while (effectSize--)
 	{
-		int startRound = cs->getEffectSet().at(effectSize).getArgs().at(0);
-		int continueRound = cs->getEffectSet().at(effectSize).getArgs().at(1);
+		int startRound = cs->getEffectSet().at(efIndex).getArgs().at(0);
+		int continueRound = cs->getEffectSet().at(efIndex).getArgs().at(1);
 		temp.cardId = cardId;
-		temp.effectIndex = effectSize;
+		temp.effectIndex = efIndex;
 		while (continueRound--)
 		{
 			temp.level = 0;
@@ -176,7 +186,7 @@ void CombatSystem::excuteMonsterInCombatOperator(int cardId)
 			{
 				temp.level += epq.getMonsterEPQLevelMaxByRoundAndInterval(continueRound, EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Right) + 1;
 				//若该效果属于怪物战斗后执行
-				if (cs->getEffectSet().at(effectSize).getArgs().size() == 2)
+				if (cs->getEffectSet().at(efIndex).getArgs().size() == 2)
 				{
 					temp.level += EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left - EffectAffixes::EffectLevelInterval::EffectLevelInterval_In_Left;
 				}
@@ -186,12 +196,18 @@ void CombatSystem::excuteMonsterInCombatOperator(int cardId)
 			{
 				temp.level += epq.getMonsterEPQLevelMaxByRoundAndInterval(continueRound + 1, EffectAffixes::EffectLevelInterval::EffectLevelInterval_Before_Left, EffectAffixes::EffectLevelInterval::EffectLevelInterval_Before_Right) + 1;
 				//若该效果属于怪物战斗后执行
-				if (cs->getEffectSet().at(effectSize).getArgs().size() == 2)
+				if (cs->getEffectSet().at(efIndex).getArgs().size() == 2)
 				{
 					temp.level += EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left - EffectAffixes::EffectLevelInterval_Before_Left;
 				}
 			}
 			epq.pushMonsterEffectAffixes(temp);
+			efIndex++;
+		}
+		//当该效果是一个条件效果，则不添加该技能卡的剩余效果
+		if (CardSet::Instance()->getCardSkillByID(temp.cardId)->getEffectSet().at(temp.effectIndex).getFunIndex() / EffectAffixes::conditionEffectDivision == 1)
+		{
+			break;
 		}
 
 	}
@@ -257,7 +273,7 @@ void CombatSystem::setUseCardId(const int roleUseCardId, const int monsterUseCar
 {
 	this->roleUseCardId = roleUseCardId;
 	this->monsterUseCardId = monsterUseCardId;
-	cocos2d::log("[information] 第 %d 回合内，角色使用了： %d,怪物使用了：%d", round + 1, this->roleUseCardId, this->monsterUseCardId);
+	cocos2d::log("[warning] 第 %d 回合内，角色使用了： %d,怪物使用了：%d", round + 1, this->roleUseCardId, this->monsterUseCardId);
 }
 
 bool CombatSystem::judgeEndToCombat()
@@ -269,9 +285,9 @@ void CombatSystem::test()
 {
 	cocos2d::log("[warning] 注意：即将进入战斗系统！");
 	CombatSystem cs;
-	for (int i = 0; i < 3;++i)
+	for (int i = 0; i < 1;++i)
 	{
-		cs.setUseCardId(i+30026,i+30004);
+		cs.setUseCardId(i+30034,i+30024);
 		cs.excuteCombat();
 		if (judgeEndToCombat())
 		{

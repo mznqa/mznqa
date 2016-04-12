@@ -40,6 +40,9 @@ struct EffectAffixes
 
 	//回合效果优先级值，每回合效果队列中的优先级应减少该值
 	static const int roundEffectLevel = 1000;
+
+	//条件效果所对应的函数索引分界值
+	static const int conditionEffectDivision = 2000;
 	
 	EffectAffixes(int level,int cardId,int effectIndex)
 	{

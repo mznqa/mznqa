@@ -7,7 +7,6 @@
 #pragma execution_character_set("utf-8")
 
 #include "effect/EffectFunSet.h"
-
 #include "cocos2d.h"
 
 const std::function<bool(const std::vector<int>&)> EffectFunSet::nullFun = EffectFunSet::effectNullFun;
@@ -108,6 +107,8 @@ bool EffectFunSet::effectCondition2(const std::vector<int> &args)
 
 bool EffectFunSet::effectCondition3(const std::vector<int> &args)
 {
+	
+	cocos2d::log("[information] 使用效果：如果敌方血量在[%d, 正无穷]",args.at(2));
 	return true;
 }
 
@@ -159,6 +160,6 @@ bool EffectFunSet::effectCondition12(const std::vector<int> &args)
 
 bool EffectFunSet::effectCondition13(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：如果自身血量减少");
+	cocos2d::log("[information] 使用效果：如果自身血量减少 || 血量第一次在[负无穷，0]之间");
 	return true;
 }
