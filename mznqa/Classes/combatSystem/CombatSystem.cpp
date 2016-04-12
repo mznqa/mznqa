@@ -178,6 +178,7 @@ void CombatSystem::excuteMonsterInCombatOperator(int cardId)
 		int continueRound = cs->getEffectSet().at(efIndex).getArgs().at(1);
 		temp.cardId = cardId;
 		temp.effectIndex = efIndex;
+		Effect::Receiver effectRecv = CardSet::Instance()->getCardSkillByID(temp.cardId)->getEffectSet().at(temp.effectIndex).getReceiver();
 		while (continueRound--)
 		{
 			temp.level = 0;
@@ -201,15 +202,13 @@ void CombatSystem::excuteMonsterInCombatOperator(int cardId)
 					temp.level += EffectAffixes::EffectLevelInterval::EffectLevelInterval_After_Left - EffectAffixes::EffectLevelInterval_Before_Left;
 				}
 			}
+			if (effectRecv == Effect::Receiver::Receiver_Other)
+			{
+			}
 			epq.pushMonsterEffectAffixes(temp);
 			efIndex++;
 		}
-		//当该效果是一个条件效果，则不添加该技能卡的剩余效果
-		if (CardSet::Instance()->getCardSkillByID(temp.cardId)->getEffectSet().at(temp.effectIndex).getFunIndex() / EffectAffixes::conditionEffectDivision == 1)
-		{
-			break;
-		}
-
+		
 	}
 
 	while (epq.isMonsterEffectPQEmpty() == false)

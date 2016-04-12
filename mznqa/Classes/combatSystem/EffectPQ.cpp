@@ -38,7 +38,7 @@ EffectAffixes EffectPQ::getRoleEffectAffixesByInterval(EffectAffixes::EffectLeve
 		temp.pop();
 		if ((leftInterval <= effectAffixes.level) && (effectAffixes.level <= rightInterval))
 		{
-			cocos2d::log("[information] 成功获取一个角色效果附加属性！");
+			cocos2d::log("[information] 成功获取一个角色效果附加属性(%d,%d)",effectAffixes.cardId,effectAffixes.effectIndex);
 			return effectAffixes;
 		}
 
@@ -169,7 +169,7 @@ EffectAffixes EffectPQ::getMonsterEffectAffixesByInterval(EffectAffixes::EffectL
 		temp.pop();
 		if ((leftInterval <= effectAffixes.level) && (effectAffixes.level <= rightInterval))
 		{
-			cocos2d::log("[information] 成功获取一个怪物效果附加属性！");
+			cocos2d::log("[information] 成功获取一个怪物效果附加属性(%d,%d)",effectAffixes.cardId,effectAffixes.effectIndex);
 			return effectAffixes;
 		}
 
