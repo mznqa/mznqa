@@ -7,8 +7,9 @@
 #pragma execution_character_set("utf-8")
 
 #include "effect/EffectFunSet.h"
-
 #include "cocos2d.h"
+
+const std::function<bool(const std::vector<int>&)> EffectFunSet::nullFun = EffectFunSet::effectNullFun;
 
 const std::map<int, std::function<bool(const std::vector<int>&)>> EffectFunSet::funSet = {
 	{ 0, EffectFunSet::effectBase0 },
@@ -43,41 +44,49 @@ EffectFunSet::~EffectFunSet()
 
 bool EffectFunSet::effectBase0(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：%d 血",args.at(2));
 	return true;
 }
 
 bool EffectFunSet::effectBase1(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：%d 甲",args.at(2));
 	return true;
 }
 
 bool EffectFunSet::effectBase2(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果： %d 手牌",args.at(2));
 	return true;
 }
 
 bool EffectFunSet::effectBase3(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：effectBase3");
 	return true;
 }
 
 bool EffectFunSet::effectBase4(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：出 %d 张牌",args.at(2));
 	return true;
 }
 
 bool EffectFunSet::effectSpecial0(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果： 攻击无效");
 	return true;
 }
 
 bool EffectFunSet::effectSpecial1(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：回血无效");
 	return true;
 }
 
 bool EffectFunSet::effectSpecial2(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：回甲无效");
 	return true;
 }
 
@@ -98,6 +107,8 @@ bool EffectFunSet::effectCondition2(const std::vector<int> &args)
 
 bool EffectFunSet::effectCondition3(const std::vector<int> &args)
 {
+	
+	cocos2d::log("[information] 使用效果：如果敌方血量在[%d, 正无穷]",args.at(2));
 	return true;
 }
 
@@ -143,10 +154,12 @@ bool EffectFunSet::effectCondition11(const std::vector<int> &args)
 
 bool EffectFunSet::effectCondition12(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：如果血量在[%d,%d]之间", args.at(2),args.at(3));
 	return true;
 }
 
 bool EffectFunSet::effectCondition13(const std::vector<int> &args)
 {
+	cocos2d::log("[information] 使用效果：如果自身血量减少 || 血量第一次在[负无穷，0]之间");
 	return true;
 }

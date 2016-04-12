@@ -22,8 +22,12 @@
 #include "cardController/CardBoxRTM.h"
 #include "cardController/CardControllerExplore.h"
 #include "cardController/CardControllerCombat.h"
+
+#include "combatSystem/CombatSystem.h"
 #include "filePath/DataFilePath.h"
 #include "dataHandle/StaticDataLoader.h"
+#include "combatSystem/DeltaTable.h"
+#include "combatSystem/DeltaTableHistory.h"
 //////////////////////////////////////////////////////////////////////////
 
 SceneLoadResState::~SceneLoadResState()
@@ -62,6 +66,17 @@ bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 
 	// 测试用区域 //////////////////////////////////////////////////////////////////////////
 	// xxxx->text();
+	//////////////////////////////////////////////////////////////////////////
+
+
+	// 测试用 //////////////////////////////////////////////////////////////////////////
+
+	CombatSystem cs;
+	cs.test();
+
+	/*DeltaTableHistory th;
+	th.test();*/
+
 	//////////////////////////////////////////////////////////////////////////
 
 	cocos2d::log("[information] 执行场景 SceneLoadRes 对应的状态机成功");
