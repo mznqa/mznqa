@@ -9,6 +9,7 @@
 #include "map/MapController.h"
 
 #include "map/MapNode.h"
+#include "map/MapView.h"
 
 MapController* MapController::Instance()
 {
@@ -16,8 +17,14 @@ MapController* MapController::Instance()
 	return &instance;
 }
 
+MapController::MapController()
+{
+	mapView = new MapView(MapView::hDeltaMin, MapView::vDeltaMin);
+}
+
 MapController::~MapController()
 {
+	delete mapView;
 }
 
 void MapController::loadMapNode(std::vector<MapNode> &mapNodeSet)

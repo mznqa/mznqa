@@ -14,23 +14,23 @@ private:
 	int hDelta;
 	int vDelta;
 
-	static const int hDeltaMin = 7;
-	static const int vDeltaMin = 10;
-
 public:
 	static const int invalidXOrY = -1;
 
+	static const int hDeltaMin = 7;
+	static const int vDeltaMin = 3;
+
 	MapView(
-		int centerGX,
-		int centerGY
+		int centerGX = hDeltaMin,
+		int centerGY = vDeltaMin
 		) :
 		centerGX(centerGX),
 		centerGY(centerGY),
 		hDelta(hDeltaMin),
-		vDelta(vDelta)
+		vDelta(vDeltaMin)
 	{
 	}
-	~MapView();
+	~MapView(){}
 
 	// 检查当前视窗中点是否合法
 	bool checkCenter()

@@ -12,6 +12,7 @@
 #include <vector>
 
 struct MapNode;
+class MapView;
 
 /*!
  * \class	MapController
@@ -29,7 +30,7 @@ private:
 	 * \brief	隐藏的构造函数
 	 *
 	 */
-	MapController(){}
+	MapController();
 
 	/*!
 	 * \fn	MapController::MapController(const MapController &mapController);
@@ -54,6 +55,9 @@ private:
 	/*! \brief	地图节点集合 */
 	std::vector<MapNode> mapNodeSet;
 public:
+
+	/*! \brief	地图视图 */
+	MapView *mapView = nullptr;
 
 	/*! \brief	地图横向节点总个数 */
 	static const int mapNodecountHorizontal = 640;
@@ -85,6 +89,18 @@ public:
 	 * \param [in,out]	mapNodeSet	地图节点集合实例
 	 */
 	void loadMapNode(std::vector<MapNode> &mapNodeSet);
+
+	/*!
+	 * \fn	const std::vector<MapNode>& MapController::getMapNodeSet()
+	 *
+	 * \brief	获取地图节点集合
+	 *
+	 * \return	返回地图节点集合的常量引用
+	 */
+	const std::vector<MapNode>& getMapNodeSet()
+	{
+		return mapNodeSet;
+	}
 };
 
 #endif
