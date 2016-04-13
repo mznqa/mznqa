@@ -1,8 +1,16 @@
+/*!
+ * \file	Classes\combatSystem\EffectPQ.cpp
+ *
+ * \brief	定义类 EffectAffixes 和类 EffectPQ
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "combatSystem/EffectPQ.h"
 
 #include "cocos2d.h"
+
+#include "staticData/CardSet.h"
 
 const EffectAffixes EffectPQ::nullEffectAffixes = EffectAffixes(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
 
@@ -24,7 +32,7 @@ bool EffectPQ::isRoleEffectPQEmpty()
 	return rolePQ.empty();
 }
 
-EffectAffixes EffectPQ::getRoleEffectAffixesByInterval(EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval)
+EffectAffixes EffectPQ::getRoleEffectAffixesByInterval(EffectLevelInterval leftInterval, EffectLevelInterval rightInterval)
 {
 	if (rolePQ.empty())
 	{
@@ -38,14 +46,16 @@ EffectAffixes EffectPQ::getRoleEffectAffixesByInterval(EffectAffixes::EffectLeve
 		temp.pop();
 		if ((leftInterval <= effectAffixes.level) && (effectAffixes.level <= rightInterval))
 		{
-			cocos2d::log("[information] 成功获取一个角色效果附加属性(%d,%d)",effectAffixes.cardId,effectAffixes.effectIndex);
+			cocos2d::log("[information] 成功获取一个角色效果(%d,%d,%s)",
+				effectAffixes.cardId,
+				effectAffixes.effectIndex,
+				CardSet::Instance()->getCardSkillByID(effectAffixes.cardId)->getEffectSet().at(effectAffixes.effectIndex).getDescribe().c_str()
+				);
 			return effectAffixes;
 		}
-
 	}
 	return nullEffectAffixes;
 }
-
 
 void EffectPQ::decreaseRoleEffectLevel()
 {
@@ -59,14 +69,14 @@ void EffectPQ::decreaseRoleEffectLevel()
 	while (temp.empty() == false)
 	{
 		EffectAffixes ea(temp.top());
-		if (ea.level >= EffectAffixes::roundEffectLevel)
-			ea.level -= EffectAffixes::roundEffectLevel;
+		if (ea.level >= roundEffectLevel)
+			ea.level -= roundEffectLevel;
 		rolePQ.push(ea);
 		temp.pop();
 	}
 }
 
-int EffectPQ::getRoleEPQLevelMaxByRoundAndInterval(int relRound, EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval)
+int EffectPQ::getRoleEPQLevelMaxByRoundAndInterval(int relRound, EffectLevelInterval leftInterval, EffectLevelInterval rightInterval)
 {
 	if (relRound < 0)
 	{
@@ -74,8 +84,8 @@ int EffectPQ::getRoleEPQLevelMaxByRoundAndInterval(int relRound, EffectAffixes::
 		return -1;
 	}
 
-	int levelMin = relRound * EffectAffixes::roundEffectLevel + leftInterval;
-	int levelMax = relRound * EffectAffixes::roundEffectLevel + rightInterval - 1;
+	int levelMin = relRound * roundEffectLevel + leftInterval;
+	int levelMax = relRound * roundEffectLevel + rightInterval - 1;
 	int result = levelMin;
 	int level;
 
@@ -104,7 +114,7 @@ void EffectPQ::popRoleEffectAffixes()
 	rolePQ.pop();
 }
 
-void EffectPQ::popRoleEffectAffixes(EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval)
+void EffectPQ::popRoleEffectAffixes(EffectLevelInterval leftInterval, EffectLevelInterval rightInterval)
 {
 	if (rolePQ.empty())
 	{
@@ -156,7 +166,7 @@ bool EffectPQ::isMonsterEffectPQEmpty()
 	return monsterPQ.empty();
 }
 
-EffectAffixes EffectPQ::getMonsterEffectAffixesByInterval(EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval)
+EffectAffixes EffectPQ::getMonsterEffectAffixesByInterval(EffectLevelInterval leftInterval, EffectLevelInterval rightInterval)
 {
 	if (monsterPQ.empty())
 	{
@@ -169,10 +179,13 @@ EffectAffixes EffectPQ::getMonsterEffectAffixesByInterval(EffectAffixes::EffectL
 		temp.pop();
 		if ((leftInterval <= effectAffixes.level) && (effectAffixes.level <= rightInterval))
 		{
-			cocos2d::log("[information] 成功获取一个怪物效果附加属性(%d,%d)",effectAffixes.cardId,effectAffixes.effectIndex);
+			cocos2d::log("[information] 成功获取一个怪物效果(%d,%d,%s)",
+				effectAffixes.cardId,
+				effectAffixes.effectIndex,
+				CardSet::Instance()->getCardSkillByID(effectAffixes.cardId)->getEffectSet().at(effectAffixes.effectIndex).getDescribe().c_str()
+				);
 			return effectAffixes;
 		}
-
 	}
 	return nullEffectAffixes;
 }
@@ -189,14 +202,14 @@ void EffectPQ::decreaseMonsterEffectLevel()
 	while (temp.empty() == false)
 	{
 		EffectAffixes ea(temp.top());
-		if (ea.level >= EffectAffixes::roundEffectLevel)
-			ea.level -= EffectAffixes::roundEffectLevel;
+		if (ea.level >= roundEffectLevel)
+			ea.level -= roundEffectLevel;
 		monsterPQ.push(ea);
 		temp.pop();
 	}
 }
 
-int EffectPQ::getMonsterEPQLevelMaxByRoundAndInterval(int relRound, EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval)
+int EffectPQ::getMonsterEPQLevelMaxByRoundAndInterval(int relRound, EffectLevelInterval leftInterval, EffectLevelInterval rightInterval)
 {
 	if (relRound < 0)
 	{
@@ -204,8 +217,8 @@ int EffectPQ::getMonsterEPQLevelMaxByRoundAndInterval(int relRound, EffectAffixe
 		return -1;
 	}
 
-	int levelMin = relRound * EffectAffixes::roundEffectLevel + leftInterval;
-	int levelMax = relRound * EffectAffixes::roundEffectLevel + rightInterval - 1;
+	int levelMin = relRound * roundEffectLevel + leftInterval;
+	int levelMax = relRound * roundEffectLevel + rightInterval - 1;
 	int result = levelMin;
 	int level;
 
@@ -234,7 +247,7 @@ void EffectPQ::popMonsterEffectAffixes()
 	monsterPQ.pop();
 }
 
-void EffectPQ::popMonsterEffectAffixes(EffectAffixes::EffectLevelInterval leftInterval, EffectAffixes::EffectLevelInterval rightInterval)
+void EffectPQ::popMonsterEffectAffixes(EffectLevelInterval leftInterval, EffectLevelInterval rightInterval)
 {
 	if (monsterPQ.empty())
 	{

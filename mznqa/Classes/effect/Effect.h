@@ -25,6 +25,18 @@ class Effect
 public:
 
 	/*!
+	 * \enum	ExcuteStyle
+	 *
+	 * \brief	标识效果在哪个环节执行
+	 */
+	enum ExcuteStyle
+	{
+		ExcuteStyle_Before = 0,	///< 在战斗前执行
+		ExcuteStyle_In = 1,		///< 在战斗过程中执行
+		ExcuteStyle_After = 2	///< 在战斗结束后执行
+	};
+
+	/*!
 	 * \enum	Behavior
 	 *
 	 * \brief	枚举该效果的主动释放与否
@@ -47,13 +59,14 @@ public:
 	};
 
 	/*!
-	 * \fn	Effect::Effect ( const std::string &describe, Behavior behavior, Receiver receiver, int funIndex, const std::vector<int> &args )
+	 * \fn	Effect::Effect ( const std::string &describe, Behavior behavior, Receiver receiver, ExcuteStyle excuteStyle, int funIndex, const std::vector<int> &args )
 	 *
 	 * \brief	构造函数
 	 *
 	 * \param	describe	指定效果的描述
 	 * \param	behavior	指定效果的主动释放与否
 	 * \param	receiver	指定效果的接收者
+	 * \param	excuteStyle	指定效果的执行位置
 	 * \param	funIndex	指定效果对应的函数索引
 	 * \param	args		指向效果的参数表
 	 */
@@ -62,12 +75,14 @@ public:
 		const std::string &describe,
 		Behavior behavior,
 		Receiver receiver,
+		ExcuteStyle excuteStyle,
 		int funIndex,
 		const std::vector<int> &args
 		) :
 		describe(describe),
 		behavior(behavior),
 		receiver(receiver),
+		excuteStyle(excuteStyle),
 		funIndex(funIndex),
 		args(args),
 		argsCount(args.size())
@@ -119,6 +134,18 @@ public:
 	}
 
 	/*!
+	 * \fn	ExcuteStyle Effect::getExcuteStyle()const
+	 *
+	 * \brief	获取效果的执行位置
+	 *
+	 * \return	返回效果的执行位置
+	 */
+	ExcuteStyle getExcuteStyle()const
+	{
+		return excuteStyle;
+	}
+
+	/*!
 	 * \fn	int Effect::getFunIndex() const
 	 *
 	 * \brief	获取效果对应的函数索引
@@ -161,6 +188,8 @@ private:
 	Behavior behavior;
 	/*! \brief	效果的接收者 */
 	Receiver receiver;
+	/*! \brief	效果的执行位置 */
+	ExcuteStyle excuteStyle;
 	/*! \brief	效果所对应的函数索引 */
 	int funIndex;
 	/*! \brief	效果的参数表 */

@@ -177,7 +177,7 @@ namespace ForParseCardSkill
 			switch (pn.state)
 			{
 			case ParserNode::State::State_EffectArray:
-				effectSetTemp.push_back(Effect(sEffectArgs[0], (Effect::Behavior)iEffectArgs[0], (Effect::Receiver)iEffectArgs[1], iEffectArgs[2], argsTemp));
+				effectSetTemp.push_back(Effect(sEffectArgs[0], (Effect::Behavior)iEffectArgs[0], (Effect::Receiver)iEffectArgs[1], (Effect::ExcuteStyle)iEffectArgs[2], iEffectArgs[3], argsTemp));
 				iEffectArgs.clear();
 				sEffectArgs.clear();
 				break;
