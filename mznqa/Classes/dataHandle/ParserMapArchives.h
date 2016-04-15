@@ -9,6 +9,8 @@
 #ifndef MZNQA_CLASSES_DATAHANDLE_PARSERMAPARCHIVES_H_
 #define MZNQA_CLASSES_DATAHANDLE_PARSERMAPARCHIVES_H_
 
+#include "map/MapNode.h"
+
 /*!
  * \class	ParserMapArchives
  *
@@ -43,6 +45,9 @@ public:
 	 *
 	 */
 	void parse();
+
+	/*! \brief	暂存全局地图数据 */
+	static std::vector<MapNode> globalMapArchivesTemp;
 };
 
 #endif

@@ -25,17 +25,19 @@
  *
  */
 #define STATIC_DATA_CARDSKILLSET "data/static/card/static_card_skill.json"
+
+#define STATIC_DATA_MAINMISSIONMAP "data/static/missionMap/missionMap_main.json"
 //////////////////////////////////////////////////////////////////////////
 
 // Archives Data //////////////////////////////////////////////////////////////////////////
 
 /*!
- * \def	ARCHIVES_DATA_MAP
+ * \def	ARCHIVES_DATA_GLOBALMAP
  *
  * \brief	µØÍ¼´æµµ
  *
  */
-#define ARCHIVES_DATA_MAP "data/archives/map.json"
+#define ARCHIVES_DATA_GLOBALMAP "data/archives/map.json"
 //////////////////////////////////////////////////////////////////////////
 
 #endif	//	MZNQA_CLASSES_FILEPATH_DATAFILEPATH_H_ 

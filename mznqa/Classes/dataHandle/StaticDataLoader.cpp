@@ -15,6 +15,10 @@
 #include "dataHandle/ParserCardSkill.h"
 #include "filePath/DataFilePath.h"
 #include "staticData/CardSet.h"
+#include "map/MapController.h"
+#include "dataHandle/ParserMapArchives.h"
+#include "dataHandle/ParserMapMissionMain.h"
+#include "staticData/MissionMapSet.h"
 
 void StaticDataLoader::loadStaticDataCardRoadSet()
 {
@@ -54,7 +58,7 @@ void StaticDataLoader::loadStaticDataCardSkillSet()
 		FileController::Instance()->getCharBufferFromFile(STATIC_DATA_CARDSKILLSET)
 		);
 	if (CharBufferArea::Instance()->getBufferByIndex(bufferIndex) == nullptr)
-		cocos2d::log("[error] 缓存静态数据：技能卡集合失败");
+		cocos2d::log("[error] 缓存失败：静态数据：技能卡集合");
 	else
 		cocos2d::log("[information] 成功缓存：静态数据：技能卡集合");
 
@@ -77,4 +81,74 @@ void StaticDataLoader::loadStaticDataCardSkillSet()
 	ParserCardSkill::cardSkillSetTemp.clear();
 	CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
 	cocos2d::log("[information] 成功释放缓存：静态数据：技能卡集合");
+}
+
+void StaticDataLoader::loadStaticDataMainMissionMapSet()
+{
+	CharBufferArea::BufferIndex bufferIndex = CharBufferArea::BufferIndex_Static_MainMissionMap;
+
+	cocos2d::log("[information] 开始缓存文件数据：静态数据：主线任务地图集合...");
+	CharBufferArea::Instance()->createBuffer(
+		bufferIndex,
+		FileController::Instance()->getCharBufferFromFile(STATIC_DATA_MAINMISSIONMAP)
+		);
+	if (CharBufferArea::Instance()->getBufferByIndex(bufferIndex) == nullptr)
+		cocos2d::log("[error] 缓存失败：静态数据：主线任务地图集合");
+	else
+		cocos2d::log("[information] 成功缓存：静态数据：主线任务地图集合");
+
+	//////////////////////////////////////////////////////////////////////////
+
+	cocos2d::log("[information] 开始解析：静态数据：主线任务地图集合...");
+	ParserMapMissionMain parserMapMissionMain;
+	parserMapMissionMain.parse();
+	if (ParserMapMissionMain::mainMissionMapSetTemp.empty() == true)
+		cocos2d::log("[error] 解析失败：静态数据：主线任务地图集合");
+	else
+	{
+		MissionMapSet::Instance()->loadMainMissionMapSet(ParserMapMissionMain::mainMissionMapSetTemp);
+		cocos2d::log("[information] 完成解析：静态数据：主线任务地图集合");
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+
+	cocos2d::log("[information] 开始释放缓存：静态数据：主线任务地图集合...");
+	ParserMapMissionMain::mainMissionMapSetTemp.clear();
+	CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
+	cocos2d::log("[information] 成功释放缓存：静态数据：主线任务地图集合");
+}
+
+void StaticDataLoader::loadArchivesDataGlobalMap()
+{
+	CharBufferArea::BufferIndex bufferIndex = CharBufferArea::BufferIndex_Archives_GlobalMap;
+
+	cocos2d::log("[information] 开始缓存文件数据：存档：全局地图...");
+	CharBufferArea::Instance()->createBuffer(
+		bufferIndex,
+		FileController::Instance()->getCharBufferFromFile(ARCHIVES_DATA_GLOBALMAP)
+		);
+	if (CharBufferArea::Instance()->getBufferByIndex(bufferIndex) == nullptr)
+		cocos2d::log("[error] 缓存失败：存档：全局地图");
+	else
+		cocos2d::log("[information] 成功缓存：存档：全局地图");
+
+	//////////////////////////////////////////////////////////////////////////
+
+	cocos2d::log("[information] 开始解析：存档：全局地图...");
+	ParserMapArchives parserMapArchives;
+	parserMapArchives.parse();
+	if (ParserMapArchives::globalMapArchivesTemp.empty() == true)
+		cocos2d::log("[error] 解析失败：存档：全局地图");
+	else
+	{
+		MapController::Instance()->loadMapNode(ParserMapArchives::globalMapArchivesTemp);
+		cocos2d::log("[information] 完成解析：存档：全局地图");
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+
+	cocos2d::log("[information] 开始释放缓存：存档：全局地图...");
+	ParserMapArchives::globalMapArchivesTemp.clear();
+	CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
+	cocos2d::log("[information] 成功释放缓存：存档：全局地图");
 }

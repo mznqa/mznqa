@@ -24,6 +24,9 @@
 #include "cardController/CardControllerCombat.h"
 #include "filePath/DataFilePath.h"
 #include "dataHandle/StaticDataLoader.h"
+#include "map/MapController.h"
+#include "map/MapView.h"
+#include "dataHandle/ParserMapMissionMain.h"
 //////////////////////////////////////////////////////////////////////////
 
 SceneLoadResState::~SceneLoadResState()
@@ -57,11 +60,12 @@ bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 	StaticDataLoader::loadStaticDataCardRoadSet();
 	// 载入：静态数据：技能卡集合
 	StaticDataLoader::loadStaticDataCardSkillSet();
-	cocos2d::log("[information] 完成资源载入");
+	// 载入：静态数据：主线任务地图集合
+	StaticDataLoader::loadStaticDataMainMissionMapSet();
+
 	//////////////////////////////////////////////////////////////////////////
 
 	// 测试用区域 //////////////////////////////////////////////////////////////////////////
-	// xxxx->text();
 	//////////////////////////////////////////////////////////////////////////
 
 	cocos2d::log("[information] 执行场景 SceneLoadRes 对应的状态机成功");

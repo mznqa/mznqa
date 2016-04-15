@@ -50,7 +50,7 @@ public:
 	 */
 	void parse();
 
-	/*! \brief	临时用，暂存技能卡集合 */
+	/*! \brief	暂存技能卡集合 */
 	static std::map<int, CardSkill> cardSkillSetTemp;
 };
 
