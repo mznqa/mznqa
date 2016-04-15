@@ -23,13 +23,13 @@ public:
 	// 固有的场景生命周期方法 //////////////////////////////////////////////////////////////////////////
 
 	// 重写场景的初始化操作
-	virtual bool init();
+	virtual bool init() override;
 
 	// 重写场景启动时的操作
-	virtual void onEnter();
+	virtual void onEnter() override;
 
 	// 重写场景离开时的操作
-	virtual void onExit();
+	virtual void onExit() override;
 	//////////////////////////////////////////////////////////////////////////
 };
 

@@ -12,8 +12,8 @@ class SceneLoadResState : public BaseSceneState<SceneLoadRes>
 {
 private:
 	SceneLoadResState(){}
-	SceneLoadResState(const SceneLoadResState &SceneLoadResState){}
-	SceneLoadResState& operator=(const SceneLoadResState &SceneLoadResState){}
+	SceneLoadResState(const SceneLoadResState &sceneLoadResState){}
+	SceneLoadResState& operator=(const SceneLoadResState &sceneLoadResState){}
 public:
 	~SceneLoadResState();
 

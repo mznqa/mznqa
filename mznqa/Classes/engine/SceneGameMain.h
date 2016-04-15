@@ -1,12 +1,12 @@
 #pragma execution_character_set("utf-8")
 
-#ifndef MZNQA_CLASSES_ENGINE_SCENELOADRES_H_
-#define MZNQA_CLASSES_ENGINE_SCENELOADRES_H_
+#ifndef MZNQA_CLASSES_ENGINE_SCENEGAMEMAIN_H_
+#define MZNQA_CLASSES_ENGINE_SCENEGAMEMAIN_H_
 
 #include "cocos2d.h"
 
-// 该场景在载入资源过程中显示
-class SceneLoadRes : public cocos2d::Layer
+// 游戏主场景
+class SceneGameMain : public cocos2d::Layer
 {
 private:
 	// 场景私有量 //////////////////////////////////////////////////////////////////////////
@@ -17,12 +17,10 @@ private:
 
 	// 调度器 //////////////////////////////////////////////////////////////////////////
 
-	// 单次调度器
-	void updateOnce(float dt);
 	//////////////////////////////////////////////////////////////////////////
 
 public:
-	CREATE_FUNC(SceneLoadRes);
+	CREATE_FUNC(SceneGameMain);
 	static cocos2d::Scene* createScene();
 
 	// 固有的场景生命周期方法 //////////////////////////////////////////////////////////////////////////
@@ -35,12 +33,6 @@ public:
 	// 重写场景离开时的方法
 	virtual void onExit() override;
 	//////////////////////////////////////////////////////////////////////////
-
-	// API //////////////////////////////////////////////////////////////////////////
-
-	// 切换到场景SceneGameMain
-	void replaceSceneGameMain();
-	//////////////////////////////////////////////////////////////////////////
 };
 
-#endif	// MZNQA_CLASSES_ENGINE_SCENELOADRES_H_
+#endif	// MZNQA_CLASSES_ENGINE_SCENEGAMEMAIN_H_

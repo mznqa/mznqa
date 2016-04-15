@@ -6,5 +6,6 @@
 #define FILE_PATH_SCENE_DEBUG "SceneDebug.csb"
 #define FILE_PATH_SCENE_GUIDE "SceneGuide.csb"
 #define FILE_PATH_SCENE_LOADRES "SceneLoadRes.csb"
+#define FILE_PATH_SCENE_GAMEMAIN "SceneLoadRes.csb"
 
 #endif
