@@ -13,6 +13,7 @@
 
 struct MapNode;
 class MapView;
+class MissionMap;
 
 /*!
  * \class	MapController
@@ -53,16 +54,16 @@ private:
 	MapController& operator=(const MapController &mapController);
 
 	/*! \brief	地图节点集合 */
-	std::vector<MapNode> mapNodeSet;
+	std::vector<std::vector<MapNode>> mapNodeSet;
 public:
 
 	/*! \brief	地图视图 */
 	MapView *mapView = nullptr;
 
 	/*! \brief	地图横向节点总个数 */
-	static const int mapNodecountHorizontal = 640;
+	static const int mapNodecountHorizontal = 64;
 	/*! \brief	地图纵向节点总个数 */
-	static const int mapNodecountVertical = 360;
+	static const int mapNodecountVertical = 36;
 
 	/*!
 	 * \fn	static MapController* MapController::Instance();
@@ -82,22 +83,22 @@ public:
 	~MapController();
 
 	/*!
-	 * \fn	void MapController::loadMapNode(std::vector<MapNode> &mapNodeSet);
+	 * \fn	void MapController::loadMapNode(const MissionMap &missionMap);
 	 *
 	 * \brief	载入地图节点集合
 	 *
-	 * \param [in,out]	mapNodeSet	地图节点集合实例
+	 * \param [in,out]	missionMap	地图节点集合实例
 	 */
-	void loadMapNode(std::vector<MapNode> &mapNodeSet);
+	void loadMapNode(const MissionMap &missionMap);
 
 	/*!
-	 * \fn	const std::vector<MapNode>& MapController::getMapNodeSet()
+	 * \fn	const std::vector<std::vector<MapNode> >& MapController::getMapNodeSet()
 	 *
 	 * \brief	获取地图节点集合
 	 *
 	 * \return	返回地图节点集合的常量引用
 	 */
-	const std::vector<MapNode>& getMapNodeSet()
+	const std::vector<std::vector<MapNode> >& getMapNodeSet()
 	{
 		return mapNodeSet;
 	}

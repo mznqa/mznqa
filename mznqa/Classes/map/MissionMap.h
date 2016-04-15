@@ -10,11 +10,18 @@
 class MissionMap
 {
 public:
+	static const int invalidIndex = -1;
+
 	enum MapType
 	{
 		MapType_MainMission = 0,	///< 主线任务图
 		MapType_SideMission = 1		///< 支线任务图
 	};
+
+	MissionMap() :
+		index(invalidIndex),
+		mapType(MapType_MainMission)
+	{}
 
 	MissionMap(int index, MapType mapType, int width, int height, const std::vector<MapNode> mapNodeSet);
 
@@ -30,12 +37,13 @@ public:
 		return mapNodeSet;
 	}
 
-	std::vector<std::vector<MapNode>> mapNodeSet;
 private:
 
 	int index;
 
 	MapType mapType;
+
+	std::vector<std::vector<MapNode>> mapNodeSet;
 };
 
 #endif

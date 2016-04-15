@@ -8,6 +8,8 @@
 #include "filePath/SceneFilePath.h"
 #include "runtime/SceneGameMainState.h"
 
+#include "engine/LayerMap.h"
+
 USING_NS_CC;
 
 using namespace cocostudio::timeline;
@@ -33,9 +35,11 @@ bool SceneGameMain::init()
 		return false;
 	}
 
-	rootNode = CSLoader::createNode(FILE_PATH_SCENE_GAMEMAIN);
+	LayerMap *lm = LayerMap::create();
 
-	addChild(rootNode);
+	lm->setPosition(Vec2(0, 1080));
+
+	addChild(lm);
 
 	log("[information] 场景 SceneGameMain 启动成功");
 

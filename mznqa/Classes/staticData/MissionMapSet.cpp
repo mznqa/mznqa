@@ -2,6 +2,8 @@
 
 #include "staticData/MissionMapSet.h"
 
+const MissionMap MissionMapSet::nullMissionMap;
+
 MissionMapSet* MissionMapSet::Instance()
 {
 	static MissionMapSet instance;

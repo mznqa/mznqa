@@ -10,6 +10,7 @@
 
 #include "map/MapNode.h"
 #include "map/MapView.h"
+#include "map/MissionMap.h"
 
 MapController* MapController::Instance()
 {
@@ -27,7 +28,7 @@ MapController::~MapController()
 	delete mapView;
 }
 
-void MapController::loadMapNode(std::vector<MapNode> &mapNodeSet)
+void MapController::loadMapNode(const MissionMap &missionMap)
 {
-	this->mapNodeSet.swap(mapNodeSet);
+	this->mapNodeSet.assign(missionMap.getMapNodeSet().begin(), missionMap.getMapNodeSet().end());
 }

@@ -141,7 +141,7 @@ void StaticDataLoader::loadArchivesDataGlobalMap()
 		cocos2d::log("[error] 解析失败：存档：全局地图");
 	else
 	{
-		MapController::Instance()->loadMapNode(ParserMapArchives::globalMapArchivesTemp);
+		//MapController::Instance()->loadMapNode(ParserMapArchives::globalMapArchivesTemp);
 		cocos2d::log("[information] 完成解析：存档：全局地图");
 	}
 
