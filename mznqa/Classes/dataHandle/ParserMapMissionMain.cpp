@@ -133,7 +133,6 @@ namespace ForParserMapMissionMain
 			}
 			else if (pn.state == ParserNode::State::State_Map)
 			{
-				//cocos2d::log("aaa %d", ParserMapMissionMain::mainMissionMapSetTemp->at(0).mapNodeSet->size());
 				ParserMapMissionMain::mainMissionMapSetTemp.push_back(
 					MissionMap(
 					mapArgs[0],
@@ -166,7 +165,6 @@ void ParserMapMissionMain::parse()
 	// 判断解析是否出错
 	if (reader.HasParseError())
 	{
-		cocos2d::log("[error] 解析地图存档出错");
+		cocos2d::log("[error] 解析主线任务地图集合出错");
 	}
-	cocos2d::log("aaa %d", ParserMapMissionMain::mainMissionMapSetTemp.at(0).mapNodeSet.size());
 }
