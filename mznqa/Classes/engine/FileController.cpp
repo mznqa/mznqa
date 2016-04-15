@@ -34,15 +34,15 @@ char* FileController::getCharBufferFromFile(const std::string& fileName, int& bu
 	cocos2d::log("[information] 正尝试打开文件：%s ...", fileName.c_str());
 	ssize_t size;
 	char* charBuffer = (char*)cocos2d::FileUtils::getInstance()->getFileData(fileName, "r", &size);
-	// 确保字符缓冲以'\0'结尾，因此读入的文件必须以空行结尾，且行尾部结束符为LF
-	charBuffer[size - 1] = '\0';
-	if (charBuffer == NULL)
+	if (charBuffer == NULL || size == 0)
 	{
 		cocos2d::log("[error] 文件打开失败：%s ", fileName.c_str());
 		// TODO 在此退出程序
 		bufferSize = 0;
 		return nullptr;
 	}
+	// 确保字符缓冲以'\0'结尾，因此读入的文件必须以空行结尾，且行尾部结束符为LF
+	charBuffer[size - 1] = '\0';
 	bufferSize = size;
 	cocos2d::log("[information] 文件(size=%d)打开成功：%s", bufferSize, fileName.c_str());
 	return charBuffer;

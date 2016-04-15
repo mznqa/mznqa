@@ -1,49 +1,26 @@
-/*!
- * \file	Classes\dataHandle\ParserMapArchives.cpp
- *
- * \brief	定义类 ParserMapArchives，以及特需的结构体： ParserNode 和 HandlerMapArchives
- */
-
 #pragma execution_character_set("utf-8")
 
-#include "dataHandle/ParserMapArchives.h"
-
-#include <vector>
+#include "dataHandle/ParserMapMissionMain.h"
 
 #include "cocos2d.h"
-
 #include "json/reader.h"
 
-#include "map/MapNode.h"
-#include "map/MapController.h"
 #include "dataHandle/CharBufferArea.h"
 
-std::vector<MapNode> ParserMapArchives::globalMapArchivesTemp;
+std::vector<MissionMap> ParserMapMissionMain::mainMissionMapSetTemp;
 
-ParserMapArchives::ParserMapArchives()
+namespace ForParserMapMissionMain
 {
-}
-
-ParserMapArchives::~ParserMapArchives()
-{
-}
-
-namespace ForParserMapArchives
-{
-	/*!
-	 * \struct	ParserNode
-	 *
-	 * \brief	ParserMapArchives 特需的用于记录解析节点状态的结构体
-	 *
-	 */
 	struct ParserNode
 	{
 		enum State
 		{
 			State_Global = 0,
-			State_MapArgs = 1,
-			State_MapNodeArray = 2,
-			State_MapNode = 3
+			State_Info = 1,
+			State_MapArray = 2,
+			State_Map = 3,
+			State_MapNodeArray = 4,
+			State_MapNode = 5
 		};
 
 		int state;
@@ -66,18 +43,16 @@ namespace ForParserMapArchives
 		}
 	};
 
-	/*!
-	* \struct	HandlerMapArchives
-	*
-	* \brief	ParserMapArchives 特需的用于处理解析过程的结构体
-	*
-	*/
-	struct HandlerMapArchives : public rapidjson::BaseReaderHandler<rapidjson::UTF8<>>
+	struct HandlerMapMissionMain : public rapidjson::BaseReaderHandler<rapidjson::UTF8<>>
 	{
 	private:
 		ParserNode pn;
 
+		std::vector<int> mapArgs;
+
 		std::vector<int> mapNodeArgs;
+
+		std::vector<MapNode> mapNodeSetTemp;
 
 	public:
 		bool Null()
@@ -90,13 +65,17 @@ namespace ForParserMapArchives
 		}
 		bool Int(int i)
 		{
-			if (pn.state == ParserNode::State::State_MapNode)
+			if (pn.state == ParserNode::State::State_Map)
+				mapArgs.push_back(i);
+			else if (pn.state == ParserNode::State::State_MapNode)
 				mapNodeArgs.push_back(i);
 			return true;
 		}
 		bool Uint(unsigned u)
 		{
-			if (pn.state == ParserNode::State::State_MapNode)
+			if (pn.state == ParserNode::State::State_Map)
+				mapArgs.push_back(u);
+			else if (pn.state == ParserNode::State::State_MapNode)
 				mapNodeArgs.push_back(u);
 			return true;
 		}
@@ -140,37 +119,54 @@ namespace ForParserMapArchives
 			--pn;
 			if (pn.state == ParserNode::State::State_MapNodeArray)
 			{
-				ParserMapArchives::globalMapArchivesTemp.push_back(MapNode(
+				mapNodeSetTemp.push_back(
+					MapNode(
 					mapNodeArgs[0],
 					mapNodeArgs[1],
 					mapNodeArgs[2],
-					((mapNodeArgs[3] == 1) ? true : false),
+					(mapNodeArgs[3] == 0 ? true : false),
 					MapNode::NodeType(mapNodeArgs[4]),
 					mapNodeArgs[5]
-					));
+					)
+					);
 				mapNodeArgs.clear();
+			}
+			else if (pn.state == ParserNode::State::State_Map)
+			{
+				//cocos2d::log("aaa %d", ParserMapMissionMain::mainMissionMapSetTemp->at(0).mapNodeSet->size());
+				ParserMapMissionMain::mainMissionMapSetTemp.push_back(
+					MissionMap(
+					mapArgs[0],
+					MissionMap::MapType_MainMission,
+					mapArgs[1],
+					mapArgs[2],
+					mapNodeSetTemp
+					)
+					);
+				mapNodeSetTemp.clear();
 			}
 			return true;
 		}
 	};
 }
 
-void ParserMapArchives::parse()
+void ParserMapMissionMain::parse()
 {
 	// 检查是否载入地图存档
-	if (CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_Archives_GlobalMap) == nullptr)
+	if (CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_Static_MainMissionMap) == nullptr)
 		return;
 	// 解析所需特定流
-	rapidjson::StringStream ss(CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_Archives_GlobalMap));
+	rapidjson::StringStream ss(CharBufferArea::Instance()->getBufferByIndex(CharBufferArea::Instance()->BufferIndex_Static_MainMissionMap));
 	// 解析器
 	rapidjson::Reader reader;
 	// 处理器
-	ForParserMapArchives::HandlerMapArchives handlerMapArchives;
+	ForParserMapMissionMain::HandlerMapMissionMain handlerMapMissionMain;
 	// 解析
-	reader.Parse(ss, handlerMapArchives);
+	reader.Parse(ss, handlerMapMissionMain);
 	// 判断解析是否出错
 	if (reader.HasParseError())
 	{
 		cocos2d::log("[error] 解析地图存档出错");
 	}
+	cocos2d::log("aaa %d", ParserMapMissionMain::mainMissionMapSetTemp.at(0).mapNodeSet.size());
 }

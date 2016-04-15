@@ -11,6 +11,8 @@
 
 #include "map/MapController.h"
 
+#include "card/CardBase.h"
+
 /*!
  * \struct	MapNode
  *
@@ -27,27 +29,47 @@ struct MapNode
 	enum NodeType
 	{
 		NodeType_None = 0,		///< 无特定类型
-		NodeType_Road = 1,		///< 道路
-		NodeType_Wall = 2,		///< 墙
+		NodeType_Wall = 1,		///< 墙
+		NodeType_Road = 2,		///< 道路
+		NodeType_Door = 3,		///< 门（入口）
+		NodeType_Exit = 4		///< 出口
 	};
 
 	/*! \brief	标识无效的节点索引 */
 	static const int invalidIndex = -1;
+	/*! \brief	标志无效的横纵坐标值 */
+	static const int invalidXOrY = -1;
 	/*! \brief	指向该图节点的索引 */
-	const int index;
+	int index;
 	/*! \brief	地图节点的横坐标 */
-	const int x;
+	int x;
 	/*! \brief	地图节点的纵坐标 */
-	const int y;
+	int y;
 	/*! \brief	标识地图节点是否已知 */
 	bool known;
 	/*! \brief	节点类型 */
 	NodeType nodeType;
-	/*! \brief	是否含有附加物 */
-	bool hasExtra;
+	/*! \brief	附加的卡牌id */
+	int extraCardID;
 
 	/*!
-	 * \fn	MapNode ( int index, int x, int y, bool known, NodeType nodeType, bool hasExtra)
+	 * \fn	MapNode() : index(invalidIndex), x(invalidXOrY), y(invalidXOrY), known(false), nodeType(NodeType_None), extraCardID(CardBase::invalidID)
+	 *
+	 * \brief	默认构造函数，将构造一个无意义的地图节点
+	 *
+	 */
+	MapNode() :
+		index(invalidIndex),
+		x(invalidXOrY),
+		y(invalidXOrY),
+		known(false),
+		nodeType(NodeType_None),
+		extraCardID(CardBase::invalidID)
+	{
+	}
+
+	/*!
+	 * \fn	MapNode ( int index, int x, int y, bool known, NodeType nodeType, int extraCardID)
 	 *
 	 * \brief	构造函数
 	 *
@@ -56,7 +78,7 @@ struct MapNode
 	 * \param	y		 	指定地图节点的纵坐标
 	 * \param	known	 	指定地图节点是否已知
 	 * \param	nodeType 	指定地图节点的类型
-	 * \param	hasExtra	指定地图节点的是否包含附加物
+	 * \param	extraCardID	指定地图节点的附加卡牌id
 	 */
 	MapNode
 		(
@@ -65,14 +87,14 @@ struct MapNode
 		int y,
 		bool known,
 		NodeType nodeType,
-		bool hasExtra
+		int extraCardID
 		) :
 		index(index),
 		x(x),
 		y(y),
 		known(known),
 		nodeType(nodeType),
-		hasExtra(hasExtra)
+		extraCardID(extraCardID)
 	{
 	}
 
@@ -89,9 +111,42 @@ struct MapNode
 		y(mapNode.y),
 		known(mapNode.known),
 		nodeType(mapNode.nodeType),
-		hasExtra(mapNode.hasExtra)
-
+		extraCardID(mapNode.extraCardID)
 	{
+	}
+
+	/*!
+	* \fn	MapNode& operator=(const MapNode &mapNode);
+	*
+	* \brief	赋值运算符
+	*
+	* \param	mapNode	MapNode 实例
+	*
+	* \return	MapNode 实例
+	*/
+	MapNode& operator=(const MapNode &mapNode)
+	{
+		this->index = mapNode.index;
+		this->x = mapNode.x;
+		this->y = mapNode.y;
+		this->known = mapNode.known;
+		this->nodeType = mapNode.nodeType;
+		this->extraCardID = mapNode.extraCardID;
+		return *this;
+	}
+
+	/*!
+	 * \fn	void copyIncomplete(const MapNode &mapNode)
+	 *
+	 * \brief	从一个 MapNode 实例中拷贝 known , nodeType , extraCardID 属性
+	 *
+	 * \param	mapNode	MapNode 实例
+	 */
+	void copyIncomplete(const MapNode &mapNode)
+	{
+		this->known = mapNode.known;
+		this->nodeType = mapNode.nodeType;
+		this->extraCardID = mapNode.extraCardID;
 	}
 
 	/*!

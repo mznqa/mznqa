@@ -53,6 +53,14 @@ public:
 	static void loadStaticDataCardSkillSet();
 
 	/*!
+	 * \fn	static void StaticDataLoader::loadStaticDataMainMissionMapSet()
+	 *
+	 * \brief	载入静态数据：主线任务地图集合
+	 *
+	 */
+	static void loadStaticDataMainMissionMapSet();
+
+	/*!
 	 * \fn	static void StaticDataLoader::loadArchivesDataGlobalMap();
 	 *
 	 * \brief	载入存档：全局地图

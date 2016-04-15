@@ -26,6 +26,7 @@
 #include "dataHandle/StaticDataLoader.h"
 #include "map/MapController.h"
 #include "map/MapView.h"
+#include "dataHandle/ParserMapMissionMain.h"
 //////////////////////////////////////////////////////////////////////////
 
 SceneLoadResState::~SceneLoadResState()
@@ -59,38 +60,12 @@ bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 	StaticDataLoader::loadStaticDataCardRoadSet();
 	// 载入：静态数据：技能卡集合
 	StaticDataLoader::loadStaticDataCardSkillSet();
+	// 载入：静态数据：主线任务地图集合
+	StaticDataLoader::loadStaticDataMainMissionMapSet();
 
-	// 载入：存档：全局地图
-	StaticDataLoader::loadArchivesDataGlobalMap();
-	cocos2d::log("[information] 完成资源载入");
 	//////////////////////////////////////////////////////////////////////////
 
 	// 测试用区域 //////////////////////////////////////////////////////////////////////////
-	// xxxx->text();
-	int x0 = MapController::Instance()->mapView->getViewRangeXBegin();
-	int x1 = MapController::Instance()->mapView->getViewRangeXEnd();
-	int y0 = MapController::Instance()->mapView->getViewRangeYBegin();
-	int y1 = MapController::Instance()->mapView->getViewRangeYEnd();
-	for (int y = y0; y <= y1; ++y)
-	{
-		cocos2d::log("%5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d, %5d",
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(0, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(1, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(2, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(3, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(4, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(5, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(6, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(7, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(8, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(9, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(10, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(11, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(12, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(13, y)).index,
-			MapController::Instance()->getMapNodeSet().at(MapNode::getIndexByXY(14, y)).index
-			);
-	}
 	//////////////////////////////////////////////////////////////////////////
 
 	cocos2d::log("[information] 执行场景 SceneLoadRes 对应的状态机成功");
