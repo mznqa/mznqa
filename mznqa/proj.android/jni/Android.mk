@@ -20,21 +20,28 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/cardController/CardBoxRTM.cpp \
                    ../../Classes/cardController/CardControllerCombat.cpp \
                    ../../Classes/cardController/CardControllerExplore.cpp \
+                   ../../Classes/combatSystem/EffectPQ.cpp \
                    ../../Classes/dataHandle/CharBufferArea.cpp \
                    ../../Classes/dataHandle/ParserCardSkill.cpp \
                    ../../Classes/dataHandle/ParserMapArchives.cpp \
+                   ../../Classes/dataHandle/ParserMapMissionMain.cpp \
                    ../../Classes/dataHandle/StaticDataLoader.cpp \
                    ../../Classes/effect/EffectFunSet.cpp \
                    ../../Classes/engine/FileController.cpp \
+                   ../../Classes/engine/LayerMap.cpp \
                    ../../Classes/engine/SceneDebug.cpp \
+                   ../../Classes/engine/SceneGameMain.cpp \
                    ../../Classes/engine/SceneGuide.cpp \
                    ../../Classes/engine/SceneLoadRes.cpp \
                    ../../Classes/gameObject/Monster.cpp \
                    ../../Classes/gameObject/Role.cpp \
                    ../../Classes/map/MapController.cpp \
+                   ../../Classes/map/MissionMap.cpp \
+                   ../../Classes/runtime/SceneGameMainState.cpp \
                    ../../Classes/runtime/SceneGuideState.cpp \
                    ../../Classes/runtime/SceneLoadResState.cpp \
-                   ../../Classes/staticData/CardSet.cpp
+                   ../../Classes/staticData/CardSet.cpp \
+                   ../../Classes/staticData/MissionMapSet.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

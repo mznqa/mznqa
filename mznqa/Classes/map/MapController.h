@@ -61,9 +61,9 @@ public:
 	MapView *mapView = nullptr;
 
 	/*! \brief	地图横向节点总个数 */
-	static const int mapNodecountHorizontal = 64;
+	static const int mapNodecountHorizontal = 60;
 	/*! \brief	地图纵向节点总个数 */
-	static const int mapNodecountVertical = 36;
+	static const int mapNodecountVertical = 30;
 
 	/*!
 	 * \fn	static MapController* MapController::Instance();
@@ -81,6 +81,14 @@ public:
 	 *
 	 */
 	~MapController();
+
+	/*!
+	 * \fn	void MapController::createMap()
+	 *
+	 * \brief	将当成地图重置为一张空地图
+	 *
+	 */
+	void setEmptyMap();
 
 	/*!
 	 * \fn	void MapController::loadMapNode(const MissionMap &missionMap);

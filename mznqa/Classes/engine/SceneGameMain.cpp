@@ -37,9 +37,20 @@ bool SceneGameMain::init()
 
 	LayerMap *lm = LayerMap::create();
 
-	lm->setPosition(Vec2(0, 1080));
+	lm->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+
+	float dv = 1.0;
+
+	lm->setScale(dv);
+
+	lm->setPosition(Vec2(0, 1080 * dv));
 
 	addChild(lm);
+
+	auto ckx = Sprite::create("test_map_cell/cellx192.png");
+	ckx->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	ckx->setPosition(Vec2(0, 1080));
+	addChild(ckx);
 
 	log("[information] 场景 SceneGameMain 启动成功");
 

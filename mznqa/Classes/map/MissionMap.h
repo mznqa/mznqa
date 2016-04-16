@@ -32,6 +32,22 @@ public:
 		return mapType;
 	}
 
+	int getWidth()const
+	{
+		if (mapNodeSet.empty() == false)
+			return mapNodeSet.at(0).size();
+		else
+			return 0;
+	}
+
+	int getHeight()const
+	{
+		if (mapNodeSet.empty() == false)
+			return mapNodeSet.size();
+		else
+			return 0;
+	}
+
 	const std::vector<std::vector<MapNode>>& getMapNodeSet()const
 	{
 		return mapNodeSet;

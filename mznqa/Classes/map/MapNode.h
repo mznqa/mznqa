@@ -29,10 +29,11 @@ struct MapNode
 	enum NodeType
 	{
 		NodeType_None = 0,		///< 无特定类型
-		NodeType_Wall = 1,		///< 墙
-		NodeType_Road = 2,		///< 道路
-		NodeType_Door = 3,		///< 门（入口）
-		NodeType_Exit = 4		///< 出口
+		NodeType_Fence = 1,		///< 内外界分隔用围栏
+		NodeType_Wall = 2,		///< 墙
+		NodeType_Road = 3,		///< 道路
+		NodeType_Door = 4,		///< 门（入口）
+		NodeType_Exit = 5		///< 出口
 	};
 
 	/*! \brief	标识无效的节点索引 */
