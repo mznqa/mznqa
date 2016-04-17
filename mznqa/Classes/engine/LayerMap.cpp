@@ -8,7 +8,7 @@
 #include "filePath/SceneFilePath.h"
 
 #include "map/MapController.h"
-#include "staticData/MissionMapSet.h"
+#include "map/MapNode.h"
 
 USING_NS_CC;
 using namespace cocostudio::timeline;
@@ -16,7 +16,7 @@ using namespace cocostudio::timeline;
 const float LayerMap::mapCellSize = 64.0;
 const float LayerMap::mapGroupSize = 192.0;
 
-const float LayerMap::globalMoveDuration = 1.0;
+const float LayerMap::globalMoveDuration = 0.3;
 
 bool LayerMap::init()
 {
@@ -25,8 +25,79 @@ bool LayerMap::init()
 		return false;
 	}
 
-	MapController::Instance()->setEmptyMap();
-	MapController::Instance()->loadMapNode(MissionMapSet::Instance()->getMainMissionMapByIndex(0));
+	mapView = MapController::Instance()->mapView;
+
+	screenViewMapCellCountWidth = mapView->getWidht();
+	screenViewMapCellCountHeight = mapView->getHeight();
+
+	loadMapFromMapController();
+
+	addGlobalEventListener();
+
+	return true;
+}
+
+bool LayerMap::onTouchBegan(Touch *touch, Event *unused_event)
+{
+	cocos2d::log("[warning] LayerMap::onTouchBegan()");
+	return true;
+}
+
+void LayerMap::onTouchMoved(Touch *touch, Event *unused_event)
+{
+	cocos2d::log("[warning] LayerMap::onTouchMoved()");
+}
+
+void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
+{
+	cocos2d::log("[warning] LayerMap::onTouchEnded()");
+	Vec2 delta = touch->getLocation() - mapGlobalCenterPoint;
+
+	cocos2d::log("delta:%f,%f", delta.x, delta.y);
+
+	if (abs(delta.x) > abs(delta.y))
+	{
+		if (delta.x > 0)
+		{
+			mapView->moveLeft();
+		}
+		else if (delta.x < 0)
+		{
+			mapView->moveRight();
+		}
+	}
+	else
+	{
+		if (delta.y > 0)
+		{
+			mapView->moveDown();
+		}
+		else if (delta.y < 0)
+		{
+			mapView->moveUp();
+		}
+	}
+	this->stopActionsByFlags(1);
+	auto ac = MoveTo::create(globalMoveDuration, Vec2(0.0 - mapView->getLeftTopGX()*mapCellSize, DESIGNRESOLUTIONSIZE_HEIGHT + mapView->getLeftTopGY()*mapCellSize));
+	ac->setFlags(1);
+	this->runAction(ac);
+	cocos2d::log("start:(%d,%d)", mapView->getLeftTopGX(), mapView->getLeftTopGY());
+}
+
+void LayerMap::addGlobalEventListener()
+{
+	auto touchListener = EventListenerTouchOneByOne::create();
+	touchListener->setSwallowTouches(true);
+	touchListener->onTouchBegan = CC_CALLBACK_2(LayerMap::onTouchBegan, this);
+	touchListener->onTouchMoved = CC_CALLBACK_2(LayerMap::onTouchMoved, this);
+	touchListener->onTouchEnded = CC_CALLBACK_2(LayerMap::onTouchEnded, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+}
+
+void LayerMap::loadMapFromMapController()
+{
+	mapCellSet.clear();
+	mapCellSet = std::vector<std::vector<cocos2d::Sprite*>>(MapController::mapNodecountVertical, std::vector<cocos2d::Sprite*>(MapController::mapNodecountHorizontal, nullptr));
 
 	auto it1 = mapCellSet.begin();
 	auto itEnd1 = mapCellSet.end();
@@ -60,149 +131,4 @@ bool LayerMap::init()
 		++it1;
 		++y;
 	}
-
-	auto touchListener = EventListenerTouchOneByOne::create();
-	touchListener->setSwallowTouches(true);
-	touchListener->onTouchBegan = CC_CALLBACK_2(LayerMap::onTouchBegan, this);
-	touchListener->onTouchMoved = CC_CALLBACK_2(LayerMap::onTouchMoved, this);
-	touchListener->onTouchEnded = CC_CALLBACK_2(LayerMap::onTouchEnded, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
-
-	return true;
-}
-
-bool LayerMap::onTouchBegan(Touch *touch, Event *unused_event)
-{
-	cocos2d::log("[warning] LayerMap::onTouchBegan()");
-	return true;
-}
-
-void LayerMap::onTouchMoved(Touch *touch, Event *unused_event)
-{
-	cocos2d::log("[warning] LayerMap::onTouchMoved()");
-	//Vec2 delta = touch->getDelta();
-
-	//this->setPosition(Vec2(
-	//	this->getPosition().x + delta.x,
-	//	this->getPosition().y + delta.y
-	//	));
-}
-
-void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
-{
-	cocos2d::log("[warning] LayerMap::onTouchEnded()");
-	Vec2 delta = touch->getLocation() - mapGlobalCenterPoint;
-
-	cocos2d::log("delta:%f,%f", delta.x, delta.y);
-
-	float speed = 1.0;
-
-	if ((abs(delta.x) - abs(delta.y)) < mapCellSize || abs(delta.x) > abs(delta.y))
-	{
-		if (delta.x > 0)
-		{
-			//moveRight();
-			moveLeft();
-			//speed = 1.0 - delta.x / (1920.0 / 2.0);
-		}
-		else if (delta.x < 0)
-		{
-			//moveLeft();
-			moveRight();
-			//speed = 1.0 - (-delta.x) / (1920.0 / 2.0);
-		}
-	}
-	if ((abs(delta.x) - abs(delta.y)) < mapCellSize || abs(delta.x) < abs(delta.y))
-	{
-		if (delta.y > 0)
-		{
-			//moveUp();
-			moveDown();
-			//speed = 1.0 - delta.y / (1080.0 / 2.0);
-		}
-		else if (delta.y < 0)
-		{
-			//moveDown();
-			moveUp();
-			//speed = 1.0 - (-delta.y) / (1080.0 / 2.0);
-		}
-	}
-	speed = 0.3;
-	speed = (speed >= 1.0 || speed <= 0.0) ? (1.0) : (speed);
-	this->stopActionsByFlags(1);
-	auto ac = MoveTo::create(globalMoveDuration*speed, Vec2(0.0 - leftTopGX*mapCellSize, 1080.0 + leftTopGY*mapCellSize));
-	ac->setFlags(1);
-	this->runAction(ac);
-}
-
-bool LayerMap::judgeMoveUp()
-{
-	return !(leftTopGY + 3 >= MapController::mapNodecountVertical);
-}
-
-bool LayerMap::judgeMoveDown()
-{
-	return !(leftTopGY - 3 < 0);
-}
-
-bool LayerMap::judgeMoveLeft()
-{
-	return !(leftTopGX + 3 >= MapController::mapNodecountHorizontal);
-}
-
-bool LayerMap::judgeMoveRight()
-{
-	return !(leftTopGX - 3 < 0);
-}
-
-void LayerMap::moveUp()
-{
-	if (judgeMoveUp() == false)
-		return;
-
-	leftTopGY += 3;
-
-	//this->stopActionsByFlags(1);
-	//auto ac = MoveTo::create(globalMoveDuration*speed, Vec2(0.0 - leftTopGX*mapCellSize, 1080.0 + leftTopGY*mapCellSize));
-	//ac->setFlags(1);
-	//this->runAction(ac);
-}
-
-void LayerMap::moveDown()
-{
-	if (judgeMoveDown() == false)
-		return;
-
-	leftTopGY -= 3;
-
-	//this->stopActionsByFlags(1);
-	//auto ac = MoveTo::create(globalMoveDuration*speed, Vec2(0.0 - leftTopGX*mapCellSize, 1080.0 + leftTopGY*mapCellSize));
-	//ac->setFlags(1);
-	//this->runAction(ac);
-}
-
-void LayerMap::moveLeft()
-{
-	if (judgeMoveLeft() == false)
-		return;
-
-	leftTopGX += 3;
-
-	//this->stopActionsByFlags(1);
-	//auto ac = MoveTo::create(globalMoveDuration*speed, Vec2(0.0 - leftTopGX*mapCellSize, 1080.0 + leftTopGY*mapCellSize));
-	//ac->setFlags(1);
-	//this->runAction(ac);
-}
-
-void LayerMap::moveRight()
-{
-	if (judgeMoveRight() == false)
-		return;
-
-	leftTopGX -= 3;
-
-	//this->stopActionsByFlags(1);
-	//auto ac = MoveTo::create(globalMoveDuration*speed, Vec2(0.0 - leftTopGX*mapCellSize, 1080.0 + leftTopGY*mapCellSize));
-	//ac->setFlags(1);
-	//this->runAction(ac);
 }

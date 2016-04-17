@@ -83,7 +83,7 @@ public:
 	~MapController();
 
 	/*!
-	 * \fn	void MapController::createMap()
+	 * \fn	void MapController::setEmptyMap()
 	 *
 	 * \brief	将当成地图重置为一张空地图
 	 *

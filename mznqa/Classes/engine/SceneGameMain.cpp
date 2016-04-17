@@ -7,8 +7,9 @@
 
 #include "filePath/SceneFilePath.h"
 #include "runtime/SceneGameMainState.h"
-
 #include "engine/LayerMap.h"
+#include "staticData/MissionMapSet.h"
+#include "define/GlobalDefine.h"
 
 USING_NS_CC;
 
@@ -35,6 +36,9 @@ bool SceneGameMain::init()
 		return false;
 	}
 
+	MapController::Instance()->setEmptyMap();
+	MapController::Instance()->loadMapNode(MissionMapSet::Instance()->getMainMissionMapByIndex(0));
+
 	LayerMap *lm = LayerMap::create();
 
 	lm->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
@@ -43,13 +47,13 @@ bool SceneGameMain::init()
 
 	lm->setScale(dv);
 
-	lm->setPosition(Vec2(0, 1080 * dv));
+	lm->setPosition(Vec2(0, DESIGNRESOLUTIONSIZE_HEIGHT* dv));
 
 	addChild(lm);
 
 	auto ckx = Sprite::create("test_map_cell/cellx192.png");
 	ckx->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-	ckx->setPosition(Vec2(0, 1080));
+	ckx->setPosition(Vec2(0, DESIGNRESOLUTIONSIZE_HEIGHT));
 	addChild(ckx);
 
 	log("[information] 场景 SceneGameMain 启动成功");

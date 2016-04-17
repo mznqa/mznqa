@@ -1,3 +1,8 @@
+/*!
+ * \file	Classes\map\MapView.h
+ *
+ * \brief	定义类 MapView
+ */
 #pragma execution_character_set("utf-8")
 
 #ifndef MZNQA_CLASSES_MAP_MAPVIEW_H_
@@ -5,135 +10,258 @@
 
 #include "map/MapController.h"
 
+/*!
+ * \class	MapView
+ *
+ * \brief	用于辅助地图显示的地图视野区域
+ *
+ */
 class MapView
 {
 private:
-	int centerGX;
-	int centerGY;
+	/*! \brief	地图视野内左上角的地图格子的横坐标 */
+	int leftTopGX;
+	/*! \brief	地图视野内左上角的地图格子的纵坐标 */
+	int leftTopGY;
 
-	int hDelta;
-	int vDelta;
+	/*! \brief	地图视野的宽度 */
+	int width;
+	/*! \brief	地图视野的高度 */
+	int height;
 
 public:
+	/*! \brief	标识无效横纵坐标值 */
 	static const int invalidXOrY = -1;
 
-	static const int hDeltaMin = 7;
-	static const int vDeltaMin = 3;
-
+	/*!
+	 * \fn	MapView::MapView( int leftTopGX, int leftTopGY, int width, int height )
+	 *
+	 * \brief	构造函数
+	 *
+	 * \param	leftTopGX	指定地图视野内左上角的地图格子的横坐标
+	 * \param	leftTopGY	指定地图视野内左上角的地图格子的纵坐标
+	 * \param	width	 	指定地图视野的宽度
+	 * \param	height   	指定地图视野的高度
+	 */
 	MapView(
-		int centerGX = hDeltaMin,
-		int centerGY = vDeltaMin
+		int leftTopGX,
+		int leftTopGY,
+		int width,
+		int height
 		) :
-		centerGX(centerGX),
-		centerGY(centerGY),
-		hDelta(hDeltaMin),
-		vDelta(vDeltaMin)
+		leftTopGX(leftTopGX),
+		leftTopGY(leftTopGY),
+		width(width),
+		height(height)
 	{
 	}
+
+	/*!
+	 * \fn	MapView::~MapView()
+	 *
+	 * \brief	析构函数
+	 *
+	 */
 	~MapView(){}
 
-	// 检查当前视窗中点是否合法
-	bool checkCenter()
+	/*!
+	 * \fn	int MapView::getLeftTopGX()const
+	 *
+	 * \brief	获取地图视野内左上角的地图格子的横坐标
+	 *
+	 * \return	返回地图视野内左上角的地图格子的横坐标
+	 */
+	int getLeftTopGX()const
 	{
-		return (0 <= centerGX - hDelta &&
-			centerGX + hDelta < MapController::mapNodecountHorizontal &&
-			0 <= centerGY - vDelta &&
-			centerGY + hDelta < MapController::mapNodecountVertical
-			);
+		return leftTopGX;
 	}
 
-	int getCenterGX()
+	/*!
+	 * \fn	int MapView::getLeftTopGY()const
+	 *
+	 * \brief	获取地图视野内左上角的地图格子的纵坐标
+	 *
+	 * \return	返回地图视野内左上角的地图格子的纵坐标
+	 */
+	int getLeftTopGY()const
 	{
-		return centerGX;
+		return leftTopGY;
 	}
 
-	int getCenterGY()
+	/*!
+	 * \fn	int MapView::getWidht()const
+	 *
+	 * \brief	获取地图视野的宽度
+	 *
+	 * \return	返回地图视野的宽度
+	 */
+	int getWidht()const
 	{
-		return centerGY;
+		return width;
 	}
 
-	int getViewRangeXBegin()
+	/*!
+	 * \fn	int MapView::getHeight()const
+	 *
+	 * \brief	获取地图视野的高度
+	 *
+	 * \return	返回地图视野的高度
+	 */
+	int getHeight()const
 	{
-		if (checkCenter())
-			return centerGX - hDelta;
-		else
-			return invalidXOrY;
+		return height;
 	}
 
-	int getViewRangeXEnd()
+	/*!
+	 * \fn	int MapView::getViewRangeXBegin()const
+	 *
+	 * \brief	获取地图视野区域内的起始横坐标
+	 *
+	 * \return	返回地图视野区域内的起始横坐标
+	 */
+	int getViewRangeXBegin()const
 	{
-		if (checkCenter())
-			return centerGX + hDelta;
-		else
-			return invalidXOrY;
+		return leftTopGX;
 	}
 
-	int getViewRangeYBegin()
+	/*!
+	 * \fn	int MapView::getViewRangeXEnd()const
+	 *
+	 * \brief	获取地图视野区域内的最终横坐标
+	 *
+	 * \return	返回地图视野区域内的最终横坐标
+	 */
+	int getViewRangeXEnd()const
 	{
-		if (checkCenter())
-			return centerGY - vDelta;
-		else
-			return invalidXOrY;
+		return leftTopGX + width;
 	}
 
-	int getViewRangeYEnd()
+	/*!
+	 * \fn	int MapView::getViewRangeYBegin()const
+	 *
+	 * \brief	获取地图视野区域内的起始横坐标
+	 *
+	 * \return	返回地图视野区域内的起始横坐标
+	 */
+	int getViewRangeYBegin()const
 	{
-		if (checkCenter())
-			return centerGY + vDelta;
-		else
-			return invalidXOrY;
+		return leftTopGY;
 	}
 
-	bool moveUp()
+	/*!
+	 * \fn	int MapView::getViewRangeYEnd()const
+	 *
+	 * \brief	获取地图视野区域内的最终纵坐标
+	 *
+	 * \return	返回地图视野区域内的最终纵坐标
+	 */
+	int getViewRangeYEnd()const
 	{
-		int temp = centerGY;
-		--centerGY;
-		if (checkCenter())
-			return true;
-		else
-		{
-			centerGY = temp;
-			return false;
-		}
+		return leftTopGY + height;
 	}
 
-	bool moveDown()
+	/*!
+	 * \fn	bool MapView::judgeMoveUp()const
+	 *
+	 * \brief	判断是否允许上移视野
+	 *
+	 * \return	返回是否允许上移视野
+	 */
+	bool judgeMoveUp()const
 	{
-		int temp = centerGY;
-		++centerGY;
-		if (checkCenter())
-			return true;
-		else
-		{
-			centerGY = temp;
-			return false;
-		}
+		return !(leftTopGY + 3 > MapController::mapNodecountVertical - height);
 	}
 
-	bool moveLeft()
+	/*!
+	 * \fn	bool MapView::judgeMoveDown()const
+	 *
+	 * \brief	判断是否允许下移视野
+	 *
+	 * \return	返回是否允许下移视野
+	 */
+	bool judgeMoveDown()const
 	{
-		int temp = centerGX;
-		--centerGX;
-		if (checkCenter())
-			return true;
-		else
-		{
-			centerGX = temp;
-			return false;
-		}
+		return !(leftTopGY - 3 < 0);
 	}
 
-	bool moveRight()
+	/*!
+	 * \fn	bool MapView::judgeMoveLeft()const
+	 *
+	 * \brief	判断是否允许左移视野
+	 *
+	 * \return	返回是否允许左移视野
+	 */
+	bool judgeMoveLeft()const
 	{
-		int temp = centerGX;
-		++centerGX;
-		if (checkCenter())
-			return true;
-		else
-		{
-			centerGX = temp;
-			return false;
-		}
+		return !(leftTopGX + 3 > MapController::mapNodecountHorizontal - width);
+	}
+
+	/*!
+	 * \fn	bool MapView::judgeMoveRight()const
+	 *
+	 * \brief	判断是否允许右移视野
+	 *
+	 * \return	返回是否允许右移视野
+	 */
+	bool judgeMoveRight()const
+	{
+		return !(leftTopGX - 3 < 0);
+	}
+
+	/*!
+	 * \fn	void MapView::moveUp()
+	 *
+	 * \brief	上移视野
+	 *
+	 */
+	void moveUp()
+	{
+		if (judgeMoveUp() == false)
+			return;
+
+		leftTopGY += 3;
+	}
+
+	/*!
+	 * \fn	void MapView::moveDown()
+	 *
+	 * \brief	下移视野
+	 *
+	 */
+	void moveDown()
+	{
+		if (judgeMoveDown() == false)
+			return;
+
+		leftTopGY -= 3;
+	}
+
+	/*!
+	 * \fn	void MapView::moveLeft()
+	 *
+	 * \brief	左移视野
+	 *
+	 */
+	void moveLeft()
+	{
+		if (judgeMoveLeft() == false)
+			return;
+
+		leftTopGX += 3;
+	}
+
+	/*!
+	 * \fn	void MapView::moveRight()
+	 *
+	 * \brief	右移视野
+	 *
+	 */
+	void moveRight()
+	{
+		if (judgeMoveRight() == false)
+			return;
+
+		leftTopGX -= 3;
 	}
 };
 

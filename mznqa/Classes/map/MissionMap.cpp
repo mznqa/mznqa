@@ -1,3 +1,8 @@
+/*!
+ * \file	Classes\map\MissionMap.cpp
+ *
+ * \brief	∂®“Â¿‡ MissionMap
+ */
 #pragma execution_character_set("utf-8")
 
 #include "map/MissionMap.h"

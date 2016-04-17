@@ -23,7 +23,7 @@ MapController* MapController::Instance()
 
 MapController::MapController()
 {
-	mapView = new MapView(MapView::hDeltaMin, MapView::vDeltaMin);
+	mapView = new MapView(0, 0, 30, 15);
 }
 
 MapController::~MapController()
