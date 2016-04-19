@@ -10,6 +10,8 @@
 #include "engine/LayerMap.h"
 #include "staticData/MissionMapSet.h"
 #include "define/GlobalDefine.h"
+#include "engine/LayerRole.h"
+#include "gameobject/Role.h"
 
 USING_NS_CC;
 
@@ -56,6 +58,17 @@ bool SceneGameMain::init()
 	ckx->setPosition(Vec2(0, DESIGNRESOLUTIONSIZE_HEIGHT));
 	addChild(ckx);
 
+	Role::Instance()->setPosition(10, 7);
+	layerRole = LayerRole::create();
+
+	layerRole->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+
+	layerRole->setPosition(Vec2(0, 0));
+
+	addChild(layerRole);
+
+	this->scheduleUpdate();
+
 	log("[information] 场景 SceneGameMain 启动成功");
 
 	return true;
@@ -82,4 +95,9 @@ void SceneGameMain::onExit()
 	// 调用场景状态方法
 	SceneGameMainState::Instance()->exit(this);
 	log("[information] 离开场景 SceneGameMain 成功");
+}
+
+void SceneGameMain::update(float dt)
+{
+	layerRole->refresh();
 }

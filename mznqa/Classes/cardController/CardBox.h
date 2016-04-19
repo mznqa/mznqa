@@ -97,7 +97,7 @@ public:
 	int addCardByCard(const CardType& card)
 	{
 		// 如果容器容量不足
-		if (size != invalidSizeValue && cardSet.size() >= size)
+		if (size != invalidSizeValue && (int)cardSet.size() >= size)
 			return CardBase::invalidID;
 
 		// 注意：不在此做卡牌合法性判定，而直接添加
@@ -118,7 +118,7 @@ public:
 	int addCardByID(int id)
 	{
 		// 判断容器容量不足
-		if (size != invalidSizeValue && cardSet.size() >= size)
+		if (size != invalidSizeValue && (int)cardSet.size() >= size)
 			return CardBase::invalidID;
 
 		// 如果是地形卡，而且在卡牌库中存在
@@ -266,7 +266,7 @@ public:
 	 */
 	bool isFull()
 	{
-		if (size != invalidSizeValue && cardSet.size() >= size)
+		if (size != invalidSizeValue && (int)cardSet.size() >= size)
 			return true;
 		else
 			return false;

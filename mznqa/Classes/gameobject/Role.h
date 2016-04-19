@@ -15,6 +15,7 @@
 #include "cocos2d.h"
 
 #include "cardController/CardControllerCombat.h"
+#include "map/MapController.h"
 
 /*!
  * \class	Role
@@ -79,6 +80,11 @@ private:
 	int additionalBloodlValueMax;
 	/*! \brief	角色护甲附加上限实时量 */
 	int additionalArmorValueMax;
+
+	/*! \brief	在地图上的位置，横坐标 */
+	int x;
+	/*! \brief	在地图上的位置，纵坐标 */
+	int y;
 
 	/*!
 	 * \fn	void Role::checkLevelValue()
@@ -478,6 +484,232 @@ public:
 		{
 			cocos2d::log("[warning] 尝试设置附加的护甲上限为%d，这将会导致实际的护甲上限为合法的值", additionalArmorValueMax + delta);
 		}
+	}
+
+	/*!
+	 * \fn	int Role::getPositionX()const
+	 *
+	 * \brief	获取角色所在位置的横坐标值
+	 *
+	 * \return	返回角色所在位置的横坐标值
+	 */
+	int getPositionX()const
+	{
+		return x;
+	}
+
+	/*!
+	 * \fn	int Role::getPositionY()const
+	 *
+	 * \brief	获取角色所在位置的纵坐标值
+	 *
+	 * \return	返回角色所在位置的纵坐标值
+	 */
+	int getPositionY()const
+	{
+		return y;
+	}
+
+	/*!
+	 * \fn	void Role::setPositionX(int x)
+	 *
+	 * \brief	设置角色所在位置的横坐标
+	 *
+	 * \param	x	指定用于设置角色位置的横坐标
+	 */
+	void setPositionX(int x)
+	{
+		if (MapController::checkX(x))
+			this->x = x;
+		else
+			this->x = 0;
+	}
+
+	/*!
+	 * \fn	void Role::setPositionY(int y)
+	 *
+	 * \brief	设置角色所在位置的纵坐标
+	 *
+	 * \param	y	指定用于设置角色所在位置的纵坐标
+	 */
+	void setPositionY(int y)
+	{
+		if (MapController::checkY(y))
+			this->y = y;
+		else
+			this->y = y;
+	}
+
+	/*!
+	 * \fn	void Role::setPosition(int x, int y)
+	 *
+	 * \brief	设置角色当前的位置
+	 *
+	 * \param	x	指定用于设置角色位置的横坐标
+	 * \param	y	指定用于设置角色位置的纵坐标
+	 */
+	void setPosition(int x, int y)
+	{
+		if (MapController::checkX(x))
+			this->x = x;
+		else
+			this->x = 0;
+
+		if (MapController::checkY(y))
+			this->y = y;
+		else
+			this->y = 0;
+	}
+
+	/*!
+	 * \fn	bool Role::updatePositionX(int delta)
+	 *
+	 * \brief	更新角色当前的横坐标值
+	 *
+	 * \param	delta	指定横坐标增减量
+	 *
+	 * \return	返回是否成功
+	 */
+	bool updatePositionX(int delta)
+	{
+		if (MapController::checkX(this->x + delta))
+		{
+			this->x += delta;
+			return true;
+		}
+		return false;
+	}
+
+	/*!
+	 * \fn	bool Role::updatePositionY(int delta)
+	 *
+	 * \brief	更行角色当前的纵坐标值
+	 *
+	 * \param	delta	指定纵坐标增减量
+	 *
+	 * \return	返回是否成功
+	 */
+	bool updatePositionY(int delta)
+	{
+		if (MapController::checkY(this->y + delta))
+		{
+			this->y += delta;
+			return true;
+		}
+		return false;
+	}
+
+	/*!
+	 * \fn	bool Role::updatePosition(int deltaX, int deltaY)
+	 *
+	 * \brief	更新角色当前的位置
+	 *
+	 * \param	deltaX	指定横坐标增减量
+	 * \param	deltaY	指定纵坐标增减量
+	 *
+	 * \return	返回是否成功
+	 */
+	bool updatePosition(int deltaX, int deltaY)
+	{
+		if (MapController::checkX(this->x + deltaX) && MapController::checkY(this->y + deltaY))
+		{
+			this->x += deltaX;
+			this->y += deltaY;
+		}
+
+		return false;
+	}
+
+	/*!
+	 * \fn	bool Role::judgeMoveUp()const
+	 *
+	 * \brief	判断角色是否可以上移
+	 *
+	 * \return	返回角色是否可以上移
+	 */
+	bool judgeMoveUp()const
+	{
+		return MapController::checkY(this->y - 1);
+	}
+
+	/*!
+	 * \fn	bool Role::judgeMoveDown()const
+	 *
+	 * \brief	判断角色是否可以下移
+	 *
+	 * \return	返回角色是否可以下移
+	 */
+	bool judgeMoveDown()const
+	{
+		return MapController::checkY(this->y + 1);
+	}
+
+	/*!
+	 * \fn	bool Role::judgeMoveLeft()const
+	 *
+	 * \brief	判断角色是否可以左移
+	 *
+	 * \return	返回角色是否可以左移
+	 */
+	bool judgeMoveLeft()const
+	{
+		return MapController::checkX(this->x - 1);
+	}
+
+	/*!
+	 * \fn	bool Role::judgeMoveRight()const
+	 *
+	 * \brief	判断角色是否可以右移
+	 *
+	 * \return	返回角色是否可以右移
+	 */
+	bool judgeMoveRight()const
+	{
+		return MapController::checkX(this->x + 1);
+	}
+
+	/*!
+	 * \fn	void Role::moveUp()
+	 *
+	 * \brief	上移角色
+	 *
+	 */
+	void moveUp()
+	{
+		updatePositionY(-1);
+	}
+
+	/*!
+	 * \fn	void Role::moveDown()
+	 *
+	 * \brief	下移角色
+	 *
+	 */
+	void moveDown()
+	{
+		updatePositionY(1);
+	}
+
+	/*!
+	 * \fn	void Role::moveLeft()
+	 *
+	 * \brief	左移角色
+	 *
+	 */
+	void moveLeft()
+	{
+		updatePositionX(-1);
+	}
+
+	/*!
+	 * \fn	void Role::moveRight()
+	 *
+	 * \brief	右移角色
+	 *
+	 */
+	void moveRight()
+	{
+		updatePositionX(1);
 	}
 
 	void test();

@@ -24,6 +24,7 @@ private:
 	int screenViewMapCellCountHeight;
 
 	MapView *mapView;
+
 public:
 	static const float mapCellSize;
 	static const float mapGroupSize;

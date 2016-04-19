@@ -55,15 +55,18 @@ void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
 
 	cocos2d::log("delta:%f,%f", delta.x, delta.y);
 
+	bool handle = false;
 	if (abs(delta.x) > abs(delta.y))
 	{
 		if (delta.x > 0)
 		{
 			mapView->moveLeft();
+			handle = true;
 		}
 		else if (delta.x < 0)
 		{
 			mapView->moveRight();
+			handle = true;
 		}
 	}
 	else
@@ -71,17 +74,22 @@ void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
 		if (delta.y > 0)
 		{
 			mapView->moveDown();
+			handle = true;
 		}
 		else if (delta.y < 0)
 		{
 			mapView->moveUp();
+			handle = true;
 		}
 	}
-	this->stopActionsByFlags(1);
-	auto ac = MoveTo::create(globalMoveDuration, Vec2(0.0 - mapView->getLeftTopGX()*mapCellSize, DESIGNRESOLUTIONSIZE_HEIGHT + mapView->getLeftTopGY()*mapCellSize));
-	ac->setFlags(1);
-	this->runAction(ac);
-	cocos2d::log("start:(%d,%d)", mapView->getLeftTopGX(), mapView->getLeftTopGY());
+	if (handle)
+	{
+		this->stopActionsByFlags(1);
+		auto ac = MoveTo::create(globalMoveDuration, Vec2(0.0 - mapView->getLeftTopGX()*mapCellSize, DESIGNRESOLUTIONSIZE_HEIGHT + mapView->getLeftTopGY()*mapCellSize));
+		ac->setFlags(1);
+		this->runAction(ac);
+		cocos2d::log("start:(%d,%d)", mapView->getLeftTopGX(), mapView->getLeftTopGY());
+	}
 }
 
 void LayerMap::addGlobalEventListener()

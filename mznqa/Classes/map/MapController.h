@@ -83,6 +83,34 @@ public:
 	~MapController();
 
 	/*!
+	 * \fn	static bool MapController::checkX(int x)
+	 *
+	 * \brief	判定给定的横坐标值是否越界
+	 *
+	 * \param	x	指定待判断的横坐标值
+	 *
+	 * \return	返回是否越界
+	 */
+	static bool checkX(int x)
+	{
+		return (0 <= x && x < mapNodecountHorizontal);
+	}
+
+	/*!
+	 * \fn	static bool MapController::checkY(int y)
+	 *
+	 * \brief	判定给定的纵坐标值是否越界
+	 *
+	 * \param	y	指定待判断的纵坐标值
+	 *
+	 * \return	返回是否越界
+	 */
+	static bool checkY(int y)
+	{
+		return (0 <= y && y < mapNodecountVertical);
+	}
+
+	/*!
 	 * \fn	void MapController::setEmptyMap()
 	 *
 	 * \brief	将当成地图重置为一张空地图

@@ -41,4 +41,12 @@
  */
 #define DESIGNRESOLUTIONSIZE_SCREENCENTER_VERTICAL 540.0f
 
+/*!
+ * \def	MAP_CELL_SIZE
+ *
+ * \brief	地图块的大小
+ *
+ */
+#define MAP_CELL_SIZE 64.0f
+
 #endif
