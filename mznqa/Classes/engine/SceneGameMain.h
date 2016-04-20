@@ -5,7 +5,7 @@
 
 #include "cocos2d.h"
 
-#include "engine/LayerRole.h"
+#include "engine/SpriteRole.h"
 
 // 游戏主场景
 class SceneGameMain : public cocos2d::Layer
@@ -16,8 +16,8 @@ private:
 	// 用于存放从外部载入的场景文件的资源
 	cocos2d::Node *rootNode;
 
-	// 角色层
-	LayerRole *layerRole;
+	// 角色
+	SpriteRole	*spriteRole;
 	//////////////////////////////////////////////////////////////////////////
 
 	// 调度器 //////////////////////////////////////////////////////////////////////////

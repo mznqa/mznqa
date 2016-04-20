@@ -16,7 +16,7 @@ using namespace cocostudio::timeline;
 const float LayerMap::mapCellSize = 64.0;
 const float LayerMap::mapGroupSize = 192.0;
 
-const float LayerMap::globalMoveDuration = 0.3;
+const float LayerMap::globalMoveDuration = 0.1f;
 
 bool LayerMap::init()
 {
@@ -25,10 +25,8 @@ bool LayerMap::init()
 		return false;
 	}
 
-	mapView = MapController::Instance()->mapView;
-
-	screenViewMapCellCountWidth = mapView->getWidht();
-	screenViewMapCellCountHeight = mapView->getHeight();
+	screenViewMapCellCountWidth = MapView::Instance()->getWidht();
+	screenViewMapCellCountHeight = MapView::Instance()->getHeight();
 
 	loadMapFromMapController();
 
@@ -60,12 +58,12 @@ void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
 	{
 		if (delta.x > 0)
 		{
-			mapView->moveLeft();
+			MapView::Instance()->moveLeft();
 			handle = true;
 		}
 		else if (delta.x < 0)
 		{
-			mapView->moveRight();
+			MapView::Instance()->moveRight();
 			handle = true;
 		}
 	}
@@ -73,22 +71,18 @@ void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
 	{
 		if (delta.y > 0)
 		{
-			mapView->moveDown();
+			MapView::Instance()->moveDown();
 			handle = true;
 		}
 		else if (delta.y < 0)
 		{
-			mapView->moveUp();
+			MapView::Instance()->moveUp();
 			handle = true;
 		}
 	}
 	if (handle)
 	{
-		this->stopActionsByFlags(1);
-		auto ac = MoveTo::create(globalMoveDuration, Vec2(0.0 - mapView->getLeftTopGX()*mapCellSize, DESIGNRESOLUTIONSIZE_HEIGHT + mapView->getLeftTopGY()*mapCellSize));
-		ac->setFlags(1);
-		this->runAction(ac);
-		cocos2d::log("start:(%d,%d)", mapView->getLeftTopGX(), mapView->getLeftTopGY());
+		refreshPosition();
 	}
 }
 
@@ -139,4 +133,18 @@ void LayerMap::loadMapFromMapController()
 		++it1;
 		++y;
 	}
+}
+
+void LayerMap::refreshPosition()
+{
+	this->stopActionsByFlags(ActionFlags_LayerMove);
+	auto action = MoveTo::create(
+		globalMoveDuration,
+		Vec2(
+		0.0 - MapView::Instance()->getLeftTopGX()*mapCellSize,
+		DESIGNRESOLUTIONSIZE_HEIGHT + MapView::Instance()->getLeftTopGY()*mapCellSize
+		)
+		);
+	action->setFlags(ActionFlags_LayerMove);
+	this->runAction(action);
 }

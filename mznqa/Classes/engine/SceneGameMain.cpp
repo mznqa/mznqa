@@ -10,7 +10,6 @@
 #include "engine/LayerMap.h"
 #include "staticData/MissionMapSet.h"
 #include "define/GlobalDefine.h"
-#include "engine/LayerRole.h"
 #include "gameobject/Role.h"
 
 USING_NS_CC;
@@ -59,13 +58,12 @@ bool SceneGameMain::init()
 	addChild(ckx);
 
 	Role::Instance()->setPosition(10, 7);
-	layerRole = LayerRole::create();
 
-	layerRole->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	spriteRole = SpriteRole::create("test_map_cell/player.png");
 
-	layerRole->setPosition(Vec2(0, 0));
+	spriteRole->initialize();
 
-	addChild(layerRole);
+	addChild(spriteRole);
 
 	this->scheduleUpdate();
 
@@ -99,5 +97,5 @@ void SceneGameMain::onExit()
 
 void SceneGameMain::update(float dt)
 {
-	layerRole->refresh();
+	spriteRole->refresh();
 }

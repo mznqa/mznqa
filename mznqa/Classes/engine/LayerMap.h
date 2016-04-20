@@ -23,12 +23,14 @@ private:
 	int screenViewMapCellCountWidth;
 	int screenViewMapCellCountHeight;
 
-	MapView *mapView;
-
 public:
 	static const float mapCellSize;
 	static const float mapGroupSize;
 	static const float globalMoveDuration;
+	enum ActionFlags
+	{
+		ActionFlags_LayerMove = 1
+	};
 	LayerMap()
 	{
 	}
@@ -47,6 +49,8 @@ public:
 	void addGlobalEventListener();
 
 	void loadMapFromMapController();
+
+	void refreshPosition();
 };
 
 #endif

@@ -19,6 +19,9 @@
 class MapView
 {
 private:
+	MapView(){}
+	MapView(const MapView &mapView);
+	MapView& operator=(const MapView &mapView);
 	/*! \brief	地图视野内左上角的地图格子的横坐标 */
 	int leftTopGX;
 	/*! \brief	地图视野内左上角的地图格子的纵坐标 */
@@ -30,30 +33,32 @@ private:
 	int height;
 
 public:
+	static MapView* Instance();
+
 	/*! \brief	标识无效横纵坐标值 */
 	static const int invalidXOrY = -1;
 
 	/*!
-	 * \fn	MapView::MapView( int leftTopGX, int leftTopGY, int width, int height )
+	 * \fn	void MapView::initialize( int leftTopGX, int leftTopGY, int width, int height )
 	 *
-	 * \brief	构造函数
+	 * \brief	初始化
 	 *
 	 * \param	leftTopGX	指定地图视野内左上角的地图格子的横坐标
 	 * \param	leftTopGY	指定地图视野内左上角的地图格子的纵坐标
 	 * \param	width	 	指定地图视野的宽度
 	 * \param	height   	指定地图视野的高度
 	 */
-	MapView(
+	void initialize(
 		int leftTopGX,
 		int leftTopGY,
 		int width,
 		int height
-		) :
-		leftTopGX(leftTopGX),
-		leftTopGY(leftTopGY),
-		width(width),
-		height(height)
+		)
 	{
+		this->leftTopGX = leftTopGX;
+		this->leftTopGY = leftTopGY;
+		this->width = width;
+		this->height = height;
 	}
 
 	/*!

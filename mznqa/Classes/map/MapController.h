@@ -56,10 +56,6 @@ private:
 	/*! \brief	地图节点集合 */
 	std::vector<std::vector<MapNode>> mapNodeSet;
 public:
-
-	/*! \brief	地图视图 */
-	MapView *mapView = nullptr;
-
 	/*! \brief	地图横向节点总个数 */
 	static const int mapNodecountHorizontal = 60;
 	/*! \brief	地图纵向节点总个数 */
