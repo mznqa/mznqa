@@ -49,4 +49,12 @@
  */
 #define MAP_CELL_SIZE 64.0f
 
+/*!
+ * \def	INVALID_TIMEVALUE
+ *
+ * \brief	无效的时间值
+ *
+ */
+#define INVALID_TIMEVALUE -1.0f
+
 #endif

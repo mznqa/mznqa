@@ -22,7 +22,7 @@ public:
 
 	void initialize();
 
-	void refresh();
+	void refreshPosition();
 };
 
 #endif

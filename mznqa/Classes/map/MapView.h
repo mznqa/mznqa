@@ -9,6 +9,7 @@
 #define MZNQA_CLASSES_MAP_MAPVIEW_H_
 
 #include "map/MapController.h"
+#include "message/LogicMessagePQ.h"
 
 /*!
  * \class	MapView
@@ -31,6 +32,8 @@ private:
 	int width;
 	/*! \brief	地图视野的高度 */
 	int height;
+
+	LogicMessagePQ *logicMessagePQInstance = LogicMessagePQ::Instance();
 
 public:
 	static MapView* Instance();
@@ -225,6 +228,8 @@ public:
 			return;
 
 		leftTopGY += 3;
+		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshMapPosition));
+		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshRolePosition));
 	}
 
 	/*!
@@ -239,6 +244,8 @@ public:
 			return;
 
 		leftTopGY -= 3;
+		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshMapPosition));
+		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshRolePosition));
 	}
 
 	/*!
@@ -253,6 +260,8 @@ public:
 			return;
 
 		leftTopGX += 3;
+		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshMapPosition));
+		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshRolePosition));
 	}
 
 	/*!
@@ -267,6 +276,8 @@ public:
 			return;
 
 		leftTopGX -= 3;
+		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshMapPosition));
+		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshRolePosition));
 	}
 };
 

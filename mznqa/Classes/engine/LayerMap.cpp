@@ -9,6 +9,7 @@
 
 #include "map/MapController.h"
 #include "map/MapNode.h"
+#include "message/EngineMessagePQ.h"
 
 USING_NS_CC;
 using namespace cocostudio::timeline;
@@ -16,7 +17,7 @@ using namespace cocostudio::timeline;
 const float LayerMap::mapCellSize = 64.0;
 const float LayerMap::mapGroupSize = 192.0;
 
-const float LayerMap::globalMoveDuration = 0.1f;
+const float LayerMap::globalMoveDuration = 0.3f;
 
 bool LayerMap::init()
 {
@@ -58,12 +59,12 @@ void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
 	{
 		if (delta.x > 0)
 		{
-			MapView::Instance()->moveLeft();
+			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveLeft));
 			handle = true;
 		}
 		else if (delta.x < 0)
 		{
-			MapView::Instance()->moveRight();
+			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveRight));
 			handle = true;
 		}
 	}
@@ -71,18 +72,14 @@ void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
 	{
 		if (delta.y > 0)
 		{
-			MapView::Instance()->moveDown();
+			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveDown));
 			handle = true;
 		}
 		else if (delta.y < 0)
 		{
-			MapView::Instance()->moveUp();
+			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveUp));
 			handle = true;
 		}
-	}
-	if (handle)
-	{
-		refreshPosition();
 	}
 }
 

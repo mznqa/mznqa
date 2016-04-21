@@ -7,7 +7,6 @@
 
 #include "filePath/SceneFilePath.h"
 #include "runtime/SceneGameMainState.h"
-#include "engine/LayerMap.h"
 #include "staticData/MissionMapSet.h"
 #include "define/GlobalDefine.h"
 #include "gameobject/Role.h"
@@ -40,17 +39,17 @@ bool SceneGameMain::init()
 	MapController::Instance()->setEmptyMap();
 	MapController::Instance()->loadMapNode(MissionMapSet::Instance()->getMainMissionMapByIndex(0));
 
-	LayerMap *lm = LayerMap::create();
+	layerMap = LayerMap::create();
 
-	lm->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	layerMap->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 
 	float dv = 1.0;
 
-	lm->setScale(dv);
+	layerMap->setScale(dv);
 
-	lm->setPosition(Vec2(0, DESIGNRESOLUTIONSIZE_HEIGHT* dv));
+	layerMap->setPosition(Vec2(0, DESIGNRESOLUTIONSIZE_HEIGHT* dv));
 
-	addChild(lm);
+	addChild(layerMap);
 
 	auto ckx = Sprite::create("test_map_cell/cellx192.png");
 	ckx->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
@@ -97,5 +96,5 @@ void SceneGameMain::onExit()
 
 void SceneGameMain::update(float dt)
 {
-	spriteRole->refresh();
+	SceneGameMainState::Instance()->update(this, INVALID_TIMEVALUE);
 }

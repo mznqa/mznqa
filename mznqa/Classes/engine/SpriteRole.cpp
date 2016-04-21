@@ -35,20 +35,19 @@ void SpriteRole::initialize()
 	this->setPosition(Vec2(gX2CartesianX(x), gY2CartesianY(y)));
 }
 
-void SpriteRole::refresh()
+void SpriteRole::refreshPosition()
 {
 	int x = 0, y = 0;
 	x = Role::Instance()->getPositionX();
 	y = Role::Instance()->getPositionY();
-	//this->stopActionsByFlags(1);
-	//auto ac = MoveTo::create(0.3,
-	this->setPosition(
+	this->stopActionsByFlags(1);
+	auto ac = MoveTo::create(0.3,
 		Vec2(
 			gX2CartesianX(x),
 			gY2CartesianY(y)
 			)
 		);
-	//ac->setFlags(1);
-	//this->runAction(ac);
+	ac->setFlags(1);
+	this->runAction(ac);
 	cocos2d::log("[information] 角色当前坐标：（%f,%f）", 0.0 - MapView::Instance()->getLeftTopGX()*MAP_CELL_SIZE + gX2CartesianX(x), DESIGNRESOLUTIONSIZE_HEIGHT + MapView::Instance()->getLeftTopGY()*MAP_CELL_SIZE + gY2CartesianY(y));
 }
