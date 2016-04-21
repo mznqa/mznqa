@@ -108,7 +108,7 @@ public:
 	 */
 	const MissionMap& getMainMissionMapByIndex(int index)const
 	{
-		if (0 <= index && index < mainMissionMapSet.size())
+		if (0 <= index && index < (int)mainMissionMapSet.size())
 			return mainMissionMapSet.at(index);
 		else
 			return nullMissionMap;
@@ -125,7 +125,7 @@ public:
 	 */
 	const MissionMap& getSideMissionMapByIndex(int index)const
 	{
-		if (0 <= index && index < sideMissionMapSet.size())
+		if (0 <= index && index < (int)sideMissionMapSet.size())
 			return sideMissionMapSet.at(index);
 		else
 			return nullMissionMap;

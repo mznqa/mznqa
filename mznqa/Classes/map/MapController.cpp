@@ -23,12 +23,11 @@ MapController* MapController::Instance()
 
 MapController::MapController()
 {
-	mapView = new MapView(0, 0, 30, 15);
+	MapView::Instance()->initialize(0, 0, 30, 15);
 }
 
 MapController::~MapController()
 {
-	delete mapView;
 }
 
 void MapController::setEmptyMap()

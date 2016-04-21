@@ -9,6 +9,7 @@
 
 #include "map/MapController.h"
 #include "map/MapNode.h"
+#include "message/EngineMessagePQ.h"
 
 USING_NS_CC;
 using namespace cocostudio::timeline;
@@ -16,7 +17,7 @@ using namespace cocostudio::timeline;
 const float LayerMap::mapCellSize = 64.0;
 const float LayerMap::mapGroupSize = 192.0;
 
-const float LayerMap::globalMoveDuration = 0.3;
+const float LayerMap::globalMoveDuration = 0.3f;
 
 bool LayerMap::init()
 {
@@ -25,10 +26,8 @@ bool LayerMap::init()
 		return false;
 	}
 
-	mapView = MapController::Instance()->mapView;
-
-	screenViewMapCellCountWidth = mapView->getWidht();
-	screenViewMapCellCountHeight = mapView->getHeight();
+	screenViewMapCellCountWidth = MapView::Instance()->getWidht();
+	screenViewMapCellCountHeight = MapView::Instance()->getHeight();
 
 	loadMapFromMapController();
 
@@ -55,33 +54,33 @@ void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
 
 	cocos2d::log("delta:%f,%f", delta.x, delta.y);
 
+	bool handle = false;
 	if (abs(delta.x) > abs(delta.y))
 	{
 		if (delta.x > 0)
 		{
-			mapView->moveLeft();
+			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveLeft));
+			handle = true;
 		}
 		else if (delta.x < 0)
 		{
-			mapView->moveRight();
+			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveRight));
+			handle = true;
 		}
 	}
 	else
 	{
 		if (delta.y > 0)
 		{
-			mapView->moveDown();
+			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveDown));
+			handle = true;
 		}
 		else if (delta.y < 0)
 		{
-			mapView->moveUp();
+			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveUp));
+			handle = true;
 		}
 	}
-	this->stopActionsByFlags(1);
-	auto ac = MoveTo::create(globalMoveDuration, Vec2(0.0 - mapView->getLeftTopGX()*mapCellSize, DESIGNRESOLUTIONSIZE_HEIGHT + mapView->getLeftTopGY()*mapCellSize));
-	ac->setFlags(1);
-	this->runAction(ac);
-	cocos2d::log("start:(%d,%d)", mapView->getLeftTopGX(), mapView->getLeftTopGY());
 }
 
 void LayerMap::addGlobalEventListener()
@@ -131,4 +130,18 @@ void LayerMap::loadMapFromMapController()
 		++it1;
 		++y;
 	}
+}
+
+void LayerMap::refreshPosition()
+{
+	this->stopActionsByFlags(ActionFlags_LayerMove);
+	auto action = MoveTo::create(
+		globalMoveDuration,
+		Vec2(
+		0.0 - MapView::Instance()->getLeftTopGX()*mapCellSize,
+		DESIGNRESOLUTIONSIZE_HEIGHT + MapView::Instance()->getLeftTopGY()*mapCellSize
+		)
+		);
+	action->setFlags(ActionFlags_LayerMove);
+	this->runAction(action);
 }

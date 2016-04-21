@@ -7,9 +7,9 @@
 
 #include "filePath/SceneFilePath.h"
 #include "runtime/SceneGameMainState.h"
-#include "engine/LayerMap.h"
 #include "staticData/MissionMapSet.h"
 #include "define/GlobalDefine.h"
+#include "gameobject/Role.h"
 
 USING_NS_CC;
 
@@ -39,22 +39,32 @@ bool SceneGameMain::init()
 	MapController::Instance()->setEmptyMap();
 	MapController::Instance()->loadMapNode(MissionMapSet::Instance()->getMainMissionMapByIndex(0));
 
-	LayerMap *lm = LayerMap::create();
+	layerMap = LayerMap::create();
 
-	lm->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	layerMap->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 
 	float dv = 1.0;
 
-	lm->setScale(dv);
+	layerMap->setScale(dv);
 
-	lm->setPosition(Vec2(0, DESIGNRESOLUTIONSIZE_HEIGHT* dv));
+	layerMap->setPosition(Vec2(0, DESIGNRESOLUTIONSIZE_HEIGHT* dv));
 
-	addChild(lm);
+	addChild(layerMap);
 
 	auto ckx = Sprite::create("test_map_cell/cellx192.png");
 	ckx->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	ckx->setPosition(Vec2(0, DESIGNRESOLUTIONSIZE_HEIGHT));
 	addChild(ckx);
+
+	Role::Instance()->setPosition(10, 7);
+
+	spriteRole = SpriteRole::create("test_map_cell/player.png");
+
+	spriteRole->initialize();
+
+	addChild(spriteRole);
+
+	this->scheduleUpdate();
 
 	log("[information] 场景 SceneGameMain 启动成功");
 
@@ -82,4 +92,9 @@ void SceneGameMain::onExit()
 	// 调用场景状态方法
 	SceneGameMainState::Instance()->exit(this);
 	log("[information] 离开场景 SceneGameMain 成功");
+}
+
+void SceneGameMain::update(float dt)
+{
+	SceneGameMainState::Instance()->update(this, INVALID_TIMEVALUE);
 }
