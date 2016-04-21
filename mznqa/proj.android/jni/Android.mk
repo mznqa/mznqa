@@ -33,10 +33,15 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/engine/SceneGameMain.cpp \
                    ../../Classes/engine/SceneGuide.cpp \
                    ../../Classes/engine/SceneLoadRes.cpp \
+                   ../../Classes/engine/SpriteRole.cpp \
                    ../../Classes/gameObject/Monster.cpp \
                    ../../Classes/gameObject/Role.cpp \
                    ../../Classes/map/MapController.cpp \
+                   ../../Classes/map/MapView.cpp \
                    ../../Classes/map/MissionMap.cpp \
+                   ../../Classes/message/EngineMessagePQ.cpp \
+                   ../../Classes/message/LogicMessagePQ.cpp \
+                   ../../Classes/message/MsgInterpreter.cpp \
                    ../../Classes/runtime/SceneGameMainState.cpp \
                    ../../Classes/runtime/SceneGuideState.cpp \
                    ../../Classes/runtime/SceneLoadResState.cpp \
