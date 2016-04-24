@@ -3,11 +3,11 @@
 #include "engine/SceneLoadRes.h"
 
 #include "cocostudio/CocoStudio.h"
-#include "ui/CocosGUI.h"
 
 #include "filePath/SceneFilePath.h"
 #include "runtime/SceneLoadResState.h"
 #include "engine/SceneGameMain.h"
+#include "define/GlobalDefine.h"
 
 USING_NS_CC;
 
@@ -38,8 +38,9 @@ bool SceneLoadRes::init()
 
 	addChild(rootNode);
 
-	// 添加单次调度器，调度器均在 init() 方法中添加
-	this->scheduleOnce(schedule_selector(SceneLoadRes::updateOnce), 1.0f);
+	uiTextOutput = (ui::Text*)(rootNode->getChildByName("Text_Output"));
+
+	this->scheduleUpdate();
 
 	log("[information] 场景 SceneLoadRes 启动成功");
 
@@ -69,13 +70,11 @@ void SceneLoadRes::onExit()
 	log("[information] 离开场景 SceneLoadRes 成功");
 }
 
-// 单次调度器
-void SceneLoadRes::updateOnce(float dt)
+void SceneLoadRes::update(float dt)
 {
-	log("[information] 进入 SceneLoadRes 场景的单次调度器...");
-	// 调用场景状态方法，参数二是距离上次调用的间隔时间，这里由于是单次调度，所以随意传入1.0f。
-	SceneLoadResState::Instance()->update(this, 1.0f);
-	log("[information] 离开 SceneLoadRes 场景的单次调度器");
+	log("[information] 进入 SceneLoadRes 场景的逐帧调度器...");
+	SceneLoadResState::Instance()->update(this, TIME_INVALIDVALUE);
+	log("[information] 离开 SceneLoadRes 场景的逐帧调度器");
 }
 
 void SceneLoadRes::replaceSceneGameMain()
@@ -83,4 +82,9 @@ void SceneLoadRes::replaceSceneGameMain()
 	log("[information] 准备从 SceneLoadRes 场景切换到 SceneGameMain 场景...");
 	Director::getInstance()->replaceScene(SceneGameMain::createScene());
 	log("[information] 从 SceneLoadRes 场景切换到 SceneGameMain 场景准备成功");
+}
+
+void SceneLoadRes::showProgress(std::string log)
+{
+	uiTextOutput->setText(log);
 }

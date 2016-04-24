@@ -53,5 +53,5 @@ CardBase::CardBase(
 		return;
 	}
 
-	cocos2d::log("[information] 成功创建一张卡牌，id=%d，type=%d", id, type);
+	//cocos2d::log("[information] 成功创建一张卡牌，id=%d，type=%d", id, type);
 }

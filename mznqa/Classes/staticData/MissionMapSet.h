@@ -89,6 +89,18 @@ public:
 	void loadMainMissionMapSet(std::vector<MissionMap> &mainMissionMapSet);
 
 	/*!
+	 * \fn	bool MissionMapSet::isMainMissionMapSetEmpty()const
+	 *
+	 * \brief	判断当前主线任务地图集合是否为空
+	 *
+	 * \return	返回当前主线任务地图集合是否为空
+	 */
+	bool isMainMissionMapSetEmpty()const
+	{
+		return mainMissionMapSet.empty();
+	}
+
+	/*!
 	 * \fn	void MissionMapSet::loadSideMissionMapSet(std::vector<MissionMap> &sideMissionMapSet);
 	 *
 	 * \brief	载入支线任务地图集合
@@ -96,6 +108,18 @@ public:
 	 * \param [in,out]	sideMissionMapSet	指定待载入的支线任务地图集合
 	 */
 	void loadSideMissionMapSet(std::vector<MissionMap> &sideMissionMapSet);
+
+	/*!
+	 * \fn	bool MissionMapSet::isSideMissionMapSet()const
+	 *
+	 * \brief	判断当前支线任务地图集合是否为空
+	 *
+	 * \return	返回当前支线任务地图集合是否为空
+	 */
+	bool isSideMissionMapSet()const
+	{
+		return sideMissionMapSet.empty();
+	}
 
 	/*!
 	 * \fn	const MissionMap& MissionMapSet::getMainMissionMapByIndex(int index)const

@@ -35,7 +35,15 @@ public:
 		EMessage_MapMoveUp = 1,		///< 上移地图
 		EMessage_MapMoveRight = 2,	///< 右移地图
 		EMessage_MapMoveDown = 3,	///< 下移地图
-		EMessage_MapMoveLeft = 4	///< 左移地图
+		EMessage_MapMoveLeft = 4,	///< 左移地图
+
+		EMessage_Information_DataLoading_StaticData_MapMainMissionSetLoadSuccess = 200,	///< 成功载入静态数据：主线任务地图集合
+		EMessage_Information_DataLoading_StaticData_CardSkillSetLoadSuccess = 201,		///< 成功载入静态数据：技能卡集合
+		EMessage_Information_DataLoading_StaticData_CardRoadSetLoadSuccess = 202,		///< 成功载入静态数据：地形卡集合
+
+		EMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed = 300,	///< 载入静态数据时出错：地形卡集合
+		EMessage_Error_DataLoading_StaticData_CardSkillSetLoadFailed = 301,				///< 载入静态数据时出错：地形卡集合
+		EMessage_Error_DataLoading_StaticData_CardRoadSetLoadFailed = 302				///< 载入静态数据时出错：地形卡集合
 	};
 
 	/*!
@@ -133,7 +141,7 @@ private:
 	EngineMessagePQ& operator=(const EngineMessagePQ &engineMessagePQ);
 
 	/*! \brief	引擎用消息队列 */
-	std::priority_queue<Message<EMessage>, std::vector<Message<EMessage>>, std::greater<Message<EMessage>>> msgPQ;
+	std::priority_queue<Message<EMessage>, std::vector<Message<EMessage>>, std::less<Message<EMessage>>> msgPQ;
 };
 
 #endif

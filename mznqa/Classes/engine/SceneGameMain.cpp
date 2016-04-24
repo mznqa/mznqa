@@ -96,5 +96,5 @@ void SceneGameMain::onExit()
 
 void SceneGameMain::update(float dt)
 {
-	SceneGameMainState::Instance()->update(this, INVALID_TIMEVALUE);
+	SceneGameMainState::Instance()->update(this, TIME_INVALIDVALUE);
 }

@@ -24,42 +24,42 @@ CharBufferArea::~CharBufferArea()
 
 bool CharBufferArea::createBuffer(BufferIndex bufferIndex, char *buffer)
 {
-	cocos2d::log("[information] 正在尝试创建字符缓冲区...");
+	//cocos2d::log("[information] 正在尝试创建字符缓冲区...");
 	if (bufferIndex < 0)
 	{
-		cocos2d::log("[error] 缓冲区创建失败，给定的索引值不合法");
+		//cocos2d::log("[error] 缓冲区创建失败，给定的索引值不合法");
 		return false;
 	}
 	if (buffer == nullptr)
 	{
-		cocos2d::log("[error] 缓冲区创建失败，给定的缓冲为空");
+		//cocos2d::log("[error] 缓冲区创建失败，给定的缓冲为空");
 		return false;
 	}
 	if (bufferSet.empty() == false && bufferSet.find(bufferIndex) != bufferSet.end())
 	{
-		cocos2d::log("[error] 缓冲区创建失败，给定的索引的缓冲区已创建");
+		//cocos2d::log("[error] 缓冲区创建失败，给定的索引的缓冲区已创建");
 		return false;
 	}
 
 	bufferSet[bufferIndex] = buffer;
 
-	cocos2d::log("[information] 缓冲区创建成功，缓冲区索引为%d", bufferIndex);
+	//cocos2d::log("[information] 缓冲区创建成功，缓冲区索引为%d", bufferIndex);
 	return true;
 }
 
 bool CharBufferArea::releaseBufferByIndex(BufferIndex bufferIndex)
 {
-	cocos2d::log("[information] 正在尝试释放指定字符缓冲区...");
+	//cocos2d::log("[information] 正在尝试释放指定字符缓冲区...");
 	auto it = bufferSet.find(bufferIndex);
 	if (it == bufferSet.end())
 	{
-		cocos2d::log("[error] 缓冲区释放失败，未找到给定的索引所对应的缓冲区");
+		//cocos2d::log("[error] 缓冲区释放失败，未找到给定的索引所对应的缓冲区");
 		return false;
 	}
 
 	free(it->second);
 	it->second = nullptr;
-	cocos2d::log("[information] 索引为%d的缓冲区释放成功", bufferIndex);
+	//cocos2d::log("[information] 索引为%d的缓冲区释放成功", bufferIndex);
 	return true;
 }
 
@@ -72,14 +72,14 @@ void CharBufferArea::releaseAllBuffer()
 		free(it->second);
 		it->second = nullptr;
 	}
-	cocos2d::log("[information] 所以缓冲区均已释放成功");
+	//cocos2d::log("[information] 所以缓冲区均已释放成功");
 }
 
 const char* CharBufferArea::getBufferByIndex(BufferIndex bufferIndex)
 {
 	if (bufferSet.find(bufferIndex) == bufferSet.end())
 	{
-		cocos2d::log("[error] 获取缓冲区失败，未找到给定的索引所对应的缓冲区");
+		//cocos2d::log("[error] 获取缓冲区失败，未找到给定的索引所对应的缓冲区");
 		return nullptr;
 	}
 	return bufferSet[bufferIndex];

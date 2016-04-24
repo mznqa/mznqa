@@ -7,6 +7,9 @@
 
 #include "runtime/BaseSceneState.h"
 #include "engine/SceneLoadRes.h"
+#include "message/EngineMessagePQ.h"
+#include "message/LogicMessagePQ.h"
+#include "message/MsgInterpreter.h"
 
 class SceneLoadResState : public BaseSceneState<SceneLoadRes>
 {
@@ -14,6 +17,11 @@ private:
 	SceneLoadResState(){}
 	SceneLoadResState(const SceneLoadResState &sceneLoadResState){}
 	SceneLoadResState& operator=(const SceneLoadResState &sceneLoadResState){}
+
+	EngineMessagePQ *engineMessagePQInstance;
+	LogicMessagePQ *logicMessagePQInstance;
+	MsgInterpreter *msgInterpreterInstance;
+
 public:
 	~SceneLoadResState();
 

@@ -50,12 +50,12 @@
 #define MAP_CELL_SIZE 64.0f
 
 /*!
- * \def	INVALID_TIMEVALUE
+ * \def	TIME_INVALIDVALUE
  *
  * \brief	无效的时间值
  *
  */
-#define INVALID_TIMEVALUE -1.0f
+#define TIME_INVALIDVALUE -1.0f
 
 /*!
  * \def	TIME_GLOBALMAP_MOVE();

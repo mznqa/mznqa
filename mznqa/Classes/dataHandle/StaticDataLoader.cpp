@@ -15,140 +15,186 @@
 #include "dataHandle/ParserCardSkill.h"
 #include "filePath/DataFilePath.h"
 #include "staticData/CardSet.h"
-#include "map/MapController.h"
-#include "dataHandle/ParserMapArchives.h"
 #include "dataHandle/ParserMapMissionMain.h"
 #include "staticData/MissionMapSet.h"
+#include "message/LogicMessagePQ.h"
 
 void StaticDataLoader::loadStaticDataCardRoadSet()
 {
-	cocos2d::log("[information] 开始载入静态数据：地形卡数据...");
+	// 手动载入地形卡静态数据 //////////////////////////////////////////////////////////////////////////
+	std::map<int, CardRoad> cardRoadSetTemp = {
+		std::pair<int, CardRoad>(1234, CardRoad(1234, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_URDL)),
+		std::pair<int, CardRoad>(234, CardRoad(234, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_RDL)),
+		std::pair<int, CardRoad>(134, CardRoad(134, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_UDL)),
+		std::pair<int, CardRoad>(124, CardRoad(124, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_URL)),
+		std::pair<int, CardRoad>(123, CardRoad(123, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_URD)),
+		std::pair<int, CardRoad>(34, CardRoad(34, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_DL)),
+		std::pair<int, CardRoad>(14, CardRoad(14, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_UL)),
+		std::pair<int, CardRoad>(12, CardRoad(12, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_UR)),
+		std::pair<int, CardRoad>(24, CardRoad(24, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_RL)),
+		std::pair<int, CardRoad>(13, CardRoad(13, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_UD)),
+		std::pair<int, CardRoad>(23, CardRoad(23, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_RD)),
+		std::pair<int, CardRoad>(1, CardRoad(1, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_U)),
+		std::pair<int, CardRoad>(2, CardRoad(2, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_R)),
+		std::pair<int, CardRoad>(3, CardRoad(3, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_D)),
+		std::pair<int, CardRoad>(4, CardRoad(4, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_L))
+	};
+	//////////////////////////////////////////////////////////////////////////
 
-	std::map<int, CardRoad> cardRoadSetTemp;
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(1234, CardRoad(1234, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_URDL)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(234, CardRoad(234, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_RDL)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(134, CardRoad(134, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_UDL)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(124, CardRoad(124, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_URL)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(123, CardRoad(123, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_URD)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(34, CardRoad(34, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_DL)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(14, CardRoad(14, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_UL)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(12, CardRoad(12, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_UR)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(24, CardRoad(24, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_RL)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(13, CardRoad(13, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_UD)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(23, CardRoad(23, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_RD)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(1, CardRoad(1, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_U)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(2, CardRoad(2, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_R)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(3, CardRoad(3, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_D)));
-	cardRoadSetTemp.insert(std::pair<int, CardRoad>(4, CardRoad(4, "", "", CardBase::BelongTo_RoleOnly, CardRoad::RoadType_L)));
-
+	// 存入数据 //////////////////////////////////////////////////////////////////////////
+	// 将数据转存至卡集CardSet
 	CardSet::Instance()->loadCardRoadSet(cardRoadSetTemp);
 
+	// 释放临时量
 	cardRoadSetTemp.clear();
+	//////////////////////////////////////////////////////////////////////////
 
-	cocos2d::log("[information] 完成：载入静态数据：地形卡数据");
+	// 验证数据完整性 //////////////////////////////////////////////////////////////////////////
+	// 如果地形卡静态数据载入失败
+	if (CardSet::Instance()->isCardRoadSetEmpty() == true)
+		// 推送失败消息
+		LogicMessagePQ::Instance()->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_Error_DataLoading_StaticData_CardRoadSetLoadFailed));
+	// 否则
+	else
+		// 推送成功消息
+		LogicMessagePQ::Instance()->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_Information_DataLoading_StaticData_CardRoadSetLoadSuccess));
+	//////////////////////////////////////////////////////////////////////////
 }
 
 void StaticDataLoader::loadStaticDataCardSkillSet()
 {
+	// 用于创建待解析数据缓存的缓冲区索引
 	CharBufferArea::BufferIndex bufferIndex = CharBufferArea::BufferIndex_Static_CardSkillSet;
 
-	cocos2d::log("[information] 开始缓存文件数据：静态数据：技能卡集合...");
+	// 缓冲相关的静态数据文件 //////////////////////////////////////////////////////////////////////////
+	// 根据上文的缓冲区索引以及技能卡集合数据的文件缓存来创建缓冲区，以待解析
 	CharBufferArea::Instance()->createBuffer(
 		bufferIndex,
 		FileController::Instance()->getCharBufferFromFile(STATIC_DATA_CARDSKILLSET)
 		);
+	// 如果待解析的缓冲区创建失败
 	if (CharBufferArea::Instance()->getBufferByIndex(bufferIndex) == nullptr)
-		cocos2d::log("[error] 缓存失败：静态数据：技能卡集合");
-	else
-		cocos2d::log("[information] 成功缓存：静态数据：技能卡集合");
-
+	{
+		// 安全释放缓冲区
+		CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
+		// 推送失败消息
+		LogicMessagePQ::Instance()->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_Error_DataLoading_StaticData_CardSkillSetLoadFailed));
+		return;
+	}
 	//////////////////////////////////////////////////////////////////////////
 
-	cocos2d::log("[information] 开始解析：静态数据：技能卡集合...");
+	// 解析 //////////////////////////////////////////////////////////////////////////
+	// 技能卡集合数据解析器
 	ParserCardSkill parserCardSkill;
+	// 解析
 	parserCardSkill.parse();
+	// 如果解析失败
 	if (ParserCardSkill::cardSkillSetTemp.empty() == true)
-		cocos2d::log("[error] 解析失败：静态数据：技能卡集合");
+	{
+		// 释放缓存 //////////////////////////////////////////////////////////////////////////
+		ParserCardSkill::cardSkillSetTemp.clear();
+		CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
+		//////////////////////////////////////////////////////////////////////////
+		// 推送失败消息
+		LogicMessagePQ::Instance()->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_Error_DataLoading_StaticData_CardSkillSetLoadFailed));
+		return;
+	}
+	// 否则
 	else
 	{
+		//  将数据转存至卡集CardSet
 		CardSet::Instance()->loadCardSkillSet(ParserCardSkill::cardSkillSetTemp);
-		cocos2d::log("[information] 完成解析：静态数据：技能卡集合");
-	}
 
+		// 如果转存失败
+		if (CardSet::Instance()->isCardSkillSetEmpty() == true)
+		{
+			// 释放缓存 //////////////////////////////////////////////////////////////////////////
+			ParserCardSkill::cardSkillSetTemp.clear();
+			CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
+			//////////////////////////////////////////////////////////////////////////
+			// 推送失败消息
+			LogicMessagePQ::Instance()->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_Error_DataLoading_StaticData_CardSkillSetLoadFailed));
+			return;
+		}
+		// 否则
+		else
+			// 推送成功消息
+			LogicMessagePQ::Instance()->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_Information_DataLoading_StaticData_CardSkillSetLoadSuccess));
+	}
 	//////////////////////////////////////////////////////////////////////////
 
-	cocos2d::log("[information] 开始释放缓存：静态数据：技能卡集合...");
+	// 释放缓存 //////////////////////////////////////////////////////////////////////////
 	ParserCardSkill::cardSkillSetTemp.clear();
 	CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
-	cocos2d::log("[information] 成功释放缓存：静态数据：技能卡集合");
+	//////////////////////////////////////////////////////////////////////////
 }
 
 void StaticDataLoader::loadStaticDataMainMissionMapSet()
 {
+	// 用于创建待解析数据缓存的缓冲区索引
 	CharBufferArea::BufferIndex bufferIndex = CharBufferArea::BufferIndex_Static_MainMissionMap;
 
-	cocos2d::log("[information] 开始缓存文件数据：静态数据：主线任务地图集合...");
+	// 缓冲相关的静态数据文件 //////////////////////////////////////////////////////////////////////////
+	// 根据上文的缓冲区索引以及主线任务地图集合数据的文件缓存来创建缓冲区，以待解析
 	CharBufferArea::Instance()->createBuffer(
 		bufferIndex,
 		FileController::Instance()->getCharBufferFromFile(STATIC_DATA_MAINMISSIONMAP)
 		);
+	// 如果待解析的缓冲区创建失败
 	if (CharBufferArea::Instance()->getBufferByIndex(bufferIndex) == nullptr)
-		cocos2d::log("[error] 缓存失败：静态数据：主线任务地图集合");
-	else
-		cocos2d::log("[information] 成功缓存：静态数据：主线任务地图集合");
-
+	{
+		// 安全释放缓冲区
+		CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
+		// 推送失败消息
+		LogicMessagePQ::Instance()->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed));
+		return;
+	}
 	//////////////////////////////////////////////////////////////////////////
 
-	cocos2d::log("[information] 开始解析：静态数据：主线任务地图集合...");
+	// 解析 //////////////////////////////////////////////////////////////////////////
+	// 主线任务地图集合解析器
 	ParserMapMissionMain parserMapMissionMain;
+	// 解析
 	parserMapMissionMain.parse();
+	// 如果解析失败
 	if (ParserMapMissionMain::mainMissionMapSetTemp.empty() == true)
-		cocos2d::log("[error] 解析失败：静态数据：主线任务地图集合");
+	{
+		// 释放缓存 //////////////////////////////////////////////////////////////////////////
+		ParserMapMissionMain::mainMissionMapSetTemp.clear();
+		CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
+		//////////////////////////////////////////////////////////////////////////
+		// 推送失败消息
+		LogicMessagePQ::Instance()->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed));
+		return;
+	}
+	// 否则
 	else
 	{
+		//  将数据转存至卡集CardSet
 		MissionMapSet::Instance()->loadMainMissionMapSet(ParserMapMissionMain::mainMissionMapSetTemp);
-		cocos2d::log("[information] 完成解析：静态数据：主线任务地图集合");
+
+		// 如果数据转存失败
+		if (MissionMapSet::Instance()->isMainMissionMapSetEmpty() == true)
+		{
+			// 释放缓存 //////////////////////////////////////////////////////////////////////////
+			ParserMapMissionMain::mainMissionMapSetTemp.clear();
+			CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
+			//////////////////////////////////////////////////////////////////////////
+			// 推送失败消息
+			LogicMessagePQ::Instance()->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed));
+			return;
+		}
+		else
+		{
+			// 推送成功消息
+			LogicMessagePQ::Instance()->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_Information_DataLoading_StaticData_MapMainMissionSetLoadSuccess));
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 
-	cocos2d::log("[information] 开始释放缓存：静态数据：主线任务地图集合...");
+	// 释放缓存 //////////////////////////////////////////////////////////////////////////
 	ParserMapMissionMain::mainMissionMapSetTemp.clear();
 	CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
-	cocos2d::log("[information] 成功释放缓存：静态数据：主线任务地图集合");
-}
-
-void StaticDataLoader::loadArchivesDataGlobalMap()
-{
-	CharBufferArea::BufferIndex bufferIndex = CharBufferArea::BufferIndex_Archives_GlobalMap;
-
-	cocos2d::log("[information] 开始缓存文件数据：存档：全局地图...");
-	CharBufferArea::Instance()->createBuffer(
-		bufferIndex,
-		FileController::Instance()->getCharBufferFromFile(ARCHIVES_DATA_GLOBALMAP)
-		);
-	if (CharBufferArea::Instance()->getBufferByIndex(bufferIndex) == nullptr)
-		cocos2d::log("[error] 缓存失败：存档：全局地图");
-	else
-		cocos2d::log("[information] 成功缓存：存档：全局地图");
-
 	//////////////////////////////////////////////////////////////////////////
-
-	cocos2d::log("[information] 开始解析：存档：全局地图...");
-	ParserMapArchives parserMapArchives;
-	parserMapArchives.parse();
-	if (ParserMapArchives::globalMapArchivesTemp.empty() == true)
-		cocos2d::log("[error] 解析失败：存档：全局地图");
-	else
-	{
-		//MapController::Instance()->loadMapNode(ParserMapArchives::globalMapArchivesTemp);
-		cocos2d::log("[information] 完成解析：存档：全局地图");
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-
-	cocos2d::log("[information] 开始释放缓存：存档：全局地图...");
-	ParserMapArchives::globalMapArchivesTemp.clear();
-	CharBufferArea::Instance()->releaseBufferByIndex(bufferIndex);
-	cocos2d::log("[information] 成功释放缓存：存档：全局地图");
 }

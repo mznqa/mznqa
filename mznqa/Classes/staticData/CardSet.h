@@ -133,6 +133,54 @@ public:
 	}
 
 	/*!
+	 * \fn	bool CardSet::isCardRoadSetEmpty()const
+	 *
+	 * \brief	判断当前地形卡集合是否为空
+	 *
+	 * \return	返回当前地形卡集合是否为空
+	 */
+	bool isCardRoadSetEmpty()const
+	{
+		return cardRoadSet.empty();
+	}
+
+	/*!
+	 * \fn	bool CardSet::isCardTreasureSetEmpty()const
+	 *
+	 * \brief	判断当前宝物卡集合是否为空
+	 *
+	 * \return	返回当前宝物卡集合是否为空
+	 */
+	bool isCardTreasureSetEmpty()const
+	{
+		return cardTreasureSet.empty();
+	}
+
+	/*!
+	 * \fn	bool CardSet::isCardMonsterSetEmpty()const
+	 *
+	 * \brief	判断当前怪物卡集合是否为空
+	 *
+	 * \return	返回当前怪物卡集合是否为空
+	 */
+	bool isCardMonsterSetEmpty()const
+	{
+		return cardMonsterSet.empty();
+	}
+
+	/*!
+	 * \fn	bool CardSet::isCardSkillSetEmpty()const
+	 *
+	 * \brief	判断当前技能卡集合是否为空
+	 *
+	 * \return	判断当前技能卡集合是否为空
+	 */
+	bool isCardSkillSetEmpty()const
+	{
+		return cardSkillSet.empty();
+	}
+
+	/*!
 	 * \fn	const CardRoad* CardSet::getCardRoadByID(int id)
 	 *
 	 * \brief	根据给定 id 获取地形卡

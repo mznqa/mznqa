@@ -7,27 +7,7 @@
 #include "json/filereadstream.h"
 #include "json/document.h"
 
-// 测试用 //////////////////////////////////////////////////////////////////////////
-#include "engine/FileController.h"
-#include "dataHandle/CharBufferArea.h"
-#include "card/CardRoad.h"
-#include "card/CardSkill.h"
-#include <string>
-#include "effect/Effect.h"
-#include "effect/EffectFunSet.h"
-#include "dataHandle/ParserCardSkill.h"
-#include "dataHandle/ParserMapArchives.h"
-#include "staticData/CardSet.h"
-#include "cardController/CardBox.h"
-#include "cardController/CardBoxRTM.h"
-#include "cardController/CardControllerExplore.h"
-#include "cardController/CardControllerCombat.h"
-#include "filePath/DataFilePath.h"
 #include "dataHandle/StaticDataLoader.h"
-#include "map/MapController.h"
-#include "map/MapView.h"
-#include "dataHandle/ParserMapMissionMain.h"
-//////////////////////////////////////////////////////////////////////////
 
 SceneLoadResState::~SceneLoadResState()
 {
@@ -43,8 +23,19 @@ SceneLoadResState* SceneLoadResState::Instance()
 bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机中...");
-	// ！！！ 不要在此写任何东西 ！！！ //////////////////////////////////////////////////////////////////////////
-	// ！！！ 要写测试的话，写在下面那个函数内 ！！！ //////////////////////////////////////////////////////////////////////////
+	engineMessagePQInstance = EngineMessagePQ::Instance();
+	logicMessagePQInstance = LogicMessagePQ::Instance();
+	msgInterpreterInstance = MsgInterpreter::Instance();
+	// 推入消息队列： //////////////////////////////////////////////////////////////////////////
+	// 发送消息：载入：静态数据：地形卡卡集合
+	logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_LoadData_StaticData_CardRoadSet));
+	// 发送消息：载入：静态数据：技能卡集合
+	logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_LoadData_StaticData_CardSkillSet));
+	// 发送消息：载入：静态数据：主线任务地图集合
+	logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_LoadData_StaticData_MapMainMissionSet));
+	// 发送消息：跳转场景：SceneLoadRes 到 SceneGameMain
+	logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_ReplaceScene_SceneLoadRes2SceneGameMain));
+	//////////////////////////////////////////////////////////////////////////
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机成功");
 	return true;
 }
@@ -54,23 +45,72 @@ bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 {
 	cocos2d::log("[information] 开始执行场景 SceneLoadRes 对应的状态机...");
 
-	// 此区域用于载入资源，勿动 //////////////////////////////////////////////////////////////////////////
-	cocos2d::log("[information] 开始准备载入资源...");
-	// 载入：静态数据：地形卡卡集合
-	StaticDataLoader::loadStaticDataCardRoadSet();
-	// 载入：静态数据：技能卡集合
-	StaticDataLoader::loadStaticDataCardSkillSet();
-	// 载入：静态数据：主线任务地图集合
-	StaticDataLoader::loadStaticDataMainMissionMapSet();
+	// 主体区域 //////////////////////////////////////////////////////////////////////////
+	// 转译消息
+	logicMessagePQInstance->pushMessage(msgInterpreterInstance->translation(engineMessagePQInstance->getNextMessage()));
 
+	// 获取消息
+	Message<LogicMessagePQ::LMessage> msg = logicMessagePQInstance->getNextMessage();
+	// 处理消息
+	if (msg.messageID == LogicMessagePQ::LMessage_LoadData_StaticData_CardRoadSet)
+	{
+		cocos2d::log("[information] 开始载入静态数据：地形卡集合...");
+		scene->showProgress("开始载入静态数据：地形卡集合...");
+		StaticDataLoader::loadStaticDataCardRoadSet();
+	}
+	else if (msg.messageID == LogicMessagePQ::LMessage_LoadData_StaticData_CardSkillSet)
+	{
+		cocos2d::log("[information] 开始载入静态数据：技能卡集合...");
+		scene->showProgress("开始载入静态数据：技能卡集合...");
+		StaticDataLoader::loadStaticDataCardSkillSet();
+	}
+	else if (msg.messageID == LogicMessagePQ::LMessage_LoadData_StaticData_MapMainMissionSet)
+	{
+		cocos2d::log("[information] 开始载入静态数据：主线任务地图集合...");
+		scene->showProgress("开始载入静态数据：主线任务地图集合...");
+		StaticDataLoader::loadStaticDataMainMissionMapSet();
+	}
+	else if (msg.messageID == LogicMessagePQ::LMessage_Information_DataLoading_StaticData_CardRoadSetLoadSuccess)
+	{
+		cocos2d::log("[information] 完成静态数据载入：地形卡集合");
+		scene->showProgress("完成静态数据载入：地形卡集合");
+	}
+	else if (msg.messageID == LogicMessagePQ::LMessage_Error_DataLoading_StaticData_CardRoadSetLoadFailed)
+	{
+		cocos2d::log("[error] 载入静态数据出错：地形卡集合");
+		scene->showProgress("载入静态数据出错：地形卡集合");
+	}
+	else if (msg.messageID == LogicMessagePQ::LMessage_Information_DataLoading_StaticData_CardSkillSetLoadSuccess)
+	{
+		cocos2d::log("[information] 完成静态数据载入：技能卡集合");
+		scene->showProgress("完成静态数据载入：技能卡集合");
+	}
+	else if (msg.messageID == LogicMessagePQ::LMessage_Error_DataLoading_StaticData_CardSkillSetLoadFailed)
+	{
+		cocos2d::log("[error] 载入静态数据出错：技能卡集合");
+		scene->showProgress("载入静态数据出错：技能卡集合");
+	}
+	else if (msg.messageID == LogicMessagePQ::LMessage_Information_DataLoading_StaticData_MapMainMissionSetLoadSuccess)
+	{
+		cocos2d::log("[information] 完成静态数据载入：主线任务地图集合");
+		scene->showProgress("完成静态数据载入：主线任务地图集合");
+	}
+	else if (msg.messageID == LogicMessagePQ::LMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed)
+	{
+		cocos2d::log("[error] 载入静态数据出错：主线任务地图集合");
+		scene->showProgress("载入静态数据出错：主线任务地图集合");
+	}
+	else if (msg.messageID == LogicMessagePQ::LMessage_ReplaceScene_SceneLoadRes2SceneGameMain)
+	{
+		scene->replaceSceneGameMain();
+	}
+	// 反推
+	else
+	{
+		logicMessagePQInstance->pushMessage(msg);
+	}
 	//////////////////////////////////////////////////////////////////////////
 
-	// 测试用区域 //////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////
-
-	// 载入结束后，进入场景 SceneGameMain //////////////////////////////////////////////////////////////////////////
-	scene->replaceSceneGameMain();
-	//////////////////////////////////////////////////////////////////////////
 	cocos2d::log("[information] 执行场景 SceneLoadRes 对应的状态机成功");
 	return true;
 }

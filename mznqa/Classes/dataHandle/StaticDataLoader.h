@@ -59,14 +59,6 @@ public:
 	 *
 	 */
 	static void loadStaticDataMainMissionMapSet();
-
-	/*!
-	 * \fn	static void StaticDataLoader::loadArchivesDataGlobalMap();
-	 *
-	 * \brief	载入存档：全局地图
-	 *
-	 */
-	static void loadArchivesDataGlobalMap();
 };
 
 #endif
