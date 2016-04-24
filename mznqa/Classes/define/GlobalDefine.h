@@ -60,9 +60,9 @@
 /*!
  * \def	TIME_GLOBALMAP_MOVE();
  *
- * \brief	全局地图移动时间
+ * \brief	全局地图移动一格所需的时间
  *
  */
-#define TIME_GLOBALMAP_MOVE 0.3f
+#define TIME_GLOBALMAP_MOVE 0.1f
 
 #endif
