@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\message\EngineMessagePQ.h
+ *
+ * \brief	定义类 EngineMessagePQ
+ */
+
 #pragma execution_character_set("utf-8")
 
 #ifndef MZNQA_CLASSES_MESSAGE_ENGINEMESSAGEPQ_H_
@@ -8,48 +14,125 @@
 #include <functional>
 #include "message/Message.h"
 
-// 于引擎使用的消息队列
+/*!
+ * \class	EngineMessagePQ
+ *
+ * \brief	予引擎使用的消息队列
+ *
+ */
 class EngineMessagePQ
 {
 public:
-	// 消息枚举
+
+	/*!
+	 * \enum	EMessage
+	 *
+	 * \brief	消息枚举
+	 */
 	enum EMessage
 	{
-		EMessage_None = 0,
-		EMessage_MapMoveUp = 1,
-		EMessage_MapMoveRight = 2,
-		EMessage_MapMoveDown = 3,
-		EMessage_MapMoveLeft = 4
+		EMessage_None = 0,			///< 空消息
+		EMessage_MapMoveUp = 1,		///< 上移地图
+		EMessage_MapMoveRight = 2,	///< 右移地图
+		EMessage_MapMoveDown = 3,	///< 下移地图
+		EMessage_MapMoveLeft = 4	///< 左移地图
 	};
 
-	// 获取 EngineMessagePQ 实例
+	/*!
+	 * \fn	static EngineMessagePQ* EngineMessagePQ::Instance();
+	 *
+	 * \brief	获取实例
+	 *
+	 * \return	返回实例
+	 */
 	static EngineMessagePQ* Instance();
 
+	/*!
+	 * \fn	EngineMessagePQ::~EngineMessagePQ();
+	 *
+	 * \brief	析构函数
+	 *
+	 */
 	~EngineMessagePQ();
 
-	// 推送消息
+	/*!
+	 * \fn	void EngineMessagePQ::pushMessage(const Message<EMessage> &eMessage);
+	 *
+	 * \brief	向队列中推送一个引擎消息
+	 *
+	 * \param	eMessage	指定待推送的引擎消息
+	 */
 	void pushMessage(const Message<EMessage> &eMessage);
 
-	// 获取当前优先级最高的消息
-	// 注意：当返回 EMessage_None 表示当前消息队列中无消息
+	/*!
+	 * \fn	Message<EMessage> EngineMessagePQ::getNextMessage();
+	 *
+	 * \brief	获取并从队列中弹出当前优先级最高的消息
+	 *
+	 * \return	返回并从队列中弹出当前优先级最高的消息
+	 */
 	Message<EMessage> getNextMessage();
 
-	// 判断当前消息队列是否为空
+	/*!
+	 * \fn	bool EngineMessagePQ::isEmpty();
+	 *
+	 * \brief	判断当前消息队列是否为空
+	 *
+	 * \return	返回当前消息队列是否为空
+	 */
 	bool isEmpty();
 
-	// 清空当前消息队列
+	/*!
+	 * \fn	void EngineMessagePQ::clear();
+	 *
+	 * \brief	清空当前消息队列
+	 *
+	 */
 	void clear();
 
+	/*!
+	 * \fn	int EngineMessagePQ::getMessageCount()
+	 *
+	 * \brief	获取队列中当前消息总数
+	 *
+	 * \return	返回队列中当前消息总数
+	 */
 	int getMessageCount()
 	{
 		return msgPQ.size();
 	}
 
 private:
+
+	/*!
+	 * \fn	EngineMessagePQ::EngineMessagePQ()
+	 *
+	 * \brief	隐藏的构造函数
+	 *
+	 */
 	EngineMessagePQ(){}
+
+	/*!
+	 * \fn	EngineMessagePQ::EngineMessagePQ(const EngineMessagePQ &engineMessagePQ);
+	 *
+	 * \brief	隐藏的拷贝构造函数
+	 *
+	 * \param	engineMessagePQ	指定 EngineMessagePQ 实例
+	 */
 	EngineMessagePQ(const EngineMessagePQ &engineMessagePQ);
+
+	/*!
+	 * \fn	EngineMessagePQ& EngineMessagePQ::operator=(const EngineMessagePQ &engineMessagePQ);
+	 *
+	 * \brief	隐藏的拷贝赋值运算符
+	 *
+	 * \param	engineMessagePQ	指定 EngineMessagePQ 实例
+	 *
+	 * \return	返回 EngineMessagePQ 实例
+	 */
 	EngineMessagePQ& operator=(const EngineMessagePQ &engineMessagePQ);
 
+	/*! \brief	引擎用消息队列 */
 	std::priority_queue<Message<EMessage>, std::vector<Message<EMessage>>, std::greater<Message<EMessage>>> msgPQ;
 };
 

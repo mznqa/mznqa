@@ -2,7 +2,6 @@
 
 #include "runtime/SceneGameMainState.h"
 
-
 SceneGameMainState::~SceneGameMainState()
 {
 }

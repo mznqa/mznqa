@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\message\MsgInterpreter.cpp
+ *
+ * \brief	∂®“Â¿‡ MsgInterpreter
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "message/MsgInterpreter.h"

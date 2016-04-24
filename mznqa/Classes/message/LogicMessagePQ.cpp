@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\message\LogicMessagePQ.cpp
+ *
+ * \brief	∂®“Â¿‡ LogicMessagePQ
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "message/LogicMessagePQ.h"

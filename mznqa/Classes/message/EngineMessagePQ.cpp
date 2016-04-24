@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\message\EngineMessagePQ.cpp
+ *
+ * \brief	∂®“Â¿‡ EngineMessagePQ
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "message/EngineMessagePQ.h"

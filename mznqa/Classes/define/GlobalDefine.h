@@ -57,4 +57,12 @@
  */
 #define INVALID_TIMEVALUE -1.0f
 
+/*!
+ * \def	TIME_GLOBALMAP_MOVE();
+ *
+ * \brief	全局地图移动时间
+ *
+ */
+#define TIME_GLOBALMAP_MOVE 0.3f
+
 #endif

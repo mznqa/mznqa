@@ -61,8 +61,8 @@ void MapController::loadMapNode(const MissionMap &missionMap)
 
 	srand((unsigned)time(NULL));
 
-	int startX = rand() % (mapNodecountHorizontal - w);
-	int startY = rand() % (mapNodecountVertical - h);
+	int startX = (rand() % ((int)(mapNodecountHorizontal - w) / 3)) * 3;
+	int startY = (rand() % ((int)(mapNodecountVertical - h) / 3)) * 3;
 
 	int endX = startX + w;
 	int endY = startY + h;

@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\dataHandle\ParserMapMissionMain.cpp
+ *
+ * \brief	定义类 ParserMapMissionMain
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "dataHandle/ParserMapMissionMain.h"
@@ -11,6 +17,12 @@ std::vector<MissionMap> ParserMapMissionMain::mainMissionMapSetTemp;
 
 namespace ForParserMapMissionMain
 {
+	/*!
+	 * \struct	ParserNode
+	 *
+	 * \brief	ParserMapMissionMain 特需的用于记录解析节点状态的结构体
+	 *
+	 */
 	struct ParserNode
 	{
 		enum State
@@ -43,6 +55,12 @@ namespace ForParserMapMissionMain
 		}
 	};
 
+	/*!
+	 * \struct	HandlerMapMissionMain
+	 *
+	 * \brief	ParserMapMissionMain 特需的用于处理解析过程的结构体
+	 *
+	 */
 	struct HandlerMapMissionMain : public rapidjson::BaseReaderHandler<rapidjson::UTF8<>>
 	{
 	private:

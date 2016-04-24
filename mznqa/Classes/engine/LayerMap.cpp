@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\engine\LayerMap.cpp
+ *
+ * \brief	¶¨ÒåÀà LayerMap
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "engine/LayerMap.h"
@@ -6,18 +12,13 @@
 #include "ui/CocosGUI.h"
 
 #include "filePath/SceneFilePath.h"
-
 #include "map/MapController.h"
 #include "map/MapNode.h"
 #include "message/EngineMessagePQ.h"
+#include "engine/GlobalFun.h"
 
 USING_NS_CC;
 using namespace cocostudio::timeline;
-
-const float LayerMap::mapCellSize = 64.0;
-const float LayerMap::mapGroupSize = 192.0;
-
-const float LayerMap::globalMoveDuration = 0.3f;
 
 bool LayerMap::init()
 {
@@ -25,9 +26,6 @@ bool LayerMap::init()
 	{
 		return false;
 	}
-
-	screenViewMapCellCountWidth = MapView::Instance()->getWidht();
-	screenViewMapCellCountHeight = MapView::Instance()->getHeight();
 
 	loadMapFromMapController();
 
@@ -50,22 +48,17 @@ void LayerMap::onTouchMoved(Touch *touch, Event *unused_event)
 void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
 {
 	cocos2d::log("[warning] LayerMap::onTouchEnded()");
-	Vec2 delta = touch->getLocation() - mapGlobalCenterPoint;
+	Vec2 delta = touch->getLocation() - mapViewCenterPoint;
 
-	cocos2d::log("delta:%f,%f", delta.x, delta.y);
-
-	bool handle = false;
 	if (abs(delta.x) > abs(delta.y))
 	{
 		if (delta.x > 0)
 		{
 			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveLeft));
-			handle = true;
 		}
 		else if (delta.x < 0)
 		{
 			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveRight));
-			handle = true;
 		}
 	}
 	else
@@ -73,12 +66,10 @@ void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
 		if (delta.y > 0)
 		{
 			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveDown));
-			handle = true;
 		}
 		else if (delta.y < 0)
 		{
 			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveUp));
-			handle = true;
 		}
 	}
 }
@@ -121,7 +112,7 @@ void LayerMap::loadMapFromMapController()
 				*it2 = Sprite::create("test_map_cell/map_cell_fence_64.png");
 
 			(*it2)->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-			(*it2)->setPosition(Vec2(x*mapCellSize, -y*mapCellSize));
+			(*it2)->setPosition(Vec2(gX2CartesianX(x), gY2CartesianY(y)));
 
 			addChild(*it2);
 			++it2;
@@ -136,10 +127,10 @@ void LayerMap::refreshPosition()
 {
 	this->stopActionsByFlags(ActionFlags_LayerMove);
 	auto action = MoveTo::create(
-		globalMoveDuration,
+		TIME_GLOBALMAP_MOVE,
 		Vec2(
-		0.0 - MapView::Instance()->getLeftTopGX()*mapCellSize,
-		DESIGNRESOLUTIONSIZE_HEIGHT + MapView::Instance()->getLeftTopGY()*mapCellSize
+		-MapView::Instance()->getLeftTopGX()*MAP_CELL_SIZE,
+		MapView::Instance()->getLeftTopGY()*MAP_CELL_SIZE
 		)
 		);
 	action->setFlags(ActionFlags_LayerMove);

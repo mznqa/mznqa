@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\message\MsgInterpreter.h
+ *
+ * \brief	定义类 MsgInterpreter
+ */
+
 #pragma execution_character_set("utf-8")
 
 #ifndef MZNQA_CLASSES_MESSAGE_MSGINTERPRETER_H_
@@ -9,24 +15,79 @@
 #include "message/EngineMessagePQ.h"
 #include "message/LogicMessagePQ.h"
 
+/*!
+ * \class	MsgInterpreter
+ *
+ * \brief	消息转译器
+ *
+ */
 class MsgInterpreter
 {
 private:
+
+	/*!
+	 * \fn	MsgInterpreter::MsgInterpreter();
+	 *
+	 * \brief	隐藏的构造函数
+	 *
+	 */
 	MsgInterpreter();
+
+	/*!
+	 * \fn	MsgInterpreter::MsgInterpreter(const MsgInterpreter &msgInterpreter);
+	 *
+	 * \brief	隐藏的拷贝构造函数
+	 *
+	 * \param	msgInterpreter	MsgInterpreter 实例
+	 */
 	MsgInterpreter(const MsgInterpreter &msgInterpreter);
+
+	/*!
+	 * \fn	MsgInterpreter& MsgInterpreter::operator=(const MsgInterpreter &msgInterpreter);
+	 *
+	 * \brief	隐藏的拷贝赋值运算符
+	 *
+	 * \param	msgInterpreter	MsgInterpreter 实例
+	 *
+	 * \return	返回 MsgInterpreter 实例
+	 */
 	MsgInterpreter& operator=(const MsgInterpreter &msgInterpreter);
 
+	/*! \brief	暂存单例：EngineMessagePQ */
 	EngineMessagePQ *engineMessagePQInstance;
+	/*! \brief	暂存单例：LogicMessagePQ */
 	LogicMessagePQ *logicMessagePQInstance;
 
-	// 消息映射表<EngineMessage, LogicMessage>
+	/*! \brief	消息映射表：引擎消息->逻辑消息 */
 	std::map<EngineMessagePQ::EMessage, LogicMessagePQ::LMessage> msgMap;
 public:
-	// 获取MsgInterpreter单例
+
+	/*!
+	 * \fn	static MsgInterpreter* MsgInterpreter::Instance();
+	 *
+	 * \brief	获取单例
+	 *
+	 * \return	返回单例
+	 */
 	static MsgInterpreter* Instance();
+
+	/*!
+	 * \fn	MsgInterpreter::~MsgInterpreter();
+	 *
+	 * \brief	析构函数
+	 *
+	 */
 	~MsgInterpreter();
 
-	// 转译消息
+	/*!
+	 * \fn	Message<LogicMessagePQ::LMessage> MsgInterpreter::translation(const Message<EngineMessagePQ::EMessage> &eMessage);
+	 *
+	 * \brief	将引擎消息转译成逻辑消息
+	 *
+	 * \param	eMessage	指定引擎消息
+	 *
+	 * \return	返回转译后的逻辑消息
+	 */
 	Message<LogicMessagePQ::LMessage> translation(const Message<EngineMessagePQ::EMessage> &eMessage);
 };
 

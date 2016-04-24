@@ -47,7 +47,7 @@ bool SceneGameMain::init()
 
 	layerMap->setScale(dv);
 
-	layerMap->setPosition(Vec2(0, DESIGNRESOLUTIONSIZE_HEIGHT* dv));
+	layerMap->setPosition(Vec2(0, 0));// DESIGNRESOLUTIONSIZE_HEIGHT* dv));
 
 	addChild(layerMap);
 
