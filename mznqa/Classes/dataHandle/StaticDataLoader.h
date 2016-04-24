@@ -12,7 +12,7 @@
 /*!
  * \class	StaticDataLoader
  *
- * \brief	用于载入静态文件数据
+ * \brief	用于读取和解析静态文件数据文件，并将数据存放到相关的位置
  *
  */
 class StaticDataLoader
