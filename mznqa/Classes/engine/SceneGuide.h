@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\engine\SceneGuide.h
+ *
+ * \brief	定义类 SceneGuide
+ */
+
 #pragma execution_character_set("utf-8")
 
 #ifndef MZNQA_CLASSES_ENGINE_SCENEGUIDE_H_
@@ -5,19 +11,27 @@
 
 #include "cocos2d.h"
 
-// 该场景用于引导并正确初始化场景配套的状态机，暂时不需要其他内容，勿修改！
+/*!
+ * \class	SceneGuide
+ *
+ * \brief	最为第一个场景，用于引导进入下一场景
+ *
+ */
 class SceneGuide : public cocos2d::Layer
 {
 private:
 	// 场景私有量 //////////////////////////////////////////////////////////////////////////
-
-	// 用于存放外部场景文件载入的资源
+	/*! \brief	用于存放外部场景文件载入的资源 */
 	cocos2d::Node *rootNode;
 	//////////////////////////////////////////////////////////////////////////
 
 	// 调度器 //////////////////////////////////////////////////////////////////////////
-
-	// 单次调度器
+	/*!
+	 * \fn	void SceneGuide::updateOnce(float dt);
+	 *
+	 * \brief	重写单次调度器
+	 *
+	 */
 	void updateOnce(float dt);
 	//////////////////////////////////////////////////////////////////////////
 public:
@@ -26,19 +40,39 @@ public:
 
 	// 固有的场景生命周期方法 //////////////////////////////////////////////////////////////////////////
 
-	// 重写场景的初始化方法
+	/*!
+	 * \fn	virtual bool SceneGuide::init() override;
+	 *
+	 * \brief	重写场景初始化方法
+	 *
+	 */
 	virtual bool init() override;
 
-	// 重写场景的进入方法
+	/*!
+	 * \fn	virtual void SceneGuide::onEnter() override;
+	 *
+	 * \brief	重写场景进入方法
+	 *
+	 */
 	virtual void onEnter() override;
 
-	// 重写场景的离开方法
+	/*!
+	 * \fn	virtual void SceneGuide::onExit() override;
+	 *
+	 * \brief	重写场景离开方法
+	 *
+	 */
 	virtual void onExit() override;
 	//////////////////////////////////////////////////////////////////////////
 
 	// API //////////////////////////////////////////////////////////////////////////
 
-	// 切换到场景SceneLoadRes
+	/*!
+	 * \fn	void SceneGuide::replaceSceneLoadRes();
+	 *
+	 * \brief	用于从当前场景切换到 SceneLoadRes
+	 *
+	 */
 	void replaceSceneLoadRes();
 	//////////////////////////////////////////////////////////////////////////
 };

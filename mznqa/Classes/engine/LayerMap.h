@@ -122,6 +122,14 @@ public:
 	 *
 	 */
 	void refreshPosition();
+
+	/*!
+	 * \fn	void LayerMap::initialize();
+	 *
+	 * \brief	≥ı ºªØµÿÕº≤„
+	 *
+	 */
+	void initialize();
 };
 
 #endif

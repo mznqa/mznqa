@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\engine\SceneLoadRes.cpp
+ *
+ * \brief	定义类 SceneLoadRes
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "engine/SceneLoadRes.h"
@@ -7,11 +13,12 @@
 #include "filePath/SceneFilePath.h"
 #include "runtime/SceneLoadResState.h"
 #include "engine/SceneGameMain.h"
-#include "define/GlobalDefine.h"
 
 USING_NS_CC;
 
 using namespace cocostudio::timeline;
+
+const std::string SceneLoadRes::UiNameTextOutput("Text_Output");
 
 Scene* SceneLoadRes::createScene()
 {
@@ -24,22 +31,24 @@ Scene* SceneLoadRes::createScene()
 	return scene;
 }
 
-// 场景创建时的初始化操作
 bool SceneLoadRes::init()
 {
 	log("[information] 场景 SceneLoadRes 启动中...");
 
+	// 执行基类方法
 	if (!Layer::init())
 	{
 		return false;
 	}
 
+	// 载入并添加外部场景文件的内容
 	rootNode = CSLoader::createNode(FILE_PATH_SCENE_LOADRES);
-
 	addChild(rootNode);
 
-	uiTextOutput = (ui::Text*)(rootNode->getChildByName("Text_Output"));
+	// 获取UI：用于输出信息的文本框
+	uiTextOutput = (ui::Text*)(rootNode->getChildByName(UiNameTextOutput));
 
+	// 加入逐帧调度器
 	this->scheduleUpdate();
 
 	log("[information] 场景 SceneLoadRes 启动成功");
@@ -55,7 +64,6 @@ void SceneLoadRes::onEnter()
 	Layer::onEnter();
 	// 调用场景状态方法
 	SceneLoadResState::Instance()->enter(this);
-
 	log("[information] 进入场景 SceneLoadRes 成功");
 }
 
@@ -73,7 +81,7 @@ void SceneLoadRes::onExit()
 void SceneLoadRes::update(float dt)
 {
 	log("[information] 进入 SceneLoadRes 场景的逐帧调度器...");
-	SceneLoadResState::Instance()->update(this, TIME_INVALIDVALUE);
+	SceneLoadResState::Instance()->update(this, dt);
 	log("[information] 离开 SceneLoadRes 场景的逐帧调度器");
 }
 

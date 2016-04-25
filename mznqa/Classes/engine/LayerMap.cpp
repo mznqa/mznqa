@@ -136,3 +136,9 @@ void LayerMap::refreshPosition()
 	action->setFlags(ActionFlags_LayerMove);
 	this->runAction(action);
 }
+
+void LayerMap::initialize()
+{
+	this->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	this->setPosition(Vec2::ZERO);
+}

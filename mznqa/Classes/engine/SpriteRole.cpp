@@ -13,7 +13,7 @@
 USING_NS_CC;
 using namespace cocostudio::timeline;
 
-float SpriteRole::timeSpriteMoveByMap = 0.1;
+const float SpriteRole::TimeSpriteMoveByMap = 0.1;
 
 SpriteRole * SpriteRole::create(const std::string &filename)
 {
@@ -33,8 +33,8 @@ void SpriteRole::initialize()
 	this->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	// 设置角色精灵的初始位置 //////////////////////////////////////////////////////////////////////////
 	int x = 0, y = 0;
-	x = roleInstance->getPositionX();
-	y = roleInstance->getPositionY();
+	x = RoleInstance->getPositionX();
+	y = RoleInstance->getPositionY();
 	this->setPosition(Vec2(gX2CartesianX(x), gY2CartesianY(y)));
 	//////////////////////////////////////////////////////////////////////////
 }
@@ -43,15 +43,15 @@ void SpriteRole::refreshPosition()
 {
 	// 获取角色精灵现应在的位置 //////////////////////////////////////////////////////////////////////////
 	int x = 0, y = 0;
-	x = roleInstance->getPositionX();
-	y = roleInstance->getPositionY();
+	x = RoleInstance->getPositionX();
+	y = RoleInstance->getPositionY();
 	//////////////////////////////////////////////////////////////////////////
 
 	// 停下所有同Flag动作
 	this->stopActionsByFlags(ActionFlags_MoveTo);
 	// 创建动作
 	auto action = MoveTo::create(
-		timeSpriteMoveByMap,
+		TimeSpriteMoveByMap,
 		Vec2(
 		gX2CartesianX(x),
 		gY2CartesianY(y)

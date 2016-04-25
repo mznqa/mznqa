@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\runtime\SceneGuideState.cpp
+ *
+ * \brief	定义类 SceneGuideState
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "runtime/SceneGuideState.h"
@@ -15,7 +21,6 @@ SceneGuideState* SceneGuideState::Instance()
 	return &instance;
 }
 
-// 进入状态前的操作
 bool SceneGuideState::enter(SceneGuide *scene)
 {
 	cocos2d::log("[information] 准备进入场景 SceneGuide 对应状态机...");
@@ -23,7 +28,6 @@ bool SceneGuideState::enter(SceneGuide *scene)
 	return true;
 }
 
-// 状态执行时的操作
 bool SceneGuideState::update(SceneGuide *scene, double intervalTime)
 {
 	cocos2d::log("[information] 开始执行场景 SceneGuide 对应的状态机...");
@@ -33,7 +37,6 @@ bool SceneGuideState::update(SceneGuide *scene, double intervalTime)
 	return true;
 }
 
-// 离开状态前的操作
 bool SceneGuideState::exit(SceneGuide *Scene)
 {
 	cocos2d::log("[information] 准备离开场景 SceneGuide 对应状态机...");

@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\runtime\SceneGameMainState.cpp
+ *
+ * \brief	定义类 SceneGameMainState
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "runtime/SceneGameMainState.h"
@@ -12,14 +18,36 @@ SceneGameMainState* SceneGameMainState::Instance()
 	return &instance;
 }
 
-// 进入状态前的操作
 bool SceneGameMainState::enter(SceneGameMain *scene)
 {
 	cocos2d::log("[information] 准备进入场景 SceneGameMain 对应状态机...");
-	engineMessagePQInstance = EngineMessagePQ::Instance();
-	logicMessagePQInstance = LogicMessagePQ::Instance();
-	msgInterpreterInstance = MsgInterpreter::Instance();
-	mapViewInstance = MapView::Instance();
+
+	// 装载地图
+	MapControllerInstance->setEmptyMap();
+	MapControllerInstance->loadMapNode(MissionMapSetInstance->getMainMissionMapByIndex(0));
+
+	// 设置角色位置
+	RoleInstance->setPosition(10, 7);
+
+	// 绘制地图 //////////////////////////////////////////////////////////////////////////
+	scene->layerMap = LayerMap::create();
+	scene->layerMap->initialize();
+	scene->addChild(scene->layerMap);
+	//////////////////////////////////////////////////////////////////////////
+
+	// 绘制角色 //////////////////////////////////////////////////////////////////////////
+	scene->spriteRole = SpriteRole::create("test_map_cell/player.png");
+	scene->spriteRole->initialize();
+	scene->addChild(scene->spriteRole);
+	//////////////////////////////////////////////////////////////////////////
+
+	// 绘制参考线 //////////////////////////////////////////////////////////////////////////
+	auto ckx = cocos2d::Sprite::create("test_map_cell/cellx192.png");
+	ckx->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
+	ckx->setPosition(cocos2d::Vec2(0, DESIGNRESOLUTIONSIZE_HEIGHT));
+	scene->addChild(ckx);
+	//////////////////////////////////////////////////////////////////////////
+
 	cocos2d::log("[information] 进入场景 SceneGameMain 对应状态机成功");
 	return true;
 }
@@ -28,27 +56,28 @@ bool SceneGameMainState::enter(SceneGameMain *scene)
 bool SceneGameMainState::update(SceneGameMain *scene, double intervalTime)
 {
 	cocos2d::log("[information] 开始执行场景 SceneGameMain 对应的状态机...");
+	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
 	// 转译消息
-	logicMessagePQInstance->pushMessage(msgInterpreterInstance->translation(engineMessagePQInstance->getNextMessage()));
+	LogicMessagePQInstance->pushMessage(MsgInterpreterInstance->translation(EngineMessagePQInstance->getNextMessage()));
 
 	// 获取消息
-	Message<LogicMessagePQ::LMessage> msg = logicMessagePQInstance->getNextMessage();
+	Message<LogicMessagePQ::LMessage> msg = LogicMessagePQInstance->getNextMessage();
 	// 处理消息
 	if (msg.messageID == LogicMessagePQ::LMessage_MapViewMoveUp)
 	{
-		mapViewInstance->moveUp();
+		MapViewInstance->moveUp();
 	}
 	else if (msg.messageID == LogicMessagePQ::LMessage_MapViewMoveRight)
 	{
-		mapViewInstance->moveRight();
+		MapViewInstance->moveRight();
 	}
 	else if (msg.messageID == LogicMessagePQ::LMessage_MapViewMoveDown)
 	{
-		mapViewInstance->moveDown();
+		MapViewInstance->moveDown();
 	}
 	else if (msg.messageID == LogicMessagePQ::LMessage_MapViewMoveLeft)
 	{
-		mapViewInstance->moveLeft();
+		MapViewInstance->moveLeft();
 	}
 	else if (msg.messageID == LogicMessagePQ::LMessage_RefreshMapPosition)
 	{
@@ -58,14 +87,12 @@ bool SceneGameMainState::update(SceneGameMain *scene, double intervalTime)
 	{
 		scene->spriteRole->refreshPosition();
 	}
-	// 反推
+	// 未被执行则反推
 	else
 	{
-		logicMessagePQInstance->pushMessage(msg);
+		LogicMessagePQInstance->pushMessage(msg);
 	}
-
-	cocos2d::log("[information] 当前引擎消息队列中待处理消息个数：%d", engineMessagePQInstance->getMessageCount());
-	cocos2d::log("[information] 当前逻辑消息队列中待处理消息个数：%d", logicMessagePQInstance->getMessageCount());
+	//////////////////////////////////////////////////////////////////////////
 
 	cocos2d::log("[information] 场景 SceneGameMain 对应的状态机执行完成");
 	return true;

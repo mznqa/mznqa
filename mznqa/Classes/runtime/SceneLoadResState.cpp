@@ -19,38 +19,32 @@ SceneLoadResState* SceneLoadResState::Instance()
 	return &instance;
 }
 
-// 进入状态前的操作
 bool SceneLoadResState::enter(SceneLoadRes *scene)
 {
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机中...");
-	engineMessagePQInstance = EngineMessagePQ::Instance();
-	logicMessagePQInstance = LogicMessagePQ::Instance();
-	msgInterpreterInstance = MsgInterpreter::Instance();
-	// 推入消息队列： //////////////////////////////////////////////////////////////////////////
+	// 推入待执行的消息队列： //////////////////////////////////////////////////////////////////////////
 	// 发送消息：载入：静态数据：地形卡卡集合
-	logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_LoadData_StaticData_CardRoadSet));
+	LogicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_LoadData_StaticData_CardRoadSet));
 	// 发送消息：载入：静态数据：技能卡集合
-	logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_LoadData_StaticData_CardSkillSet));
+	LogicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_LoadData_StaticData_CardSkillSet));
 	// 发送消息：载入：静态数据：主线任务地图集合
-	logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_LoadData_StaticData_MapMainMissionSet));
+	LogicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_LoadData_StaticData_MapMainMissionSet));
 	// 发送消息：跳转场景：SceneLoadRes 到 SceneGameMain
-	logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_ReplaceScene_SceneLoadRes2SceneGameMain));
+	LogicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_ReplaceScene_SceneLoadRes2SceneGameMain));
 	//////////////////////////////////////////////////////////////////////////
 	cocos2d::log("[information] 准备进入场景 SceneLoadRes 对应的状态机成功");
 	return true;
 }
 
-// 状态执行时的操作
 bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 {
 	cocos2d::log("[information] 开始执行场景 SceneLoadRes 对应的状态机...");
-
-	// 主体区域 //////////////////////////////////////////////////////////////////////////
+	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
 	// 转译消息
-	logicMessagePQInstance->pushMessage(msgInterpreterInstance->translation(engineMessagePQInstance->getNextMessage()));
+	LogicMessagePQInstance->pushMessage(MsgInterpreterInstance->translation(EngineMessagePQInstance->getNextMessage()));
 
 	// 获取消息
-	Message<LogicMessagePQ::LMessage> msg = logicMessagePQInstance->getNextMessage();
+	Message<LogicMessagePQ::LMessage> msg = LogicMessagePQInstance->getNextMessage();
 	// 处理消息
 	if (msg.messageID == LogicMessagePQ::LMessage_LoadData_StaticData_CardRoadSet)
 	{
@@ -104,10 +98,10 @@ bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 	{
 		scene->replaceSceneGameMain();
 	}
-	// 反推
+	// 未执行则反推回队列
 	else
 	{
-		logicMessagePQInstance->pushMessage(msg);
+		LogicMessagePQInstance->pushMessage(msg);
 	}
 	//////////////////////////////////////////////////////////////////////////
 
@@ -115,7 +109,6 @@ bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 	return true;
 }
 
-// 离开状态前的操作
 bool SceneLoadResState::exit(SceneLoadRes *Scene)
 {
 	cocos2d::log("[information] 准备离开场景 SceneLoadRes 对应的状态机...");

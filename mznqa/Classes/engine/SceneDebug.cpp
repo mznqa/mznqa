@@ -1,3 +1,9 @@
+/*!
+ * \file	Classes\engine\SceneDebug.cpp
+ *
+ * \brief	定义类 SceneDebug
+ */
+
 #pragma execution_character_set("utf-8")
 
 #include "engine/SceneDebug.h"
@@ -23,7 +29,6 @@ Scene* SceneDebug::createScene()
 	return scene;
 }
 
-// 场景创建时的初始化操作
 bool SceneDebug::init()
 {
 	log("[information] 启动 SceneDebug 场景中...");
@@ -34,10 +39,8 @@ bool SceneDebug::init()
 		return false;
 	}
 
-	// 载入外部场景文件
+	// 载入并添加外部场景文件
 	rootNode = CSLoader::createNode(FILE_PATH_SCENE_DEBUG);
-
-	// 添加到场景中
 	addChild(rootNode);
 
 	log("[information] SceneDebug 场景启动成功");
@@ -45,7 +48,6 @@ bool SceneDebug::init()
 	return true;
 }
 
-// 进入场景时的操作
 void SceneDebug::onEnter()
 {
 	log("[information] 开始准备进入 SceneDebug 场景...");
@@ -61,7 +63,6 @@ void SceneDebug::onEnter()
 	log("[information] SceneDebug 场景进入成功");
 }
 
-// 离开场景时的操作
 void SceneDebug::onExit()
 {
 	log("[information] 开始准备离开 SceneDebug 场景...");

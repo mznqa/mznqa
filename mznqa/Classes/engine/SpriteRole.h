@@ -25,11 +25,11 @@ class SpriteRole : public cocos2d::Sprite
 {
 private:
 	/*! \brief	角色精灵随全局地图移动的动作所需的时间 */
-	static float timeSpriteMoveByMap;
+	static const float TimeSpriteMoveByMap;
 
 	// 单例别名 //////////////////////////////////////////////////////////////////////////
-	// 指向角色单例的常量指针
-	Role *const roleInstance = Role::Instance();
+	/*! \brief	保存 Role::Instance() 的常量指针 */
+	Role *const RoleInstance = Role::Instance();
 	//////////////////////////////////////////////////////////////////////////
 public:
 
