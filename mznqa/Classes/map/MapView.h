@@ -177,7 +177,7 @@ public:
 	 */
 	bool judgeMoveUp()const
 	{
-		return !(leftTopGY + 3 > MapController::mapNodecountVertical - height);
+		return !(leftTopGY - 3 < 0);
 	}
 
 	/*!
@@ -189,7 +189,7 @@ public:
 	 */
 	bool judgeMoveDown()const
 	{
-		return !(leftTopGY - 3 < 0);
+		return !(leftTopGY + 3 > MapController::mapNodecountVertical - height);
 	}
 
 	/*!
@@ -201,7 +201,7 @@ public:
 	 */
 	bool judgeMoveLeft()const
 	{
-		return !(leftTopGX + 3 > MapController::mapNodecountHorizontal - width);
+		return !(leftTopGX - 3 < 0);
 	}
 
 	/*!
@@ -213,7 +213,7 @@ public:
 	 */
 	bool judgeMoveRight()const
 	{
-		return !(leftTopGX - 3 < 0);
+		return !(leftTopGX + 3 > MapController::mapNodecountHorizontal - width);
 	}
 
 	/*!
@@ -227,7 +227,7 @@ public:
 		if (judgeMoveUp() == false)
 			return;
 
-		leftTopGY += 3;
+		leftTopGY -= 3;
 		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshMapPosition));
 		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshRolePosition));
 	}
@@ -243,7 +243,7 @@ public:
 		if (judgeMoveDown() == false)
 			return;
 
-		leftTopGY -= 3;
+		leftTopGY += 3;
 		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshMapPosition));
 		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshRolePosition));
 	}
@@ -259,7 +259,7 @@ public:
 		if (judgeMoveLeft() == false)
 			return;
 
-		leftTopGX += 3;
+		leftTopGX -= 3;
 		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshMapPosition));
 		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshRolePosition));
 	}
@@ -275,7 +275,7 @@ public:
 		if (judgeMoveRight() == false)
 			return;
 
-		leftTopGX -= 3;
+		leftTopGX += 3;
 		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshMapPosition));
 		logicMessagePQInstance->pushMessage(Message<LogicMessagePQ::LMessage>(LogicMessagePQ::LMessage_RefreshRolePosition));
 	}

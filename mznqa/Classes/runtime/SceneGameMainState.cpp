@@ -7,6 +7,7 @@
 #pragma execution_character_set("utf-8")
 
 #include "runtime/SceneGameMainState.h"
+#include "filePath/SpriteFilePath.h"
 
 SceneGameMainState::~SceneGameMainState()
 {
@@ -36,13 +37,13 @@ bool SceneGameMainState::enter(SceneGameMain *scene)
 	//////////////////////////////////////////////////////////////////////////
 
 	// 绘制角色 //////////////////////////////////////////////////////////////////////////
-	scene->spriteRole = SpriteRole::create("test_map_cell/player.png");
+	scene->spriteRole = SpriteRole::createWithSpriteFrameName(FILE_PATH_GAME_OBJECT_ROLE);
 	scene->spriteRole->initialize();
 	scene->addChild(scene->spriteRole);
 	//////////////////////////////////////////////////////////////////////////
 
 	// 绘制参考线 //////////////////////////////////////////////////////////////////////////
-	auto ckx = cocos2d::Sprite::create("test_map_cell/cellx192.png");
+	auto ckx = cocos2d::Sprite::createWithSpriteFrameName(FILE_PATH_OTHER_REFERENCE_LINE);
 	ckx->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
 	ckx->setPosition(cocos2d::Vec2(0, DESIGNRESOLUTIONSIZE_HEIGHT));
 	scene->addChild(ckx);

@@ -1,7 +1,7 @@
 /*!
  * \file	Classes\filePath\SceneFilePath.h
  *
- * \brief	存放场景文件
+ * \brief	存放所有场景文件的路径
  */
 
 #pragma execution_character_set("utf-8")

@@ -16,6 +16,7 @@
 #include "map/MapNode.h"
 #include "message/EngineMessagePQ.h"
 #include "engine/GlobalFun.h"
+#include "filePath/SpriteFilePath.h"
 
 USING_NS_CC;
 using namespace cocostudio::timeline;
@@ -54,22 +55,22 @@ void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
 	{
 		if (delta.x > 0)
 		{
-			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveLeft));
+			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::EMessage_MapMoveRight));
 		}
 		else if (delta.x < 0)
 		{
-			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveRight));
+			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::EMessage_MapMoveLeft));
 		}
 	}
 	else
 	{
 		if (delta.y > 0)
 		{
-			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveDown));
+			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::EMessage_MapMoveUp));
 		}
 		else if (delta.y < 0)
 		{
-			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::Instance()->EMessage_MapMoveUp));
+			EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(EngineMessagePQ::EMessage_MapMoveDown));
 		}
 	}
 }
@@ -101,18 +102,18 @@ void LayerMap::loadMapFromMapController()
 		{
 			MapNode::NodeType nt = MapController::Instance()->getMapNodeSet().at(y).at(x).nodeType;
 			if (nt == MapNode::NodeType_None)
-				*it2 = Sprite::create("test_map_cell/map_cell_none_64.png");
+				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_NONE);
 			else if (nt == MapNode::NodeType_Wall)
-				*it2 = Sprite::create("test_map_cell/map_cell_wall_64.png");
+				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_WALL);
 			else if (nt == MapNode::NodeType_Road)
-				*it2 = Sprite::create("test_map_cell/map_cell_road_64.png");
+				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_ROAD);
 			else if (nt == MapNode::NodeType_Door)
-				*it2 = Sprite::create("test_map_cell/map_cell_door_64.png");
+				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_DOOR);
 			else if (nt == MapNode::NodeType_Fence)
-				*it2 = Sprite::create("test_map_cell/map_cell_fence_64.png");
+				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_FENCE);
 
 			(*it2)->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-			(*it2)->setPosition(Vec2(gX2CartesianX(x), gY2CartesianY(y)));
+			(*it2)->setPosition(Vec2(x*MAP_CELL_SIZE, -y*MAP_CELL_SIZE));
 
 			addChild(*it2);
 			++it2;
@@ -129,8 +130,8 @@ void LayerMap::refreshPosition()
 	auto action = MoveTo::create(
 		TIME_GLOBALMAP_MOVE,
 		Vec2(
-		-MapView::Instance()->getLeftTopGX()*MAP_CELL_SIZE,
-		MapView::Instance()->getLeftTopGY()*MAP_CELL_SIZE
+		gX2CartesianX(0),
+		gY2CartesianY(0)
 		)
 		);
 	action->setFlags(ActionFlags_LayerMove);
@@ -140,5 +141,5 @@ void LayerMap::refreshPosition()
 void LayerMap::initialize()
 {
 	this->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-	this->setPosition(Vec2::ZERO);
+	this->setPosition(Vec2(gX2CartesianX(0), gY2CartesianY(0)));
 }

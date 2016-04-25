@@ -9,6 +9,24 @@
 #ifndef MZNQA_CLASSES_DEFINE_GLOBALDEFINE_H_
 #define MZNQA_CLASSES_DEFINE_GLOBALDEFINE_H_
 
+#include "cocos2d.h"
+
+/*!
+ * \def	SCREENSIZE_WIDTH
+ *
+ * \brief	ÆÁÄ»³ß´ç-¿í¶È
+ *
+ */
+#define SCREENSIZE_WIDTH (cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize().width)
+
+/*!
+ * \def	SCREENSIZE_HEIGHT
+ *
+ * \brief	ÆÁÄ»³ß´ç-¸ß¶È
+ *
+ */
+#define SCREENSIZE_HEIGHT (cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize().height)
+
 /*!
  * \def	DESIGNRESOLUTIONSIZE_WIDTH
  *

@@ -23,7 +23,7 @@
  */
 static float gX2CartesianX(int gX)
 {
-	return (-MapView::Instance()->getLeftTopGX()*MAP_CELL_SIZE + gX * MAP_CELL_SIZE);
+	return ((gX - MapView::Instance()->getLeftTopGX())*MAP_CELL_SIZE);
 }
 
 /*!
@@ -37,7 +37,7 @@ static float gX2CartesianX(int gX)
  */
 static float gY2CartesianY(int gY)
 {
-	return (DESIGNRESOLUTIONSIZE_HEIGHT + MapView::Instance()->getLeftTopGY()*MAP_CELL_SIZE - gY*MAP_CELL_SIZE);
+	return (DESIGNRESOLUTIONSIZE_HEIGHT - ((gY - MapView::Instance()->getLeftTopGY())*MAP_CELL_SIZE));
 }
 
 #endif

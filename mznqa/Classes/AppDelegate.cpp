@@ -5,6 +5,18 @@
 
 USING_NS_CC;
 
+// 用于支持多分辨率的操作 //////////////////////////////////////////////////////////////////////////
+// 定义设计尺寸
+static cocos2d::Size designResolutionSize = cocos2d::Size(1920.0, 1080.0);
+
+// 定义最小支持尺寸
+static cocos2d::Size smallResolutionSize = cocos2d::Size(480.0, 270.0);
+// 定义中等支持尺寸
+static cocos2d::Size mediumResolutionSize = cocos2d::Size(960.0, 540.0);
+// 定义最高支持尺寸
+static cocos2d::Size largeResolutionSize = cocos2d::Size(1920.0, 1080.0);
+//////////////////////////////////////////////////////////////////////////
+
 AppDelegate::AppDelegate() {
 }
 
@@ -27,9 +39,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	// initialize director
 	auto director = Director::getInstance();
 	auto glview = director->getOpenGLView();
-	if (!glview) {
-		// !!!DEBUG!!! 此处为调试用，在win32平台窗口化运行，在android全屏幕运行
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+	if (!glview)
+	{
+		// !!!DEBUG!!! 此处为调试用，在win32、mac、linux平台窗口化运行，在android等移动设备全屏幕运行
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 		glview = GLViewImpl::createWithRect("mznqa", Rect(0, 0, 960, 540));
 #else
 		glview = GLViewImpl::createWithFullScreen("mznqa");
@@ -38,8 +51,25 @@ bool AppDelegate::applicationDidFinishLaunching() {
 		director->setOpenGLView(glview);
 	}
 
-	// 设置设计尺寸和缩放模式
-	director->getOpenGLView()->setDesignResolutionSize(1920, 1080, ResolutionPolicy::SHOW_ALL);
+	// 用于支持多分辨率的操作 //////////////////////////////////////////////////////////////////////////
+	glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+	Size frameSize = glview->getFrameSize();
+	if (frameSize.width > mediumResolutionSize.width)
+	{
+		FileUtils::getInstance()->addSearchPath("res/images/HDR");
+		director->setContentScaleFactor(largeResolutionSize.width / designResolutionSize.width);
+	}
+	else if (frameSize.width > smallResolutionSize.width)
+	{
+		FileUtils::getInstance()->addSearchPath("res/images/HD");
+		director->setContentScaleFactor(mediumResolutionSize.width / designResolutionSize.width);
+	}
+	else
+	{
+		FileUtils::getInstance()->addSearchPath("res/images/SD");
+		director->setContentScaleFactor(smallResolutionSize.width / designResolutionSize.width);
+	}
+	//////////////////////////////////////////////////////////////////////////
 
 	// 显示 FPS
 	director->setDisplayStats(true);

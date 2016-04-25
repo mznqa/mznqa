@@ -75,6 +75,17 @@ public:
 	static SpriteRole* create(const std::string &filename);
 
 	/*!
+	 * \fn	static SpriteRole* SpriteRole::createWithSpriteFrameName(const std::string &spriteFrameName);
+	 *
+	 * \brief	根据给定的精灵帧名称创建角色精灵，继承于cocos2d的做法，不使用构造函数构造实例，而是使用 create 静态方法来构造实例，以便自动回收资源
+	 *
+	 * \param	spriteFrameName	指定用于创建角色精灵的精灵帧名称
+	 *
+	 * \return	返回 SpriteRole 实例
+	 */
+	static SpriteRole* createWithSpriteFrameName(const std::string &spriteFrameName);
+
+	/*!
 	 * \fn	void SpriteRole::initialize();
 	 *
 	 * \brief	初始化角色精灵，根据角色当前在地图的位置等信息初始化角色

@@ -14,6 +14,7 @@
 #include "filePath/SceneFilePath.h"
 #include "runtime/SceneGuideState.h"
 #include "engine/SceneLoadRes.h"
+#include "filePath/SpriteFilePath.h"
 
 USING_NS_CC;
 
@@ -39,6 +40,10 @@ bool SceneGuide::init()
 	{
 		return false;
 	}
+
+	// 载入精灵集 //////////////////////////////////////////////////////////////////////////
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile(FILE_PATH_SPRITESET_IMAGES01_PLIST, FILE_PATH_SPRITESET_IMAGES01_TEXTURE);
+	//////////////////////////////////////////////////////////////////////////
 
 	// 载入并添加外部场景文件的内容
 	rootNode = CSLoader::createNode(FILE_PATH_SCENE_GUIDE);

@@ -10,12 +10,24 @@
 USING_NS_CC;
 using namespace cocostudio::timeline;
 
-const float SpriteRole::TimeSpriteMoveByMap = 0.1;
+const float SpriteRole::TimeSpriteMoveByMap = 0.1f;
 
 SpriteRole * SpriteRole::create(const std::string &filename)
 {
 	SpriteRole *sprite = new SpriteRole();
 	if (sprite && sprite->initWithFile(filename))
+	{
+		sprite->autorelease();
+		return sprite;
+	}
+	CC_SAFE_DELETE(sprite);
+	return nullptr;
+}
+
+SpriteRole* SpriteRole::createWithSpriteFrameName(const std::string &spriteFrameName)
+{
+	SpriteRole *sprite = new SpriteRole();
+	if (sprite && sprite->initWithSpriteFrameName(spriteFrameName))
 	{
 		sprite->autorelease();
 		return sprite;
