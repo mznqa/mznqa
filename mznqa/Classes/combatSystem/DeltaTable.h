@@ -3,25 +3,140 @@
 #ifndef MZNQA_CLASSES_COMBATSYSTEM_DELTATABLE_H_
 #define MZNQA_CLASSES_COMBATSYSTEM_DELTATABLE_H_
 
-#include <memory.h>
+//#include <memory.h>
+//#include <vector>
 
-struct DeltaTable
+//struct DeltaTable
+//{
+//	enum GameObject { GameObject_Role, GameObject_Monster };
+//
+//	//技能接收者
+//	GameObject recver;
+//
+//	//技能释放者
+//	GameObject releaser;
+//
+//	//技能影响的基础效果
+//	int effectTable[5][2];
+//
+//	DeltaTable()
+//	{
+//		memset(effectTable, 0, sizeof(effectTable));
+//	}
+//};
+//
+
+//声明：角色表的结构体
+struct DeltaRoleTable
 {
-	enum GameObject { GameObject_Role, GameObject_Monster };
+	//卡牌编号
+	int ID = 0;
 
-	//技能接收者
-	GameObject recver;
+	enum RoundLevel
+	{ 
+		RoundLevel_Global = 0, 
+		RoundLevel_Before = 1, 
+		RoundLevel_In = 2, 
+		RoundLevel_After= 3,
+		RoundLevel_Total = 4
+	};
 
-	//技能释放者
-	GameObject releaser;
+	RoundLevel roundLevel = RoundLevel_Global;
+
+	//记录回合数
+	int roundNumberRole = 1;
+
+	//记录表的数量
+	//int tableNumberRole = 1;
 
 	//技能影响的基础效果
-	int effectTable[5][2];
+	static const int row = 5,  col = 2;
+	int effectTable[row][col];
 
-	DeltaTable()
+	DeltaRoleTable()
 	{
-		memset(effectTable, 0, sizeof(effectTable));
+		for (int y = 0; y < row; ++y)
+			for (int x = 0; x < col; ++x)
+				effectTable[y][x] = 0;
 	}
+
+	~DeltaRoleTable()
+	{
+
+	}
+};
+
+//声明：角色回合的结构体
+struct DeltaRoleRound
+{
+	int beg;
+
+	int before;
+
+	int in;
+
+	int after;
+
+	int total;
+
+	int end;
+
+	int roundNumberRole = 1;
+};
+
+//声明：怪物表的结构体
+struct DeltaMonsterTable
+{
+	//卡牌编号
+	int ID;
+
+	enum RoundLevel
+	{
+		RoundLevel_Global = 0,
+		RoundLevel_Before = 1,
+		RoundLevel_In = 2,
+		RoundLevel_After = 3,
+		RoundLevel_Total = 4
+	};
+
+	RoundLevel roundLevel = RoundLevel_Global;
+
+	//记录回合数
+	int roundNumberRole = 1;
+
+	//技能影响的基础效果
+	static const int row = 5, col = 2;
+	int effectTable[row][col];
+
+	DeltaMonsterTable()
+	{
+		for (int y = 0; y < row; ++y)
+			for (int x = 0; x < col; ++x)
+				effectTable[y][x] = 0;
+	}
+
+	~DeltaMonsterTable()
+	{
+
+	}
+};
+
+//声明：怪物回合的结构体
+struct DeltaMonsterRound
+{
+	int beg;
+
+	int before;
+
+	int in;
+
+	int after;
+
+	int total;
+
+	int end;
+
+	int roundNumberRole = 1;
 };
 
 #endif
