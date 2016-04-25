@@ -6,9 +6,6 @@
 #include "ui/CocosGUI.h"
 
 #include "engine/GlobalFun.h"
-#include "map/MapController.h"
-#include "define/GlobalDefine.h"
-#include "map/MapView.h"
 
 USING_NS_CC;
 using namespace cocostudio::timeline;

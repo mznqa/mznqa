@@ -8,9 +8,6 @@
 
 #include "runtime/SceneGuideState.h"
 
-#include "engine/SceneLoadRes.h"
-#include "runtime/SceneLoadResState.h"
-
 SceneGuideState::~SceneGuideState()
 {
 }

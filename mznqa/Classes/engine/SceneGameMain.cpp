@@ -11,10 +11,7 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
-#include "filePath/SceneFilePath.h"
 #include "runtime/SceneGameMainState.h"
-#include "define/GlobalDefine.h"
-#include "gameobject/Role.h"
 
 USING_NS_CC;
 
