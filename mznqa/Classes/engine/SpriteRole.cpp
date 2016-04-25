@@ -5,7 +5,6 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
-#include "gameobject/Role.h"
 #include "engine/GlobalFun.h"
 #include "map/MapController.h"
 #include "define/GlobalDefine.h"
@@ -34,8 +33,8 @@ void SpriteRole::initialize()
 	this->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	// 设置角色精灵的初始位置 //////////////////////////////////////////////////////////////////////////
 	int x = 0, y = 0;
-	x = Role::Instance()->getPositionX();
-	y = Role::Instance()->getPositionY();
+	x = roleInstance->getPositionX();
+	y = roleInstance->getPositionY();
 	this->setPosition(Vec2(gX2CartesianX(x), gY2CartesianY(y)));
 	//////////////////////////////////////////////////////////////////////////
 }
@@ -44,8 +43,8 @@ void SpriteRole::refreshPosition()
 {
 	// 获取角色精灵现应在的位置 //////////////////////////////////////////////////////////////////////////
 	int x = 0, y = 0;
-	x = Role::Instance()->getPositionX();
-	y = Role::Instance()->getPositionY();
+	x = roleInstance->getPositionX();
+	y = roleInstance->getPositionY();
 	//////////////////////////////////////////////////////////////////////////
 
 	// 停下所有同Flag动作
