@@ -39,19 +39,21 @@ public:
 		LMessage_MapViewMoveDown,		///< 下移地图视野
 		LMessage_MapViewMoveLeft,		///< 左移地图视野
 
-		LMessage_ReplaceScene_SceneLoadRes2SceneGameMain = 100,	///< 跳转场景：从 SceneLoadRes 跳转到 SceneGameMain
+		LMessage_RefreshMapCellSpriteByGPointSet_TGPointSetT = 100,	///< 刷新地图上指定矩形区域的图片
 
-		LMessage_LoadData_StaticData_MapMainMissionSet = 200,	///< 开始载入地形卡集合
-		LMessage_LoadData_StaticData_CardSkillSet = 201,		///< 开始载入技能卡集合
-		LMessage_LoadData_StaticData_CardRoadSet = 202,			///< 开始载入地形卡集合
+		LMessage_ReplaceScene_SceneLoadRes2SceneGameMain = 200,	///< 跳转场景：从 SceneLoadRes 跳转到 SceneGameMain
 
-		LMessage_Information_DataLoading_StaticData_MapMainMissionSetLoadSuccess = 300,	///< 成功载入静态数据：主线任务地图集合
-		LMessage_Information_DataLoading_StaticData_CardSkillSetLoadSuccess = 301,		///< 成功载入静态数据：技能卡集合
-		LMessage_Information_DataLoading_StaticData_CardRoadSetLoadSuccess = 302,		///< 成功载入静态数据：地形卡集合
+		LMessage_LoadData_StaticData_MapMainMissionSet = 300,	///< 开始载入地形卡集合
+		LMessage_LoadData_StaticData_CardSkillSet = 301,		///< 开始载入技能卡集合
+		LMessage_LoadData_StaticData_CardRoadSet = 302,			///< 开始载入地形卡集合
 
-		LMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed = 400,	///< 载入静态数据时出错：地形卡集合
-		LMessage_Error_DataLoading_StaticData_CardSkillSetLoadFailed = 401,				///< 载入静态数据时出错：地形卡集合
-		LMessage_Error_DataLoading_StaticData_CardRoadSetLoadFailed = 402				///< 载入静态数据时出错：地形卡集合
+		LMessage_Information_DataLoading_StaticData_MapMainMissionSetLoadSuccess = 400,	///< 成功载入静态数据：主线任务地图集合
+		LMessage_Information_DataLoading_StaticData_CardSkillSetLoadSuccess = 401,		///< 成功载入静态数据：技能卡集合
+		LMessage_Information_DataLoading_StaticData_CardRoadSetLoadSuccess = 402,		///< 成功载入静态数据：地形卡集合
+
+		LMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed = 500,	///< 载入静态数据时出错：地形卡集合
+		LMessage_Error_DataLoading_StaticData_CardSkillSetLoadFailed = 501,				///< 载入静态数据时出错：地形卡集合
+		LMessage_Error_DataLoading_StaticData_CardRoadSetLoadFailed = 502				///< 载入静态数据时出错：地形卡集合
 	};
 
 	/*!

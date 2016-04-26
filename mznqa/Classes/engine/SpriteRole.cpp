@@ -39,12 +39,12 @@ SpriteRole* SpriteRole::createWithSpriteFrameName(const std::string &spriteFrame
 void SpriteRole::initialize()
 {
 	// 设置精灵锚点为左上角
-	this->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	// 设置角色精灵的初始位置 //////////////////////////////////////////////////////////////////////////
 	int x = 0, y = 0;
 	x = RoleInstance->getPositionX();
 	y = RoleInstance->getPositionY();
-	this->setPosition(Vec2(gX2CartesianX(x), gY2CartesianY(y)));
+	this->setPosition(Vec2(gX2CartesianX(x) + MAP_CELL_SIZE_HALF, gY2CartesianY(y) - MAP_CELL_SIZE_HALF));
 	//////////////////////////////////////////////////////////////////////////
 }
 
@@ -62,8 +62,8 @@ void SpriteRole::refreshPosition()
 	auto action = MoveTo::create(
 		TimeSpriteMoveByMap,
 		Vec2(
-		gX2CartesianX(x),
-		gY2CartesianY(y)
+		gX2CartesianX(x) + MAP_CELL_SIZE_HALF,
+		gY2CartesianY(y) - MAP_CELL_SIZE_HALF
 		)
 		);
 	// 设置 Flags

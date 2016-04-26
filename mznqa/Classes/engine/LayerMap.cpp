@@ -112,8 +112,8 @@ void LayerMap::loadMapFromMapController()
 			else if (nt == MapNode::NodeType_Fence)
 				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_FENCE);
 
-			(*it2)->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-			(*it2)->setPosition(Vec2(x*MAP_CELL_SIZE, -y*MAP_CELL_SIZE));
+			(*it2)->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+			(*it2)->setPosition(Vec2(x*MAP_CELL_SIZE + MAP_CELL_SIZE_HALF, -(y*MAP_CELL_SIZE + MAP_CELL_SIZE_HALF)));
 
 			addChild(*it2);
 			++it2;
@@ -142,4 +142,40 @@ void LayerMap::initialize()
 {
 	this->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	this->setPosition(Vec2(gX2CartesianX(0), gY2CartesianY(0)));
+}
+
+void LayerMap::refreshMapCellWithGPointSet(const GPointSet &gPointSet)
+{
+	int x, y;
+	auto it = gPointSet.pointSet.cbegin();
+	auto itEnd = gPointSet.pointSet.cend();
+	while (it != itEnd)
+	{
+		x = it->x;
+		y = it->y;
+		mapCellSet.at(y).at(x)->removeFromParent();
+
+		MapNode::NodeType nt = MapController::Instance()->getMapNodeSet().at(y).at(x).nodeType;
+		if (nt == MapNode::NodeType_None)
+			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_NONE);
+		else if (nt == MapNode::NodeType_Wall)
+			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_WALL);
+		else if (nt == MapNode::NodeType_Road)
+			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_ROAD);
+		else if (nt == MapNode::NodeType_Door)
+			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_DOOR);
+		else if (nt == MapNode::NodeType_Fence)
+			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_FENCE);
+
+		mapCellSet.at(y).at(x)->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		mapCellSet.at(y).at(x)->setPosition(Vec2(x*MAP_CELL_SIZE + MAP_CELL_SIZE_HALF, -(y*MAP_CELL_SIZE + MAP_CELL_SIZE_HALF)));
+
+		addChild(mapCellSet.at(y).at(x));
+
+		//////////////////////////////////////////////////////////////////////////
+		mapCellSet.at(y).at(x)->runAction(FadeIn::create(5.0f));
+		//////////////////////////////////////////////////////////////////////////
+
+		++it;
+	}
 }

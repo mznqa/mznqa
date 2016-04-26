@@ -18,8 +18,8 @@ MsgInterpreter::MsgInterpreter()
 {
 	// 消息映射表<EngineMessage, LogicMessage>
 	// TODO 将消息映射表补充完整
-	engineMessagePQInstance = EngineMessagePQ::Instance();
-	logicMessagePQInstance = LogicMessagePQ::Instance();
+	EngineMessagePQInstance = EngineMessagePQ::Instance();
+	LogicMessagePQInstance = LogicMessagePQ::Instance();
 
 	msgMap.insert(std::pair < EngineMessagePQ::EMessage, LogicMessagePQ::LMessage>(
 		EngineMessagePQ::EMessage_None,

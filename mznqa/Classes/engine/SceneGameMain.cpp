@@ -12,6 +12,9 @@
 #include "ui/CocosGUI.h"
 
 #include "runtime/SceneGameMainState.h"
+// 测试用 //////////////////////////////////////////////////////////////////////////
+#include "staticData/CardSet.h"
+//////////////////////////////////////////////////////////////////////////
 
 USING_NS_CC;
 
@@ -40,6 +43,13 @@ bool SceneGameMain::init()
 
 	// 加入逐帧计时器
 	this->scheduleUpdate();
+
+	// 测试用区域 //////////////////////////////////////////////////////////////////////////
+	eventListenerKeyboard = cocos2d::EventListenerKeyboard::create();
+	eventListenerKeyboard->onKeyPressed = CC_CALLBACK_2(SceneGameMain::onKeyPressed, this);
+	eventListenerKeyboard->onKeyReleased = CC_CALLBACK_2(SceneGameMain::onKeyReleased, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(eventListenerKeyboard, this);
+	//////////////////////////////////////////////////////////////////////////
 
 	log("[information] 场景 SceneGameMain 启动成功");
 
@@ -70,3 +80,19 @@ void SceneGameMain::update(float dt)
 {
 	SceneGameMainState::Instance()->update(this, dt);
 }
+
+// 测试用区域 //////////////////////////////////////////////////////////////////////////
+void SceneGameMain::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
+{
+	log("[warning] Key with keycode %d pressed", keyCode);
+	if (keyCode == EventKeyboard::KeyCode::KEY_A)
+	{
+		MapController::Instance()->putCardRoad(*(CardSet::Instance()->getCardRoadByID(134)), GRect(3, 3, 5, 5));
+	}
+}
+
+void SceneGameMain::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
+{
+	log("[warning] Key with keycode %d released", keyCode);
+}
+//////////////////////////////////////////////////////////////////////////

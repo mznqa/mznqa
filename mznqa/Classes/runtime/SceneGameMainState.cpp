@@ -8,6 +8,7 @@
 
 #include "runtime/SceneGameMainState.h"
 #include "filePath/SpriteFilePath.h"
+#include "tools/GPointSet.h"
 
 SceneGameMainState::~SceneGameMainState()
 {
@@ -87,6 +88,11 @@ bool SceneGameMainState::update(SceneGameMain *scene, double intervalTime)
 	else if (msg.messageID == LogicMessagePQ::LMessage_RefreshRolePosition)
 	{
 		scene->spriteRole->refreshPosition();
+	}
+	else if (msg.messageID == LogicMessagePQ::LMessage_RefreshMapCellSpriteByGPointSet_TGPointSetT)
+	{
+		scene->layerMap->refreshMapCellWithGPointSet(*((GPointSet*)(msg.extras)));
+		delete msg.extras;
 	}
 	// 未被执行则反推
 	else

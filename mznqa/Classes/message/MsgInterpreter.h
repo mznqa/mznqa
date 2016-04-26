@@ -53,10 +53,12 @@ private:
 	 */
 	MsgInterpreter& operator=(const MsgInterpreter &msgInterpreter);
 
-	/*! \brief	暂存单例：EngineMessagePQ */
-	EngineMessagePQ *engineMessagePQInstance;
-	/*! \brief	暂存单例：LogicMessagePQ */
-	LogicMessagePQ *logicMessagePQInstance;
+	// 单例别名 //////////////////////////////////////////////////////////////////////////
+	/*! \brief	保存 EngineMessagePQ::Instancet() 的常量指针 */
+	EngineMessagePQ *EngineMessagePQInstance;
+	/*! \brief	保存 LogicMessagePQ::Instance() 的常量指针 */
+	LogicMessagePQ *LogicMessagePQInstance;
+	//////////////////////////////////////////////////////////////////////////
 
 	/*! \brief	消息映射表：引擎消息->逻辑消息 */
 	std::map<EngineMessagePQ::EMessage, LogicMessagePQ::LMessage> msgMap;

@@ -68,6 +68,14 @@
 #define MAP_CELL_SIZE 64.0f
 
 /*!
+ * \def	MAP_CELL_SIZE_HALF
+ *
+ * \brief	地图块大小的一半
+ *
+ */
+#define MAP_CELL_SIZE_HALF 32.0f
+
+/*!
  * \def	TIME_INVALIDVALUE
  *
  * \brief	无效的时间值

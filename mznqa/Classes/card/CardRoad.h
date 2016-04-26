@@ -77,6 +77,18 @@ public:
 	{
 	}
 
+	/*!
+	 * \fn	RoadType CardRoad::getRoadType()const
+	 *
+	 * \brief	获取道路类型
+	 *
+	 * \return	返回道路类型
+	 */
+	RoadType getRoadType()const
+	{
+		return roadType;
+	}
+
 private:
 	/*! \brief	道路类型 */
 	RoadType roadType;

@@ -11,6 +11,9 @@
 
 #include <vector>
 
+#include "card/CardRoad.h"
+#include "tools/GRect.h"
+
 struct MapNode;
 class MapView;
 class MissionMap;
@@ -55,11 +58,14 @@ private:
 
 	/*! \brief	地图节点集合 */
 	std::vector<std::vector<MapNode>> mapNodeSet;
+
 public:
 	/*! \brief	地图横向节点总个数 */
 	static const int mapNodecountHorizontal = 60;
 	/*! \brief	地图纵向节点总个数 */
 	static const int mapNodecountVertical = 30;
+	/*! \brief	一组地图的尺寸 */
+	static const int mapGroupSize = 3;
 
 	/*!
 	 * \fn	static MapController* MapController::Instance();
@@ -134,6 +140,8 @@ public:
 	{
 		return mapNodeSet;
 	}
+
+	bool putCardRoad(const CardRoad &cardRoad, const GRect &rect);
 };
 
 #endif

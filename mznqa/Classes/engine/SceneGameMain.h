@@ -75,6 +75,12 @@ public:
 	 */
 	virtual void onExit() override;
 	//////////////////////////////////////////////////////////////////////////
+
+	// ≤‚ ‘”√«¯”Ú //////////////////////////////////////////////////////////////////////////
+	cocos2d::EventListenerKeyboard *eventListenerKeyboard;
+	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+	//////////////////////////////////////////////////////////////////////////
 };
 
 #endif	// MZNQA_CLASSES_ENGINE_SCENEGAMEMAIN_H_

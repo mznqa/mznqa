@@ -14,6 +14,7 @@
 
 #include "map/MapView.h"
 #include "define/GlobalDefine.h"
+#include "tools/GPointSet.h"
 
 /*!
  * \class	LayerMap
@@ -130,6 +131,8 @@ public:
 	 *
 	 */
 	void initialize();
+
+	void refreshMapCellWithGPointSet(const GPointSet &gPointSet);
 };
 
 #endif

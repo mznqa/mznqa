@@ -14,6 +14,107 @@
 #include "map/MapNode.h"
 #include "map/MapView.h"
 #include "map/MissionMap.h"
+#include "tools/GPointSet.h"
+#include "message/LogicMessagePQ.h"
+
+// 地形卡对应的地形组 //////////////////////////////////////////////////////////////////////////
+static const MapNode::NodeType mapGroupRoadTypeNone[3][3]
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeURDL[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_Road, MapNode::NodeType_Road, MapNode::NodeType_Road },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeRDL[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None },
+	{ MapNode::NodeType_Road, MapNode::NodeType_Road, MapNode::NodeType_Road },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeUDL[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_Road, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeURL[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_Road, MapNode::NodeType_Road, MapNode::NodeType_Road },
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeURD[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_Road },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeDL[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None },
+	{ MapNode::NodeType_Road, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeUL[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_Road, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeUR[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_Road },
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeRL[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None },
+	{ MapNode::NodeType_Road, MapNode::NodeType_Road, MapNode::NodeType_Road },
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeUD[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeRD[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_Road },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeU[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeR[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_Road },
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeD[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_Road, MapNode::NodeType_None }
+};
+static const MapNode::NodeType mapGroupRoadTypeL[3][3] =
+{
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None },
+	{ MapNode::NodeType_Road, MapNode::NodeType_Road, MapNode::NodeType_None },
+	{ MapNode::NodeType_None, MapNode::NodeType_None, MapNode::NodeType_None }
+};
+//////////////////////////////////////////////////////////////////////////
 
 MapController* MapController::Instance()
 {
@@ -74,4 +175,96 @@ void MapController::loadMapNode(const MissionMap &missionMap)
 		{
 			this->mapNodeSet.at(y).at(x) = mns.at(y - startY).at(x - startX);
 		}
+}
+
+bool MapController::putCardRoad(const CardRoad &cardRoad, const GRect &rect)
+{
+	if (rect.leftTopGX % 3 != 0 || rect.leftTopGY % 3 != 0)
+		return false;
+	if (checkX(rect.leftTopGX) == false)
+		return false;
+	if (checkX(rect.rightBottomGX) == false)
+		return false;
+	if (rect.leftTopGX > rect.rightBottomGX)
+		return false;
+	if (checkY(rect.leftTopGY) == false)
+		return false;
+	if (checkY(rect.rightBottomGY) == false)
+		return false;
+	if (rect.leftTopGY > rect.rightBottomGY)
+		return false;
+
+	const MapNode::NodeType(*mNS)[3];
+	switch (cardRoad.getRoadType())
+	{
+	case CardRoad::RoadType_None:
+		mNS = mapGroupRoadTypeNone;
+		break;
+	case CardRoad::RoadType_URDL:
+		mNS = mapGroupRoadTypeURDL;
+		break;
+	case CardRoad::RoadType_RDL:
+		mNS = mapGroupRoadTypeRDL;
+		break;
+	case CardRoad::RoadType_UDL:
+		mNS = mapGroupRoadTypeUDL;
+		break;
+	case CardRoad::RoadType_URL:
+		mNS = mapGroupRoadTypeURL;
+		break;
+	case CardRoad::RoadType_URD:
+		mNS = mapGroupRoadTypeURD;
+		break;
+	case CardRoad::RoadType_DL:
+		mNS = mapGroupRoadTypeDL;
+		break;
+	case CardRoad::RoadType_UL:
+		mNS = mapGroupRoadTypeUL;
+		break;
+	case CardRoad::RoadType_UR:
+		mNS = mapGroupRoadTypeUR;
+		break;
+	case CardRoad::RoadType_RL:
+		mNS = mapGroupRoadTypeRL;
+		break;
+	case CardRoad::RoadType_UD:
+		mNS = mapGroupRoadTypeUD;
+		break;
+	case CardRoad::RoadType_RD:
+		mNS = mapGroupRoadTypeRD;
+		break;
+	case CardRoad::RoadType_U:
+		mNS = mapGroupRoadTypeU;
+		break;
+	case CardRoad::RoadType_R:
+		mNS = mapGroupRoadTypeR;
+		break;
+	case CardRoad::RoadType_D:
+		mNS = mapGroupRoadTypeD;
+		break;
+	case CardRoad::RoadType_L:
+		mNS = mapGroupRoadTypeL;
+		break;
+	default:
+		return false;
+	}
+
+	GPointSet *gPointSet = new GPointSet();
+	int yEnd = rect.leftTopGY + mapGroupSize;
+	int xEnd = rect.leftTopGX + mapGroupSize;
+	for (int y = rect.leftTopGY, iy = 0; y < yEnd && iy < mapGroupSize; ++y, ++iy)
+		for (int x = rect.leftTopGX, ix = 0; x < xEnd && ix < mapGroupSize; ++x, ++ix)
+		{
+			if (mNS[iy][ix] == MapNode::NodeType_None)
+				continue;
+			this->mapNodeSet.at(y).at(x).nodeType = mNS[iy][ix];
+			gPointSet->insert(x, y);
+		}
+
+	LogicMessagePQ::Instance()->pushMessage(Message<LogicMessagePQ::LMessage>(
+		LogicMessagePQ::LMessage_RefreshMapCellSpriteByGPointSet_TGPointSetT,
+		gPointSet
+		));
+
+	return true;
 }
