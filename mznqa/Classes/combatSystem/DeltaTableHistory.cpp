@@ -279,32 +279,148 @@ bool DeltaTableHistory::addTableRoleHistory(DeltaRoleTable dt)
 	{
 		++roundNumberRole;
 
-		DeltaRoleTable dt3;
-		dt3.ID = 3;
-		dt3.roundLevel = DeltaRoleTable::RoundLevel_Before;
-		dt3.roundNumberRole = 2;
-		dt3.effectTable[1][1] = 5;
+		DeltaRoleTable dt5;
+		dt5.ID = 7;
+		dt5.roundLevel = DeltaRoleTable::RoundLevel_Before;
+		dt5.roundNumberRole = 3;
+		dt5.effectTable[1][1] = 5;
 
-		addTableRoleHistory(dt3);
+		addTableRoleHistory(dt5);
 	}
 
 	return true;
 }
 
 //获取某回合内角色所有的表
-//const void DeltaTableHistory::getRoundAllRoleTable(
-//	int beginIt,
-//	int endIt
-//	)
-//{
-//	if (roundRoleHistory.begin() != roundRoleHistory.end())
-//	{
-//		beginIt = roundRoleHistory[detaRoleTable.roundNumberRole].before;
-//		endIt = roundRoleHistory[detaRoleTable.roundNumberRole].total;
-//
-//		cocos2d::log("[information]:成功返回角色某回合内所有的表！");
-//	}
-//}
+const void DeltaTableHistory::getRoundAllRoleTable(int roundNumberRole, int &beginIt, int &endIt)
+{
+	if (roundRoleHistory.begin() != roundRoleHistory.end())
+	{
+		beginIt = roundRoleHistory[roundNumberRole].before;
+		endIt = roundRoleHistory[roundNumberRole].total;
+
+		cocos2d::log("[information]:成功获取某回合内角色所有的表！");
+	}
+}
+
+//添加怪物表（包括总表）
+bool DeltaTableHistory::addTableMonsterHistory(DeltaMonsterTable dt)
+{
+	if (dt.roundNumberMonster == roundNumberMonster)
+	{
+		tableMonsterHistory.push_back(dt);
+		cocos2d::log("[information]: 角色表添加成功！");
+	}
+	else if (dt.roundNumberMonster == roundNumberMonster + 1)
+	{
+		DeltaMonsterTable total;
+
+		total.ID = tableMonsterHistory.size() + 1;
+		total.roundNumberMonster = roundNumberMonster;
+		total.roundLevel = DeltaMonsterTable::RoundLevel_Total;
+
+		tableMonsterHistory.push_back(total);
+
+		if (tableMonsterHistory.begin() != tableMonsterHistory.end())
+		{
+			if (roundNumberMonster == 1)
+			{
+				for (int n = tableMonsterHistory.size() - 1; n >= 0; --n)
+				{
+					for (int i = 0; i < total.row; ++i)
+					{
+						for (int j = 0; j < total.col; ++j)
+						{
+							tableMonsterHistory[tableMonsterHistory.size() - 1].effectTable[i][j] += tableMonsterHistory[n].effectTable[i][j];
+						}
+					}
+				}
+			}
+			else if (roundNumberMonster > 1)
+			{
+				for (int n = tableMonsterHistory.size() - 1; n > roundMonsterHistory[roundNumberMonster - 2].total; --n)
+				{
+					for (int i = 0; i < total.row; ++i)
+					{
+						for (int j = 0; j < total.col; ++j)
+						{
+							tableMonsterHistory[tableMonsterHistory.size() - 1].effectTable[i][j] += tableMonsterHistory[n].effectTable[i][j];
+						}
+					}
+				}
+			}
+		}
+
+		DeltaMonsterRound dr;
+		roundMonsterHistory.push_back(dr);
+
+		if (tableMonsterHistory.begin() != tableMonsterHistory.end())
+		{
+			if (roundNumberMonster == 1)
+			{
+				for (int i = tableMonsterHistory.size() - 1; i >= 0; --i)
+				{
+					switch (tableMonsterHistory[i].roundLevel)
+					{
+					case DeltaMonsterTable::RoundLevel_Before:
+						roundMonsterHistory[roundNumberMonster - 1].before = i;
+						break;
+					case DeltaMonsterTable::RoundLevel_In:
+						roundMonsterHistory[roundNumberMonster - 1].in = i;
+						break;
+					case DeltaMonsterTable::RoundLevel_After:
+						roundMonsterHistory[roundNumberMonster - 1].after = i;
+						break;
+					case DeltaMonsterTable::RoundLevel_Total:
+						roundMonsterHistory[roundNumberMonster - 1].total = i;
+						break;
+					default:
+						break;
+					}
+				}
+			}
+			else if (roundNumberMonster > 1)
+			{
+				for (int i = tableMonsterHistory.size() - 1; i > roundMonsterHistory[roundNumberMonster - 2].total; --i)
+				{
+					switch (tableMonsterHistory[i].roundLevel)
+					{
+					case DeltaMonsterTable::RoundLevel_Before:
+						roundMonsterHistory[roundNumberMonster - 1].before = i;
+						break;
+					case DeltaMonsterTable::RoundLevel_In:
+						roundMonsterHistory[roundNumberMonster - 1].in = i;
+						break;
+					case DeltaMonsterTable::RoundLevel_After:
+						roundMonsterHistory[roundNumberMonster - 1].after = i;
+						break;
+					case DeltaMonsterTable::RoundLevel_Total:
+						roundMonsterHistory[roundNumberMonster - 1].total = i;
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
+		cocos2d::log("[information]: 总表添加成功！");
+	}
+
+	if (dt.roundNumberMonster == roundNumberMonster + 1)
+	{
+		++roundNumberMonster;
+
+		DeltaMonsterTable dt05;
+		dt05.ID = 4;
+		dt05.roundLevel = DeltaMonsterTable::RoundLevel_Before;
+		dt05.roundNumberMonster = 3;
+		dt05.effectTable[0][0] = 1;
+
+		addTableMonsterHistory(dt05);
+	}
+
+	return true;
+}
 
 void DeltaTableHistory::text()
 {
@@ -354,6 +470,59 @@ void DeltaTableHistory::text()
 	dt5.roundNumberRole = 3;
 	dt5.effectTable[1][1] = 5;
 
+
+	//DeltaMonsterTable dt01;
+	//dt01.ID = 1;
+	//dt01.roundLevel = DeltaMonsterTable::RoundLevel_Before;
+	//dt01.roundNumberMonster = 1;
+	//dt01.effectTable[0][0] = 2;
+
+	//DeltaMonsterTable dt02;
+	//dt02.ID = 2;
+	//dt02.roundLevel = DeltaMonsterTable::RoundLevel_Before;
+	//dt02.roundNumberMonster = 1;
+	//dt02.effectTable[0][0] = 1;
+
+	//DeltaMonsterTable dt03;
+	//dt03.ID = 3;
+	//dt03.roundLevel = DeltaMonsterTable::RoundLevel_Before;
+	//dt03.roundNumberMonster = 2;
+	//dt03.effectTable[0][0] = 1;
+
+	//DeltaMonsterTable dt04;
+	//dt03.ID = 4;
+	//dt03.roundLevel = DeltaMonsterTable::RoundLevel_Before;
+	//dt03.roundNumberMonster = 2;
+	//dt03.effectTable[0][0] = 1;
+
+	//DeltaMonsterTable dt05;
+	//dt05.ID = 4;
+	//dt05.roundLevel = DeltaMonsterTable::RoundLevel_Before;
+	//dt05.roundNumberMonster = 3;
+	//dt05.effectTable[0][0] = 1;
+
+	//addTableMonsterHistory(dt01);
+
+	//addTableMonsterHistory(dt02);
+
+	//addTableMonsterHistory(dt03);
+
+	//addTableMonsterHistory(dt04);
+
+	//addTableMonsterHistory(dt05);
+
+	//auto text01 = tableMonsterHistory[roundMonsterHistory[0].before];
+
+	//auto text02 = tableMonsterHistory[roundMonsterHistory[0].total];
+
+	//auto text03 = tableMonsterHistory[roundMonsterHistory[1].before];
+
+	//auto text04 = tableMonsterHistory[roundMonsterHistory[1].total];
+
+	////auto text04 = tableMonsterHistory[3];
+
+	//auto text05 = text01;
+
 	addTableRoleHistory(dt0);
 
 	addTableRoleHistory(dt1);
@@ -368,9 +537,11 @@ void DeltaTableHistory::text()
 
 	addTableRoleHistory(dt5);
 
+	//getRoundAllRoleTable(0, roundRoleHistory[0].before, roundRoleHistory[0].total);
+
 	auto text1 = tableRoleHistory[roundRoleHistory[0].before];
 
-	auto text2 = tableRoleHistory[roundRoleHistory[0].after];
+	//auto text2 = tableRoleHistory[roundRoleHistory[0].after];
 
 	auto text3 = tableRoleHistory[roundRoleHistory[0].total];
 

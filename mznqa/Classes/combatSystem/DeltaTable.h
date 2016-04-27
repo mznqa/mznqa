@@ -49,16 +49,13 @@ struct DeltaRoleTable
 	//记录回合数
 	int roundNumberRole = invalid;
 
-	//记录表的数量
-	//int tableNumberRole = 1;
-
 	//技能影响的基础效果
 	static const int row = 5,  col = 2;
 	int effectTable[row][col];
 
 	DeltaRoleTable()
 	{
-		resetEffecTable();
+		resetRoleEffecTable();
 	}
 
 	~DeltaRoleTable()
@@ -66,7 +63,7 @@ struct DeltaRoleTable
 
 	}
 
-	void resetEffecTable()
+	void resetRoleEffecTable()
 	{
 		for (int y = 0; y < row; ++y)
 			for (int x = 0; x < col; ++x)
@@ -96,8 +93,11 @@ struct DeltaMonsterTable
 	//卡牌编号
 	int ID;
 
+	static const int invalid = -1;
+
 	enum RoundLevel
 	{
+		RoundLevel_invalid = invalid,
 		RoundLevel_Global = 0,
 		RoundLevel_Before = 1,
 		RoundLevel_In = 2,
@@ -105,10 +105,10 @@ struct DeltaMonsterTable
 		RoundLevel_Total = 4
 	};
 
-	RoundLevel roundLevel = RoundLevel_Global;
+	RoundLevel roundLevel = RoundLevel_invalid;
 
 	//记录回合数
-	int roundNumberRole = 1;
+	int roundNumberMonster = invalid;
 
 	//技能影响的基础效果
 	static const int row = 5, col = 2;
@@ -116,33 +116,36 @@ struct DeltaMonsterTable
 
 	DeltaMonsterTable()
 	{
-		for (int y = 0; y < row; ++y)
-			for (int x = 0; x < col; ++x)
-				effectTable[y][x] = 0;
+		resetMonsterEffecTable();
 	}
 
 	~DeltaMonsterTable()
 	{
 
 	}
+
+	void resetMonsterEffecTable()
+	{
+		for (int y = 0; y < row; ++y)
+			for (int x = 0; x < col; ++x)
+				effectTable[y][x] = 0;
+	}
 };
 
 //声明：怪物回合的结构体
 struct DeltaMonsterRound
 {
-	int beg;
+	static const int invalIndex = -1;
 
-	int before;
+	int before = invalIndex;
 
-	int in;
+	int in = invalIndex;
 
-	int after;
+	int after = invalIndex;
 
-	int total;
+	int total = invalIndex;
 
-	int end;
-
-	int roundNumberRole = 1;
+	int roundNumberMonster = 1;
 };
 
 #endif

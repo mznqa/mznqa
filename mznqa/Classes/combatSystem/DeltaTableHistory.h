@@ -56,10 +56,10 @@ public:
 	bool addTableRoleHistory(DeltaRoleTable dt);
 
 	//获取角色某回合内所有的表
-	const void getRoundAllRoleTable(
-		int beginIt,
-		int endIt
-		);
+	const void getRoundAllRoleTable(int roundNumberRole, int &beginIt, int &endIt);
+
+	//添加怪物表（包括总表）
+	bool addTableMonsterHistory(DeltaMonsterTable dt);
 
 	void text();
 
@@ -67,7 +67,6 @@ private:
 
 	//存储角色表
 	std::vector<DeltaRoleTable> tableRoleHistory;
-
 	//存储角色回合
 	std::vector<DeltaRoleRound> roundRoleHistory;
 	//记录角色的回合数
@@ -75,9 +74,10 @@ private:
 
 	//存储怪物表
 	std::vector<DeltaMonsterTable> tableMonsterHistory;
-
 	//存储怪物回合
 	std::vector<DeltaMonsterRound> roundMonsterHistory;
+	//记录怪物的回合数
+	int roundNumberMonster = 1;
 };
 
 
