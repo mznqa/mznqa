@@ -21,6 +21,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/cardController/CardControllerCombat.cpp \
                    ../../Classes/cardController/CardControllerExplore.cpp \
                    ../../Classes/combatSystem/EffectPQ.cpp \
+                   ../../Classes/coreStateMachine/CoreStateMachine.cpp \
+                   ../../Classes/coreStateMachine/CoreStateNone.cpp \
                    ../../Classes/dataHandle/CharBufferArea.cpp \
                    ../../Classes/dataHandle/ParserCardSkill.cpp \
                    ../../Classes/dataHandle/ParserMapArchives.cpp \
@@ -29,10 +31,12 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/effect/EffectFunSet.cpp \
                    ../../Classes/engine/FileController.cpp \
                    ../../Classes/engine/LayerMap.cpp \
+                   ../../Classes/engine/LayerWorkbench.cpp \
                    ../../Classes/engine/SceneDebug.cpp \
                    ../../Classes/engine/SceneGameMain.cpp \
                    ../../Classes/engine/SceneGuide.cpp \
                    ../../Classes/engine/SceneLoadRes.cpp \
+                   ../../Classes/engine/SpriteCard.cpp \
                    ../../Classes/engine/SpriteRole.cpp \
                    ../../Classes/gameObject/Monster.cpp \
                    ../../Classes/gameObject/Role.cpp \

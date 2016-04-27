@@ -11,10 +11,10 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
-#include "filePath/SceneFilePath.h"
+#include "filePath/FilePathScene.h"
 #include "runtime/SceneGuideState.h"
 #include "engine/SceneLoadRes.h"
-#include "filePath/SpriteFilePath.h"
+#include "filePath/FilePathSprite.h"
 
 USING_NS_CC;
 

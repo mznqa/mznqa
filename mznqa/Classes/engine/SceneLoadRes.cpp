@@ -10,7 +10,7 @@
 
 #include "cocostudio/CocoStudio.h"
 
-#include "filePath/SceneFilePath.h"
+#include "filePath/FilePathScene.h"
 #include "runtime/SceneLoadResState.h"
 #include "engine/SceneGameMain.h"
 

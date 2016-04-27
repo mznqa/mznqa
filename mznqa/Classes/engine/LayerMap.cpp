@@ -11,12 +11,12 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
-#include "filePath/SceneFilePath.h"
+#include "filePath/FilePathScene.h"
 #include "map/MapController.h"
 #include "map/MapNode.h"
 #include "message/EngineMessagePQ.h"
 #include "engine/GlobalFun.h"
-#include "filePath/SpriteFilePath.h"
+#include "filePath/FilePathSprite.h"
 
 USING_NS_CC;
 using namespace cocostudio::timeline;
@@ -102,15 +102,15 @@ void LayerMap::loadMapFromMapController()
 		{
 			MapNode::NodeType nt = MapController::Instance()->getMapNodeSet().at(y).at(x).nodeType;
 			if (nt == MapNode::NodeType_None)
-				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_NONE);
+				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_NONE);
 			else if (nt == MapNode::NodeType_Wall)
-				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_WALL);
+				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_WALL);
 			else if (nt == MapNode::NodeType_Road)
-				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_ROAD);
+				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_ROAD);
 			else if (nt == MapNode::NodeType_Door)
-				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_DOOR);
+				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_DOOR);
 			else if (nt == MapNode::NodeType_Fence)
-				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_FENCE);
+				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_FENCE);
 
 			(*it2)->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 			(*it2)->setPosition(Vec2(x*MAP_CELL_SIZE + MAP_CELL_SIZE_HALF, -(y*MAP_CELL_SIZE + MAP_CELL_SIZE_HALF)));
@@ -140,6 +140,7 @@ void LayerMap::refreshPosition()
 
 void LayerMap::initialize()
 {
+	this->setContentSize(Size(192, 192));
 	this->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	this->setPosition(Vec2(gX2CartesianX(0), gY2CartesianY(0)));
 }
@@ -157,15 +158,15 @@ void LayerMap::refreshMapCellWithGPointSet(const GPointSet &gPointSet)
 
 		MapNode::NodeType nt = MapController::Instance()->getMapNodeSet().at(y).at(x).nodeType;
 		if (nt == MapNode::NodeType_None)
-			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_NONE);
+			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_NONE);
 		else if (nt == MapNode::NodeType_Wall)
-			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_WALL);
+			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_WALL);
 		else if (nt == MapNode::NodeType_Road)
-			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_ROAD);
+			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_ROAD);
 		else if (nt == MapNode::NodeType_Door)
-			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_DOOR);
+			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_DOOR);
 		else if (nt == MapNode::NodeType_Fence)
-			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_MAP_CELL_FENCE);
+			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_FENCE);
 
 		mapCellSet.at(y).at(x)->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		mapCellSet.at(y).at(x)->setPosition(Vec2(x*MAP_CELL_SIZE + MAP_CELL_SIZE_HALF, -(y*MAP_CELL_SIZE + MAP_CELL_SIZE_HALF)));

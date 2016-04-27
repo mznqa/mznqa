@@ -11,7 +11,7 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
-#include "filePath/SceneFilePath.h"
+#include "filePath/FilePathScene.h"
 #include "engine/SceneGuide.h"
 
 USING_NS_CC;

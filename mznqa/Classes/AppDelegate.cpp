@@ -52,7 +52,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	}
 
 	// 用于支持多分辨率的操作 //////////////////////////////////////////////////////////////////////////
-	glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+	glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::SHOW_ALL);
 	Size frameSize = glview->getFrameSize();
 	if (frameSize.width > mediumResolutionSize.width)
 	{

@@ -20,6 +20,7 @@
 #include "staticData/MissionMapSet.h"
 #include "map/MapController.h"
 #include "gameobject/Role.h"
+#include "cardController/CardControllerExplore.h"
 
 /*!
  * \class	SceneGameMainState
@@ -74,6 +75,8 @@ private:
 	MissionMapSet *const MissionMapSetInstance = MissionMapSet::Instance();
 	/*! \brief	保存 Role::Instance() 的常量指针 */
 	Role *const RoleInstance = Role::Instance();
+	/*! \brief	保存 CardControllerExplore::Instance() 的常量指针 */
+	CardControllerExplore *const cardControllerExploreInstance = CardControllerExplore::Instance();
 	//////////////////////////////////////////////////////////////////////////
 
 public:

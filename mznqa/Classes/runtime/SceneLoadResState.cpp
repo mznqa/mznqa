@@ -38,7 +38,7 @@ bool SceneLoadResState::enter(SceneLoadRes *scene)
 
 bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 {
-	cocos2d::log("[information] 开始执行场景 SceneLoadRes 对应的状态机...");
+	//cocos2d::log("[information] 开始执行场景 SceneLoadRes 对应的状态机...");
 	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
 	// 转译消息
 	LogicMessagePQInstance->pushMessage(MsgInterpreterInstance->translation(EngineMessagePQInstance->getNextMessage()));
@@ -105,7 +105,7 @@ bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 	}
 	//////////////////////////////////////////////////////////////////////////
 
-	cocos2d::log("[information] 执行场景 SceneLoadRes 对应的状态机成功");
+	//cocos2d::log("[information] 执行场景 SceneLoadRes 对应的状态机成功");
 	return true;
 }
 

@@ -13,7 +13,7 @@
 #include "engine/FileController.h"
 #include "dataHandle/CharBufferArea.h"
 #include "dataHandle/ParserCardSkill.h"
-#include "filePath/DataFilePath.h"
+#include "filePath/FilePathData.h"
 #include "staticData/CardSet.h"
 #include "dataHandle/ParserMapMissionMain.h"
 #include "staticData/MissionMapSet.h"
@@ -70,7 +70,7 @@ void StaticDataLoader::loadStaticDataCardSkillSet()
 	// 根据上文的缓冲区索引以及技能卡集合数据的文件缓存来创建缓冲区，以待解析
 	CharBufferArea::Instance()->createBuffer(
 		bufferIndex,
-		FileController::Instance()->getCharBufferFromFile(STATIC_DATA_CARDSKILLSET)
+		FileController::Instance()->getCharBufferFromFile(FILE_PATH_STATIC_DATA_CARDSKILLSET)
 		);
 	// 如果待解析的缓冲区创建失败
 	if (CharBufferArea::Instance()->getBufferByIndex(bufferIndex) == nullptr)
@@ -138,7 +138,7 @@ void StaticDataLoader::loadStaticDataMainMissionMapSet()
 	// 根据上文的缓冲区索引以及主线任务地图集合数据的文件缓存来创建缓冲区，以待解析
 	CharBufferArea::Instance()->createBuffer(
 		bufferIndex,
-		FileController::Instance()->getCharBufferFromFile(STATIC_DATA_MAINMISSIONMAP)
+		FileController::Instance()->getCharBufferFromFile(FILE_PATH_STATIC_DATA_MAINMISSIONMAP)
 		);
 	// 如果待解析的缓冲区创建失败
 	if (CharBufferArea::Instance()->getBufferByIndex(bufferIndex) == nullptr)

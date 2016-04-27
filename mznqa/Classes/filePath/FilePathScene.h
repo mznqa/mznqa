@@ -1,13 +1,13 @@
 /*!
- * \file	Classes\filePath\SceneFilePath.h
+ * \file	Classes\filePath\FilePathScene.h
  *
  * \brief	存放所有场景文件的路径
  */
 
 #pragma execution_character_set("utf-8")
 
-#ifndef MZNQA_CLASSES_FILEPATH_SCENEFILEPATH_H_
-#define MZNQA_CLASSES_FILEPATH_SCENEFILEPATH_H_
+#ifndef MZNQA_CLASSES_FILEPATH_FILEPATHSCENE_H_
+#define MZNQA_CLASSES_FILEPATH_FILEPATHSCENE_H_
 
 /*!
  * \def	FILE_PATH_SCENE_DEBUG
