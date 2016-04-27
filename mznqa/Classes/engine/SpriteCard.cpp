@@ -20,8 +20,8 @@ void SpriteCard::initialize()
 {
 	background = Sprite::createWithSpriteFrameName("temp/card_background_cardroad.png");
 	background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	background->setPosition(Vec2(96.0, 128.0));
+	background->setPosition(Vec2(75.0, 100.0));
 	this->addChild(background);
 
-	this->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 }

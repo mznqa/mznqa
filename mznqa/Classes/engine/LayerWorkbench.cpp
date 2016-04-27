@@ -10,8 +10,8 @@
 USING_NS_CC;
 using namespace cocostudio::timeline;
 
-const std::array<float, 5> LayerWorkbench::handCardPositionXSet = { 400.0f, 600.0f, 800.0f, 1000.0f, 1200.0f };
-const float LayerWorkbench::handCardPositionY = 128.0f;
+const std::array<float, 5> LayerWorkbench::handCardPositionXSet = { 684.0f, 874.0f, 1064.0f, 1254.0f, 1444.0f };
+const float LayerWorkbench::handCardPositionY = 50.0f;
 
 bool LayerWorkbench::init()
 {
