@@ -40,6 +40,8 @@ public:
 
 	void addGlobalEventListener();
 
+	void showHandCardByIndex(int index);
+
 	void test();
 };
 

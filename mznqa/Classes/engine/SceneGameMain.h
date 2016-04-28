@@ -13,6 +13,7 @@
 
 #include "engine/LayerMap.h"
 #include "engine/SpriteRole.h"
+#include "engine/LayerWorkbench.h"
 
 /*!
  * \class	SceneGameMain
@@ -47,6 +48,8 @@ public:
 	LayerMap *layerMap;
 	/*! \brief	角色精灵 */
 	SpriteRole	*spriteRole;
+	/*! \brief	手牌栏 */
+	LayerWorkbench *layerWorkbench;
 	//////////////////////////////////////////////////////////////////////////
 
 	// 固有的场景生命周期方法 //////////////////////////////////////////////////////////////////////////

@@ -54,6 +54,18 @@ void LayerWorkbench::addGlobalEventListener()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
 
+void LayerWorkbench::showHandCardByIndex(int index)
+{
+	if (0 > index || index >= handCardSet.size())
+		return;
+
+	auto it = handCardSet.begin();
+	for (int i = 0; i <= index; ++i)
+		++it;
+
+	(*it)->setPosition(Vec2(100, 100));
+}
+
 void LayerWorkbench::test()
 {
 	handCardSet.push_back(SpriteCard::create());
@@ -70,6 +82,7 @@ void LayerWorkbench::test()
 		(*it)->initialize();
 		(*it)->setPosition(Vec2(handCardPositionXSet[i++], handCardPositionY));
 		addChild(*it);
+		(*it)->addEventListener((SpriteCard::EventIndex)(i));
 		++it;
 	}
 }

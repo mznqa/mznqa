@@ -65,6 +65,18 @@ MsgInterpreter::MsgInterpreter()
 		EngineMessagePQ::EMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed,
 		LogicMessagePQ::LMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed
 		));
+	msgMap.insert(std::pair < EngineMessagePQ::EMessage, LogicMessagePQ::LMessage>(
+		EngineMessagePQ::EMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT,
+		LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT
+		));
+	msgMap.insert(std::pair < EngineMessagePQ::EMessage, LogicMessagePQ::LMessage>(
+		EngineMessagePQ::EMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT,
+		LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT
+		));
+	msgMap.insert(std::pair < EngineMessagePQ::EMessage, LogicMessagePQ::LMessage>(
+		EngineMessagePQ::EMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT,
+		LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT
+		));
 }
 
 MsgInterpreter::~MsgInterpreter()

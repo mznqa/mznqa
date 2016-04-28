@@ -9,11 +9,16 @@
 
 class SpriteCard : public cocos2d::Sprite
 {
-private:
-
-	cocos2d::Sprite *background;
-
 public:
+	enum EventIndex
+	{
+		EventIndex_Invalid,
+		EventIndex_HandCard_0,
+		EventIndex_HandCard_1,
+		EventIndex_HandCard_2,
+		EventIndex_HandCard_3,
+		EventIndex_HandCard_4
+	};
 
 	SpriteCard()
 	{
@@ -26,6 +31,20 @@ public:
 	static SpriteCard* create(/*const std::string &filename*/);
 
 	void initialize();
+
+	void addEventListener(const EventIndex &eventIndex);
+
+	bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event);
+
+	void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unused_event);
+
+	void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event);
+
+private:
+
+	EventIndex eventIndex = EventIndex_Invalid;
+
+	cocos2d::Sprite *background;
 };
 
 #endif

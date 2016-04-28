@@ -37,6 +37,10 @@ public:
 		EMessage_MapMoveDown = 3,	///< 下移地图
 		EMessage_MapMoveLeft = 4,	///< 左移地图
 
+		EMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT = 100,		///< 卡片触摸事件-began
+		EMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT = 101,		///< 卡片触摸事件-moved
+		EMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT = 102,		///< 卡片触摸事件-ended
+
 		EMessage_Information_DataLoading_StaticData_MapMainMissionSetLoadSuccess = 200,	///< 成功载入静态数据：主线任务地图集合
 		EMessage_Information_DataLoading_StaticData_CardSkillSetLoadSuccess = 201,		///< 成功载入静态数据：技能卡集合
 		EMessage_Information_DataLoading_StaticData_CardRoadSetLoadSuccess = 202,		///< 成功载入静态数据：地形卡集合

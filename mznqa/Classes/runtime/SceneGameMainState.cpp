@@ -9,7 +9,6 @@
 #include "runtime/SceneGameMainState.h"
 #include "filePath/FilePathSprite.h"
 #include "tools/GPointSet.h"
-#include "engine/LayerWorkbench.h"
 
 SceneGameMainState::~SceneGameMainState()
 {
@@ -66,10 +65,10 @@ bool SceneGameMainState::enter(SceneGameMain *scene)
 	cardControllerExploreInstance->drawACard();
 	cardControllerExploreInstance->drawACard();
 
-	auto lb = LayerWorkbench::create();
-	lb->setPosition(cocos2d::Vec2::ZERO);
-	lb->test();
-	scene->addChild(lb);
+	scene->layerWorkbench = LayerWorkbench::create();
+	scene->layerWorkbench->setPosition(cocos2d::Vec2::ZERO);
+	scene->layerWorkbench->test();
+	scene->addChild(scene->layerWorkbench);
 	//////////////////////////////////////////////////////////////////////////
 
 	cocos2d::log("[information] 进入场景 SceneGameMain 对应状态机成功");
@@ -114,6 +113,11 @@ bool SceneGameMainState::update(SceneGameMain *scene, double intervalTime)
 	else if (msg.messageID == LogicMessagePQ::LMessage_RefreshMapCellSpriteByGPointSet_TGPointSetT)
 	{
 		scene->layerMap->refreshMapCellWithGPointSet(*((GPointSet*)(msg.extras)));
+	}
+	else if (msg.messageID == LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT)
+	{
+		int a = (int)(*((SpriteCard::EventIndex*)(msg.extras)));
+		scene->layerWorkbench->showHandCardByIndex(*((SpriteCard::EventIndex*)(msg.extras)));
 	}
 	// 未被执行则反推
 	else
