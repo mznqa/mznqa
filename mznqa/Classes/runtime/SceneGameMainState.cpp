@@ -87,48 +87,70 @@ bool SceneGameMainState::update(SceneGameMain *scene, double intervalTime)
 	// 获取消息
 	Message<LogicMessagePQ::LMessage> msg = LogicMessagePQInstance->getNextMessage();
 	// 处理消息
-	if (msg.messageID == LogicMessagePQ::LMessage_MapViewMoveUp)
+	switch (msg.messageID)
+	{
+	case LogicMessagePQ::LMessage_MapViewMoveUp:
 	{
 		MapViewInstance->moveUp();
 	}
-	else if (msg.messageID == LogicMessagePQ::LMessage_MapViewMoveRight)
+	break;
+	case LogicMessagePQ::LMessage_MapViewMoveRight:
 	{
 		MapViewInstance->moveRight();
 	}
-	else if (msg.messageID == LogicMessagePQ::LMessage_MapViewMoveDown)
+	break;
+	case LogicMessagePQ::LMessage_MapViewMoveDown:
 	{
 		MapViewInstance->moveDown();
 	}
-	else if (msg.messageID == LogicMessagePQ::LMessage_MapViewMoveLeft)
+	break;
+	case LogicMessagePQ::LMessage_MapViewMoveLeft:
 	{
 		MapViewInstance->moveLeft();
 	}
-	else if (msg.messageID == LogicMessagePQ::LMessage_RefreshMapPosition)
+	break;
+	case LogicMessagePQ::LMessage_RefreshMapPosition:
 	{
 		scene->layerMap->refreshPosition();
 	}
-	else if (msg.messageID == LogicMessagePQ::LMessage_RefreshRolePosition)
+	break;
+	case LogicMessagePQ::LMessage_RefreshRolePosition:
 	{
 		scene->spriteRole->refreshPosition();
 	}
-	else if (msg.messageID == LogicMessagePQ::LMessage_RefreshMapCellSpriteByGPointSet_TGPointSetT)
+	break;
+	case LogicMessagePQ::LMessage_RefreshMapCellSpriteByGPointSet_TGPointSetT:
 	{
 		scene->layerMap->refreshMapCellWithGPointSet(*((GPointSet*)(msg.extras)));
 		GPointSet *p = (GPointSet*)(msg.extras);
 		delete p;
 		p = nullptr;
 	}
-	else if (msg.messageID == LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT)
+	break;
+	case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT:
 	{
 		scene->layerWorkbench->showHandCardByIndex(*((SpriteCard::EventIndex*)(msg.extras)));
 		SpriteCard::EventIndex *p = (SpriteCard::EventIndex*)(msg.extras);
 		delete p;
 		p = nullptr;
 	}
-	// 未被执行则反推
-	else
+	break;
+	case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT:
 	{
+		// nothing
+	}
+	break;
+	case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT:
+	{
+		// nothing
+	}
+	break;
+	default:
+	{
+		// 未被执行则反推
 		LogicMessagePQInstance->pushMessage(msg);
+	}
+	break;
 	}
 	//////////////////////////////////////////////////////////////////////////
 
