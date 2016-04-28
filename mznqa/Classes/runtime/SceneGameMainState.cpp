@@ -7,6 +7,7 @@
 #pragma execution_character_set("utf-8")
 
 #include "runtime/SceneGameMainState.h"
+
 #include "filePath/FilePathSprite.h"
 #include "tools/GPointSet.h"
 
@@ -113,11 +114,16 @@ bool SceneGameMainState::update(SceneGameMain *scene, double intervalTime)
 	else if (msg.messageID == LogicMessagePQ::LMessage_RefreshMapCellSpriteByGPointSet_TGPointSetT)
 	{
 		scene->layerMap->refreshMapCellWithGPointSet(*((GPointSet*)(msg.extras)));
+		GPointSet *p = (GPointSet*)(msg.extras);
+		delete p;
+		p = nullptr;
 	}
 	else if (msg.messageID == LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT)
 	{
-		int a = (int)(*((SpriteCard::EventIndex*)(msg.extras)));
 		scene->layerWorkbench->showHandCardByIndex(*((SpriteCard::EventIndex*)(msg.extras)));
+		SpriteCard::EventIndex *p = (SpriteCard::EventIndex*)(msg.extras);
+		delete p;
+		p = nullptr;
 	}
 	// 未被执行则反推
 	else

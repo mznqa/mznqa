@@ -12,12 +12,12 @@ class SpriteCard : public cocos2d::Sprite
 public:
 	enum EventIndex
 	{
-		EventIndex_Invalid,
-		EventIndex_HandCard_0,
-		EventIndex_HandCard_1,
-		EventIndex_HandCard_2,
-		EventIndex_HandCard_3,
-		EventIndex_HandCard_4
+		EventIndex_Invalid = 9999,
+		EventIndex_HandCard_0 = 0,
+		EventIndex_HandCard_1 = 1,
+		EventIndex_HandCard_2 = 2,
+		EventIndex_HandCard_3 = 3,
+		EventIndex_HandCard_4 = 4
 	};
 
 	SpriteCard()

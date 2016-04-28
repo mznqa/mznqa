@@ -250,7 +250,7 @@ bool MapController::putCardRoad(const CardRoad &cardRoad, const GRect &rect)
 		return false;
 	}
 
-	std::shared_ptr<GPointSet> gPointSet = std::make_shared<GPointSet>();
+	GPointSet *gPointSet = new GPointSet();
 	int yEnd = rect.leftTopGY + mapGroupSize;
 	int xEnd = rect.leftTopGX + mapGroupSize;
 	for (int y = rect.leftTopGY, iy = 0; y < yEnd && iy < mapGroupSize; ++y, ++iy)
@@ -264,7 +264,7 @@ bool MapController::putCardRoad(const CardRoad &cardRoad, const GRect &rect)
 
 	LogicMessagePQ::Instance()->pushMessage(Message<LogicMessagePQ::LMessage>(
 		LogicMessagePQ::LMessage_RefreshMapCellSpriteByGPointSet_TGPointSetT,
-		gPointSet.get()
+		gPointSet
 		));
 
 	return true;

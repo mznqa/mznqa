@@ -60,7 +60,7 @@ void LayerWorkbench::showHandCardByIndex(int index)
 		return;
 
 	auto it = handCardSet.begin();
-	for (int i = 0; i <= index; ++i)
+	for (int i = 1; i <= index; ++i)
 		++it;
 
 	(*it)->setPosition(Vec2(100, 100));
@@ -80,9 +80,10 @@ void LayerWorkbench::test()
 	while (it != itEnd)
 	{
 		(*it)->initialize();
-		(*it)->setPosition(Vec2(handCardPositionXSet[i++], handCardPositionY));
+		(*it)->setPosition(Vec2(handCardPositionXSet[i], handCardPositionY));
 		addChild(*it);
 		(*it)->addEventListener((SpriteCard::EventIndex)(i));
+		++i;
 		++it;
 	}
 }
