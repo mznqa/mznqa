@@ -30,7 +30,7 @@ bool SceneGameMainState::enter(SceneGameMain *scene)
 	MapControllerInstance->loadMapNode(MissionMapSetInstance->getMainMissionMapByIndex(0));
 
 	// 设置角色位置
-	RoleInstance->setPosition(10, 7);
+	RoleInstance->setPosition(0, 0);
 
 	// 绘制地图 //////////////////////////////////////////////////////////////////////////
 	scene->layerMap = LayerMap::create();
@@ -47,7 +47,7 @@ bool SceneGameMainState::enter(SceneGameMain *scene)
 	// 绘制参考线 //////////////////////////////////////////////////////////////////////////
 	auto ckx = cocos2d::Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_OTHER_REFERENCE_LINE);
 	ckx->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
-	ckx->setPosition(cocos2d::Vec2(0, DESIGNRESOLUTIONSIZE_HEIGHT));
+	ckx->setPosition(cocos2d::Vec2(VISIBLEORIGIN_X, DESIGNRESOLUTIONSIZE_HEIGHT));
 	scene->addChild(ckx);
 	//////////////////////////////////////////////////////////////////////////
 
@@ -129,8 +129,8 @@ bool SceneGameMainState::update(SceneGameMain *scene, double intervalTime)
 	break;
 	case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT:
 	{
-		scene->layerWorkbench->showHandCardByIndex(*((SpriteCard::EventIndex*)(msg.extras)));
-		SpriteCard::EventIndex *p = (SpriteCard::EventIndex*)(msg.extras);
+		scene->layerWorkbench->showHandCardByIndex(*((SpriteHandCard::EventIndex*)(msg.extras)));
+		SpriteHandCard::EventIndex *p = (SpriteHandCard::EventIndex*)(msg.extras);
 		delete p;
 		p = nullptr;
 	}

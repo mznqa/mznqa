@@ -1,29 +1,34 @@
 #pragma execution_character_set("utf-8")
 
-#ifndef MZNQA_CLASSES_ENGINE_SPRITECARD_H_
-#define MZNQA_CLASSES_ENGINE_SPRITECARD_H_
+#ifndef MZNQA_CLASSES_ENGINE_SPRITEHADNCARD_H_
+#define MZNQA_CLASSES_ENGINE_SPRITEHADNCARD_H_
 
 #include <string>
 
 #include "cocos2d.h"
 
-class SpriteCard : public cocos2d::Sprite
+class SpriteHandCard : public cocos2d::Sprite
 {
 public:
 	enum EventIndex
 	{
-		EventIndex_Invalid = 0
+		EventIndex_Invalid = 9999,
+		EventIndex_HandCard_0 = 0,
+		EventIndex_HandCard_1 = 1,
+		EventIndex_HandCard_2 = 2,
+		EventIndex_HandCard_3 = 3,
+		EventIndex_HandCard_4 = 4
 	};
 
-	SpriteCard()
+	SpriteHandCard()
 	{
 	}
 
-	~SpriteCard()
+	~SpriteHandCard()
 	{
 	}
 
-	static SpriteCard* create(/*const std::string &filename*/);
+	static SpriteHandCard* create(/*const std::string &filename*/);
 
 	void initialize();
 

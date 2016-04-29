@@ -3,22 +3,24 @@
 #ifndef MZNQA_CLASSES_ENGINE_LAYERWORKBENCH_H_
 #define MZNQA_CLASSES_ENGINE_LAYERWORKBENCH_H_
 
-#include <list>
 #include <array>
 
 #include "cocos2d.h"
 
 #include "cardController/CardControllerExplore.h"
-#include "engine/SpriteCard.h"
+#include "engine/SpriteHandCard.h"
 
 class LayerWorkbench : public cocos2d::Layer
 {
 private:
 	cocos2d::Node *rootNode;
 
-	std::list<SpriteCard*> handCardSet;
+	std::array<SpriteHandCard*, 5> handCardSet;
 	static const std::array<float, 5> handCardPositionXSet;
 	static const float handCardPositionY;
+
+	static const std::array<float, 5> handCardShowStatePositionXSet;
+	static const float handCardShowStatePositionY;
 
 	// 单例别名 //////////////////////////////////////////////////////////////////////////
 	/*! \brief	保存 CardControllerExplore::Instance() 的常量指针 */

@@ -27,6 +27,9 @@
  */
 #define SCREENSIZE_HEIGHT (cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize().height)
 
+#define VISIBLEORIGIN_X (cocos2d::Director::getInstance()->getVisibleOrigin().x)
+#define VISIBLEORIGIN_Y (cocos2d::Director::getInstance()->getVisibleOrigin().y)
+
 /*!
  * \def	DESIGNRESOLUTIONSIZE_WIDTH
  *

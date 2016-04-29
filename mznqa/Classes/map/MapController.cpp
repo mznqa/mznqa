@@ -17,6 +17,7 @@
 #include "map/MissionMap.h"
 #include "tools/GPointSet.h"
 #include "message/LogicMessagePQ.h"
+#include "define/GlobalDefine.h"
 
 // 地形卡对应的地形组 //////////////////////////////////////////////////////////////////////////
 static const MapNode::NodeType mapGroupRoadTypeNone[3][3]
@@ -125,7 +126,12 @@ MapController* MapController::Instance()
 
 MapController::MapController()
 {
-	MapView::Instance()->initialize(0, 0, 30, 15);
+	if (cocos2d::Director::getInstance()->getVisibleSize().width == cocos2d::Director::getInstance()->getWinSize().width)
+		MapView::Instance()->initialize(0, 0, 30, int(SCREENSIZE_HEIGHT / (MAP_CELL_SIZE*SCREENSIZE_WIDTH / DESIGNRESOLUTIONSIZE_WIDTH)) / 3 * 3);
+	else if (cocos2d::Director::getInstance()->getVisibleSize().height == cocos2d::Director::getInstance()->getWinSize().height)
+		MapView::Instance()->initialize(0, 0, int(SCREENSIZE_WIDTH / (MAP_CELL_SIZE*SCREENSIZE_HEIGHT / DESIGNRESOLUTIONSIZE_HEIGHT)) / 3 * 3, 15);
+	else
+		MapView::Instance()->initialize(0, 0, int(SCREENSIZE_WIDTH / (MAP_CELL_SIZE*SCREENSIZE_HEIGHT / DESIGNRESOLUTIONSIZE_HEIGHT)) / 3 * 3, 15);
 }
 
 MapController::~MapController()

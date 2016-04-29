@@ -23,7 +23,7 @@
  */
 static float gX2CartesianX(int gX)
 {
-	return ((gX - MapView::Instance()->getLeftTopGX())*MAP_CELL_SIZE);
+	return (VISIBLEORIGIN_X + (gX - MapView::Instance()->getLeftTopGX())*MAP_CELL_SIZE);
 }
 
 /*!

@@ -1,14 +1,14 @@
 #pragma execution_character_set("utf-8")
 
-#include "engine/SpriteCard.h"
+#include "engine/SpriteHandCard.h"
 
 #include "message/EngineMessagePQ.h"
 
 USING_NS_CC;
 
-SpriteCard* SpriteCard::create(/*const std::string &filename*/)
+SpriteHandCard* SpriteHandCard::create(/*const std::string &filename*/)
 {
-	SpriteCard *sprite = new SpriteCard();
+	SpriteHandCard *sprite = new SpriteHandCard();
 	if (sprite && sprite->initWithSpriteFrameName("temp/card_base.png"))
 	{
 		sprite->autorelease();
@@ -18,7 +18,7 @@ SpriteCard* SpriteCard::create(/*const std::string &filename*/)
 	return nullptr;
 }
 
-void SpriteCard::initialize()
+void SpriteHandCard::initialize()
 {
 	background = Sprite::createWithSpriteFrameName("temp/card_background_cardroad.png");
 	background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -28,22 +28,22 @@ void SpriteCard::initialize()
 	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 }
 
-void SpriteCard::addEventListener(const EventIndex &eventIndex)
+void SpriteHandCard::addEventListener(const EventIndex &eventIndex)
 {
 	auto touchListener = EventListenerTouchOneByOne::create();
 	touchListener->setSwallowTouches(true);
-	touchListener->onTouchBegan = CC_CALLBACK_2(SpriteCard::onTouchBegan, this);
-	touchListener->onTouchMoved = CC_CALLBACK_2(SpriteCard::onTouchMoved, this);
-	touchListener->onTouchEnded = CC_CALLBACK_2(SpriteCard::onTouchEnded, this);
+	touchListener->onTouchBegan = CC_CALLBACK_2(SpriteHandCard::onTouchBegan, this);
+	touchListener->onTouchMoved = CC_CALLBACK_2(SpriteHandCard::onTouchMoved, this);
+	touchListener->onTouchEnded = CC_CALLBACK_2(SpriteHandCard::onTouchEnded, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
 	this->eventIndex = eventIndex;
 }
 
-bool SpriteCard::onTouchBegan(Touch *touch, Event *nused_event)
+bool SpriteHandCard::onTouchBegan(Touch *touch, Event *nused_event)
 {
 	// 获取事件所绑定的 target
-	auto target = static_cast<SpriteCard*>(nused_event->getCurrentTarget());
+	auto target = static_cast<SpriteHandCard*>(nused_event->getCurrentTarget());
 
 	// 获取当前点击点所在相对按钮的位置坐标
 	Point locationInNode = target->convertToNodeSpace(touch->getLocation());
@@ -56,15 +56,15 @@ bool SpriteCard::onTouchBegan(Touch *touch, Event *nused_event)
 
 	EventIndex *ei = new EventIndex();
 	*ei = this->eventIndex;
-	EngineMessagePQ::Instance()->pushMessage(Message < EngineMessagePQ::EMessage>(
+	EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(
 		EngineMessagePQ::EMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT,
 		ei
 		));
-	cocos2d::log("[warning] SpriteCard(%d)::onTouchBegan()", (int)(this->eventIndex));
+	cocos2d::log("[warning] SpriteHandCard(%d)::onTouchBegan()", (int)(this->eventIndex));
 	return true;
 }
 
-void SpriteCard::onTouchMoved(Touch *touch, Event *unused_event)
+void SpriteHandCard::onTouchMoved(Touch *touch, Event *unused_event)
 {
 	EventIndex *ei = new EventIndex();
 	*ei = this->eventIndex;
@@ -72,10 +72,10 @@ void SpriteCard::onTouchMoved(Touch *touch, Event *unused_event)
 		EngineMessagePQ::EMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT,
 		ei
 		));
-	cocos2d::log("[warning] SpriteCard(%d)::onTouchMoved()", (int)(this->eventIndex));
+	cocos2d::log("[warning] SpriteHandCard(%d)::onTouchMoved()", (int)(this->eventIndex));
 }
 
-void SpriteCard::onTouchEnded(Touch *touch, Event *unused_event)
+void SpriteHandCard::onTouchEnded(Touch *touch, Event *unused_event)
 {
 	EventIndex *ei = new EventIndex();
 	*ei = this->eventIndex;
@@ -83,5 +83,5 @@ void SpriteCard::onTouchEnded(Touch *touch, Event *unused_event)
 		EngineMessagePQ::EMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT,
 		ei
 		));
-	cocos2d::log("[warning] SpriteCard(%d)::onTouchEnded()", (int)(this->eventIndex));
+	cocos2d::log("[warning] SpriteHandCard(%d)::onTouchEnded()", (int)(this->eventIndex));
 }
