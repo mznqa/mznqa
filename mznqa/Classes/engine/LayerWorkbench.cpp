@@ -34,7 +34,8 @@ bool LayerWorkbench::init()
 bool LayerWorkbench::onTouchBegan(Touch *touch, Event *unused_event)
 {
 	cocos2d::log("[warning] LayerWorkbench::onTouchBegan()");
-	return true;
+	bool effective = restoreAllHandCard();
+	return effective;
 }
 
 void LayerWorkbench::onTouchMoved(Touch *touch, Event *unused_event)
@@ -50,11 +51,36 @@ void LayerWorkbench::onTouchEnded(Touch *touch, Event *unused_event)
 void LayerWorkbench::addGlobalEventListener()
 {
 	auto touchListener = EventListenerTouchOneByOne::create();
-	touchListener->setSwallowTouches(false);
+	touchListener->setSwallowTouches(true);
 	touchListener->onTouchBegan = CC_CALLBACK_2(LayerWorkbench::onTouchBegan, this);
 	touchListener->onTouchMoved = CC_CALLBACK_2(LayerWorkbench::onTouchMoved, this);
 	touchListener->onTouchEnded = CC_CALLBACK_2(LayerWorkbench::onTouchEnded, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+}
+
+bool LayerWorkbench::restoreAllHandCard()
+{
+	auto it = handCardSet.begin();
+	auto itEnd = handCardSet.end();
+	int i = 0;
+	bool state = false;
+	while (it != itEnd)
+	{
+		if (*it != nullptr && (*it)->getState() != SpriteHandCard::HandCardState_AtStateWorkBench)
+		{
+			(*it)->stopAllActions();
+			(*it)->setZOrder(i);
+			//(*it)->setPosition(Vec2(handCardPositionXSet[i], handCardPositionY));
+			//(*it)->setScale(1.0f);
+			(*it)->runAction(MoveTo::create(0.05f, Vec2(handCardPositionXSet[i], handCardPositionY)));
+			(*it)->runAction(ScaleTo::create(0.1f, 1.0f));
+			(*it)->changeState(SpriteHandCard::HandCardState_AtStateWorkBench);
+			state = true;
+		}
+		++i;
+		++it;
+	}
+	return state;
 }
 
 void LayerWorkbench::showHandCardByIndex(int index)
@@ -62,39 +88,21 @@ void LayerWorkbench::showHandCardByIndex(int index)
 	if (0 > index || index >= handCardSet.size())
 		return;
 
-	auto itTarget = handCardSet.begin();
-	auto it = handCardSet.begin();
-	auto itEnd = handCardSet.end();
-	int i = 0, iTarget = 0;
-	while (it != itEnd)
-	{
-		if (*it != nullptr)
-		{
-			if (i == index)
-			{
-				itTarget = it;
-				iTarget = i;
-			}
-			else
-			{
-				(*it)->stopAllActions();
-				(*it)->setZOrder(i);
-				// 				(*it)->setPosition(Vec2(handCardPositionXSet[i], handCardPositionY));
-				//	(*it)->setScale(1.0f);
-				(*it)->runAction(MoveTo::create(0.05f, Vec2(handCardPositionXSet[i], handCardPositionY)));
-				(*it)->runAction(ScaleTo::create(0.1f, 1.0f));
-			}
-		}
-		++i;
-		++it;
-	}
+	if (handCardSet[index] == nullptr)
+		return;
 
-	(*itTarget)->stopAllActions();
-	(*itTarget)->setZOrder(5);
-	//(*itTarget)->setPosition(Vec2(handCardShowStatePositionXSet[iTarget], handCardShowStatePositionY));
-	//(*itTarget)->setScale(2.0f);
-	(*itTarget)->runAction(MoveTo::create(0.15f, Vec2(handCardShowStatePositionXSet[iTarget], handCardShowStatePositionY)));
-	(*itTarget)->runAction(ScaleTo::create(0.2f, 2.0f));
+	if (handCardSet[index]->getState() == SpriteHandCard::HandCardState_AtStateShow)
+		return;
+
+	restoreAllHandCard();
+
+	handCardSet[index]->stopAllActions();
+	handCardSet[index]->setZOrder(5);
+	//handCardSet[index]->setPosition(Vec2(handCardShowStatePositionXSet[index], handCardShowStatePositionY));
+	//handCardSet[index]->setScale(2.0f);
+	handCardSet[index]->runAction(MoveTo::create(0.15f, Vec2(handCardShowStatePositionXSet[index], handCardShowStatePositionY)));
+	handCardSet[index]->runAction(ScaleTo::create(0.2f, 2.0f));
+	handCardSet[index]->changeState(SpriteHandCard::HandCardState_AtStateShow);
 }
 
 void LayerWorkbench::test()

@@ -20,12 +20,14 @@ SpriteHandCard* SpriteHandCard::create(/*const std::string &filename*/)
 
 void SpriteHandCard::initialize()
 {
-	background = Sprite::createWithSpriteFrameName("temp/card_background_cardroad.png");
-	background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	background->setPosition(Vec2(75.0, 100.0));
-	this->addChild(background);
+	spriteBackground = Sprite::createWithSpriteFrameName("temp/card_background_cardroad.png");
+	spriteBackground->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	spriteBackground->setPosition(Vec2(75.0, 100.0));
+	this->addChild(spriteBackground);
 
 	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+
+	state = HandCardState_AtStateWorkBench;
 }
 
 void SpriteHandCard::addEventListener(const EventIndex &eventIndex)
@@ -57,7 +59,7 @@ bool SpriteHandCard::onTouchBegan(Touch *touch, Event *nused_event)
 	EventIndex *ei = new EventIndex();
 	*ei = this->eventIndex;
 	EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(
-		EngineMessagePQ::EMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT,
+		EngineMessagePQ::EMessage_SpriteHandCard_TouchEvent_TouchBegan_TSpriteHandCardEventIndexT,
 		ei
 		));
 	cocos2d::log("[warning] SpriteHandCard(%d)::onTouchBegan()", (int)(this->eventIndex));
@@ -69,7 +71,7 @@ void SpriteHandCard::onTouchMoved(Touch *touch, Event *unused_event)
 	EventIndex *ei = new EventIndex();
 	*ei = this->eventIndex;
 	EngineMessagePQ::Instance()->pushMessage(Message < EngineMessagePQ::EMessage>(
-		EngineMessagePQ::EMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT,
+		EngineMessagePQ::EMessage_SpriteHandCard_TouchEvent_TouchMoved_TSpriteHandCardEventIndexT,
 		ei
 		));
 	cocos2d::log("[warning] SpriteHandCard(%d)::onTouchMoved()", (int)(this->eventIndex));
@@ -80,8 +82,25 @@ void SpriteHandCard::onTouchEnded(Touch *touch, Event *unused_event)
 	EventIndex *ei = new EventIndex();
 	*ei = this->eventIndex;
 	EngineMessagePQ::Instance()->pushMessage(Message < EngineMessagePQ::EMessage>(
-		EngineMessagePQ::EMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT,
+		EngineMessagePQ::EMessage_SpriteHandCard_TouchEvent_TouchEnded_TSpriteHandCardEventIndexT,
 		ei
 		));
 	cocos2d::log("[warning] SpriteHandCard(%d)::onTouchEnded()", (int)(this->eventIndex));
+}
+
+void SpriteHandCard::changeState(HandCardState state)
+{
+	this->state = state;
+}
+
+SpriteHandCard::HandCardState SpriteHandCard::getState()
+{
+	return state;
+}
+
+void SpriteHandCard::makeEntity()
+{
+	spriteBackground->setVisible(false);
+	this->setScaleX(30.0 / 100.0);
+	this->setScaleY(25.0 / 100.0);
 }

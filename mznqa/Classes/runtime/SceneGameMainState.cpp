@@ -129,10 +129,7 @@ bool SceneGameMainState::update(SceneGameMain *scene, double intervalTime)
 	break;
 	case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT:
 	{
-		scene->layerWorkbench->showHandCardByIndex(*((SpriteHandCard::EventIndex*)(msg.extras)));
-		SpriteHandCard::EventIndex *p = (SpriteHandCard::EventIndex*)(msg.extras);
-		delete p;
-		p = nullptr;
+		// nothing
 	}
 	break;
 	case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT:
@@ -141,6 +138,23 @@ bool SceneGameMainState::update(SceneGameMain *scene, double intervalTime)
 	}
 	break;
 	case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT:
+	{
+		// nothing
+	}
+	case LogicMessagePQ::LMessage_SpriteHandCard_TouchEvent_TouchBegan_TSpriteHandCardEventIndexT:
+	{
+		scene->layerWorkbench->showHandCardByIndex(*((SpriteHandCard::EventIndex*)(msg.extras)));
+		SpriteHandCard::EventIndex *p = (SpriteHandCard::EventIndex*)(msg.extras);
+		delete p;
+		p = nullptr;
+	}
+	break;
+	case LogicMessagePQ::LMessage_SpriteHandCard_TouchEvent_TouchMoved_TSpriteHandCardEventIndexT:
+	{
+		// nothing
+	}
+	break;
+	case LogicMessagePQ::LMessage_SpriteHandCard_TouchEvent_TouchEnded_TSpriteHandCardEventIndexT:
 	{
 		// nothing
 	}

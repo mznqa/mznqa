@@ -42,6 +42,8 @@ public:
 
 	void addGlobalEventListener();
 
+	bool restoreAllHandCard();
+
 	void showHandCardByIndex(int index);
 
 	void test();

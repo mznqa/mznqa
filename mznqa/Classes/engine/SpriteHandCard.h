@@ -10,6 +10,14 @@
 class SpriteHandCard : public cocos2d::Sprite
 {
 public:
+
+	enum HandCardState
+	{
+		HandCardState_AtStateWorkBench,
+		HandCardState_AtStateShow,
+		HandCardState_AtEntity
+	};
+
 	enum EventIndex
 	{
 		EventIndex_Invalid = 9999,
@@ -40,11 +48,21 @@ public:
 
 	void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event);
 
+	void changeState(HandCardState state);
+
+	HandCardState getState();
+
+	void makeEntity();
+
 private:
+
+	HandCardState state = HandCardState_AtStateWorkBench;
 
 	EventIndex eventIndex = EventIndex_Invalid;
 
-	cocos2d::Sprite *background;
+	cocos2d::Sprite *spriteBackground;
+
+	cocos2d::Sprite *spriteEntity;
 };
 
 #endif
