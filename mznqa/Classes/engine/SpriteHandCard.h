@@ -7,6 +7,8 @@
 
 #include "cocos2d.h"
 
+#include "engine/SizeController.h"
+
 class SpriteHandCard : public cocos2d::Sprite
 {
 public:
@@ -55,6 +57,8 @@ public:
 	void makeEntity();
 
 private:
+
+	SizeController *const SizeControllerInstance = SizeController::Instance();
 
 	HandCardState state = HandCardState_AtStateWorkBench;
 

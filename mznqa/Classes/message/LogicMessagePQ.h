@@ -39,29 +39,32 @@ public:
 		LMessage_MapViewMoveDown,		///< 下移地图视野
 		LMessage_MapViewMoveLeft,		///< 左移地图视野
 
-		LMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT = 100,		///< 卡片触摸事件-began
-		LMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT = 101,		///< 卡片触摸事件-moved
-		LMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT = 102,		///< 卡片触摸事件-ended
+		LMessage_RemoveHandCardByIndex_TIntT = 100,
+		LMessage_PutCardRoad_TGXYT = 101,
 
-		LMessage_SpriteHandCard_TouchEvent_TouchBegan_TSpriteHandCardEventIndexT = 200,		///< 手牌触摸事件-began
-		LMessage_SpriteHandCard_TouchEvent_TouchMoved_TSpriteHandCardEventIndexT = 201,		///< 手牌触摸事件-moved
-		LMessage_SpriteHandCard_TouchEvent_TouchEnded_TSpriteHandCardEventIndexT = 202,		///< 手牌触摸事件-ended
+		LMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT = 200,		///< 卡片触摸事件-began
+		LMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT = 201,		///< 卡片触摸事件-moved
+		LMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT = 202,		///< 卡片触摸事件-ended
 
-		LMessage_RefreshMapCellSpriteByGPointSet_TGPointSetT = 300,	///< 刷新地图上指定矩形区域的图片
+		LMessage_SpriteHandCard_TouchEvent_TouchBegan_TSpriteHandCardEventIndexT = 300,		///< 手牌触摸事件-began
+		LMessage_SpriteHandCard_TouchEvent_TouchMoved_TSpriteHandCardEventIndexT = 301,		///< 手牌触摸事件-moved
+		LMessage_SpriteHandCard_TouchEvent_TouchEnded_TSpriteHandCardEventIndexT = 302,		///< 手牌触摸事件-ended
 
-		LMessage_ReplaceScene_SceneLoadRes2SceneGameMain = 400,	///< 跳转场景：从 SceneLoadRes 跳转到 SceneGameMain
+		LMessage_RefreshMapCellSpriteByGPointSet_TGPointSetT = 400,	///< 刷新地图上指定矩形区域的图片
 
-		LMessage_LoadData_StaticData_MapMainMissionSet = 500,	///< 开始载入地形卡集合
-		LMessage_LoadData_StaticData_CardSkillSet = 501,		///< 开始载入技能卡集合
-		LMessage_LoadData_StaticData_CardRoadSet = 502,			///< 开始载入地形卡集合
+		LMessage_ReplaceScene_SceneLoadRes2SceneGameMain = 500,	///< 跳转场景：从 SceneLoadRes 跳转到 SceneGameMain
 
-		LMessage_Information_DataLoading_StaticData_MapMainMissionSetLoadSuccess = 600,	///< 成功载入静态数据：主线任务地图集合
-		LMessage_Information_DataLoading_StaticData_CardSkillSetLoadSuccess = 601,		///< 成功载入静态数据：技能卡集合
-		LMessage_Information_DataLoading_StaticData_CardRoadSetLoadSuccess = 602,		///< 成功载入静态数据：地形卡集合
+		LMessage_LoadData_StaticData_MapMainMissionSet = 600,	///< 开始载入地形卡集合
+		LMessage_LoadData_StaticData_CardSkillSet = 601,		///< 开始载入技能卡集合
+		LMessage_LoadData_StaticData_CardRoadSet = 602,			///< 开始载入地形卡集合
 
-		LMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed = 700,	///< 载入静态数据时出错：地形卡集合
-		LMessage_Error_DataLoading_StaticData_CardSkillSetLoadFailed = 701,				///< 载入静态数据时出错：地形卡集合
-		LMessage_Error_DataLoading_StaticData_CardRoadSetLoadFailed = 702				///< 载入静态数据时出错：地形卡集合
+		LMessage_Information_DataLoading_StaticData_MapMainMissionSetLoadSuccess = 700,	///< 成功载入静态数据：主线任务地图集合
+		LMessage_Information_DataLoading_StaticData_CardSkillSetLoadSuccess = 701,		///< 成功载入静态数据：技能卡集合
+		LMessage_Information_DataLoading_StaticData_CardRoadSetLoadSuccess = 702,		///< 成功载入静态数据：地形卡集合
+
+		LMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed = 800,	///< 载入静态数据时出错：地形卡集合
+		LMessage_Error_DataLoading_StaticData_CardSkillSetLoadFailed = 801,				///< 载入静态数据时出错：地形卡集合
+		LMessage_Error_DataLoading_StaticData_CardRoadSetLoadFailed = 802				///< 载入静态数据时出错：地形卡集合
 	};
 
 	/*!

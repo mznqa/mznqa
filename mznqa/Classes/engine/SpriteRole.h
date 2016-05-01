@@ -14,6 +14,7 @@
 #include "cocos2d.h"
 
 #include "gameobject/Role.h"
+#include "engine/SizeController.h"
 
 /*!
  * \class	SpriteRole
@@ -30,6 +31,7 @@ private:
 	// 单例别名 //////////////////////////////////////////////////////////////////////////
 	/*! \brief	保存 Role::Instance() 的常量指针 */
 	Role *const RoleInstance = Role::Instance();
+	SizeController *const SizeControllerInstance = SizeController::Instance();
 	//////////////////////////////////////////////////////////////////////////
 public:
 

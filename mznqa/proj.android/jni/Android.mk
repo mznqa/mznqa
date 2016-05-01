@@ -36,6 +36,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/engine/SceneGameMain.cpp \
                    ../../Classes/engine/SceneGuide.cpp \
                    ../../Classes/engine/SceneLoadRes.cpp \
+                   ../../Classes/engine/SizeController.cpp \
                    ../../Classes/engine/SpriteCard.cpp \
                    ../../Classes/engine/SpriteHandCard.cpp \
                    ../../Classes/engine/SpriteRole.cpp \

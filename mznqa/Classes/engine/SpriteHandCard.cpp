@@ -3,6 +3,7 @@
 #include "engine/SpriteHandCard.h"
 
 #include "message/EngineMessagePQ.h"
+#include "tools/GXY.h"
 
 USING_NS_CC;
 
@@ -74,6 +75,19 @@ void SpriteHandCard::onTouchMoved(Touch *touch, Event *unused_event)
 		EngineMessagePQ::EMessage_SpriteHandCard_TouchEvent_TouchMoved_TSpriteHandCardEventIndexT,
 		ei
 		));
+
+	if (touch->getDelta().x > 16.0 && touch->getDelta().y > 9.0)
+	{
+		if (state == HandCardState_AtStateShow)
+		{
+			state = HandCardState_AtEntity;
+			makeEntity();
+		}
+	}
+	if (state == HandCardState_AtEntity)
+	{
+		this->setPosition(touch->getLocation());
+	}
 	cocos2d::log("[warning] SpriteHandCard(%d)::onTouchMoved()", (int)(this->eventIndex));
 }
 
@@ -85,6 +99,20 @@ void SpriteHandCard::onTouchEnded(Touch *touch, Event *unused_event)
 		EngineMessagePQ::EMessage_SpriteHandCard_TouchEvent_TouchEnded_TSpriteHandCardEventIndexT,
 		ei
 		));
+
+	if (state == HandCardState_AtEntity)
+	{
+		int *pIndex = new int(eventIndex);
+		EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(
+			EngineMessagePQ::EMessage_RemoveHandCardByIndex_TIntT,
+			pIndex
+			));
+		GXY *gPoint = new GXY(SizeControllerInstance->cartesianX2GX(touch->getLocation().x), SizeControllerInstance->cartesianY2GY(touch->getLocation().y));
+		EngineMessagePQ::Instance()->pushMessage(Message<EngineMessagePQ::EMessage>(
+			EngineMessagePQ::EMessage_PutCardRoad_TGXYT,
+			gPoint
+			));
+	}
 	cocos2d::log("[warning] SpriteHandCard(%d)::onTouchEnded()", (int)(this->eventIndex));
 }
 
@@ -101,6 +129,10 @@ SpriteHandCard::HandCardState SpriteHandCard::getState()
 void SpriteHandCard::makeEntity()
 {
 	spriteBackground->setVisible(false);
-	this->setScaleX(30.0 / 100.0);
-	this->setScaleY(25.0 / 100.0);
+	spriteEntity = Sprite::createWithSpriteFrameName("temp/map_cell_1234.png");
+	spriteEntity->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	spriteEntity->setPosition(Vec2(75.0, 100.0));
+	this->addChild(spriteEntity);
+	this->setScaleX(60.0 / 100.0);
+	this->setScaleY(50.0 / 100.0);
 }

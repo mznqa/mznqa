@@ -2,6 +2,7 @@
 
 #include "AppDelegate.h"
 #include "engine/SceneDebug.h"
+#include "engine/SizeController.h"
 
 USING_NS_CC;
 
@@ -86,6 +87,15 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	// ÔËÐÐ³¡¾°
 	director->runWithScene(scene);
+
+	SizeController::Instance()->designResolutionSizeWidth = director->getOpenGLView()->getDesignResolutionSize().width;
+	SizeController::Instance()->designResolutionSizeHeight = director->getOpenGLView()->getDesignResolutionSize().height;
+
+	SizeController::Instance()->realityScreenSizeWidth = director->getOpenGLView()->getFrameSize().width;
+	SizeController::Instance()->realityScreenSizeHeight = director->getOpenGLView()->getFrameSize().height;
+
+	SizeController::Instance()->realityVisibleOriginX = director->getOpenGLView()->getVisibleOrigin().x;
+	SizeController::Instance()->realityVisibleOriginY = director->getOpenGLView()->getVisibleOrigin().y;
 
 	return true;
 }

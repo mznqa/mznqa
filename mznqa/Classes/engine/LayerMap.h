@@ -15,6 +15,7 @@
 #include "map/MapView.h"
 #include "define/GlobalDefine.h"
 #include "tools/GPointSet.h"
+#include "engine/SizeController.h"
 
 /*!
  * \class	LayerMap
@@ -25,13 +26,15 @@
 class LayerMap : public cocos2d::Layer
 {
 private:
+	SizeController *const SizeControllerInstance = SizeController::Instance();
+
 	/*! \brief	存放地图节点精灵 */
 	std::vector<std::vector<cocos2d::Sprite*>> mapCellSet;
 
 	/*! \brief	地图视野中心点的屏幕坐标 */
 	cocos2d::Vec2 mapViewCenterPoint = cocos2d::Vec2(
-		DESIGNRESOLUTIONSIZE_SCREENCENTER_HORIZONTAL,
-		DESIGNRESOLUTIONSIZE_SCREENCENTER_VERTICAL
+		SizeControllerInstance->realityScreenSizeWidth / 2.0,
+		SizeControllerInstance->realityScreenSizeHeight / 2.0
 		);
 
 public:

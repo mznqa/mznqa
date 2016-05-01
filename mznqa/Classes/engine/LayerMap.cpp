@@ -15,7 +15,6 @@
 #include "map/MapController.h"
 #include "map/MapNode.h"
 #include "message/EngineMessagePQ.h"
-#include "engine/GlobalFun.h"
 #include "filePath/FilePathSprite.h"
 
 USING_NS_CC;
@@ -113,7 +112,7 @@ void LayerMap::loadMapFromMapController()
 				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_FENCE);
 
 			(*it2)->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-			(*it2)->setPosition(Vec2(x*MAP_CELL_SIZE + MAP_CELL_SIZE_HALF, -(y*MAP_CELL_SIZE + MAP_CELL_SIZE_HALF)));
+			(*it2)->setPosition(Vec2(x*MAP_CELL_SIZE_DESIGN + MAP_CELL_SIZE_DESIGN_HALF, -(y*MAP_CELL_SIZE_DESIGN + MAP_CELL_SIZE_DESIGN_HALF)));
 
 			addChild(*it2);
 			++it2;
@@ -130,8 +129,8 @@ void LayerMap::refreshPosition()
 	auto action = MoveTo::create(
 		TIME_GLOBALMAP_MOVE,
 		Vec2(
-		gX2CartesianX(0),
-		gY2CartesianY(0)
+		SizeControllerInstance->gX2CartesianX(0),
+		SizeControllerInstance->gY2CartesianY(0)
 		)
 		);
 	action->setFlags(ActionFlags_LayerMove);
@@ -142,7 +141,7 @@ void LayerMap::initialize()
 {
 	this->setContentSize(Size(192, 192));
 	this->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-	this->setPosition(Vec2(gX2CartesianX(0), gY2CartesianY(0)));
+	this->setPosition(Vec2(SizeControllerInstance->gX2CartesianX(0), SizeControllerInstance->gY2CartesianY(0)));
 }
 
 void LayerMap::refreshMapCellWithGPointSet(const GPointSet &gPointSet)
@@ -169,7 +168,7 @@ void LayerMap::refreshMapCellWithGPointSet(const GPointSet &gPointSet)
 			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_FENCE);
 
 		mapCellSet.at(y).at(x)->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		mapCellSet.at(y).at(x)->setPosition(Vec2(x*MAP_CELL_SIZE + MAP_CELL_SIZE_HALF, -(y*MAP_CELL_SIZE + MAP_CELL_SIZE_HALF)));
+		mapCellSet.at(y).at(x)->setPosition(Vec2(x*MAP_CELL_SIZE_DESIGN + MAP_CELL_SIZE_DESIGN_HALF, -(y*MAP_CELL_SIZE_DESIGN + MAP_CELL_SIZE_DESIGN_HALF)));
 
 		addChild(mapCellSet.at(y).at(x));
 

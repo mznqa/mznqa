@@ -18,6 +18,7 @@
 #include "tools/GPointSet.h"
 #include "message/LogicMessagePQ.h"
 #include "define/GlobalDefine.h"
+#include "engine/SizeController.h"
 
 // 地形卡对应的地形组 //////////////////////////////////////////////////////////////////////////
 static const MapNode::NodeType mapGroupRoadTypeNone[3][3]
@@ -124,14 +125,24 @@ MapController* MapController::Instance()
 	return &instance;
 }
 
-MapController::MapController()
+MapController::MapController() :
+SizeControllerInstance(SizeController::Instance())
 {
 	if (cocos2d::Director::getInstance()->getVisibleSize().width == cocos2d::Director::getInstance()->getWinSize().width)
-		MapView::Instance()->initialize(0, 0, 30, int(SCREENSIZE_HEIGHT / (MAP_CELL_SIZE*SCREENSIZE_WIDTH / DESIGNRESOLUTIONSIZE_WIDTH)) / 3 * 3);
+	{
+		MapView::Instance()->initialize(0, 0, 30, int(SizeControllerInstance->realityScreenSizeWidth / (SizeControllerInstance->designMapCellSize*SizeControllerInstance->realityScreenSizeWidth / SizeControllerInstance->designResolutionSizeWidth)) / 3 * 3);
+		SizeControllerInstance->realityMapCellSize = SizeControllerInstance->designMapCellSize*SizeControllerInstance->realityScreenSizeWidth / SizeControllerInstance->designResolutionSizeWidth;
+	}
 	else if (cocos2d::Director::getInstance()->getVisibleSize().height == cocos2d::Director::getInstance()->getWinSize().height)
-		MapView::Instance()->initialize(0, 0, int(SCREENSIZE_WIDTH / (MAP_CELL_SIZE*SCREENSIZE_HEIGHT / DESIGNRESOLUTIONSIZE_HEIGHT)) / 3 * 3, 15);
+	{
+		MapView::Instance()->initialize(0, 0, int(SizeControllerInstance->realityScreenSizeWidth / (SizeControllerInstance->designMapCellSize*SizeControllerInstance->realityScreenSizeHeight / SizeControllerInstance->designResolutionSizeHeight)) / 3 * 3, 15);
+		SizeControllerInstance->realityMapCellSize = SizeControllerInstance->designMapCellSize*SizeControllerInstance->realityScreenSizeHeight / SizeControllerInstance->designResolutionSizeHeight;
+	}
 	else
-		MapView::Instance()->initialize(0, 0, int(SCREENSIZE_WIDTH / (MAP_CELL_SIZE*SCREENSIZE_HEIGHT / DESIGNRESOLUTIONSIZE_HEIGHT)) / 3 * 3, 15);
+	{
+		MapView::Instance()->initialize(0, 0, int(SizeControllerInstance->realityScreenSizeWidth / (SizeControllerInstance->designMapCellSize*SizeControllerInstance->realityScreenSizeHeight / SizeControllerInstance->designResolutionSizeHeight)) / 3 * 3, 15);
+		SizeControllerInstance->realityMapCellSize = SizeControllerInstance->designMapCellSize*SizeControllerInstance->realityScreenSizeHeight / SizeControllerInstance->designResolutionSizeHeight;
+	}
 }
 
 MapController::~MapController()

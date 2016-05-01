@@ -5,8 +5,6 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
-#include "engine/GlobalFun.h"
-
 USING_NS_CC;
 using namespace cocostudio::timeline;
 
@@ -44,7 +42,7 @@ void SpriteRole::initialize()
 	int x = 0, y = 0;
 	x = RoleInstance->getPositionX();
 	y = RoleInstance->getPositionY();
-	this->setPosition(Vec2(gX2CartesianX(x) + MAP_CELL_SIZE_HALF, gY2CartesianY(y) - MAP_CELL_SIZE_HALF));
+	this->setPosition(Vec2(SizeControllerInstance->gX2CartesianX(x) + SizeControllerInstance->designMapCellSize / 2.0, SizeControllerInstance->gY2CartesianY(y) - SizeControllerInstance->designMapCellSize / 2.0));
 	//////////////////////////////////////////////////////////////////////////
 }
 
@@ -62,8 +60,8 @@ void SpriteRole::refreshPosition()
 	auto action = MoveTo::create(
 		TimeSpriteMoveByMap,
 		Vec2(
-		gX2CartesianX(x) + MAP_CELL_SIZE_HALF,
-		gY2CartesianY(y) - MAP_CELL_SIZE_HALF
+		SizeControllerInstance->gX2CartesianX(x) + SizeControllerInstance->designMapCellSize / 2.0,
+		SizeControllerInstance->gY2CartesianY(y) - SizeControllerInstance->designMapCellSize / 2.0
 		)
 		);
 	// …Ë÷√ Flags

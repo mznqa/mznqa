@@ -37,21 +37,24 @@ public:
 		EMessage_MapMoveDown = 3,	///< 下移地图
 		EMessage_MapMoveLeft = 4,	///< 左移地图
 
-		EMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT = 100,		///< 卡片触摸事件-began
-		EMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT = 101,		///< 卡片触摸事件-moved
-		EMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT = 102,		///< 卡片触摸事件-ended
+		EMessage_RemoveHandCardByIndex_TIntT = 100,	///< 从手牌中移除指定卡
+		EMessage_PutCardRoad_TGXYT = 101,			///< 放置地形卡
 
-		EMessage_SpriteHandCard_TouchEvent_TouchBegan_TSpriteHandCardEventIndexT = 200,		///< 手牌触摸事件-began
-		EMessage_SpriteHandCard_TouchEvent_TouchMoved_TSpriteHandCardEventIndexT = 201,		///< 手牌触摸事件-moved
-		EMessage_SpriteHandCard_TouchEvent_TouchEnded_TSpriteHandCardEventIndexT = 202,		///< 手牌触摸事件-ended
+		EMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT = 200,		///< 卡片触摸事件-began
+		EMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT = 201,		///< 卡片触摸事件-moved
+		EMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT = 202,		///< 卡片触摸事件-ended
 
-		EMessage_Information_DataLoading_StaticData_MapMainMissionSetLoadSuccess = 300,	///< 成功载入静态数据：主线任务地图集合
-		EMessage_Information_DataLoading_StaticData_CardSkillSetLoadSuccess = 301,		///< 成功载入静态数据：技能卡集合
-		EMessage_Information_DataLoading_StaticData_CardRoadSetLoadSuccess = 302,		///< 成功载入静态数据：地形卡集合
+		EMessage_SpriteHandCard_TouchEvent_TouchBegan_TSpriteHandCardEventIndexT = 300,		///< 手牌触摸事件-began
+		EMessage_SpriteHandCard_TouchEvent_TouchMoved_TSpriteHandCardEventIndexT = 301,		///< 手牌触摸事件-moved
+		EMessage_SpriteHandCard_TouchEvent_TouchEnded_TSpriteHandCardEventIndexT = 302,		///< 手牌触摸事件-ended
 
-		EMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed = 400,	///< 载入静态数据时出错：地形卡集合
-		EMessage_Error_DataLoading_StaticData_CardSkillSetLoadFailed = 401,				///< 载入静态数据时出错：地形卡集合
-		EMessage_Error_DataLoading_StaticData_CardRoadSetLoadFailed = 402				///< 载入静态数据时出错：地形卡集合
+		EMessage_Information_DataLoading_StaticData_MapMainMissionSetLoadSuccess = 400,	///< 成功载入静态数据：主线任务地图集合
+		EMessage_Information_DataLoading_StaticData_CardSkillSetLoadSuccess = 401,		///< 成功载入静态数据：技能卡集合
+		EMessage_Information_DataLoading_StaticData_CardRoadSetLoadSuccess = 402,		///< 成功载入静态数据：地形卡集合
+
+		EMessage_Error_DataLoading_StaticData_CardMapMainMissionSetSetLoadFailed = 500,	///< 载入静态数据时出错：地形卡集合
+		EMessage_Error_DataLoading_StaticData_CardSkillSetLoadFailed = 501,				///< 载入静态数据时出错：地形卡集合
+		EMessage_Error_DataLoading_StaticData_CardRoadSetLoadFailed = 502				///< 载入静态数据时出错：地形卡集合
 	};
 
 	/*!

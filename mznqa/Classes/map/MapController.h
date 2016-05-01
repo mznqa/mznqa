@@ -17,6 +17,7 @@
 struct MapNode;
 class MapView;
 class MissionMap;
+class SizeController;
 
 /*!
  * \class	MapController
@@ -55,6 +56,8 @@ private:
 	 * \return	MapController 实例
 	 */
 	MapController& operator=(const MapController &mapController);
+
+	SizeController *const SizeControllerInstance;
 
 	/*! \brief	地图节点集合 */
 	std::vector<std::vector<MapNode>> mapNodeSet;

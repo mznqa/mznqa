@@ -17,7 +17,7 @@
  * \brief	屏幕尺寸-宽度
  *
  */
-#define SCREENSIZE_WIDTH (cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize().width)
+//#define SCREENSIZE_WIDTH (cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize().width)
 
 /*!
  * \def	SCREENSIZE_HEIGHT
@@ -25,10 +25,10 @@
  * \brief	屏幕尺寸-高度
  *
  */
-#define SCREENSIZE_HEIGHT (cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize().height)
+//#define SCREENSIZE_HEIGHT (cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize().height)
 
-#define VISIBLEORIGIN_X (cocos2d::Director::getInstance()->getVisibleOrigin().x)
-#define VISIBLEORIGIN_Y (cocos2d::Director::getInstance()->getVisibleOrigin().y)
+//#define VISIBLEORIGIN_X (cocos2d::Director::getInstance()->getVisibleOrigin().x)
+//#define VISIBLEORIGIN_Y (cocos2d::Director::getInstance()->getVisibleOrigin().y)
 
 /*!
  * \def	DESIGNRESOLUTIONSIZE_WIDTH
@@ -36,7 +36,7 @@
  * \brief	设计尺寸-宽度
  *
  */
-#define DESIGNRESOLUTIONSIZE_WIDTH 1920.0f
+//#define DESIGNRESOLUTIONSIZE_WIDTH 1920.0f
 
 /*!
  * \def	DESIGNRESOLUTIONSIZE_HEIGHT
@@ -44,7 +44,7 @@
  * \brief	设计尺寸-高度
  *
  */
-#define DESIGNRESOLUTIONSIZE_HEIGHT 1080.0f
+//#define DESIGNRESOLUTIONSIZE_HEIGHT 1080.0f
 
 /*!
  * \def	DESIGNRESOLUTIONSIZE_SCREENCENTER_HORIZONTAL
@@ -52,7 +52,7 @@
  * \brief	设计尺寸的屏幕中心的横坐标
  *
  */
-#define DESIGNRESOLUTIONSIZE_SCREENCENTER_HORIZONTAL 960.0f
+//#define DESIGNRESOLUTIONSIZE_SCREENCENTER_HORIZONTAL 960.0f
 
 /*!
  * \def	DESIGNRESOLUTIONSIZE_SCREENCENTER_VERTICAL
@@ -60,23 +60,25 @@
  * \brief	设计尺寸的屏幕中心的纵坐标
  *
  */
-#define DESIGNRESOLUTIONSIZE_SCREENCENTER_VERTICAL 540.0f
+//#define DESIGNRESOLUTIONSIZE_SCREENCENTER_VERTICAL 540.0f
 
 /*!
- * \def	MAP_CELL_SIZE
+ * \def	MAP_CELL_SIZE_DESIGN
  *
  * \brief	地图块的大小
  *
  */
-#define MAP_CELL_SIZE 64.0f
+#define MAP_CELL_SIZE_DESIGN 64.0f
 
 /*!
- * \def	MAP_CELL_SIZE_HALF
+ * \def	MAP_CELL_SIZE_DESIGN_HALF
  *
  * \brief	地图块大小的一半
  *
  */
-#define MAP_CELL_SIZE_HALF 32.0f
+#define MAP_CELL_SIZE_DESIGN_HALF 32.0f
+
+#define MAP_CELL_SIZE_REALITY
 
 /*!
  * \def	TIME_INVALIDVALUE

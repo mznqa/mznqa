@@ -21,6 +21,8 @@
 #include "map/MapController.h"
 #include "gameobject/Role.h"
 #include "cardController/CardControllerExplore.h"
+#include "engine/SizeController.h"
+#include "staticData/CardSet.h"
 
 /*!
  * \class	SceneGameMainState
@@ -77,6 +79,8 @@ private:
 	Role *const RoleInstance = Role::Instance();
 	/*! \brief	保存 CardControllerExplore::Instance() 的常量指针 */
 	CardControllerExplore *const cardControllerExploreInstance = CardControllerExplore::Instance();
+	SizeController *const SizeControllerInstance = SizeController::Instance();
+	CardSet *const CardSetInstance = CardSet::Instance();
 	//////////////////////////////////////////////////////////////////////////
 
 public:

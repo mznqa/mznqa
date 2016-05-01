@@ -89,6 +89,14 @@ MsgInterpreter::MsgInterpreter()
 		EngineMessagePQ::EMessage_SpriteHandCard_TouchEvent_TouchEnded_TSpriteHandCardEventIndexT,
 		LogicMessagePQ::LMessage_SpriteHandCard_TouchEvent_TouchEnded_TSpriteHandCardEventIndexT
 		));
+	msgMap.insert(std::pair < EngineMessagePQ::EMessage, LogicMessagePQ::LMessage>(
+		EngineMessagePQ::EMessage_RemoveHandCardByIndex_TIntT,
+		LogicMessagePQ::LMessage_RemoveHandCardByIndex_TIntT
+		));
+	msgMap.insert(std::pair < EngineMessagePQ::EMessage, LogicMessagePQ::LMessage>(
+		EngineMessagePQ::EMessage_PutCardRoad_TGXYT,
+		LogicMessagePQ::LMessage_PutCardRoad_TGXYT
+		));
 }
 
 MsgInterpreter::~MsgInterpreter()

@@ -46,6 +46,8 @@ public:
 
 	void showHandCardByIndex(int index);
 
+	void removeHandCardByIndex(int index);
+
 	void test();
 };
 

@@ -47,7 +47,7 @@ bool SceneGameMainState::enter(SceneGameMain *scene)
 	// 绘制参考线 //////////////////////////////////////////////////////////////////////////
 	auto ckx = cocos2d::Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_OTHER_REFERENCE_LINE);
 	ckx->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
-	ckx->setPosition(cocos2d::Vec2(VISIBLEORIGIN_X, DESIGNRESOLUTIONSIZE_HEIGHT));
+	ckx->setPosition(cocos2d::Vec2(SizeControllerInstance->realityVisibleOriginX, SizeControllerInstance->designResolutionSizeHeight));
 	scene->addChild(ckx);
 	//////////////////////////////////////////////////////////////////////////
 
@@ -81,90 +81,113 @@ bool SceneGameMainState::update(SceneGameMain *scene, double intervalTime)
 {
 	//cocos2d::log("[information] 开始执行场景 SceneGameMain 对应的状态机...");
 	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
-	// 转译消息
-	LogicMessagePQInstance->pushMessage(MsgInterpreterInstance->translation(EngineMessagePQInstance->getNextMessage()));
+	for (int i = 0; i < 10; ++i)
+	{
+		if (EngineMessagePQInstance->isEmpty() && LogicMessagePQInstance->isEmpty())
+			break;
 
-	// 获取消息
-	Message<LogicMessagePQ::LMessage> msg = LogicMessagePQInstance->getNextMessage();
-	// 处理消息
-	switch (msg.messageID)
-	{
-	case LogicMessagePQ::LMessage_MapViewMoveUp:
-	{
-		MapViewInstance->moveUp();
-	}
-	break;
-	case LogicMessagePQ::LMessage_MapViewMoveRight:
-	{
-		MapViewInstance->moveRight();
-	}
-	break;
-	case LogicMessagePQ::LMessage_MapViewMoveDown:
-	{
-		MapViewInstance->moveDown();
-	}
-	break;
-	case LogicMessagePQ::LMessage_MapViewMoveLeft:
-	{
-		MapViewInstance->moveLeft();
-	}
-	break;
-	case LogicMessagePQ::LMessage_RefreshMapPosition:
-	{
-		scene->layerMap->refreshPosition();
-	}
-	break;
-	case LogicMessagePQ::LMessage_RefreshRolePosition:
-	{
-		scene->spriteRole->refreshPosition();
-	}
-	break;
-	case LogicMessagePQ::LMessage_RefreshMapCellSpriteByGPointSet_TGPointSetT:
-	{
-		scene->layerMap->refreshMapCellWithGPointSet(*((GPointSet*)(msg.extras)));
-		GPointSet *p = (GPointSet*)(msg.extras);
-		delete p;
-		p = nullptr;
-	}
-	break;
-	case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT:
-	{
-		// nothing
-	}
-	break;
-	case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT:
-	{
-		// nothing
-	}
-	break;
-	case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT:
-	{
-		// nothing
-	}
-	case LogicMessagePQ::LMessage_SpriteHandCard_TouchEvent_TouchBegan_TSpriteHandCardEventIndexT:
-	{
-		scene->layerWorkbench->showHandCardByIndex(*((SpriteHandCard::EventIndex*)(msg.extras)));
-		SpriteHandCard::EventIndex *p = (SpriteHandCard::EventIndex*)(msg.extras);
-		delete p;
-		p = nullptr;
-	}
-	break;
-	case LogicMessagePQ::LMessage_SpriteHandCard_TouchEvent_TouchMoved_TSpriteHandCardEventIndexT:
-	{
-		// nothing
-	}
-	break;
-	case LogicMessagePQ::LMessage_SpriteHandCard_TouchEvent_TouchEnded_TSpriteHandCardEventIndexT:
-	{
-		// nothing
-	}
-	break;
-	default:
-	{
-		// 未被执行则反推
-		LogicMessagePQInstance->pushMessage(msg);
-	}
-	break;
+		// 转译消息
+		LogicMessagePQInstance->pushMessage(MsgInterpreterInstance->translation(EngineMessagePQInstance->getNextMessage()));
+
+		// 获取消息
+		Message<LogicMessagePQ::LMessage> msg = LogicMessagePQInstance->getNextMessage();
+		// 处理消息
+		switch (msg.messageID)
+		{
+		case LogicMessagePQ::LMessage_MapViewMoveUp:
+		{
+			MapViewInstance->moveUp();
+		}
+		break;
+		case LogicMessagePQ::LMessage_MapViewMoveRight:
+		{
+			MapViewInstance->moveRight();
+		}
+		break;
+		case LogicMessagePQ::LMessage_MapViewMoveDown:
+		{
+			MapViewInstance->moveDown();
+		}
+		break;
+		case LogicMessagePQ::LMessage_MapViewMoveLeft:
+		{
+			MapViewInstance->moveLeft();
+		}
+		break;
+		case LogicMessagePQ::LMessage_RefreshMapPosition:
+		{
+			scene->layerMap->refreshPosition();
+		}
+		break;
+		case LogicMessagePQ::LMessage_RefreshRolePosition:
+		{
+			scene->spriteRole->refreshPosition();
+		}
+		break;
+		case LogicMessagePQ::LMessage_RefreshMapCellSpriteByGPointSet_TGPointSetT:
+		{
+			scene->layerMap->refreshMapCellWithGPointSet(*((GPointSet*)(msg.extras)));
+			GPointSet *p = (GPointSet*)(msg.extras);
+			delete p;
+			p = nullptr;
+		}
+		break;
+		case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchBegan_TSpriteCardEventIndexT:
+		{
+			// nothing
+		}
+		break;
+		case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchMoved_TSpriteCardEventIndexT:
+		{
+			// nothing
+		}
+		break;
+		case LogicMessagePQ::LMessage_SpriteCard_TouchEvent_TouchEnded_TSpriteCardEventIndexT:
+		{
+			// nothing
+		}
+		case LogicMessagePQ::LMessage_SpriteHandCard_TouchEvent_TouchBegan_TSpriteHandCardEventIndexT:
+		{
+			scene->layerWorkbench->showHandCardByIndex(*((SpriteHandCard::EventIndex*)(msg.extras)));
+			SpriteHandCard::EventIndex *p = (SpriteHandCard::EventIndex*)(msg.extras);
+			delete p;
+			p = nullptr;
+		}
+		break;
+		case LogicMessagePQ::LMessage_SpriteHandCard_TouchEvent_TouchMoved_TSpriteHandCardEventIndexT:
+		{
+		}
+		break;
+		case LogicMessagePQ::LMessage_SpriteHandCard_TouchEvent_TouchEnded_TSpriteHandCardEventIndexT:
+		{
+			// nothing
+		}
+		break;
+		case LogicMessagePQ::LMessage_RemoveHandCardByIndex_TIntT:
+		{
+			int *p = (int*)(msg.extras);
+			scene->layerWorkbench->removeHandCardByIndex(*p);
+			delete p;
+			p = nullptr;
+		}
+		break;
+		case LogicMessagePQ::LMessage_PutCardRoad_TGXYT:
+		{
+			GXY *p = (GXY*)(msg.extras);
+			int x = p->x * 3;
+			int y = p->y * 3;
+			MapControllerInstance->putCardRoad(*(CardSetInstance->getCardRoadByID(1234)), GRect(x, y, x + 2, y + 2));
+			delete p;
+			p = nullptr;
+		}
+		break;
+		default:
+		{
+			// 未被执行则反推
+			LogicMessagePQInstance->pushMessage(msg);
+		}
+		break;
+		}
 	}
 	//////////////////////////////////////////////////////////////////////////
 

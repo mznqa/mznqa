@@ -105,6 +105,18 @@ void LayerWorkbench::showHandCardByIndex(int index)
 	handCardSet[index]->changeState(SpriteHandCard::HandCardState_AtStateShow);
 }
 
+void LayerWorkbench::removeHandCardByIndex(int index)
+{
+	if (0 > index || index >= handCardSet.size())
+		return;
+
+	if (handCardSet[index] == nullptr)
+		return;
+
+	handCardSet[index]->removeFromParent();
+	handCardSet[index] = nullptr;
+}
+
 void LayerWorkbench::test()
 {
 	handCardSet[0] = (SpriteHandCard::create());
