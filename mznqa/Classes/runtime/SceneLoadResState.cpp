@@ -78,8 +78,8 @@ bool SceneLoadResState::update(SceneLoadRes *scene, double intervalTime)
 
 	/*DeltaTableHistory th;
 	th.test();*/
-	DeltaTableHistory t;
-	t.text();
+	/*DeltaTableHistory t;
+	t.text();*/
 
 	//////////////////////////////////////////////////////////////////////////
 

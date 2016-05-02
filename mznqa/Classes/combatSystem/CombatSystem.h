@@ -140,6 +140,16 @@ public:
 	 */
 	bool judgeEndToCombat();
 
+	static EffectPQ& getEffectPQ()
+	{
+		return epq;
+	}
+
+	static int& getRound()
+	{
+		return round;
+	}
+
 	//测试单元
 	void test();
 
@@ -148,7 +158,7 @@ private:
 	static int round;
 
 	/*! \brief	效果队列集合（包含角色和怪物的效果队列） */
-	EffectPQ epq;
+	static EffectPQ epq;
 
 	/*! \brief	角色选定的用于战斗的技能卡 */
 	int roleUseCardId = CardBase::invalidID;

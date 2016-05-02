@@ -49,7 +49,10 @@ public:
 	 * \brief	构造函数
 	 *
 	 */
-	Monster();
+	Monster()
+	{
+
+	}
 
 	/*!
 	 * \fn	Monster::~Monster();
@@ -57,7 +60,10 @@ public:
 	 * \brief	析构函数
 	 *
 	 */
-	~Monster();
+	~Monster()
+	{
+
+	}
 
 	/*! \brief	战斗场景下的卡牌管理器 */
 	CardControllerCombat cardControllerCombat;

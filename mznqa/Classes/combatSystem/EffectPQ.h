@@ -12,6 +12,7 @@
 #include <queue>
 #include <functional>
 #include <vector>
+#include "effect/Effect.h"
 
 #include "card/CardBase.h"
 
@@ -31,6 +32,12 @@ struct EffectAffixes
 
 	/*! \brief	指向技能卡 cardId 中的效果的索引 */
 	int effectIndex;
+
+	Effect::Releaser releaser;
+	Effect::Receiver receiver;
+	Effect::ExcuteStyle excuteStyle;
+	int efRound;
+	EffectAffixes(){}
 
 	/*! \brief	无效的优先级 */
 	static const int invalidLevelValue = -1;

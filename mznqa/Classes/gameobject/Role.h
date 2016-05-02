@@ -79,7 +79,14 @@ private:
 	int additionalBloodlValueMax;
 	/*! \brief	角色护甲附加上限实时量 */
 	int additionalArmorValueMax;
-
+	/* \brief	角色实时手牌数 */
+	int handCardCount;
+	/* \brief	角色每回合内可抽牌数 */
+	int drawCardCount;
+	/* \brief	角色每回合内可出牌数 */
+	int discardCount;
+	/* \brief	角色每回合内可抽牌数上限 */
+	int handCardCountMax;
 	/*!
 	 * \fn	void Role::checkLevelValue()
 	 *
@@ -477,6 +484,173 @@ public:
 		else
 		{
 			cocos2d::log("[warning] 尝试设置附加的护甲上限为%d，这将会导致实际的护甲上限为合法的值", additionalArmorValueMax + delta);
+		}
+	}
+
+	/*！
+	 * \fn	int Role::getHandCardCount()
+	 *
+	 * \brief	获取角色当前手牌数
+	 *
+	 * \return	返回角色当前手牌数
+	 */
+	int getHandCardCount()
+	{
+		return handCardCount;
+	}
+
+	/*！
+	 * \fn	void Role::setHandCardCount(int handCardCount)
+	 *
+	 * \brief	根据给定的值来设置角色手牌数
+	 *
+	 * \param	handCardCount	指定将用于设置角色手牌数的值
+	 */
+
+	void setHandCardCount(int handCardCount)
+	{
+		if (handCardCount < this->handCardCountMax && handCardCount >= 0)
+		{
+			this->handCardCount = handCardCount;
+		}
+		else
+		{
+			cocos2d::log("[warning] 尝试设置手牌数量为%d,这将导致实际的手牌数量为不合法的值", handCardCount);
+		}
+	}
+
+	/*！
+	 * \fn	void Role::updateHandCount(int delta)
+	 *
+	 * \brief	根据给定的增减量来更新角色的手牌数
+	 *
+	 * \param	delta	指定将用于更新角色的手牌数的值
+	 */
+	void updateHandCount(int delta)
+	{
+		int temp = this->handCardCount + delta;
+		if (temp <= this->handCardCountMax )
+		{
+			this->handCardCount = temp;
+		}
+		else
+		{
+			cocos2d::log("[warning] 尝试设置手牌数量为%d,这将导致实际的手牌数量为不合法的值", handCardCount);
+		}
+	}
+
+	/*！
+	 * \fn	int Role::getHandCardCountMax()
+	 *
+	 * \brief	获取角色当前手牌数上限值
+	 *
+	 * \return	返回角色当前手牌数上限值
+	 */
+	int getHandCardCountMax()
+	{
+		return handCardCountMax;
+	}
+
+	/*！
+	 * \fn	int Role::getDrawCardCount()
+	 *
+	 * \brief	获取角色每回合内可抽牌数
+	 *
+	 * \return	返回角色每回合内可抽牌数
+	 */
+	int getDrawCardCount()
+	{
+		return drawCardCount;
+	}
+
+	/*！
+	 * \fn	void Role::setDrawCardCount(int drawCardCount)
+	 *
+	 * \brief	根据给定的值来设置角色每回合内的可抽牌数
+	 *
+	 * \param	drawCardCount	指定将用于设置角色每回合内的可抽牌数的值
+	 */
+	void setDrawCardCount(int drawCardCount)
+	{
+		if (drawCardCount >= 0)
+		{
+			this->drawCardCount = drawCardCount;
+		}
+		else
+		{
+			cocos2d::log("[warning] 尝试设置角色每回合内可抽牌数为%d,这将导致实际的可抽牌数量为不合法的值", drawCardCount);
+		}
+	}
+
+	/*！
+	 * \fn	void Role::updateDrawCardCount(int delta)
+	 *
+	 * \brief	根据给定的增减量来更新角色每回合内可抽牌数
+	 *
+	 * \param	delta	指定将用于更新角色每回合内可抽牌数的值
+	 */
+	void updateDrawCardCount(int delta)
+	{
+		int temp = this->drawCardCount + delta;
+		if (temp >= 0)
+		{
+			this->drawCardCount = temp;
+		}
+		else
+		{
+			cocos2d::log("[warning] 尝试设置角色每回合内可抽牌数为%d,这将导致实际的可抽牌数量为不合法的值", drawCardCount);
+		}
+	}
+
+
+	/*！
+	 * \fn	int Role::getDiscardCount()
+	 *
+	 * \brief	获取角色每回合内可出牌数
+	 *
+	 * \return	返回角色每回合内可出牌数
+	 */
+	int getDiscardCount()
+	{
+		return discardCount;
+	}
+
+	/*！
+	 * \fn	void Role::setDiscardCount(int discardCount)
+	 *
+	 * \brief	根据给定的值设置角色每回合内的可出牌数
+	 *
+	 * \param	discardCount	指定将用于设置角色每回合内的可出牌数的值
+	 */
+	void setDiscardCount(int discardCount)
+	{
+		if (discardCount >= 0)
+		{
+			this->discardCount = discardCount;
+		}
+		else
+		{
+			cocos2d::log("[warning] 尝试设置角色每回合内可出牌数为%d,这将导致实际的可出牌数量为不合法的值", discardCount);
+		}
+	}
+
+	/*！
+	 * \fn	void Role::updateDiscardCount(int delta)
+	 *
+	 * \brief	根据给定的增减量来更新角色每回合内可出牌数
+	 *
+	 * \param	delta	指定将用于更新角色每回合内可出牌数的值
+	 */
+	void updateDiscardCount(int delta)
+	{
+		int temp = this->discardCount + delta;
+		if (temp >= 0)
+		{
+			this->discardCount = temp;
+		}
+		else
+		{
+			cocos2d::log("[warning] 尝试设置角色每回合内可出牌数为%d,这将导致实际的可出牌数量为不合法的值", discardCount);
 		}
 	}
 
