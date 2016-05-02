@@ -10,8 +10,6 @@
 
 int CombatSystem::round = 0;
 
-
-
 EffectPQ CombatSystem::epq;
 
 CombatSystem::CombatSystem()
@@ -185,8 +183,9 @@ void CombatSystem::executeGlobalOperation()
 	cocos2d::log("<<<<<<<<<<<<<<<进入全局操作<<<<<<<<<<<<<<<<<");
 	round++;
 
-	EffectFunInterface::Instance()->getDeltaTableHistory().addTotalRoleHistory(round);
-	EffectFunInterface::Instance()->getDeltaTableHistory().addTotalMonsterHistory(round);
+	//添加当前回合的历史效果总表
+	CombatSystemInterface::Instance()->getDeltaTableHistory().addTotalRoleHistory(round);
+	CombatSystemInterface::Instance()->getDeltaTableHistory().addTotalMonsterHistory(round);
 
 	epq.decreaseRoleEffectLevel();
 	epq.decreaseMonsterEffectLevel();
@@ -197,8 +196,6 @@ void CombatSystem::executeGlobalOperation()
 	// 清空已有卡
 	roleUseCardId = CardBase::invalidID;
 	monsterUseCardId = CardBase::invalidID;
-
-
 
 	cocos2d::log(">>>>>>>>>>>>>>>退出全局操作>>>>>>>>>>>>>>>>>");
 }
@@ -215,23 +212,16 @@ void CombatSystem::executeRoleBeforeTheCombatOperation()
 			return;
 		}
 
-		
-
 		// 如果该效果不是在该位置执行的效果
 		if (CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getExcuteStyle() != Effect::ExcuteStyle_Before)
 			continue;
-
 		
-		EffectFunInterface::Instance()->setEffectArgs(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
+		CombatSystemInterface::Instance()->setEffectArgs(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
 		ea.efRound = this->round;
-		EffectFunInterface::Instance()->setEffectAffixes(ea);
+		CombatSystemInterface::Instance()->setEffectAffixes(ea);
 		
-
-		
-
 		//执行角色战斗前的效果
-		/*EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());*/
-		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(EffectFunInterface::Instance());
+		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CombatSystemInterface::Instance());
 		epq.popRoleEffectAffixes(ea);
 	}
 	cocos2d::log(">>>>>>>>>>>>>>>退出角色战斗前操作>>>>>>>>>>>>");
@@ -254,14 +244,12 @@ void CombatSystem::excuteRoleInCombatOperation()
 		if (CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getExcuteStyle() != Effect::ExcuteStyle_In)
 			continue;
 
-		EffectFunInterface::Instance()->setEffectArgs(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
+		CombatSystemInterface::Instance()->setEffectArgs(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
 		ea.efRound = this->round;
-		EffectFunInterface::Instance()->setEffectAffixes(ea);
+		CombatSystemInterface::Instance()->setEffectAffixes(ea);
 
 		//执行角色战斗时效果
-		/*EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());*/
-
-		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(EffectFunInterface::Instance());
+		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CombatSystemInterface::Instance());
 		epq.popRoleEffectAffixes(ea);
 
 	}
@@ -284,14 +272,12 @@ void CombatSystem::excuteRoleAfterCombatOperation()
 		if (CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getExcuteStyle() != Effect::ExcuteStyle_After)
 			continue;
 
-		EffectFunInterface::Instance()->setEffectArgs(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
+		CombatSystemInterface::Instance()->setEffectArgs(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
 		ea.efRound = this->round;
-		EffectFunInterface::Instance()->setEffectAffixes(ea);
+		CombatSystemInterface::Instance()->setEffectAffixes(ea);
 
 		//执行角色战斗后效果
-		/*EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());*/
-
-		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(EffectFunInterface::Instance());
+		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CombatSystemInterface::Instance());
 		epq.popRoleEffectAffixes(ea);
 	}
 	cocos2d::log(">>>>>>>>>>>>>>>退出角色战斗后操作>>>>>>>>>>>>");
@@ -313,15 +299,12 @@ void CombatSystem::executeMonsterBeforeTheCombatOperator()
 		if (CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getExcuteStyle() != Effect::ExcuteStyle_Before)
 			continue;
 
-		EffectFunInterface::Instance()->setEffectArgs(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
+		CombatSystemInterface::Instance()->setEffectArgs(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
 		ea.efRound = this->round;
-		EffectFunInterface::Instance()->setEffectAffixes(ea);
+		CombatSystemInterface::Instance()->setEffectAffixes(ea);
 
 		//执行怪物战斗前的效果
-		/*EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
-		epq.popMonsterEffectAffixes(ea);*/
-
-		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(EffectFunInterface::Instance());
+		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CombatSystemInterface::Instance());
 		epq.popMonsterEffectAffixes(ea);
 	}
 	cocos2d::log(">>>>>>>>>>>>>>>退出怪物战斗前操作>>>>>>>>>>>>");
@@ -337,25 +320,22 @@ void CombatSystem::excuteMonsterInCombatOperator()
 		EffectAffixes ea = epq.getMonsterEffectAffixesByInterval(EffectPQ::EffectLevelInterval::EffectLevelInterval_In_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_In_Right);
 		if (ea.cardId == EffectAffixes::invalidCardIdValue)
 		{
-			cocos2d::log(">>>>>>>>>>>>>>>退出怪物战斗前操作>>>>>>>>>>>>");
+			cocos2d::log(">>>>>>>>>>>>>>>退出怪物战斗时操作>>>>>>>>>>>>");
 			return;
 		}
 		// 如果该效果不是在该位置执行的效果
 		if (CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getExcuteStyle() != Effect::ExcuteStyle_In)
 			continue;
 
-		EffectFunInterface::Instance()->setEffectArgs(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
+		CombatSystemInterface::Instance()->setEffectArgs(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
 		ea.efRound = this->round;
-		EffectFunInterface::Instance()->setEffectAffixes(ea);
+		CombatSystemInterface::Instance()->setEffectAffixes(ea);
 
 		//执行怪物战斗时的效果
-		/*EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
-		epq.popMonsterEffectAffixes(ea);*/
-		
-		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(EffectFunInterface::Instance());
+		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CombatSystemInterface::Instance());
 		epq.popMonsterEffectAffixes(ea);
 	}
-	cocos2d::log(">>>>>>>>>>>>>>>退出怪物战斗前操作>>>>>>>>>>>>");
+	cocos2d::log(">>>>>>>>>>>>>>>退出怪物战斗时操作>>>>>>>>>>>>");
 	return;
 }
 
@@ -367,25 +347,22 @@ void CombatSystem::excuteMonsterAfterCombatOperator()
 		EffectAffixes ea = epq.getMonsterEffectAffixesByInterval(EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right);
 		if (ea.cardId == EffectAffixes::invalidCardIdValue)
 		{
-			cocos2d::log(">>>>>>>>>>>>>>>退出怪物战斗前操作>>>>>>>>>>>>");
+			cocos2d::log(">>>>>>>>>>>>>>>退出怪物战斗后操作>>>>>>>>>>>>");
 			return;
 		}
 		// 如果该效果不是在该位置执行的效果
 		if (CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getExcuteStyle() != Effect::ExcuteStyle_After)
 			continue;
 
-		EffectFunInterface::Instance()->setEffectArgs(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
+		CombatSystemInterface::Instance()->setEffectArgs(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
 		ea.efRound = this->round;
-		EffectFunInterface::Instance()->setEffectAffixes(ea);
+		CombatSystemInterface::Instance()->setEffectAffixes(ea);
 
 		//执行怪物战斗后的效果
-		/*	EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getArgs());
-			epq.popMonsterEffectAffixes(ea);*/
-
-		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(EffectFunInterface::Instance());
+		EffectFunSet::getFunByIndex(CardSet::Instance()->getCardSkillByID(ea.cardId)->getEffectSet().at(ea.effectIndex).getFunIndex())(CombatSystemInterface::Instance());
 		epq.popMonsterEffectAffixes(ea);
 	}
-	cocos2d::log(">>>>>>>>>>>>>>>退出怪物战斗前操作>>>>>>>>>>>>");
+	cocos2d::log(">>>>>>>>>>>>>>>退出怪物战斗后操作>>>>>>>>>>>>");
 	return;
 }
 

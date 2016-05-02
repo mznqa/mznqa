@@ -140,11 +140,25 @@ public:
 	 */
 	bool judgeEndToCombat();
 
+	/*！
+	 * \fn	static EffectPQ& CombatSystem::getEffectPQ()
+	 *
+	 * \brief	获取效果队列集合（包含角色和怪物的效果队列）
+	 *
+	 * \return	返回效果队列集合
+	 */
 	static EffectPQ& getEffectPQ()
 	{
 		return epq;
 	}
 
+	/*！
+	 * \fn	static int& CombatSystem::getRound()
+	 *
+	 * \brief	获取战斗回合数
+	 *
+	 * \return	返回战斗回合数
+	 */
 	static int& getRound()
 	{
 		return round;

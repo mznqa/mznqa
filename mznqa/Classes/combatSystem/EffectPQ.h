@@ -13,13 +13,12 @@
 #include <functional>
 #include <vector>
 #include "effect/Effect.h"
-
 #include "card/CardBase.h"
 
 /*!
  * \struct	EffectAffixes
  *
- * \brief	由于推入到效果队列的元素
+ * \brief	用于推入到效果队列的元素
  *
  */
 struct EffectAffixes
@@ -33,11 +32,24 @@ struct EffectAffixes
 	/*! \brief	指向技能卡 cardId 中的效果的索引 */
 	int effectIndex;
 
+	/* \brief	效果的释放者 */
 	Effect::Releaser releaser;
+	/* \brief	指向技能卡 cardId 中的效果的接收者 */
 	Effect::Receiver receiver;
+	/* \brief	标识效果在哪个阶段执行 */
 	Effect::ExcuteStyle excuteStyle;
+	/* \brief	标识效果在第几回合执行 */
 	int efRound;
-	EffectAffixes(){}
+
+	/*！
+	 * \fn	EffectAffixes()
+	 *
+	 * \brief	默认的构造函数
+	 */
+	EffectAffixes()
+	{
+
+	}
 
 	/*! \brief	无效的优先级 */
 	static const int invalidLevelValue = -1;

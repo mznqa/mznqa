@@ -1,14 +1,10 @@
 #pragma execution_character_set("utf-8")
 
 #include "combatSystem/DeltaTableHistory.h"
-
 #include <vector>
-
-#include "cocos2d.h"
-
 #include "combatSystem/DeltaTable.h"
-
 #include "EffectPQ.h"
+#include "cocos2d.h"
 
 DeltaTableHistory::DeltaTableHistory()
 {
@@ -18,19 +14,14 @@ DeltaTableHistory::~DeltaTableHistory()
 {
 }
 
-
-//添加角色表
 bool DeltaTableHistory::addTableRoleHistory(const DeltaTable& dt)
 {
 	auto itIndex = tableRoleHistory.begin() + roundRoleHistory[dt.roundNumber - 1].total;
 
 	if (dt.roundNumber == roundNumberRole)
 	{
-		//tableRoleHistory.push_back(dt);
 		tableRoleHistory.insert(itIndex, dt);
-
 		int totalIndex = tableRoleHistory.size() - 1;
-
 		if (roundNumberRole == 1)
 		{
 			for (int n = tableRoleHistory.size() - 1; n > 0; --n)
@@ -43,7 +34,6 @@ bool DeltaTableHistory::addTableRoleHistory(const DeltaTable& dt)
 					}
 				}
 			}
-
 
 			for (int i = tableRoleHistory.size() - 1; i >= 0; --i)
 			{
@@ -80,7 +70,6 @@ bool DeltaTableHistory::addTableRoleHistory(const DeltaTable& dt)
 				}
 			}
 
-
 			for (int i = tableRoleHistory.size() - 1; i > roundRoleHistory[roundNumberRole - 2].total; --i)
 			{
 				switch (tableRoleHistory[i].roundLevel)
@@ -103,6 +92,7 @@ bool DeltaTableHistory::addTableRoleHistory(const DeltaTable& dt)
 			}
 
 		}		
+		cocos2d::log("[information]: 成功添加一个角色历史效果(%d)",dt.ID);
 		return true;
 	}
 	else
@@ -111,58 +101,46 @@ bool DeltaTableHistory::addTableRoleHistory(const DeltaTable& dt)
 		{
 			++roundNumberRole;
 		}
-
 		addTableRoleHistory(dt);
 	}
-
-
-
-	cocos2d::log("[information]: 角色表添加成功！");
-	return true;
-
-
+	return false;
 }
 
-
-bool DeltaTableHistory::addTotalRoleHistory(int round)
+void DeltaTableHistory::addTotalRoleHistory(int round)
 {
+	//添加角色效果总表
 	DeltaTable total;
-
 	roundNumberRole = round;
 	total.roundNumber = roundNumberRole;
 	total.roundLevel = DeltaTable::RoundLevel_Total;
 	tableRoleHistory.push_back(total);
 
-
+	//添加角色回合结构体
 	DeltaRound dr;
 	dr.total = tableRoleHistory.size() - 1;
+	dr.roundNumber = round;
 	roundRoleHistory.push_back(dr);
-	
-	cocos2d::log("[information]: 总表添加成功！");
-	return true;
 }
 
 const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllRoleTable(int round)
 {
-	roundTemp.clear();
-	//存在指定回合的表
-	if (!roundRoleHistory.empty() && round <= roundNumberRole)
+	tableTemp.clear();
+	//若存在指定的回合数
+	if ( round <= roundNumberRole && round > 0)
 	{
 		std::vector<DeltaTable>::iterator it = tableRoleHistory.begin();
 		int beginIt = roundRoleHistory[round].before;
 		int endIt = roundRoleHistory[round].total;
-		roundTemp.resize(endIt - beginIt + 1);
-		copy(it + beginIt, it + endIt, roundTemp.begin());
-		
-		cocos2d::log("[information]:成功获取某回合内角色所有的表！");
+		tableTemp.resize(endIt - beginIt + 1);
+		copy(it + beginIt, it + endIt, tableTemp.begin());
 	}
-	return roundTemp;
+	return tableTemp;
 }
 
 const std::vector<DeltaTable>& DeltaTableHistory::getRoundRoleTable(int round, DeltaTable::RoundLevel index)
 {
-	roundTemp.clear();
-	if (!roundRoleHistory.empty() && round <= roundNumberRole)
+	tableTemp.clear();
+	if (round <= roundNumberRole)
 	{
 		std::vector<DeltaTable>::iterator it = tableRoleHistory.begin();
 		int beginIt;
@@ -186,53 +164,50 @@ const std::vector<DeltaTable>& DeltaTableHistory::getRoundRoleTable(int round, D
 			endIt = roundRoleHistory[round].total;
 			break;
 		default:
-			return roundTemp;
+			return tableTemp;
 			break;
 		}
-		roundTemp.resize(endIt - beginIt + 1);
-		copy(it + beginIt, it + endIt, roundTemp.begin());		
+		tableTemp.resize(endIt - beginIt + 1);
+		copy(it + beginIt, it + endIt, tableTemp.begin());		
 	}
-	return roundTemp;
+	return tableTemp;
 }
 
 const std::vector<DeltaTable>& DeltaTableHistory::getCurrentRoundRoleTable(int round)
 {
-	
-	roundTemp.clear();
+	tableTemp.clear();
 	if (round < 1)
 	{
-		return roundTemp;
+		return tableTemp;
 	}
 	int index = 0;
+	//若指定的回合数不是第1回合
 	if (round > 1)
 	{
-		index = roundRoleHistory.at(round - 2).total;
+		//获取当前回合历史效果的初始下标
+		index = roundRoleHistory.at(round - 2).total + 1;
 	}
-	auto itBegin = tableRoleHistory.begin() + index + 1;
+	auto itBegin = tableRoleHistory.begin() + index;
 	auto itEnd = tableRoleHistory.end();
 	for (; itBegin != itEnd; ++itBegin)
 	{
 		if (itBegin->roundNumber == round)
 		{
-			roundTemp.push_back(*itBegin);
+			tableTemp.push_back(*itBegin);
 			
 		}
 	}
-	return roundTemp;
+	return tableTemp;
 }
 
-//添加怪物表（包括总表）
 bool DeltaTableHistory::addTableMonsterHistory(DeltaTable dt)
 {
 
 	auto itIndex = tableMonsterHistory.begin() + roundMonsterHistory.at(dt.roundNumber - 1).total;
-
 	if (dt.roundNumber == roundNumberMonster)
 	{
 		tableMonsterHistory.insert(itIndex, dt);
-
 		int totalIndex = tableMonsterHistory.size() - 1;
-
 		if (roundNumberMonster == 1)
 		{
 			for (int n = tableMonsterHistory.size() - 1; n > 0; --n)
@@ -245,7 +220,6 @@ bool DeltaTableHistory::addTableMonsterHistory(DeltaTable dt)
 					}
 				}
 			}
-
 
 			for (int i = tableMonsterHistory.size() - 1; i >= 0; --i)
 			{
@@ -282,7 +256,6 @@ bool DeltaTableHistory::addTableMonsterHistory(DeltaTable dt)
 				}
 			}
 
-
 			for (int i = tableMonsterHistory.size() - 1; i > roundMonsterHistory[roundNumberMonster - 2].total; --i)
 			{
 				switch (tableMonsterHistory[i].roundLevel)
@@ -303,9 +276,9 @@ bool DeltaTableHistory::addTableMonsterHistory(DeltaTable dt)
 					break;
 				}
 			}
-
 		}
-
+		cocos2d::log("[information]: 成功添加一个怪物历史效果(%d)", dt.ID);
+		return true;
 	}
 	else
 	{
@@ -313,38 +286,48 @@ bool DeltaTableHistory::addTableMonsterHistory(DeltaTable dt)
 		{
 			++roundNumberMonster;
 		}
-
 		addTableMonsterHistory(dt);
-
 	}
-	return true;
-
-	
+	return false;
 }
 
 
 
+void DeltaTableHistory::addTotalMonsterHistory(int round)
+{
+	//添加角色效果总表
+	DeltaTable total;
+	roundNumberMonster = round;
+	total.roundNumber = roundNumberMonster;
+	total.roundLevel = DeltaTable::RoundLevel_Total;
+	tableMonsterHistory.push_back(total);
+
+	//添加角色回合结构体
+	DeltaRound dr;
+	dr.total = tableMonsterHistory.size() - 1;
+	dr.roundNumber = round;
+	roundMonsterHistory.push_back(dr);
+}
+
 const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllMonsterTable(int round)
 {
-	roundTemp.clear();
-	//存在指定回合的表
-	if (!roundMonsterHistory.empty() && round <= roundNumberMonster)
+	tableTemp.clear();
+	//若存在指定的回合数
+	if (round <= roundNumberMonster && round > 0)
 	{
 		std::vector<DeltaTable>::iterator it = tableMonsterHistory.begin();
 		int beginIt = roundMonsterHistory[round].before;
 		int endIt = roundMonsterHistory[round].total;
-		roundTemp.resize(endIt - beginIt + 1);
-		copy(it + beginIt, it + endIt, roundTemp.begin());
-
-		cocos2d::log("[information]:成功获取某回合内怪物所有的表！");
+		tableTemp.resize(endIt - beginIt + 1);
+		copy(it + beginIt, it + endIt, tableTemp.begin());
 	}
-	return roundTemp;
+	return tableTemp;
 }
 
 const std::vector<DeltaTable>& DeltaTableHistory::getRoundMonsterTable(int round, DeltaTable::RoundLevel index)
 {
-	roundTemp.clear();
-	if (!roundMonsterHistory.empty() && round <= roundNumberMonster)
+	tableTemp.clear();
+	if (round <= roundNumberMonster && round > 0)
 	{
 		std::vector<DeltaTable>::iterator it = tableMonsterHistory.begin();
 		int beginIt;
@@ -368,26 +351,28 @@ const std::vector<DeltaTable>& DeltaTableHistory::getRoundMonsterTable(int round
 			endIt = roundMonsterHistory[round].total;
 			break;
 		default:
-			return roundTemp;
+			return tableTemp;
 			break;
 		}
-		roundTemp.resize(endIt - beginIt + 1);
-		copy(it + beginIt, it + endIt, roundTemp.begin());
+		tableTemp.resize(endIt - beginIt + 1);
+		copy(it + beginIt, it + endIt, tableTemp.begin());
 	}
-	return roundTemp;
+	return tableTemp;
 }
 
 const std::vector<DeltaTable>& DeltaTableHistory::getCurrentRoundMonsterTable(int round)
 {
-	roundTemp.clear();
+	tableTemp.clear();
 	if (round < 1)
 	{
-		return roundTemp;
+		return tableTemp;
 	}
 	int index = 0;
+	//若指定的回合数不是第1回合
 	if (round > 1)
 	{
-		index = roundMonsterHistory.at(round - 2).total;
+		//获取当前回合历史效果的初始下标
+		index = roundMonsterHistory.at(round - 2).total + 1;
 	}
 	auto itBegin = tableMonsterHistory.begin() + index;
 	auto itEnd = tableMonsterHistory.end();
@@ -395,32 +380,14 @@ const std::vector<DeltaTable>& DeltaTableHistory::getCurrentRoundMonsterTable(in
 	{
 		if (itBegin->roundNumber == round)
 		{
-			roundTemp.push_back(*itBegin);
+			tableTemp.push_back(*itBegin);
 		}
 	}
-	return roundTemp;
-}
-
-bool DeltaTableHistory::addTotalMonsterHistory(int round)
-{
-	DeltaTable total;
-
-	roundNumberMonster = round;
-	total.roundNumber = roundNumberMonster;
-	total.roundLevel = DeltaTable::RoundLevel_Total;
-	tableMonsterHistory.push_back(total);
-
-
-	DeltaRound dr;
-	dr.total = tableMonsterHistory.size() - 1;
-	roundMonsterHistory.push_back(dr);
-
-	cocos2d::log("[information]: 总表添加成功！");
-	return true;
+	return tableTemp;
 }
 
 
-void DeltaTableHistory::text()
+void DeltaTableHistory::test()
 {
 	cocos2d::log("进入Text    *******************************************************");
 	
