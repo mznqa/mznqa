@@ -10,11 +10,11 @@ USING_NS_CC;
 // 定义设计尺寸
 static cocos2d::Size designResolutionSize = cocos2d::Size(1920.0, 1080.0);
 
-// 定义最小支持尺寸
+// 定义最小分辨率资源的适配尺寸
 static cocos2d::Size smallResolutionSize = cocos2d::Size(480.0, 270.0);
-// 定义中等支持尺寸
+// 定义中等分辨率资源的适配尺寸
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(960.0, 540.0);
-// 定义最高支持尺寸
+// 定义最高分辨率资源的适配尺寸
 static cocos2d::Size largeResolutionSize = cocos2d::Size(1920.0, 1080.0);
 //////////////////////////////////////////////////////////////////////////
 
@@ -42,7 +42,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	auto glview = director->getOpenGLView();
 	if (!glview)
 	{
-		// !!!DEBUG!!! 此处为调试用，在win32、mac、linux平台窗口化运行，在android等移动设备全屏幕运行
+		// 此处为调试用，在win32、mac、linux平台窗口化运行，在android等移动设备全屏幕运行
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 		glview = GLViewImpl::createWithRect("mznqa", Rect(0, 0, 960, 540));
 #else
@@ -53,30 +53,44 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	}
 
 	// 用于支持多分辨率的操作 //////////////////////////////////////////////////////////////////////////
+	// 设置设计分辨率
 	glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+	// 获取实际分辨率
 	Size frameSize = glview->getFrameSize();
+	// 以下基于设备的实际分辨率宽度来选择指定适配的资源，并设置资源的缩放系数 //////////////////////////////////////////////////////////////////////////
+	// 如果实际分辨率（水平方向）大于预定义的中等适配分辨率
 	if (frameSize.width > mediumResolutionSize.width)
 	{
+		// 则采用HDR下的资源
 		FileUtils::getInstance()->addSearchPath("res/images/HDR");
+		// 并设置资源的缩放系数
 		director->setContentScaleFactor(largeResolutionSize.width / designResolutionSize.width);
 	}
+	// 如果实际分辨率（水平方向），小于或等于预定义的中等适配分辨率，而大于预定义的最小适配分辨率
 	else if (frameSize.width > smallResolutionSize.width)
 	{
+		// 则采用HD下的资源
 		FileUtils::getInstance()->addSearchPath("res/images/HD");
+		// 并设置资源的缩放系数
 		director->setContentScaleFactor(mediumResolutionSize.width / designResolutionSize.width);
 	}
+	// 如果实际分辨率（水平方向）小于等于预定义的最小适配分辨率
 	else
 	{
+		// 则采用SD下的资源
 		FileUtils::getInstance()->addSearchPath("res/images/SD");
+		// 并设置资源的缩放系数
 		director->setContentScaleFactor(smallResolutionSize.width / designResolutionSize.width);
 	}
 	//////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
 
+	// FPS 有关 //////////////////////////////////////////////////////////////////////////
 	// 显示 FPS
 	director->setDisplayStats(true);
-
 	// 设置 FPS
 	director->setAnimationInterval(float(1.0 / 60.0));
+	//////////////////////////////////////////////////////////////////////////
 
 	// 添加资源搜索目录
 	FileUtils::getInstance()->addSearchPath("res");
@@ -88,14 +102,22 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	// 运行场景
 	director->runWithScene(scene);
 
+	// 记录相关尺寸信息 //////////////////////////////////////////////////////////////////////////
+	// 记录设计分辨率 //////////////////////////////////////////////////////////////////////////
 	SizeController::Instance()->designResolutionSizeWidth = director->getOpenGLView()->getDesignResolutionSize().width;
 	SizeController::Instance()->designResolutionSizeHeight = director->getOpenGLView()->getDesignResolutionSize().height;
+	//////////////////////////////////////////////////////////////////////////
 
+	// 记录实际分辨率 //////////////////////////////////////////////////////////////////////////
 	SizeController::Instance()->realityScreenSizeWidth = director->getOpenGLView()->getFrameSize().width;
 	SizeController::Instance()->realityScreenSizeHeight = director->getOpenGLView()->getFrameSize().height;
+	//////////////////////////////////////////////////////////////////////////
 
+	// 记录可视区域的左边原点 //////////////////////////////////////////////////////////////////////////
 	SizeController::Instance()->realityVisibleOriginX = director->getOpenGLView()->getVisibleOrigin().x;
 	SizeController::Instance()->realityVisibleOriginY = director->getOpenGLView()->getVisibleOrigin().y;
+	//////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
 
 	return true;
 }

@@ -112,7 +112,7 @@ void LayerMap::loadMapFromMapController()
 				*it2 = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_FENCE);
 
 			(*it2)->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-			(*it2)->setPosition(Vec2(x*MAP_CELL_SIZE_DESIGN + MAP_CELL_SIZE_DESIGN_HALF, -(y*MAP_CELL_SIZE_DESIGN + MAP_CELL_SIZE_DESIGN_HALF)));
+			(*it2)->setPosition(Vec2(x*SizeControllerInstance->designMapCellSize + SizeControllerInstance->designMapCellSize / 2.0, -(y*SizeControllerInstance->designMapCellSize + SizeControllerInstance->designMapCellSize / 2.0)));
 
 			addChild(*it2);
 			++it2;
@@ -168,7 +168,7 @@ void LayerMap::refreshMapCellWithGPointSet(const GPointSet &gPointSet)
 			mapCellSet.at(y).at(x) = Sprite::createWithSpriteFrameName(FILE_PATH_SPRITE_MAP_CELL_FENCE);
 
 		mapCellSet.at(y).at(x)->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		mapCellSet.at(y).at(x)->setPosition(Vec2(x*MAP_CELL_SIZE_DESIGN + MAP_CELL_SIZE_DESIGN_HALF, -(y*MAP_CELL_SIZE_DESIGN + MAP_CELL_SIZE_DESIGN_HALF)));
+		mapCellSet.at(y).at(x)->setPosition(Vec2(x*SizeControllerInstance->designMapCellSize + SizeControllerInstance->designMapCellSize / 2.0, -(y*SizeControllerInstance->designMapCellSize + SizeControllerInstance->designMapCellSize / 2.0)));
 
 		addChild(mapCellSet.at(y).at(x));
 
