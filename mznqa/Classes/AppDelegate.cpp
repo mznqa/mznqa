@@ -1,7 +1,6 @@
 #pragma execution_character_set("utf-8")
 
 #include "AppDelegate.h"
-#include "engine/SceneDebug.h"
 
 USING_NS_CC;
 
@@ -41,7 +40,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	auto glview = director->getOpenGLView();
 	if (!glview)
 	{
-		// !!!DEBUG!!! 此处为调试用，在win32、mac、linux平台窗口化运行，在android等移动设备全屏幕运行
+		// 此处为调试用，在win32、mac、linux平台窗口化运行，在android等移动设备全屏幕运行
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 		glview = GLViewImpl::createWithRect("mznqa", Rect(0, 0, 960, 540));
 #else
@@ -52,7 +51,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	}
 
 	// 用于支持多分辨率的操作 //////////////////////////////////////////////////////////////////////////
-	glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+	glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::FIXED_WIDTH);
 	Size frameSize = glview->getFrameSize();
 	if (frameSize.width > mediumResolutionSize.width)
 	{
@@ -79,13 +78,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	// 添加资源搜索目录
 	FileUtils::getInstance()->addSearchPath("res");
-
-	// 创建一个场景用于首次载入
-	// 这里使用SceneDebug场景仅用于引导
-	auto scene = SceneDebug::createScene();
-
-	// 运行场景
-	director->runWithScene(scene);
 
 	return true;
 }
