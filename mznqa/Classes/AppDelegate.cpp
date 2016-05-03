@@ -2,19 +2,9 @@
 
 #include "AppDelegate.h"
 
+#include "interactive/manager/TargetInfo.h"
+
 USING_NS_CC;
-
-// 用于支持多分辨率的操作 //////////////////////////////////////////////////////////////////////////
-// 定义设计尺寸
-static cocos2d::Size designResolutionSize = cocos2d::Size(1920.0, 1080.0);
-
-// 定义最小支持尺寸
-static cocos2d::Size smallResolutionSize = cocos2d::Size(480.0, 270.0);
-// 定义中等支持尺寸
-static cocos2d::Size mediumResolutionSize = cocos2d::Size(960.0, 540.0);
-// 定义最高支持尺寸
-static cocos2d::Size largeResolutionSize = cocos2d::Size(1920.0, 1080.0);
-//////////////////////////////////////////////////////////////////////////
 
 AppDelegate::AppDelegate() {
 }
@@ -50,25 +40,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 		director->setOpenGLView(glview);
 	}
 
-	// 用于支持多分辨率的操作 //////////////////////////////////////////////////////////////////////////
-	glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::FIXED_WIDTH);
-	Size frameSize = glview->getFrameSize();
-	if (frameSize.width > mediumResolutionSize.width)
-	{
-		FileUtils::getInstance()->addSearchPath("res/images/HDR");
-		director->setContentScaleFactor(largeResolutionSize.width / designResolutionSize.width);
-	}
-	else if (frameSize.width > smallResolutionSize.width)
-	{
-		FileUtils::getInstance()->addSearchPath("res/images/HD");
-		director->setContentScaleFactor(mediumResolutionSize.width / designResolutionSize.width);
-	}
-	else
-	{
-		FileUtils::getInstance()->addSearchPath("res/images/SD");
-		director->setContentScaleFactor(smallResolutionSize.width / designResolutionSize.width);
-	}
-	//////////////////////////////////////////////////////////////////////////
+	// 设置多分辨率支持策略
+	setResolutionPolicy();
 
 	// 显示 FPS
 	director->setDisplayStats(true);
@@ -96,4 +69,76 @@ void AppDelegate::applicationWillEnterForeground() {
 
 	// if you use SimpleAudioEngine, it must resume here
 	// SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+}
+
+void AppDelegate::setResolutionPolicy()
+{
+	auto director = Director::getInstance();
+	auto glview = director->getOpenGLView();
+	// 获取窗口大小
+	Size frameSize = glview->getFrameSize();
+
+	// 设置预定设计分辨率 //////////////////////////////////////////////////////////////////////////
+	// 定义预定设计尺寸
+	const cocos2d::Size designResolutionSize = cocos2d::Size(1920.0, 1080.0);
+	// 设置设计分辨率，分辨率策略为完整显示高方向，即选用FIXED_HEIGHT
+	glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::FIXED_HEIGHT);
+	//////////////////////////////////////////////////////////////////////////
+
+	// 选用配套资源和设置内容缩放比 //////////////////////////////////////////////////////////////////////////
+	// 定义最小支持尺寸
+	const cocos2d::Size smallResolutionSize = cocos2d::Size(480.0, 270.0);
+	// 定义中等支持尺寸
+	const cocos2d::Size mediumResolutionSize = cocos2d::Size(960.0, 540.0);
+	// 定义最高支持尺寸
+	const cocos2d::Size largeResolutionSize = cocos2d::Size(1920.0, 1080.0);
+
+	// 如果实际窗口大小大于预设的中等分辨率
+	if (frameSize.width > mediumResolutionSize.width)
+	{
+		// 选用对应资源
+		FileUtils::getInstance()->addSearchPath("res/images/HDR");
+		// 基于预设的最大分辨率的高和预定的设计分辨率的高之比来设置内容缩放因子
+		director->setContentScaleFactor(largeResolutionSize.height / designResolutionSize.height);
+	}
+	// 如果实际窗口大于预设的最小分辨率，且小于等于预设的中等分辨率
+	else if (frameSize.width > smallResolutionSize.width)
+	{
+		// 选用对应资源
+		FileUtils::getInstance()->addSearchPath("res/images/HD");
+		// 基于预设的中等分辨率的高和预定的设计分辨率的高之比来设置内容缩放因子
+		director->setContentScaleFactor(mediumResolutionSize.height / designResolutionSize.height);
+	}
+	// 如果实际的窗口大小小于等于预设的最小分辨率
+	else
+	{
+		// 选用对应资源
+		FileUtils::getInstance()->addSearchPath("res/images/SD");
+		// 基于预设的最小分辨率的高和预定的设计分辨率的高之比来设置内容缩放因子
+		director->setContentScaleFactor(smallResolutionSize.height / designResolutionSize.height);
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+	// 保存信息 //////////////////////////////////////////////////////////////////////////
+	TargetInfo *const TargetInfoInstance = TargetInfo::Instance();
+	// 保存窗口大小
+	TargetInfoInstance->setWindowSize(frameSize.width, frameSize.height);
+
+	// 保存预定的设计尺寸
+	TargetInfoInstance->setExpectedDesignSize(designResolutionSize.width, designResolutionSize.height);
+
+	// 计算实际的设计尺寸（被缩放后的）
+	TargetInfoInstance->setRealityDesignSize(
+		designResolutionSize.width * (frameSize.height / designResolutionSize.height),
+		frameSize.height
+		);
+
+	// 计算实际设计尺寸原点（即设计尺寸左上角）在世界中的坐标
+	TargetInfoInstance->setRealityDesignOrigin(
+		-0.5*(TargetInfoInstance->getRealityDesignSize().width - TargetInfoInstance->getWindowSize().width),
+		TargetInfoInstance->getWindowSize().height
+		);
+	//////////////////////////////////////////////////////////////////////////
+
+	TargetInfoInstance->getDesignOrigin();
 }
