@@ -14,7 +14,7 @@ namespace ArKCa
 	/*!
 	 * \class	State
 	 *
-	 * \brief	为 FiniteStateMachine 提供状态的状态基类
+	 * \brief	为 ArKCa::FiniteStateMachine 提供状态的状态基类
 	 *
 	 * \tparam	Entity	状态持有者的类型
 	 */

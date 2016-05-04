@@ -13,7 +13,8 @@ CoreController::CoreController() :
 fSM(ArKCa::FiniteStateMachine<CoreController>(this))
 {
 	fSM.setGlobalState(nullptr);
-	fSM.setCurrentState(CoreStateGuide::Instance());
+	fSM.setCurrentState(nullptr);
+	fSM.changeState(CoreStateGuide::Instance());
 }
 
 CoreController::~CoreController()

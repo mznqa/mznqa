@@ -345,9 +345,11 @@ namespace ArKCa
 		void changeState(State<Entity> *state)
 		{
 			previousState = currentState;
-			currentState->exit(owner);
+			if (currentState != nullptr)
+				currentState->exit(owner);
 			currentState = state;
-			currentState->enter(owner);
+			if (currentState != nullptr)
+				currentState->enter(owner);
 		}
 
 		/*!

@@ -1,7 +1,7 @@
 /*!
  * \file	Classes\common\arkca\Vector2.h
  *
- * \brief	定义类 Vector2
+ * \brief	定义类 ArKCa::Vector2
  */
 
 #pragma execution_character_set("utf-8")
