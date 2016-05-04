@@ -1,5 +1,5 @@
 /*!
-* \file	Classes\common\arkca\message\MessagePQ.cpp
+* \file	Classes\common\arkca\message\MessagePQ.h
 *
 * \brief	∂®“Â¿‡ ArKCa::MessagePQ
 */
