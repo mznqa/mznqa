@@ -39,11 +39,26 @@ struct DeltaTable
 	/* \brief	记录效果的执行阶段 */
 	RoundLevel roundLevel = RoundLevel_invalid;
 
+
+	//效果释放者
 	Effect::Releaser releaser;
+	//效果接收者
 	Effect::Receiver receiver;
+	//设置历史效果信息
 	void setEffectHistoryInfo(const EffectAffixes& ea);
+	//设置历史效果基础血量
 	void setEffectTableBlood(const int deltaBlood);
-	
+	//设置历史效果基础护甲
+	void setEffectTableArmor(const int deltaArmor);
+	//设置历史效果基础手牌数
+	void setEffectTableHandCardCount(const int deltaHandCardCount);
+	//设置历史效果基础可抽牌数
+	void setEffectTableDrawCardCount(const int deltaDrawCardCount);
+	//设置历史效果基础可出牌数
+	void setEffectTableDiscardCount(const int deltaDiscardCount);
+	//添加历史效果
+	void addHistoryEffect();
+
 
 	/* \brief	记录效果的释放回合数 */
 	int roundNumber = invalid;

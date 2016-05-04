@@ -65,8 +65,8 @@ public:
 	*/
 	enum Releaser
 	{
-		Releaser_Role,		///< 角色
-		Releaser_Monster	///< 怪物
+		Releaser_Monster = 0,	///< 怪物
+		Releaser_Role = 1		///< 角色
 	};
 
 	/*!

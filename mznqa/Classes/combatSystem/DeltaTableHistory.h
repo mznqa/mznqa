@@ -141,6 +141,7 @@ public:
 	 */
 	const std::vector<DeltaTable>& getCurrentRoundMonsterTable(int round);
 
+
 	/*£¡
 	 * \fn	void DeltaTableHistory::test();
 	 *

@@ -406,7 +406,7 @@ void CombatSystem::test()
 {
 	cocos2d::log("[warning] 注意：即将进入战斗系统！");
 	CombatSystem cs;
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 2; ++i)
 	{
 		cs.setUseCardId(i + 30026, i + 30016);
 		cs.excuteCombat();

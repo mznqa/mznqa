@@ -3,7 +3,6 @@
 #include "combatSystem/DeltaTableHistory.h"
 #include <vector>
 #include "combatSystem/DeltaTable.h"
-#include "EffectPQ.h"
 #include "cocos2d.h"
 
 DeltaTableHistory::DeltaTableHistory()
@@ -16,9 +15,7 @@ DeltaTableHistory::~DeltaTableHistory()
 
 bool DeltaTableHistory::addTableRoleHistory(const DeltaTable& dt)
 {
-
 	tableRoleHistory.push_back(dt);
-	
 	return true;
 }
 
@@ -29,26 +26,30 @@ void DeltaTableHistory::addTotalRoleHistory(int round)
 	roundNumberRole = round;
 	total.roundNumber = roundNumberRole;
 	total.roundLevel = DeltaTable::RoundLevel_Total;
-	tableRoleHistory.push_back(total);
-
-	for (int n = tableRoleHistory.size() - 1; n > 0; --n)
+	auto itBegin = this->getCurrentRoundRoleTable(round).begin();
+	auto itEnd = this->getCurrentRoundRoleTable(round).end();
+	for (; itBegin != itEnd; ++itBegin)
 	{
 		for (int i = 0; i < total.row; ++i)
 		{
 			for (int j = 0; j < total.col; ++j)
 			{
-				total.effectTable[i][j] += tableRoleHistory[n - 1].effectTable[i][j];
+				total.effectTable[i][j] += itBegin->effectTable[i][j];
 			}
 		}
 	}
+	tableRoleHistory.push_back(total);
 
 	//添加角色回合结构体
 	DeltaRound dr;
 	dr.total = tableRoleHistory.size() - 1;
 	dr.roundNumber = round;
-	roundRoleHistory.push_back(dr);
-
-	for (int i = dr.total; i >= 0; --i)
+	int curFirstIndex = 0;
+	if (round > 1)
+	{
+		curFirstIndex = roundRoleHistory.back().total + 1;
+	}
+	for (int i = dr.total; i >= curFirstIndex; --i)
 	{
 		switch (tableRoleHistory[i].roundLevel)
 		{
@@ -68,8 +69,7 @@ void DeltaTableHistory::addTotalRoleHistory(int round)
 			break;
 		}
 	}
-
-
+	roundRoleHistory.push_back(dr);
 }
 
 const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllRoleTable(int round)
@@ -82,7 +82,7 @@ const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllRoleTable(int round
 		int beginIt = roundRoleHistory[round].before;
 		int endIt = roundRoleHistory[round].total;
 		tableTemp.resize(endIt - beginIt + 1);
-		copy(it + beginIt, it + endIt, tableTemp.begin());
+		copy(it + beginIt, it + endIt + 1, tableTemp.begin());
 	}
 	return tableTemp;
 }
@@ -118,7 +118,7 @@ const std::vector<DeltaTable>& DeltaTableHistory::getRoundRoleTable(int round, D
 			break;
 		}
 		tableTemp.resize(endIt - beginIt + 1);
-		copy(it + beginIt, it + endIt, tableTemp.begin());		
+		copy(it + beginIt, it + endIt + 1, tableTemp.begin());		
 	}
 	return tableTemp;
 }
@@ -152,12 +152,9 @@ const std::vector<DeltaTable>& DeltaTableHistory::getCurrentRoundRoleTable(int r
 
 bool DeltaTableHistory::addTableMonsterHistory(DeltaTable dt)
 {
-
 	tableMonsterHistory.push_back(dt);
 	return true;
 }
-
-
 
 void DeltaTableHistory::addTotalMonsterHistory(int round)
 {
@@ -166,28 +163,34 @@ void DeltaTableHistory::addTotalMonsterHistory(int round)
 	roundNumberMonster = round;
 	total.roundNumber = roundNumberMonster;
 	total.roundLevel = DeltaTable::RoundLevel_Total;
-	tableMonsterHistory.push_back(total);
-	
-	for (int n = tableMonsterHistory.size() - 1; n > 0; --n)
+
+	auto itBegin = this->getCurrentRoundMonsterTable(round).begin();
+	auto itEnd = this->getCurrentRoundMonsterTable(round).end();
+
+	for (; itBegin != itEnd;++itBegin)
 	{
 		for (int i = 0; i < total.row; ++i)
 		{
 			for (int j = 0; j < total.col; ++j)
 			{
-				total.effectTable[i][j] += tableMonsterHistory[n - 1].effectTable[i][j];
+				total.effectTable[i][j] += itBegin->effectTable[i][j];
 			}
 		}
 	}
+	tableMonsterHistory.push_back(total);
 
 	//添加怪物回合结构体
 	DeltaRound dr;
 	dr.total = tableMonsterHistory.size() - 1;
 	dr.roundNumber = round;
-	roundMonsterHistory.push_back(dr);
-
-	for (int i = dr.total; i >= 0; --i)
+	int curFirstIndex = 0;
+	if (round > 1)
 	{
-		switch (tableRoleHistory[i].roundLevel)
+		curFirstIndex = roundMonsterHistory.back().total + 1;
+	}
+	for (int i = dr.total; i >= curFirstIndex; --i)
+	{
+		switch (tableMonsterHistory[i].roundLevel)
 		{
 		case DeltaTable::RoundLevel_Before:
 			dr.before = i;
@@ -205,6 +208,7 @@ void DeltaTableHistory::addTotalMonsterHistory(int round)
 			break;
 		}
 	}
+	roundMonsterHistory.push_back(dr);
 }
 
 const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllMonsterTable(int round)
@@ -217,7 +221,7 @@ const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllMonsterTable(int ro
 		int beginIt = roundMonsterHistory[round].before;
 		int endIt = roundMonsterHistory[round].total;
 		tableTemp.resize(endIt - beginIt + 1);
-		copy(it + beginIt, it + endIt, tableTemp.begin());
+		copy(it + beginIt, it + endIt + 1, tableTemp.begin());
 	}
 	return tableTemp;
 }
@@ -233,27 +237,28 @@ const std::vector<DeltaTable>& DeltaTableHistory::getRoundMonsterTable(int round
 		switch (index)
 		{
 		case DeltaTable::RoundLevel_Before:
-			beginIt = roundMonsterHistory[round].before;
-			endIt = roundRoleHistory[round].in;
+			beginIt = roundMonsterHistory[round - 1].before;
+			endIt = roundRoleHistory[round - 1].in;
 			break;
 		case DeltaTable::RoundLevel_In:
-			beginIt = roundMonsterHistory[round].in;
-			endIt = roundMonsterHistory[round].after;
+			beginIt = roundMonsterHistory[round - 1].in;
+			endIt = roundMonsterHistory[round - 1].after;
 			break;
 		case DeltaTable::RoundLevel_After:
-			beginIt = roundMonsterHistory[round].after;
-			endIt = roundMonsterHistory[round].total;
+			beginIt = roundMonsterHistory[round - 1].after;
+			endIt = roundMonsterHistory[round - 1].total;
 			break;
 		case DeltaTable::RoundLevel_Total:
-			beginIt = roundMonsterHistory[round].total;
-			endIt = roundMonsterHistory[round].total;
+			beginIt = roundMonsterHistory[round - 1].total;
+			endIt = roundMonsterHistory[round - 1].total;
 			break;
 		default:
 			return tableTemp;
 			break;
 		}
+
 		tableTemp.resize(endIt - beginIt + 1);
-		copy(it + beginIt, it + endIt, tableTemp.begin());
+		copy(it + beginIt, it + endIt + 1, tableTemp.begin());
 	}
 	return tableTemp;
 }
