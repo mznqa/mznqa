@@ -3,6 +3,7 @@
 #include "AppDelegate.h"
 
 #include "interactive/manager/TargetInfo.h"
+#include "interactive/assets/scene/SceneGuide.h"
 
 USING_NS_CC;
 
@@ -51,6 +52,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	// 添加资源搜索目录
 	FileUtils::getInstance()->addSearchPath("res");
+
+	// 创建第一个场景：引导场景
+	auto scene = SceneGuide::createScene();
+	// 运行场景
+	director->runWithScene(scene);
 
 	return true;
 }
