@@ -10,7 +10,7 @@
 #define MZNQA_CLASSES_COMBATSYSTEM_COMBATSYSTEM_H_
 
 #include "combatSystem/EffectPQ.h"
-
+#include "combatSystem/CombatSystemInterface.h"
 #include "card/CardBase.h"
 
 /*!
@@ -131,6 +131,13 @@ public:
 	 */
 	void setUseCardId(const int roleUseCardId, const int monsterUseCardId);
 
+	/*！
+	 * \fn	void CombatSystem::setHistoryTotalTable(const int round);
+	 *
+	 * \brief	设置历史效果的总表
+	 */
+	void setHistoryTotalTable();
+
 	/*!
 	 * \fn	bool CombatSystem::judgeEndToCombat();
 	 *
@@ -162,6 +169,11 @@ public:
 	static int& getRound()
 	{
 		return round;
+	}	
+
+	static EffectAffixes& getEffectAffixes()
+	{
+		return efAffixes;
 	}
 
 	//测试单元
@@ -178,6 +190,9 @@ private:
 	int roleUseCardId = CardBase::invalidID;
 	/*! \brief	怪物选定的用于战斗的技能卡 */
 	int monsterUseCardId = CardBase::invalidID;
+
+	//当前效果附加属性
+	static EffectAffixes efAffixes;
 };
 
 #endif // !MZNQA_CLASSES_COMBATSYSTEM_COMBATSYSTEM_H_

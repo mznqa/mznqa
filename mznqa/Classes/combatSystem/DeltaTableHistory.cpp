@@ -16,94 +16,10 @@ DeltaTableHistory::~DeltaTableHistory()
 
 bool DeltaTableHistory::addTableRoleHistory(const DeltaTable& dt)
 {
-	auto itIndex = tableRoleHistory.begin() + roundRoleHistory[dt.roundNumber - 1].total;
 
-	if (dt.roundNumber == roundNumberRole)
-	{
-		tableRoleHistory.insert(itIndex, dt);
-		int totalIndex = tableRoleHistory.size() - 1;
-		if (roundNumberRole == 1)
-		{
-			for (int n = tableRoleHistory.size() - 1; n > 0; --n)
-			{
-				for (int i = 0; i < dt.row; ++i)
-				{
-					for (int j = 0; j < dt.col; ++j)
-					{
-						tableRoleHistory[totalIndex].effectTable[i][j] += tableRoleHistory[n - 1].effectTable[i][j];
-					}
-				}
-			}
-
-			for (int i = tableRoleHistory.size() - 1; i >= 0; --i)
-			{
-				switch (tableRoleHistory[i].roundLevel)
-				{
-				case DeltaTable::RoundLevel_Before:
-					roundRoleHistory[roundNumberRole - 1].before = i;
-					break;
-				case DeltaTable::RoundLevel_In:
-					roundRoleHistory[roundNumberRole - 1].in = i;
-					break;
-				case DeltaTable::RoundLevel_After:
-					roundRoleHistory[roundNumberRole - 1].after = i;
-					break;
-				case DeltaTable::RoundLevel_Total:
-					roundRoleHistory[roundNumberRole - 1].total = i;
-					break;
-				default:
-					break;
-				}
-			}
-
-		}
-		else
-		{
-			for (int n = tableRoleHistory.size() - 1; n > roundRoleHistory[roundNumberRole - 2].total; --n)
-			{
-				for (int i = 0; i < dt.row; ++i)
-				{
-					for (int j = 0; j < dt.col; ++j)
-					{
-						tableRoleHistory[totalIndex].effectTable[i][j] += tableRoleHistory[n - 1].effectTable[i][j];
-					}
-				}
-			}
-
-			for (int i = tableRoleHistory.size() - 1; i > roundRoleHistory[roundNumberRole - 2].total; --i)
-			{
-				switch (tableRoleHistory[i].roundLevel)
-				{
-				case DeltaTable::RoundLevel_Before:
-					roundRoleHistory[roundNumberRole - 1].before = i;
-					break;
-				case DeltaTable::RoundLevel_In:
-					roundRoleHistory[roundNumberRole - 1].in = i;
-					break;
-				case DeltaTable::RoundLevel_After:
-					roundRoleHistory[roundNumberRole - 1].after = i;
-					break;
-				case DeltaTable::RoundLevel_Total:
-					roundRoleHistory[roundNumberRole - 1].total = i;
-					break;
-				default:
-					break;
-				}
-			}
-
-		}		
-		cocos2d::log("[information]: 成功添加一个角色历史效果(%d)",dt.ID);
-		return true;
-	}
-	else
-	{
-		while (roundNumberRole <= dt.roundNumber)
-		{
-			++roundNumberRole;
-		}
-		addTableRoleHistory(dt);
-	}
-	return false;
+	tableRoleHistory.push_back(dt);
+	
+	return true;
 }
 
 void DeltaTableHistory::addTotalRoleHistory(int round)
@@ -115,11 +31,45 @@ void DeltaTableHistory::addTotalRoleHistory(int round)
 	total.roundLevel = DeltaTable::RoundLevel_Total;
 	tableRoleHistory.push_back(total);
 
+	for (int n = tableRoleHistory.size() - 1; n > 0; --n)
+	{
+		for (int i = 0; i < total.row; ++i)
+		{
+			for (int j = 0; j < total.col; ++j)
+			{
+				total.effectTable[i][j] += tableRoleHistory[n - 1].effectTable[i][j];
+			}
+		}
+	}
+
 	//添加角色回合结构体
 	DeltaRound dr;
 	dr.total = tableRoleHistory.size() - 1;
 	dr.roundNumber = round;
 	roundRoleHistory.push_back(dr);
+
+	for (int i = dr.total; i >= 0; --i)
+	{
+		switch (tableRoleHistory[i].roundLevel)
+		{
+		case DeltaTable::RoundLevel_Before:
+			dr.before = i;
+			break;
+		case DeltaTable::RoundLevel_In:
+			dr.in = i;
+			break;
+		case DeltaTable::RoundLevel_After:
+			dr.after = i;
+			break;
+		case DeltaTable::RoundLevel_Total:
+			dr.total = i;
+			break;
+		default:
+			break;
+		}
+	}
+
+
 }
 
 const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllRoleTable(int round)
@@ -128,7 +78,7 @@ const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllRoleTable(int round
 	//若存在指定的回合数
 	if ( round <= roundNumberRole && round > 0)
 	{
-		std::vector<DeltaTable>::iterator it = tableRoleHistory.begin();
+		auto it = tableRoleHistory.begin();
 		int beginIt = roundRoleHistory[round].before;
 		int endIt = roundRoleHistory[round].total;
 		tableTemp.resize(endIt - beginIt + 1);
@@ -203,110 +153,58 @@ const std::vector<DeltaTable>& DeltaTableHistory::getCurrentRoundRoleTable(int r
 bool DeltaTableHistory::addTableMonsterHistory(DeltaTable dt)
 {
 
-	auto itIndex = tableMonsterHistory.begin() + roundMonsterHistory.at(dt.roundNumber - 1).total;
-	if (dt.roundNumber == roundNumberMonster)
-	{
-		tableMonsterHistory.insert(itIndex, dt);
-		int totalIndex = tableMonsterHistory.size() - 1;
-		if (roundNumberMonster == 1)
-		{
-			for (int n = tableMonsterHistory.size() - 1; n > 0; --n)
-			{
-				for (int i = 0; i < dt.row; ++i)
-				{
-					for (int j = 0; j < dt.col; ++j)
-					{
-						tableMonsterHistory[totalIndex].effectTable[i][j] += tableMonsterHistory[n - 1].effectTable[i][j];
-					}
-				}
-			}
-
-			for (int i = tableMonsterHistory.size() - 1; i >= 0; --i)
-			{
-				switch (tableMonsterHistory[i].roundLevel)
-				{
-				case DeltaTable::RoundLevel_Before:
-					roundMonsterHistory[roundNumberMonster - 1].before = i;
-					break;
-				case DeltaTable::RoundLevel_In:
-					roundMonsterHistory[roundNumberMonster - 1].in = i;
-					break;
-				case DeltaTable::RoundLevel_After:
-					roundMonsterHistory[roundNumberMonster - 1].after = i;
-					break;
-				case DeltaTable::RoundLevel_Total:
-					roundMonsterHistory[roundNumberMonster - 1].total = i;
-					break;
-				default:
-					break;
-				}
-			}
-
-		}
-		else
-		{
-			for (int n = tableMonsterHistory.size() - 1; n > roundMonsterHistory[roundNumberMonster - 2].total; --n)
-			{
-				for (int i = 0; i < dt.row; ++i)
-				{
-					for (int j = 0; j < dt.col; ++j)
-					{
-						tableMonsterHistory[totalIndex].effectTable[i][j] += tableMonsterHistory[n - 1].effectTable[i][j];
-					}
-				}
-			}
-
-			for (int i = tableMonsterHistory.size() - 1; i > roundMonsterHistory[roundNumberMonster - 2].total; --i)
-			{
-				switch (tableMonsterHistory[i].roundLevel)
-				{
-				case DeltaTable::RoundLevel_Before:
-					roundMonsterHistory[roundNumberMonster - 1].before = i;
-					break;
-				case DeltaTable::RoundLevel_In:
-					roundMonsterHistory[roundNumberMonster - 1].in = i;
-					break;
-				case DeltaTable::RoundLevel_After:
-					roundMonsterHistory[roundNumberMonster - 1].after = i;
-					break;
-				case DeltaTable::RoundLevel_Total:
-					roundMonsterHistory[roundNumberMonster - 1].total = i;
-					break;
-				default:
-					break;
-				}
-			}
-		}
-		cocos2d::log("[information]: 成功添加一个怪物历史效果(%d)", dt.ID);
-		return true;
-	}
-	else
-	{
-		while (roundNumberMonster <= dt.roundNumber)
-		{
-			++roundNumberMonster;
-		}
-		addTableMonsterHistory(dt);
-	}
-	return false;
+	tableMonsterHistory.push_back(dt);
+	return true;
 }
 
 
 
 void DeltaTableHistory::addTotalMonsterHistory(int round)
 {
-	//添加角色效果总表
+	//添加怪物效果总表
 	DeltaTable total;
 	roundNumberMonster = round;
 	total.roundNumber = roundNumberMonster;
 	total.roundLevel = DeltaTable::RoundLevel_Total;
 	tableMonsterHistory.push_back(total);
+	
+	for (int n = tableMonsterHistory.size() - 1; n > 0; --n)
+	{
+		for (int i = 0; i < total.row; ++i)
+		{
+			for (int j = 0; j < total.col; ++j)
+			{
+				total.effectTable[i][j] += tableMonsterHistory[n - 1].effectTable[i][j];
+			}
+		}
+	}
 
-	//添加角色回合结构体
+	//添加怪物回合结构体
 	DeltaRound dr;
 	dr.total = tableMonsterHistory.size() - 1;
 	dr.roundNumber = round;
 	roundMonsterHistory.push_back(dr);
+
+	for (int i = dr.total; i >= 0; --i)
+	{
+		switch (tableRoleHistory[i].roundLevel)
+		{
+		case DeltaTable::RoundLevel_Before:
+			dr.before = i;
+			break;
+		case DeltaTable::RoundLevel_In:
+			dr.in = i;
+			break;
+		case DeltaTable::RoundLevel_After:
+			dr.after = i;
+			break;
+		case DeltaTable::RoundLevel_Total:
+			dr.total = i;
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllMonsterTable(int round)

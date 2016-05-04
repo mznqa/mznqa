@@ -4,6 +4,8 @@
 #define MZNQA_CLASSES_COMBATSYSTEM_DELTATABLE_H_
 
 #include "card/CardBase.h"
+#include "effect/Effect.h"
+#include "combatSystem/EffectPQ.h"
 
 /*！
  * \struct	DeltaTable
@@ -36,6 +38,12 @@ struct DeltaTable
 
 	/* \brief	记录效果的执行阶段 */
 	RoundLevel roundLevel = RoundLevel_invalid;
+
+	Effect::Releaser releaser;
+	Effect::Receiver receiver;
+	void setEffectHistoryInfo(const EffectAffixes& ea);
+	void setEffectTableBlood(const int deltaBlood);
+	
 
 	/* \brief	记录效果的释放回合数 */
 	int roundNumber = invalid;

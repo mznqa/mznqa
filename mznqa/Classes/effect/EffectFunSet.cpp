@@ -11,9 +11,9 @@
 #include "effect/Effect.h"
 #include "cocos2d.h"
 
-const std::function<bool(CombatSystemInterface*)> EffectFunSet::nullFun = EffectFunSet::effectNullFun;
+const std::function<bool(const std::vector<int> &args)> EffectFunSet::nullFun = EffectFunSet::effectNullFun;
 
-const std::map<int, std::function<bool(CombatSystemInterface*)>> EffectFunSet::funSet = {
+const std::map<int, std::function<bool(const std::vector<int> &args)>> EffectFunSet::funSet = {
 	{ 0, EffectFunSet::effectBase0 },
 	{ 1, EffectFunSet::effectBase1 },
 	{ 2, EffectFunSet::effectBase2 },
@@ -43,518 +43,99 @@ const std::map<int, std::function<bool(CombatSystemInterface*)>> EffectFunSet::f
 	{ 2015,	EffectFunSet::effectCondition15 }
 };
 
+CombatSystemInterface* const EffectFunSet::csi = CombatSystemInterface::Instance();
+
 EffectFunSet::~EffectFunSet()
 {
 }
 
-bool EffectFunSet::effectBase0(CombatSystemInterface* csi)
+bool EffectFunSet::effectBase0(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：%d 血", csi->getEffectArgs().at(2));
+	cocos2d::log("[information] 使用效果：%d 血",args.at(2));
 
 	DeltaTable dtTemp;
-	dtTemp.ID = csi->getEffectAffixes().cardId;
-	dtTemp.roundNumber = csi->getEffectAffixes().efRound;
-	switch (csi->getEffectAffixes().excuteStyle)
-	{
-	case Effect::ExcuteStyle::ExcuteStyle_Before:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_Before;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_In:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_In;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_After:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_After;
-		break;
-	}
-	int deltaBlood = csi->getEffectArgs().at(2);
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:
-		switch (csi->getEffectAffixes().receiver)
-		{
-		case Effect::Receiver::Receiver_Self:
-			dtTemp.effectTable[0][0] = deltaBlood;
-			//csi->updateRoleBlood(deltaBlood);
-			break;
-		case Effect::Receiver::Receiver_Other:
-			dtTemp.effectTable[0][1] = deltaBlood;
-			//csi->updateMonsterBlood(deltaBlood);
-			break;
-		}
-		csi->getDeltaTableHistory().addTableRoleHistory(dtTemp);
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		switch (csi->getEffectAffixes().receiver)
-		{
-		case Effect::Receiver::Receiver_Self:
-			dtTemp.effectTable[0][1] = deltaBlood;
-			//csi->updateMonsterBlood(deltaBlood);
-			break;
-		case Effect::Receiver::Receiver_Other:
-			dtTemp.effectTable[0][0] = deltaBlood;
-			//csi->updateRoleBlood(deltaBlood);
-			break;
-		}		
-		csi->getDeltaTableHistory().addTableMonsterHistory(dtTemp);
-		break;
-	}
+
+	dtTemp.setEffectHistoryInfo(csi->getCurrentEffectAffixes());
+	dtTemp.setEffectTableBlood(args.at(2));
+		
 	return true;
 }
 
-bool EffectFunSet::effectBase1(CombatSystemInterface* csi)
+bool EffectFunSet::effectBase1(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：%d 甲", csi->getEffectArgs().at(2));
+	cocos2d::log("[information] 使用效果：%d 甲", args.at(2));
 
-	DeltaTable dtTemp;
-	dtTemp.ID = csi->getEffectAffixes().cardId;
-	dtTemp.roundNumber = csi->getEffectAffixes().efRound;
-	switch (csi->getEffectAffixes().excuteStyle)
-	{
-	case Effect::ExcuteStyle::ExcuteStyle_Before:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_Before;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_In:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_In;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_After:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_After;
-		break;
-	}
-	int deltaArmor = csi->getEffectArgs().at(2);
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:
-		switch (csi->getEffectAffixes().receiver)
-		{
-		case Effect::Receiver::Receiver_Self:
-			dtTemp.effectTable[1][0] = deltaArmor;
-			//csi->updateRoleArmor(deltaArmor);
-			break;
-		case Effect::Receiver::Receiver_Other:
-			dtTemp.effectTable[1][1] = deltaArmor;
-			//csi->updateMonsterArmor(deltaArmor);
-			break;
-		}
-		csi->getDeltaTableHistory().addTableRoleHistory(dtTemp);
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		switch (csi->getEffectAffixes().receiver)
-		{
-		case Effect::Receiver::Receiver_Self:
-			dtTemp.effectTable[1][1] = deltaArmor;
-			//csi->updateMonsterArmor(deltaArmor);
-			break;
-		case Effect::Receiver::Receiver_Other:
-			dtTemp.effectTable[1][0] = deltaArmor;
-			//csi->updateRoleArmor(deltaArmor);
-			break;
-		}
-		csi->getDeltaTableHistory().addTableMonsterHistory(dtTemp);
-		break;
-	}
+
 	return true;
 }
 
-bool EffectFunSet::effectBase2(CombatSystemInterface* csi)
+bool EffectFunSet::effectBase2(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果： %d 手牌", csi->getEffectArgs().at(2));
+	cocos2d::log("[information] 使用效果： %d 手牌",args.at(2));
 	
-	DeltaTable dtTemp;
-	int deltaHandCount = csi->getEffectArgs().at(2);
-	dtTemp.effectTable[2][0] = deltaHandCount;
-	//csi->updateRoleHandCount(deltaHandCount);
-	dtTemp.ID = csi->getEffectAffixes().cardId;
-	dtTemp.roundNumber = csi->getEffectAffixes().efRound;
-	switch (csi->getEffectAffixes().excuteStyle)
-	{
-	case Effect::ExcuteStyle::ExcuteStyle_Before:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_Before;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_In:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_In;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_After:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_After;
-		break;
-	}
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:
-		csi->getDeltaTableHistory().addTableRoleHistory(dtTemp);
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		csi->getDeltaTableHistory().addTableMonsterHistory(dtTemp);
-		break;
-	}
+	
 
 	return true;
 }
 
-bool EffectFunSet::effectBase3(CombatSystemInterface* csi)
+bool EffectFunSet::effectBase3(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：抽 %d 张牌",csi->getEffectArgs().at(2));
+	cocos2d::log("[information] 使用效果：抽 %d 张牌",args.at(2));
 
-	DeltaTable dtTemp;
-	int deltaDrawCardCount = csi->getEffectArgs().at(2);
-	dtTemp.effectTable[3][0] = deltaDrawCardCount;
-	//csi->updateRoleDrawCardCount(deltaDrawCardCount);
-	dtTemp.ID = csi->getEffectAffixes().cardId;
-	dtTemp.roundNumber = csi->getEffectAffixes().efRound;
-	switch (csi->getEffectAffixes().excuteStyle)
-	{
-	case Effect::ExcuteStyle::ExcuteStyle_Before:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_Before;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_In:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_In;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_After:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_After;
-		break;
-	}
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:
-		csi->getDeltaTableHistory().addTableRoleHistory(dtTemp);
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		csi->getDeltaTableHistory().addTableMonsterHistory(dtTemp);
-		break;
-	}
+	
 
 	return true;
 }
 
-bool EffectFunSet::effectBase4(CombatSystemInterface* csi)
+bool EffectFunSet::effectBase4(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：出 %d 张牌", csi->getEffectArgs().at(2));
-
-	DeltaTable dtTemp;
-	int deltaDiscardCount = csi->getEffectArgs().at(2);
-	dtTemp.effectTable[4][0] = deltaDiscardCount;
-	//csi->setRoleDiscountCount(deltaDiscardCount);
-	dtTemp.ID = csi->getEffectAffixes().cardId;
-	dtTemp.roundNumber = csi->getEffectAffixes().efRound;
-	switch (csi->getEffectAffixes().excuteStyle)
-	{
-	case Effect::ExcuteStyle::ExcuteStyle_Before:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_Before;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_In:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_In;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_After:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_After;
-		break;
-	}
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:
-		csi->getDeltaTableHistory().addTableRoleHistory(dtTemp);
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		csi->getDeltaTableHistory().addTableMonsterHistory(dtTemp);
-		break;
-	}
+	cocos2d::log("[information] 使用效果：出 %d 张牌", args.at(2));
 
 	return true;
 }
 
-bool EffectFunSet::effectBase5(CombatSystemInterface* csi)
+bool EffectFunSet::effectBase5(const std::vector<int> &args)
 {
-	DeltaTable dtTemp;
-	dtTemp.ID = csi->getEffectAffixes().cardId;
-	dtTemp.roundNumber = csi->getEffectAffixes().efRound;
-	switch (csi->getEffectAffixes().excuteStyle)
-	{
-	case Effect::ExcuteStyle::ExcuteStyle_Before:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_Before;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_In:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_In;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_After:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_After;
-		break;
-	}
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:		
-		dtTemp.effectTable[0][0] = csi->getRoleBloodMax();
-		//csi->updateRoleBlood(csi->getRoleBloodMax());		
-		csi->getDeltaTableHistory().addTableRoleHistory(dtTemp);
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		dtTemp.effectTable[1][1] = csi->getMonsterBloodMax();
-		//csi->updateMonsterBlood(csi->getMonsterBloodMax());
-		csi->getDeltaTableHistory().addTableMonsterHistory(dtTemp);
-		break;
-	}
+
 	return true;
 }
 
-bool EffectFunSet::effectSpecial0(CombatSystemInterface* csi)
+bool EffectFunSet::effectSpecial0(const std::vector<int> &args)
 {
 	cocos2d::log("[information] 使用效果： 攻击无效");
 
-	DeltaTable dtTemp;
-	int roundTemp = csi->getEffectAffixes().efRound;
-	dtTemp.ID = csi->getEffectAffixes().cardId;
-	dtTemp.roundNumber = roundTemp;
-	switch (csi->getEffectAffixes().excuteStyle)
-	{
-	case Effect::ExcuteStyle::ExcuteStyle_Before:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_Before;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_In:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_In;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_After:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_After;
-		break;
-	}
-
-	int deltaBlood = 0;
-	int bloodTemp = 0;
-	csi->setCurentRoundRoleDeltaTable(roundTemp);
-	auto itRoleBegin = csi->getRoundRoleDeltaTable().begin();
-	auto itRoleEnd = csi->getRoundRoleDeltaTable().end();
-	csi->setCurrentRoundMonsterDeltaTable(roundTemp);
-	auto itMonsterBegin = csi->getRoundMonsterDeltaTable().begin();
-	auto itMonsterEnd = csi->getRoundMonsterDeltaTable().end();
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:
-		for (; itMonsterBegin != itMonsterEnd; ++itMonsterBegin)
-		{
-			bloodTemp = itMonsterBegin->effectTable[0][0];
-			if (bloodTemp < 0)
-			{
-				//itMonsterBegin->effectTable[0][0] = 0;
-				deltaBlood += bloodTemp;
-			}
-		}
-		if (deltaBlood < 0)
-		{
-			dtTemp.effectTable[0][0] = deltaBlood;
-		//csi->updateRoleBlood(-deltaBlood);
-		}		
-		csi->getDeltaTableHistory().addTableRoleHistory(dtTemp);
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		for (; itRoleBegin != itRoleEnd; ++itRoleBegin)
-		{
-			bloodTemp = itRoleBegin->effectTable[0][1];
-			if (bloodTemp < 0)
-			{
-				//itRoleBegin->effectTable[0][1] = 0;
-				deltaBlood += bloodTemp;
-			}
-		}
-		if (deltaBlood < 0)
-		{
-			dtTemp.effectTable[0][0] = deltaBlood;
-			//csi->updateMonsterBlood(-deltaBlood);
-		}
-		csi->getDeltaTableHistory().addTableMonsterHistory(dtTemp);
-		break;
-	}
+	
 
 	return true;
 }
 
-bool EffectFunSet::effectSpecial1(CombatSystemInterface* csi)
+bool EffectFunSet::effectSpecial1(const std::vector<int> &args)
 {
 	cocos2d::log("[information] 使用效果：回血无效");
 
-	DeltaTable dtTemp;
-	int roundTemp = csi->getEffectAffixes().efRound;
-	dtTemp.ID = csi->getEffectAffixes().cardId;
-	dtTemp.roundNumber = roundTemp;
-	switch (csi->getEffectAffixes().excuteStyle)
-	{
-	case Effect::ExcuteStyle::ExcuteStyle_Before:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_Before;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_In:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_In;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_After:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_After;
-		break;
-	}
-
-	int deltaBlood = 0;
-	int rtnBlood = 0;
-	csi->setCurentRoundRoleDeltaTable(roundTemp);
-	auto itRoleBegin = csi->getRoundRoleDeltaTable().begin();
-	auto itRoleEnd = csi->getRoundRoleDeltaTable().end();
-	csi->setCurrentRoundMonsterDeltaTable(roundTemp);
-	auto itMonsterBegin = csi->getRoundMonsterDeltaTable().begin();
-	auto itMonsterEnd = csi->getRoundMonsterDeltaTable().end();
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:
-		for (; itRoleBegin != itRoleEnd; ++itRoleBegin)
-		{
-			rtnBlood = itRoleBegin->effectTable[0][1];
-			if (rtnBlood > 0)
-			{
-				//itRoleBegin->effectTable[0][0] = 0;
-				deltaBlood += rtnBlood;
-			}
-		}
-		
-		for (; itMonsterBegin != itMonsterEnd; ++itMonsterBegin)
-		{
-			rtnBlood = itMonsterBegin->effectTable[0][1];
-			if (rtnBlood > 0)
-			{
-				//itMonsterBegin->effectTable[0][0] = 0;
-				deltaBlood += rtnBlood;
-			}
-		}
-		if (deltaBlood > 0)
-		{
-			dtTemp.effectTable[0][1] = -deltaBlood;
-			//csi->updateRoleBlood(-deltaBlood);
-		}
-		csi->getDeltaTableHistory().addTableRoleHistory(dtTemp);
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		
-		for (; itMonsterBegin != itMonsterEnd; ++itMonsterBegin)
-		{
-			rtnBlood = itMonsterBegin->effectTable[0][0];
-			if (rtnBlood > 0)
-			{
-				//itMonsterBegin->effectTable[0][1] = 0;
-				deltaBlood += rtnBlood;
-			}
-		}
-		
-		for (; itRoleBegin != itRoleEnd; ++itRoleBegin)
-		{
-			rtnBlood = itRoleBegin->effectTable[0][0];
-			if (rtnBlood > 0)
-			{
-				//itRoleBegin->effectTable[0][1] = 0;
-				deltaBlood += rtnBlood;
-			}
-		}
-		if (deltaBlood < 0)
-		{
-			dtTemp.effectTable[0][0] = -deltaBlood;
-			//csi->updateMonsterBlood(-deltaBlood);
-		}
-		csi->getDeltaTableHistory().addTableMonsterHistory(dtTemp);
-		break;
-	}
 	return true;
 }
 
-bool EffectFunSet::effectSpecial2(CombatSystemInterface* csi)
+bool EffectFunSet::effectSpecial2(const std::vector<int> &args)
 {
 	cocos2d::log("[information] 使用效果：回甲无效");
 
-	DeltaTable dtTemp;
-	int roundTemp = csi->getEffectAffixes().efRound;
-	dtTemp.ID = csi->getEffectAffixes().cardId;
-	dtTemp.roundNumber = roundTemp;
-	switch (csi->getEffectAffixes().excuteStyle)
-	{
-	case Effect::ExcuteStyle::ExcuteStyle_Before:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_Before;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_In:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_In;
-		break;
-	case Effect::ExcuteStyle::ExcuteStyle_After:
-		dtTemp.roundLevel = DeltaTable::RoundLevel::RoundLevel_After;
-		break;
-	}
 
-	int deltaArmor = 0;
-	int rtnArmor = 0;
-	csi->setCurentRoundRoleDeltaTable(roundTemp);
-	auto itRoleBegin = csi->getRoundRoleDeltaTable().begin();
-	auto itRoleEnd = csi->getRoundRoleDeltaTable().end();
-	csi->setCurrentRoundMonsterDeltaTable(roundTemp);
-	auto itMonsterBegin = csi->getRoundMonsterDeltaTable().begin();
-	auto itMonsterEnd = csi->getRoundMonsterDeltaTable().end();
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:
-		for (; itRoleBegin != itRoleEnd; ++itRoleBegin)
-		{
-			rtnArmor = itRoleBegin->effectTable[1][1];
-			if (rtnArmor > 0)
-			{
-				//itRoleBegin->effectTable[1][0] = 0;
-				deltaArmor += rtnArmor;
-			}
-		}
-
-		for (; itMonsterBegin != itMonsterEnd; ++itMonsterBegin)
-		{
-			rtnArmor = itMonsterBegin->effectTable[1][1];
-			if (rtnArmor > 0)
-			{
-				//itMonsterBegin->effectTable[1][0] = 0;
-				deltaArmor += rtnArmor;
-			}
-		}
-		if (deltaArmor > 0)
-		{
-			dtTemp.effectTable[1][1] = -deltaArmor;
-			//csi->updateRoleArmor(-deltaArmor);
-		}
-		csi->getDeltaTableHistory().addTableRoleHistory(dtTemp);
-		break;
-	case Effect::Releaser::Releaser_Monster:
-
-		for (; itMonsterBegin != itMonsterEnd; ++itMonsterBegin)
-		{
-			rtnArmor = itMonsterBegin->effectTable[1][0];
-			if (rtnArmor > 0)
-			{
-				//itMonsterBegin->effectTable[1][1] = 0;
-				deltaArmor += rtnArmor;
-			}
-		}
-
-		for (; itRoleBegin != itRoleEnd; ++itRoleBegin)
-		{
-			rtnArmor = itRoleBegin->effectTable[1][0];
-			if (rtnArmor > 0)
-			{
-				//itRoleBegin->effectTable[1][1] = 0;
-				deltaArmor += rtnArmor;
-			}
-		}
-		if (deltaArmor > 0)
-		{
-			dtTemp.effectTable[1][0] = -deltaArmor;
-			//csi->updateMonsterArmor(-deltaArmor);
-		}
-		csi->getDeltaTableHistory().addTableMonsterHistory(dtTemp);
-		break;
-	}
 	return true;
 }
 
-bool EffectFunSet::effectCondition0(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition0(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：当前的血量处于[%d,%d]之间", csi->getEffectArgs().at(2),csi->getEffectArgs().at(3));
+	cocos2d::log("[information] 使用效果：当前的血量处于[%d,%d]之间",args.at(2),args.at(3));
 	int bloodTemp = 0;
-	int leftBlood = csi->getEffectArgs().at(2);
-	int rightBlood = csi->getEffectArgs().at(3);
+	int leftBlood = args.at(2);
+	int rightBlood =args.at(3);
 
 	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	int roundTemp = csi->getEffectAffixes().efRound;
-	temp.cardId = csi->getEffectAffixes().cardId;
+	int roundTemp = csi->getCurrentEffectAffixes().efRound;
+	temp.cardId = csi->getCurrentEffectAffixes().cardId;
 
-	switch (csi->getEffectAffixes().releaser)
+	switch (csi->getCurrentEffectAffixes().releaser)
 	{
 	case Effect::Releaser::Releaser_Role:
 		bloodTemp = csi->getRoleBlood();
@@ -585,18 +166,17 @@ bool EffectFunSet::effectCondition0(CombatSystemInterface* csi)
 	return false;
 }
 
-bool EffectFunSet::effectCondition1(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition1(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：当前的血量处于[1,%d]之间", csi->getEffectArgs().at(2));
+	cocos2d::log("[information] 使用效果：当前的血量处于[1,%d]之间",args.at(2));
 
 	int bloodTemp = 0;
-	int rightBlood = csi->getEffectArgs().at(2);
+	int rightBlood = args.at(2);
 
 	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	int roundTemp = csi->getEffectAffixes().efRound;
-	temp.cardId = csi->getEffectAffixes().cardId;
-
-	switch (csi->getEffectAffixes().releaser)
+	int roundTemp = csi->getCurrentEffectAffixes().efRound;
+	temp.cardId = csi->getCurrentEffectAffixes().cardId;
+	switch (csi->getCurrentEffectAffixes().releaser)
 	{
 	case Effect::Releaser::Releaser_Role:
 		bloodTemp = csi->getRoleBlood();
@@ -627,66 +207,28 @@ bool EffectFunSet::effectCondition1(CombatSystemInterface* csi)
 		}
 		break;
 	}
+	return false;
+}
+
+bool EffectFunSet::effectCondition2(const std::vector<int> &args)
+{
+	cocos2d::log("[information] 使用效果：当前的血量等于[%d]",args.at(2));
+	
 
 	return false;
 }
 
-bool EffectFunSet::effectCondition2(CombatSystemInterface* csi)
-{
-	cocos2d::log("[information] 使用效果：当前的血量等于[%d]", csi->getEffectArgs().at(2));
-	int bloodTemp = 0;
-	int equalBlood = csi->getEffectArgs().at(2);
-
-	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	int roundTemp = csi->getEffectAffixes().efRound;
-	temp.cardId = csi->getEffectAffixes().cardId;
-
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:
-		bloodTemp = csi->getRoleBlood();
-		if (bloodTemp == equalBlood)
-		{
-			/////////////////////////////待定/////////////////////////////////////////////
-			temp.effectIndex = 2;
-			temp.releaser = Effect::Releaser::Releaser_Monster;
-			temp.receiver = Effect::Receiver::Receiver_Self;
-			temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-			temp.level = csi->getEffectPQ().getRoleEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-			csi->getEffectPQ().pushRoleEffectAffixes(temp);
-			return true;
-		}
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		bloodTemp = csi->getMonsterBlood();
-		if (bloodTemp == equalBlood)
-		{
-			/////////////////////////////待定/////////////////////////////////////////////
-			temp.effectIndex = 2;
-			temp.releaser = Effect::Releaser::Releaser_Monster;
-			temp.receiver = Effect::Receiver::Receiver_Self;
-			temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-			temp.level = csi->getEffectPQ().getMonsterEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-			csi->getEffectPQ().pushMonsterEffectAffixes(temp);
-			return true;
-		}
-		break;
-	}
-
-	return false;
-}
-
-bool EffectFunSet::effectCondition3(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition3(const std::vector<int> &args)
 {
 
-	cocos2d::log("[information] 使用效果：如果敌方血量在[%d, 正无穷]", csi->getEffectArgs().at(2));
+	cocos2d::log("[information] 使用效果：如果敌方血量在[%d, 正无穷]",args.at(2));
 
 	int bloodTemp = csi->getRoleBlood();
-	int leftBlood = csi->getEffectArgs().at(2);
+	int leftBlood = args.at(2);
 	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	int roundTemp = csi->getEffectAffixes().efRound;
-	temp.cardId = csi->getEffectAffixes().cardId;
-	switch (csi->getEffectAffixes().releaser)
+	int roundTemp = csi->getCurrentEffectAffixes().efRound;
+	temp.cardId = csi->getCurrentEffectAffixes().cardId;
+	switch (csi->getCurrentEffectAffixes().releaser)
 	{
 		bloodTemp = csi->getRoleBlood();
 		if (bloodTemp >= leftBlood)
@@ -719,290 +261,68 @@ bool EffectFunSet::effectCondition3(CombatSystemInterface* csi)
 	return false;
 }
 
-bool EffectFunSet::effectCondition4(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition4(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：当前的护甲处于[%d,%d]之间", csi->getEffectArgs().at(2), csi->getEffectArgs().at(3));
-	int armorTemp = 0;
-	int leftArmor = csi->getEffectArgs().at(2);
-	int rightArmor = csi->getEffectArgs().at(3);
-
-	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	int roundTemp = csi->getEffectAffixes().efRound;
-	temp.cardId = csi->getEffectAffixes().cardId;
-
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:
-		armorTemp = csi->getRoleArmor();
-		if (armorTemp >= leftArmor && armorTemp <= rightArmor)
-		{
-			/////////////////////////////待定/////////////////////////////////////////////
-			temp.effectIndex = 2;
-			temp.releaser = Effect::Releaser::Releaser_Monster;
-			temp.receiver = Effect::Receiver::Receiver_Self;
-			temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-			temp.level = csi->getEffectPQ().getRoleEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-			csi->getEffectPQ().pushRoleEffectAffixes(temp);
-			return true;
-		}
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		armorTemp = csi->getMonsterArmor();
-		if (armorTemp >= leftArmor && armorTemp <= rightArmor)
-		{
-			/////////////////////////////待定/////////////////////////////////////////////
-			temp.effectIndex = 2;
-			temp.releaser = Effect::Releaser::Releaser_Monster;
-			temp.receiver = Effect::Receiver::Receiver_Self;
-			temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-			temp.level = csi->getEffectPQ().getMonsterEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-			csi->getEffectPQ().pushMonsterEffectAffixes(temp);
-			return true;
-		}
-		break;
-	}
-	return false;
-}
-
-bool EffectFunSet::effectCondition5(CombatSystemInterface* csi)
-{
-	cocos2d::log("[information] 使用效果：当前的护甲处于[1,%d]之间", csi->getEffectArgs().at(2));
-
-	int armorTemp = 0;
-	int rightArmor = csi->getEffectArgs().at(2);
-
-	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	int roundTemp = csi->getEffectAffixes().efRound;
-	temp.cardId = csi->getEffectAffixes().cardId;
-
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:
-		armorTemp = csi->getRoleArmor();
-		if (armorTemp >= 1 && armorTemp <= rightArmor)
-		{
-			/////////////////////////////待定/////////////////////////////////////////////
-			temp.effectIndex = 2;
-			temp.releaser = Effect::Releaser::Releaser_Monster;
-			temp.receiver = Effect::Receiver::Receiver_Self;
-			temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-			temp.level = csi->getEffectPQ().getRoleEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-			csi->getEffectPQ().pushRoleEffectAffixes(temp);
-			return true;
-		}
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		armorTemp = csi->getMonsterArmor();
-		if (armorTemp >= 1 && armorTemp <= rightArmor)
-		{
-			/////////////////////////////待定/////////////////////////////////////////////
-			temp.effectIndex = 2;
-			temp.releaser = Effect::Releaser::Releaser_Monster;
-			temp.receiver = Effect::Receiver::Receiver_Self;
-			temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-			temp.level = csi->getEffectPQ().getMonsterEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-			csi->getEffectPQ().pushMonsterEffectAffixes(temp);
-			return true;
-		}
-		break;
-	}
+	cocos2d::log("[information] 使用效果：当前的护甲处于[%d,%d]之间", args.at(2), args.at(3));
+	
 
 	return false;
 }
 
-bool EffectFunSet::effectCondition6(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition5(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：当前的护甲等于[%d]", csi->getEffectArgs().at(2));
-	int armorTemp = 0;
-	int equalArmor = csi->getEffectArgs().at(2);
+	return false;
+}
 
-	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	int roundTemp = csi->getEffectAffixes().efRound;
-	temp.cardId = csi->getEffectAffixes().cardId;
-
-	switch (csi->getEffectAffixes().releaser)
-	{
-	case Effect::Releaser::Releaser_Role:
-		armorTemp = csi->getRoleArmor();
-		if (armorTemp == equalArmor)
-		{
-			/////////////////////////////待定/////////////////////////////////////////////
-			temp.effectIndex = 2;
-			temp.releaser = Effect::Releaser::Releaser_Monster;
-			temp.receiver = Effect::Receiver::Receiver_Self;
-			temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-			temp.level = csi->getEffectPQ().getRoleEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-			csi->getEffectPQ().pushRoleEffectAffixes(temp);
-			return true;
-		}
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		armorTemp = csi->getMonsterArmor();
-		if (armorTemp == equalArmor)
-		{
-			/////////////////////////////待定/////////////////////////////////////////////
-			temp.effectIndex = 2;
-			temp.releaser = Effect::Releaser::Releaser_Monster;
-			temp.receiver = Effect::Receiver::Receiver_Self;
-			temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-			temp.level = csi->getEffectPQ().getMonsterEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-			csi->getEffectPQ().pushMonsterEffectAffixes(temp);
-			return true;
-		}
-		break;
-	}
+bool EffectFunSet::effectCondition6(const std::vector<int> &args)
+{
+	cocos2d::log("[information] 使用效果：当前的护甲等于[%d]",args.at(2));
+	
 
 	return false;
 }
 
-bool EffectFunSet::effectCondition7(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition7(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：如果敌方护甲在[%d, 正无穷]", csi->getEffectArgs().at(2));
-
-	int armorTemp = csi->getRoleBlood();
-	int leftArmor = csi->getEffectArgs().at(2);
-	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	int roundTemp = csi->getEffectAffixes().efRound;
-	temp.cardId = csi->getEffectAffixes().cardId;
-	switch (csi->getEffectAffixes().releaser)
-	{
-		armorTemp = csi->getRoleArmor();
-		if (armorTemp >= leftArmor)
-		{
-			/////////////////////////////待定/////////////////////////////////////////////
-			temp.effectIndex = 2;
-			temp.releaser = Effect::Releaser::Releaser_Monster;
-			temp.receiver = Effect::Receiver::Receiver_Self;
-			temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-			temp.level = csi->getEffectPQ().getRoleEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-			csi->getEffectPQ().pushRoleEffectAffixes(temp);
-			return true;
-		}
-		break;
-	case Effect::Releaser::Releaser_Monster:
-		armorTemp = csi->getMonsterArmor();
-		if (armorTemp >= leftArmor)
-		{
-			/////////////////////////////待定/////////////////////////////////////////////
-			temp.effectIndex = 2;
-			temp.releaser = Effect::Releaser::Releaser_Monster;
-			temp.receiver = Effect::Receiver::Receiver_Self;
-			temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-			temp.level = csi->getEffectPQ().getMonsterEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-			csi->getEffectPQ().pushMonsterEffectAffixes(temp);
-			return true;
-		}
-		break;
-	}
+	cocos2d::log("[information] 使用效果：如果敌方护甲在[%d, 正无穷]", args.at(2));
+		
 	return false;
 }
 
-bool EffectFunSet::effectCondition8(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition8(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：当前的手牌数处于[%d,%d]之间", csi->getEffectArgs().at(2), csi->getEffectArgs().at(3));
-	int handCardCountTemp = 0;
-	int leftHandCardCount = csi->getEffectArgs().at(2);
-	int rightHandCardCount = csi->getEffectArgs().at(3);
-
-	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	int roundTemp = csi->getEffectAffixes().efRound;
-	temp.cardId = csi->getEffectAffixes().cardId;
-	handCardCountTemp = csi->getRoleHandCount();
-	if (handCardCountTemp >= leftHandCardCount && handCardCountTemp <= rightHandCardCount)
-	{
-		/////////////////////////////待定/////////////////////////////////////////////
-		temp.effectIndex = 2;
-		temp.releaser = Effect::Releaser::Releaser_Monster;
-		temp.receiver = Effect::Receiver::Receiver_Self;
-		temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-		temp.level = csi->getEffectPQ().getRoleEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-		csi->getEffectPQ().pushRoleEffectAffixes(temp);
-		return true;
-	}
+	cocos2d::log("[information] 使用效果：当前的手牌数处于[%d,%d]之间", args.at(2), args.at(3));
+	
 	return false;
 }
 
-bool EffectFunSet::effectCondition9(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition9(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：当前的手牌数处于[1,%d]之间", csi->getEffectArgs().at(2));
-
-	int handCardCountTemp = 0;
-	int rightHandCardCount = csi->getEffectArgs().at(2);
-
-	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	int roundTemp = csi->getEffectAffixes().efRound;
-	temp.cardId = csi->getEffectAffixes().cardId;
-	handCardCountTemp = csi->getRoleHandCount();
-	if (handCardCountTemp >= 1 && handCardCountTemp <= rightHandCardCount)
-	{
-		/////////////////////////////待定/////////////////////////////////////////////
-		temp.effectIndex = 2;
-		temp.releaser = Effect::Releaser::Releaser_Monster;
-		temp.receiver = Effect::Receiver::Receiver_Self;
-		temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-		temp.level = csi->getEffectPQ().getRoleEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-		csi->getEffectPQ().pushRoleEffectAffixes(temp);
-		return true;
-	}
 	return false;
 }
 
-bool EffectFunSet::effectCondition10(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition10(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：当前的手牌数等于[%d]", csi->getEffectArgs().at(2));
-
-	int handCardCountTemp = 0;
-	int equalHandCardCount = csi->getEffectArgs().at(2);
-	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	int roundTemp = csi->getEffectAffixes().efRound;
-	temp.cardId = csi->getEffectAffixes().cardId;
-	handCardCountTemp = csi->getRoleHandCount();
-	if (handCardCountTemp == equalHandCardCount)
-	{
-		/////////////////////////////待定/////////////////////////////////////////////
-		temp.effectIndex = 2;
-		temp.releaser = Effect::Releaser::Releaser_Monster;
-		temp.receiver = Effect::Receiver::Receiver_Self;
-		temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-		temp.level = csi->getEffectPQ().getRoleEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-		csi->getEffectPQ().pushRoleEffectAffixes(temp);
-		return true;
-	}
+	cocos2d::log("[information] 使用效果：当前的手牌数等于[%d]", args.at(2));
+		
 	return false;
 }
 
-bool EffectFunSet::effectCondition11(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition11(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：如果敌方手牌数在[%d, 正无穷]", csi->getEffectArgs().at(2));
-
-	int handCardCountTemp = 0;
-	int leftHandCardCount = csi->getEffectArgs().at(2);
-	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	int roundTemp = csi->getEffectAffixes().efRound;
-	temp.cardId = csi->getEffectAffixes().cardId;
-	handCardCountTemp = csi->getRoleHandCount();
-	if (handCardCountTemp >= leftHandCardCount)
-	{
-		/////////////////////////////待定/////////////////////////////////////////////
-		temp.effectIndex = 2;
-		temp.releaser = Effect::Releaser::Releaser_Monster;
-		temp.receiver = Effect::Receiver::Receiver_Self;
-		temp.excuteStyle = Effect::ExcuteStyle::ExcuteStyle_After;
-		temp.level = csi->getEffectPQ().getRoleEPQLevelMaxByRoundAndInterval(0, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Left, EffectPQ::EffectLevelInterval::EffectLevelInterval_After_Right) + 1;
-		csi->getEffectPQ().pushRoleEffectAffixes(temp);
-		return true;
-	}
+	cocos2d::log("[information] 使用效果：如果敌方手牌数在[%d, 正无穷]", args.at(2));
+		
 	return false;
 }
 
-bool EffectFunSet::effectCondition12(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition12(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：如果血量在[%d,%d]之间", csi->getEffectArgs().at(2), csi->getEffectArgs().at(3));
+	cocos2d::log("[information] 使用效果：如果血量在[%d,%d]之间", args.at(2), args.at(3));
 
-	int leftBlood = csi->getEffectArgs().at(2);
-	int rightBlood = csi->getEffectArgs().at(3);
+	int leftBlood = args.at(2);
+	int rightBlood = args.at(3);
 	int flag = 0;
-	int efRoundTemp = csi->getEffectAffixes().efRound;
+	int efRoundTemp = csi->getCurrentEffectAffixes().efRound;
 	int bloodMax = csi->getMonsterBloodMax();
 
 	int roundTemp = 1;
@@ -1027,8 +347,8 @@ bool EffectFunSet::effectCondition12(CombatSystemInterface* csi)
 	if (flag == 1)
 	{
 		EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-		int roundTemp = csi->getEffectAffixes().efRound;
-		temp.cardId = csi->getEffectAffixes().cardId;
+		int roundTemp = csi->getCurrentEffectAffixes().efRound;
+		temp.cardId = csi->getCurrentEffectAffixes().cardId;
 		temp.effectIndex = 1;
 		temp.releaser = Effect::Releaser::Releaser_Monster;
 		temp.receiver = Effect::Receiver::Receiver_Self;
@@ -1040,11 +360,11 @@ bool EffectFunSet::effectCondition12(CombatSystemInterface* csi)
 	return false;
 }
 
-bool EffectFunSet::effectCondition13(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition13(const std::vector<int> &args)
 {
 	cocos2d::log("[information] 使用效果：开局起血量第一次处于[负无穷，0]");
 	int flag = 0;
-	int efRoundTemp = csi->getEffectAffixes().efRound;
+	int efRoundTemp = csi->getCurrentEffectAffixes().efRound;
 	int bloodMax = csi->getMonsterBloodMax();
 
 	int roundTemp = 1;
@@ -1067,7 +387,7 @@ bool EffectFunSet::effectCondition13(CombatSystemInterface* csi)
 		--efRoundTemp;
 	}
 	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	temp.cardId = csi->getEffectAffixes().cardId;
+	temp.cardId = csi->getCurrentEffectAffixes().cardId;
 	if (flag == 1)
 	{
 		temp.effectIndex = 1;
@@ -1089,15 +409,16 @@ bool EffectFunSet::effectCondition13(CombatSystemInterface* csi)
 		csi->getEffectPQ().pushMonsterEffectAffixes(temp);
 		return false;
 	}
+	return false;
 }
 
-bool EffectFunSet::effectCondition14(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition14(const std::vector<int> &args)
 {
-	cocos2d::log("[information] 使用效果：开局起血量第一次处于[%d，血量上限]",csi->getEffectArgs().at(2));
+	cocos2d::log("[information] 使用效果：开局起血量第一次处于[%d，血量上限]",args.at(2));
 
-	int leftBlood = csi->getEffectArgs().at(2);
+	int leftBlood = args.at(2);
 	int flag = 0;
-	int efRoundTemp = csi->getEffectAffixes().efRound;
+	int efRoundTemp = csi->getCurrentEffectAffixes().efRound;
 	int bloodMax = csi->getMonsterBloodMax();
 
 	int roundTemp = 1;
@@ -1121,7 +442,7 @@ bool EffectFunSet::effectCondition14(CombatSystemInterface* csi)
 		--efRoundTemp;
 	}
 	EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
-	temp.cardId = csi->getEffectAffixes().cardId;
+	temp.cardId = csi->getCurrentEffectAffixes().cardId;
 	if (flag == 1)
 	{
 		//////////////////////////待定////////////////////////////////////////////////
@@ -1138,19 +459,18 @@ bool EffectFunSet::effectCondition14(CombatSystemInterface* csi)
 	
 }
 
-bool EffectFunSet::effectCondition15(CombatSystemInterface* csi)
+bool EffectFunSet::effectCondition15(const std::vector<int> &args)
 {
 	cocos2d::log("[information] 使用效果：如果自身血量减少 ");
 
-	int roundTemp = csi->getEffectAffixes().efRound;
+	int roundTemp = csi->getCurrentEffectAffixes().efRound;
 	int bloodTemp = 0;
 	int bloodRet = 0;
-	csi->setCurentRoundRoleDeltaTable(roundTemp);
-	auto itRoleBegin = csi->getRoundRoleDeltaTable().begin();
-	auto itRoleEnd = csi->getRoundRoleDeltaTable().end();
-	csi->setCurrentRoundMonsterDeltaTable(roundTemp);
-	auto itMonsterBegin = csi->getRoundMonsterDeltaTable().begin();
-	auto itMonsterEnd = csi->getRoundMonsterDeltaTable().end();
+	;
+	auto itRoleBegin = csi->getCurrentRoundRoleDeltaTable(roundTemp).begin();
+	auto itRoleEnd = csi->getCurrentRoundRoleDeltaTable(roundTemp).end();
+	auto itMonsterBegin = csi->getCurrentRoundMonsterDeltaTable(roundTemp).begin();
+	auto itMonsterEnd = csi->getCurrentRoundMonsterDeltaTable(roundTemp).end();
 	
 	for (; itRoleBegin != itRoleEnd; ++itRoleBegin)
 	{
@@ -1164,8 +484,8 @@ bool EffectFunSet::effectCondition15(CombatSystemInterface* csi)
 	{
 		EffectAffixes temp(EffectAffixes::invalidLevelValue, EffectAffixes::invalidCardIdValue, EffectAffixes::invalidEffectIndexValue);
 
-		int roundTemp = csi->getEffectAffixes().efRound;
-		temp.cardId = csi->getEffectAffixes().cardId;
+		int roundTemp = csi->getCurrentEffectAffixes().efRound;
+		temp.cardId = csi->getCurrentEffectAffixes().cardId;
 		temp.effectIndex = 2;
 		temp.releaser = Effect::Releaser::Releaser_Role;
 		temp.receiver = Effect::Receiver::Receiver_Other;

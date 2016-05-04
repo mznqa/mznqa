@@ -10,51 +10,51 @@ CombatSystemInterface* CombatSystemInterface::Instance()
 
 int CombatSystemInterface::getRoleBlood()
 {
-	return Role::Instance()->getBloodValue();
+	return role->getBloodValue();
 }
 
 int CombatSystemInterface::getRoleArmor()
 {
-	return Role::Instance()->getArmorValue();
+	return role->getArmorValue();
 }
 
 int CombatSystemInterface::getRoleBloodMax()
 {
-	return Role::Instance()->getBloodValueMax();
+	return role->getBloodValueMax();
 }
 
 int CombatSystemInterface::getRoleHandCount()
 {
-	return Role::Instance()->getHandCardCount();
+	return role->getHandCardCount();
 }
 
 void CombatSystemInterface::updateRoleHandCount(int delta)
 {
-	Role::Instance()->updateHandCount(delta);
+	role->updateHandCount(delta);
 	return;
 }
 
 void CombatSystemInterface::setRoleDiscountCount(int delta)
 {
-	Role::Instance()->setDiscardCount(delta);
+	role->setDiscardCount(delta);
 	return;
 }
 
 void CombatSystemInterface::updateRoleDrawCardCount(int delta)
 {
-	Role::Instance()->updateDrawCardCount(delta);
+	role->updateDrawCardCount(delta);
 	return;
 }
 
 void CombatSystemInterface::updateRoleBlood(int delta)
 {
-	Role::Instance()->updateBloodValue(delta);
+	role->updateBloodValue(delta);
 	return;
 }
 
 void CombatSystemInterface::updateRoleArmor(int delta)
 {
-	Role::Instance()->updateArmorValue(delta);
+	role->updateArmorValue(delta);
 	return;
 }
 
@@ -85,15 +85,16 @@ void CombatSystemInterface::updateMonsterArmor(int delta)
 	return;
 }
 
-void CombatSystemInterface::setCurrentRoundMonsterDeltaTable(int round)
-{
-	deltaMonster = dtHistory.getCurrentRoundMonsterTable(round);
-	return;
-}
 
 const std::vector<DeltaTable>& CombatSystemInterface::getRoundRoleDeltaTable(int round, DeltaTable::RoundLevel index)
 {
 	return dtHistory.getRoundRoleTable(round, index);
+}
+
+const std::vector<DeltaTable>& CombatSystemInterface::getCurrentRoundRoleDeltaTable(const int round)
+{
+	return dtHistory.getCurrentRoundRoleTable(round);
+
 }
 
 const std::vector<DeltaTable>& CombatSystemInterface::getRoundMonsterDeltaTable(int round, DeltaTable::RoundLevel index)
@@ -101,13 +102,17 @@ const std::vector<DeltaTable>& CombatSystemInterface::getRoundMonsterDeltaTable(
 	return dtHistory.getRoundMonsterTable(round, index);
 }
 
+const std::vector<DeltaTable>& CombatSystemInterface::getCurrentRoundMonsterDeltaTable(int round)
+{
+	return dtHistory.getCurrentRoundMonsterTable(round);
+}
+
+const EffectAffixes& CombatSystemInterface::getCurrentEffectAffixes()
+{
+	return CombatSystem::getEffectAffixes();
+}
+
 EffectPQ& CombatSystemInterface::getEffectPQ()
 {
 	return CombatSystem::getEffectPQ();
-}
-
-void CombatSystemInterface::setCurentRoundRoleDeltaTable(int round)
-{
-	deltaRole = dtHistory.getCurrentRoundRoleTable(round);
-	return;
 }

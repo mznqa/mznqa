@@ -179,35 +179,16 @@ public:
 	}
 
 	/*！
-	* \fn	std::vector<DeltaTable>& CombatSystemInterface::getRoundRoleDeltaTable()
-	*
-	* \brief	获取角色当前回合的效果历史向量
-	*
-	* \return	返回角色当前回合的效果历史向量
-	*/
-	std::vector<DeltaTable>& getRoundRoleDeltaTable()
-	{
-		return deltaRole;
-	}
-
-	/*！
-	 * \fn	void CombatSystemInterface::setCurentRoundRoleDeltaTable(int round);
+	 * \fn	const std::vector<DeltaTable>& CombatSystemInterface::getCurrentRoundRoleDeltaTable(const int round);
 	 *
-	 * \brief	根据给定的回合数来设置怪物当前角色效果历史向量
+	 * \brief	根据指定的回合数来获取角色当前回合的效果历史向量.
 	 *
-	 * \param	round	给定的回合数值
+	 * \param	round	指定的回合数
+	 *
+	 * \return	返回角色当前回合的效果历史向量.
 	 */
-	void setCurentRoundRoleDeltaTable(int round);
-
-	/*！
-	 * \fn	void CombatSystemInterface::setCurrentRoundMonsterDeltaTable(int round);
-	 *
-	 * \brief	根据给定的回合数来设置怪物当前怪物效果历史向量
-	 *
-	 * \param	round	给定的回合数值
-	 */
-	void setCurrentRoundMonsterDeltaTable(int round);
-
+	const std::vector<DeltaTable>& getCurrentRoundRoleDeltaTable(const int round);
+	
 	/*！
 	 * \fn	const std::vector<DeltaTable>& CombatSystemInterface::getRoundRoleDeltaTable(int round, DeltaTable::RoundLevel index);
 	 *
@@ -233,64 +214,25 @@ public:
 	const std::vector<DeltaTable>& getRoundMonsterDeltaTable(int round, DeltaTable::RoundLevel index);
 
 	/*！
-	 * \fn	std::vector<DeltaTable>& CombatSystemInterface::getRoundMonsterDeltaTable()
+	 * \fn	const std::vector<DeltaTable>& CombatSystemInterface::getCurrentRoundMonsterDeltaTable(int round);
 	 *
-	 * \brief	获取怪物当前历史效果向量
+	 * \brief	根据指定的回合数来获取怪物当前历史效果向量.
 	 *
-	 * \return	返回怪物当前历史效果向量
+	 * \param	round	指定的回合数.
+	 *
+	 * \return	返回怪物当前历史效果向量.
 	 */
-	std::vector<DeltaTable>& getRoundMonsterDeltaTable()
-	{
-		return deltaMonster;
-	}
+
+	const std::vector<DeltaTable>& getCurrentRoundMonsterDeltaTable(int round);
 
 	/*！
-	 * \fn	void CombatSystemInterface::setEffectArgs(const std::vector<int>& args)
+	 * \fn	const EffectAffixes& CombatSystemInterface::getCurrentEffectAffixes()
 	 *
-	 * \brief	根据给定的参数来设置当前的效果参数
+	 * \brief	获取当前效果的附加属性
 	 *
-	 * \param	args	指定将用于设置当前效果参数的向量值
+	 * \return	返回当前的效果属性
 	 */
-	void setEffectArgs(const std::vector<int>& args)
-	{
-		this->efArgs = args;
-	}
-
-	/*！
-	 * \fn	const std::vector<int>& CombatSystemInterface::getEffectArgs() const
-	 *
-	 * \brief	获取当前效果的参数
-	 *
-	 * \return	返回当前效果的参数
-	 */
-	const std::vector<int>& getEffectArgs() const
-	{
-		return efArgs;
-	}
-
-	/*！
-	 * \fn	void CombatSystemInterface::setEffectAffixes(const EffectAffixes& ea)
-	 *
-	 * \brief	根据给定的效果附加属性来设置当前效果的附加属性
-	 *
-	 * \param	ea	指定的效果附加属性
-	 */
-	void setEffectAffixes(const EffectAffixes& ea)
-	{
-		this->effectAffixes = ea;
-	}
-
-	/*！
-	 * \fn	const EffectAffixes& CombatSystemInterface::getEffectAffixes() const
-	 *
-	 * \brief	获取当前效果附加属性
-	 *
-	 * \return	返回当前效果附加属性
-	 */
-	const EffectAffixes& getEffectAffixes() const
-	{
-		return effectAffixes;
-	}
+	const EffectAffixes& getCurrentEffectAffixes();
 
 	/*！
 	 * \fn	EffectPQ& CombatSystemInterface::getEffectPQ();
@@ -321,28 +263,23 @@ private:
 	CombatSystemInterface(const CombatSystemInterface& csi);
 
 	/*！
-	 * \fn	CombatSystemInterface CombatSystemInterface::operator=(const CombatSystemInterface& csi);
+	 * \fn	CombatSystemInterface& CombatSystemInterface::operator=(const CombatSystemInterface& csi);
 	 *
 	 * \brief	=运算符
 	 *
 	 * \param	csi	CombatSystemInterface实例
 	 *
-	 * \return	A shallow copy of this object.
+	 * \return	返回CombatSystemInterface自身引用
 	 */
-	CombatSystemInterface operator=(const CombatSystemInterface& csi);
+	CombatSystemInterface& operator=(const CombatSystemInterface& csi);
 
-	/* \brief	怪物战斗对象. */
+	/* \brief	角色对象常指针 */
+	Role *const role = Role::Instance();
+
+	//怪物战斗对象---测试用 //////////////////////////////////////////////////////////////////////////
 	Monster monster;
-	/* \brief	历史效果实例，包含角色历史效果向量，怪物历史效果向量 */
+	//历史效果实例，包含角色历史效果向量，怪物历史效果向量---测试用/////////////////////////////////////////
 	DeltaTableHistory dtHistory;
-	/* \brief	角色当前回合的历史效果向量 */
-	std::vector<DeltaTable> deltaRole;
-	/* \brief	怪物当前回合的历史效果向量 */
-	std::vector<DeltaTable> deltaMonster;	
-	/* \brief	参数向量，当前效果函数参数 */
-	std::vector<int> efArgs;
-	/* \brief	当前效果的附加属性 */
-	EffectAffixes effectAffixes;
 };
 
 
