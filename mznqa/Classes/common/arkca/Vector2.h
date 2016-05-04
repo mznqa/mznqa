@@ -16,7 +16,7 @@ namespace ArKCa
 	 *
 	 * \brief	二维向量结构体
 	 *
-	 * \tparam	NumType	二维向量横纵值类型
+	 * \tparam	NumType	二维向量的横纵值类型
 	 */
 	template <typename NumType>
 	struct Vector2
@@ -71,8 +71,8 @@ namespace ArKCa
 		 *
 		 * \brief	设置向量的值
 		 *
-		 * \param	x	指定向量横向量
-		 * \param	y	指定向量纵向量
+		 * \param	x	指定向量的横向量
+		 * \param	y	指定向量的纵向量
 		 */
 		void set(NumType x, NumType y)
 		{

@@ -14,7 +14,7 @@ namespace ArKCa
 	 *
 	 * \brief	适用于矩形的尺寸结构体
 	 *
-	 * \tparam	NumType	标识尺寸长宽值的类型
+	 * \tparam	NumType	尺寸长宽值的类型
 	 */
 	template <typename NumType>
 	struct Size
@@ -66,6 +66,14 @@ namespace ArKCa
 			return *this;
 		}
 
+		/*!
+		 * \fn	void set(NumType width, NumType height)
+		 *
+		 * \brief	设置尺寸
+		 *
+		 * \param	width 	指定宽度值
+		 * \param	height	指定高度值
+		 */
 		void set(NumType width, NumType height)
 		{
 			this->width = width;

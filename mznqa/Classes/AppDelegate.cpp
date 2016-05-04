@@ -139,6 +139,4 @@ void AppDelegate::setResolutionPolicy()
 		TargetInfoInstance->getWindowSize().height
 		);
 	//////////////////////////////////////////////////////////////////////////
-
-	TargetInfoInstance->getDesignOrigin();
 }

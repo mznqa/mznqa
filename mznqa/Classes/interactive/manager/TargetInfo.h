@@ -15,7 +15,7 @@
 /*!
  * \class	TargetInfo
  *
- * \brief	有关窗口设备等有关尺寸和坐标信息
+ * \brief	[单例]有关窗口和设备等有关尺寸和坐标信息
  *
  */
 class TargetInfo
