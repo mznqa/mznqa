@@ -7,10 +7,13 @@
 #pragma execution_character_set("utf-8")
 
 #include "logic/core/CoreController.h"
+#include "logic/core/state/CoreStateGuide.h"
 
 CoreController::CoreController() :
 fSM(ArKCa::FiniteStateMachine<CoreController>(this))
 {
+	fSM.setGlobalState(nullptr);
+	fSM.setCurrentState(CoreStateGuide::Instance());
 }
 
 CoreController::~CoreController()
