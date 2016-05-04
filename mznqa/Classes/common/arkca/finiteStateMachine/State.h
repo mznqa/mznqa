@@ -1,4 +1,13 @@
+/*!
+ * \file	Classes\common\arkca\finiteStateMachine\State.h
+ *
+ * \brief	∂®“Â¿‡ ArKCa::State
+ */
+
 #pragma execution_character_set("utf-8")
+
+#ifndef MZNQA_CLASSES_COMMON_ARKCA_FINITESTATEMACHINE_STATE_H_
+#define MZNQA_CLASSES_COMMON_ARKCA_FINITESTATEMACHINE_STATE_H_
 
 namespace ArKCa
 {
@@ -58,3 +67,5 @@ namespace ArKCa
 		virtual bool exit(Entity *owner) = 0;
 	};
 }
+
+#endif

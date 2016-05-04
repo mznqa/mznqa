@@ -1,7 +1,7 @@
 /*!
  * \file	Classes\common\arkca\finiteStateMachine\FiniteStateMachine.h
  *
- * \brief	定义类 FiniteStateMachine
+ * \brief	定义类 ArKCa::FiniteStateMachine
  */
 
 #pragma execution_character_set("utf-8")
@@ -25,6 +25,17 @@ namespace ArKCa
 	class FiniteStateMachine
 	{
 	private:
+
+		/*!
+		 * \fn	FiniteStateMachine::FiniteStateMachine()
+		 *
+		 * \brief	隐藏的默认构造函数
+		 *
+		 */
+		FiniteStateMachine()
+		{
+		}
+
 		/*! \brief	指向状态机的持有者 */
 		Entity *owner;
 
