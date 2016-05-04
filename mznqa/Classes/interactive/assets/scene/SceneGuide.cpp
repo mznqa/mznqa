@@ -57,6 +57,7 @@ void SceneGuide::onExit()
 void SceneGuide::update(float dt)
 {
 	log("[information] 进入 SceneGuide 场景的逐帧调度器...");
+	CoreControllerInstance->update(dt);
 	log("[information] 离开 SceneGuide 场景的逐帧调度器");
 }
 
