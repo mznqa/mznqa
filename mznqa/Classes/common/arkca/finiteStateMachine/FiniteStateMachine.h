@@ -27,14 +27,12 @@ namespace ArKCa
 	private:
 
 		/*!
-		 * \fn	FiniteStateMachine::FiniteStateMachine()
+		 * \fn	FiniteStateMachine::FiniteStateMachine();
 		 *
 		 * \brief	隐藏的默认构造函数
 		 *
 		 */
-		FiniteStateMachine()
-		{
-		}
+		FiniteStateMachine();
 
 		/*! \brief	指向状态机的持有者 */
 		Entity *owner;

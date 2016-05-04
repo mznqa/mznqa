@@ -24,20 +24,20 @@ namespace ArKCa
 	private:
 
 		/*!
-		 * \fn	AnyTypeBase::AnyTypeBase(const AnyTypeBase &AnyTypeBase) = delete;
+		 * \fn	AnyTypeBase::AnyTypeBase(const AnyTypeBase &AnyTypeBase);
 		 *
 		 * \brief	隐藏的拷贝构造函数
 		 *
 		 */
-		AnyTypeBase(const AnyTypeBase &AnyTypeBase) = delete;
+		AnyTypeBase(const AnyTypeBase &AnyTypeBase);
 
 		/*!
-		 * \fn	AnyTypeBase& AnyTypeBase::operator=(const AnyTypeBase &AnyTypeBase) = delete;
+		 * \fn	AnyTypeBase& AnyTypeBase::operator=(const AnyTypeBase &AnyTypeBase);
 		 *
 		 * \brief	隐藏的拷贝赋值运算符
 		 *
 		 */
-		AnyTypeBase& operator=(const AnyTypeBase &AnyTypeBase) = delete;
+		AnyTypeBase& operator=(const AnyTypeBase &AnyTypeBase);
 	public:
 
 		/*!
@@ -83,28 +83,28 @@ namespace ArKCa
 	private:
 
 		/*!
-		 * \fn	AnyType::AnyType() = delete;
+		 * \fn	AnyType::AnyType();
 		 *
 		 * \brief	隐藏的默认构造函数
 		 *
 		 */
-		AnyType() = delete;
+		AnyType();
 
 		/*!
-		 * \fn	AnyType::AnyType(const AnyType &anyType) = delete;
+		 * \fn	AnyType::AnyType(const AnyType &anyType);
 		 *
 		 * \brief	隐藏的拷贝构造函数
 		 *
 		 */
-		AnyType(const AnyType &anyType) = delete;
+		AnyType(const AnyType &anyType);
 
 		/*!
-		 * \fn	AnyType& AnyType::operator=(const AnyType &anyType) = delete;
+		 * \fn	AnyType& AnyType::operator=(const AnyType &anyType);
 		 *
 		 * \brief	隐藏的拷贝赋值运算符
 		 *
 		 */
-		AnyType& operator=(const AnyType &anyType) = delete;
+		AnyType& operator=(const AnyType &anyType);
 
 		/*! \brief	保存的任意类型值 */
 		T value;
