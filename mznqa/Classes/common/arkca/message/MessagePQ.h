@@ -86,7 +86,7 @@ namespace ArKCa
 		*/
 		void pushMessage(const Message<MessageIDType> &message)
 		{
-			if (message.getID == InvalidID)
+			if (message.getID() == InvalidID)
 				return;
 
 			msgPQ.push(message);
