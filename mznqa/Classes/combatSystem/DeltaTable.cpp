@@ -3,13 +3,13 @@
 #include "DeltaTable.h"
 #include "CombatSystemInterface.h"
 
-void DeltaTable::setEffectHistoryInfo(const EffectAffixes& ea)
+void DeltaTable::setEffectHistoryInfo(const EffectAffixes& effectAffixes)
 {
-	this->ID = ea.cardId;
-	this->releaser = ea.releaser;
-	this->receiver = ea.receiver;
-	this->roundNumber = ea.efRound;
-	switch (ea.excuteStyle)
+	this->ID = effectAffixes.cardId;
+	this->releaser = effectAffixes.releaser;
+	this->receiver = effectAffixes.receiver;
+	this->roundNumber = effectAffixes.efRound;
+	switch (effectAffixes.excuteStyle)
 	{
 	case Effect::ExcuteStyle::ExcuteStyle_Before:
 		this->roundLevel = DeltaTable::RoundLevel::RoundLevel_Before;
@@ -26,48 +26,59 @@ void DeltaTable::setEffectHistoryInfo(const EffectAffixes& ea)
 void DeltaTable::setEffectTableBlood(const int deltaBlood)
 {
 	if (releaser == receiver)
+	{
+		this->flag = Flag_Blood_Role;
 		this->effectTable[0][0] = deltaBlood;
+	}
 	else
+	{
+		this->flag = Flag_Blood_Monster;
 		this->effectTable[0][1] = deltaBlood;
-	addHistoryEffect();
+	}
+	
 }
 
 void DeltaTable::setEffectTableArmor(const int deltaArmor)
 {
 	if (releaser == receiver)
+	{
+		this->flag = Flag_Armor_Role;
 		this->effectTable[1][0] = deltaArmor;
+	}
 	else
+	{
+		this->flag = Flag_Armor_Monster;
 		this->effectTable[1][1] = deltaArmor;
-	addHistoryEffect();
+	}
 }
 
 void DeltaTable::setEffectTableHandCardCount(const int deltaHandCardCount)
 {
 	this->effectTable[2][0] = deltaHandCardCount;
-	addHistoryEffect();
+	this->flag = Flag_Hand_Role;
 }
 
 void DeltaTable::setEffectTableDrawCardCount(const int deltaDrawCardCount)
 {
 	this->effectTable[3][0] = deltaDrawCardCount;
-	addHistoryEffect();
+	this->flag = Flag_Draw_Role;
 }
 
 void DeltaTable::setEffectTableDiscardCount(const int deltaDiscardCount)
 {
 	this->effectTable[4][0] = deltaDiscardCount;
-	addHistoryEffect();
+	this->flag = Flag_Discard_Role;
 }
 
 void DeltaTable::addHistoryEffect()
 {
 	switch (releaser)
 	{
-	case Effect::Releaser::Releaser_Role:
-		CombatSystemInterface::Instance()->getDeltaTableHistory().addTableRoleHistory(*this);
+	case EffectAffixes::Releaser::Releaser_Role:
+		CombatSystemInterface::Instance()->getDeltaTableHistory().addTableHistoryRole(*this);
 		break;
-	case Effect::Releaser::Releaser_Monster:
-		CombatSystemInterface::Instance()->getDeltaTableHistory().addTableMonsterHistory(*this);
+	case EffectAffixes::Releaser::Releaser_Monster:
+		CombatSystemInterface::Instance()->getDeltaTableHistory().addTableHistoryMonster(*this);
 		break;
 	}
 }

@@ -8,103 +8,102 @@ CombatSystemInterface* CombatSystemInterface::Instance()
 	return &csinterface;
 }
 
-int CombatSystemInterface::getRoleBlood()
+int CombatSystemInterface::getBloodRole()
 {
 	return role->getBloodValue();
 }
 
-int CombatSystemInterface::getRoleArmor()
+int CombatSystemInterface::getArmorRole()
 {
 	return role->getArmorValue();
 }
 
-int CombatSystemInterface::getRoleBloodMax()
+int CombatSystemInterface::getBloodMaxRole()
 {
 	return role->getBloodValueMax();
 }
 
-int CombatSystemInterface::getRoleHandCount()
+int CombatSystemInterface::getHandCountRole()
 {
 	return role->getHandCardCount();
 }
 
-void CombatSystemInterface::updateRoleHandCount(int delta)
+void CombatSystemInterface::updateHandCountRole(int delta)
 {
 	role->updateHandCount(delta);
 	return;
 }
 
-void CombatSystemInterface::setRoleDiscountCount(int delta)
+void CombatSystemInterface::setDiscountCountRole(int delta)
 {
 	role->setDiscardCount(delta);
 	return;
 }
 
-void CombatSystemInterface::updateRoleDrawCardCount(int delta)
+void CombatSystemInterface::updateDrawCardCountRole(int delta)
 {
 	role->updateDrawCardCount(delta);
 	return;
 }
 
-void CombatSystemInterface::updateRoleBlood(int delta)
+void CombatSystemInterface::updateBloodRole(int delta)
 {
 	role->updateBloodValue(delta);
 	return;
 }
 
-void CombatSystemInterface::updateRoleArmor(int delta)
+void CombatSystemInterface::updateArmorRole(int delta)
 {
 	role->updateArmorValue(delta);
 	return;
 }
 
-int CombatSystemInterface::getMonsterBlood()
+int CombatSystemInterface::getBloodMonster()
 {
 	return monster.getBloodValue();
 }
 
-int CombatSystemInterface::getMonsterArmor()
+int CombatSystemInterface::getArmorMonster()
 {
 	return monster.getArmorValue();
 }
 
-int CombatSystemInterface::getMonsterBloodMax()
+int CombatSystemInterface::getBloodMaxMonster()
 {
 	return monster.getBloodValueMax();
 }
 
-void CombatSystemInterface::updateMonsterBlood(int delta)
+void CombatSystemInterface::updateBloodMonster(int delta)
 {
 	monster.updateBloodValue(delta);
 	return;
 }
 
-void CombatSystemInterface::updateMonsterArmor(int delta)
+void CombatSystemInterface::updateArmorMonster(int delta)
 {
 	monster.updateArmorValue(delta);
 	return;
 }
 
-
 const std::vector<DeltaTable>& CombatSystemInterface::getRoundRoleDeltaTable(int round, DeltaTable::RoundLevel index)
 {
-	return dtHistory.getRoundRoleTable(round, index);
+	return dtHistory.getTableRoleByRoundAndIndex(round, index);
 }
 
-const std::vector<DeltaTable>& CombatSystemInterface::getCurrentRoundRoleDeltaTable(const int round)
+const std::vector<DeltaTable>& CombatSystemInterface::getDeltaTableRoleInCurrentRound()
 {
-	return dtHistory.getCurrentRoundRoleTable(round);
+	return dtHistory.getTableRoleInCurrentRound();
 
 }
 
 const std::vector<DeltaTable>& CombatSystemInterface::getRoundMonsterDeltaTable(int round, DeltaTable::RoundLevel index)
 {
-	return dtHistory.getRoundMonsterTable(round, index);
+	return dtHistory.getTableMonsterByRoundAndIndex(round, index);
 }
 
-const std::vector<DeltaTable>& CombatSystemInterface::getCurrentRoundMonsterDeltaTable(int round)
+const std::vector<DeltaTable>& CombatSystemInterface::getDeltaTableMonsterInCurrentRound()
 {
-	return dtHistory.getCurrentRoundMonsterTable(round);
+	return dtHistory.getTableMonsterInCurrentRound();
 }
 
 const EffectAffixes& CombatSystemInterface::getCurrentEffectAffixes()

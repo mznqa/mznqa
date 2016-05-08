@@ -2,7 +2,6 @@
 
 #include "combatSystem/DeltaTableHistory.h"
 #include <vector>
-#include "combatSystem/DeltaTable.h"
 #include "cocos2d.h"
 
 DeltaTableHistory::DeltaTableHistory()
@@ -13,105 +12,119 @@ DeltaTableHistory::~DeltaTableHistory()
 {
 }
 
-bool DeltaTableHistory::addTableRoleHistory(const DeltaTable& dt)
+bool DeltaTableHistory::addTableHistoryRole(const DeltaTable& deltaTable)
 {
-	tableRoleHistory.push_back(dt);
+	if (deltaTable.ID == DeltaTable::invalid || deltaTable.roundLevel == DeltaTable::RoundLevel_invalid || deltaTable.roundNumber == EffectAffixes::invalidEffectRoundValue)
+	{
+		return false;
+	}
+	tableHistoryRole.push_back(deltaTable);
 	return true;
 }
 
-void DeltaTableHistory::addTotalRoleHistory(int round)
+void DeltaTableHistory::addTotalTableHistoryRole(int round)
 {
 	//添加角色效果总表
-	DeltaTable total;
+	DeltaTable totalTable;
 	roundNumberRole = round;
-	total.roundNumber = roundNumberRole;
-	total.roundLevel = DeltaTable::RoundLevel_Total;
-	auto itBegin = this->getCurrentRoundRoleTable(round).begin();
-	auto itEnd = this->getCurrentRoundRoleTable(round).end();
+	totalTable.roundNumber = roundNumberRole;
+	totalTable.roundLevel = DeltaTable::RoundLevel_Total;
+	auto itBegin = this->getTableRoleInCurrentRound().begin();
+	auto itEnd = this->getTableRoleInCurrentRound().end();
+	int rowIndex, colIndex;
 	for (; itBegin != itEnd; ++itBegin)
 	{
-		for (int i = 0; i < total.row; ++i)
+		if (itBegin->flag == DeltaTable::Flag_Invalid)
 		{
-			for (int j = 0; j < total.col; ++j)
+			for (int i = 0; i < totalTable.row; ++i)
 			{
-				total.effectTable[i][j] += itBegin->effectTable[i][j];
+				for (int j = 0; j < totalTable.col; ++j)
+				{
+					totalTable.effectTable[i][j] += itBegin->effectTable[i][j];
+				}
 			}
 		}
+		else
+		{
+			getIndexByFlag(rowIndex, colIndex, itBegin->flag);
+			totalTable.effectTable[rowIndex][colIndex] += itBegin->effectTable[rowIndex][colIndex];
+		}
+		
 	}
-	tableRoleHistory.push_back(total);
+	tableHistoryRole.push_back(totalTable);
 
 	//添加角色回合结构体
-	DeltaRound dr;
-	dr.total = tableRoleHistory.size() - 1;
-	dr.roundNumber = round;
+	DeltaRound deltaRound;
+	deltaRound.total = tableHistoryRole.size() - 1;
+	deltaRound.roundNumber = round;
 	int curFirstIndex = 0;
 	if (round > 1)
 	{
-		curFirstIndex = roundRoleHistory.back().total + 1;
+		curFirstIndex = roundHistoryRole.back().total + 1;
 	}
-	for (int i = dr.total; i >= curFirstIndex; --i)
+	for (int i = deltaRound.total; i >= curFirstIndex; --i)
 	{
-		switch (tableRoleHistory[i].roundLevel)
+		switch (tableHistoryRole[i].roundLevel)
 		{
 		case DeltaTable::RoundLevel_Before:
-			dr.before = i;
+			deltaRound.before = i;
 			break;
 		case DeltaTable::RoundLevel_In:
-			dr.in = i;
+			deltaRound.in = i;
 			break;
 		case DeltaTable::RoundLevel_After:
-			dr.after = i;
+			deltaRound.after = i;
 			break;
 		case DeltaTable::RoundLevel_Total:
-			dr.total = i;
+			deltaRound.total = i;
 			break;
 		default:
 			break;
 		}
 	}
-	roundRoleHistory.push_back(dr);
+	roundHistoryRole.push_back(deltaRound);
 }
 
-const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllRoleTable(int round)
+const std::vector<DeltaTable>& DeltaTableHistory::getAllTableRoleByRound(int round)
 {
 	tableTemp.clear();
 	//若存在指定的回合数
 	if ( round <= roundNumberRole && round > 0)
 	{
-		auto it = tableRoleHistory.begin();
-		int beginIt = roundRoleHistory[round].before;
-		int endIt = roundRoleHistory[round].total;
+		auto it = tableHistoryRole.begin();
+		int beginIt = roundHistoryRole[round].before;
+		int endIt = roundHistoryRole[round].total;
 		tableTemp.resize(endIt - beginIt + 1);
 		copy(it + beginIt, it + endIt + 1, tableTemp.begin());
 	}
 	return tableTemp;
 }
 
-const std::vector<DeltaTable>& DeltaTableHistory::getRoundRoleTable(int round, DeltaTable::RoundLevel index)
+const std::vector<DeltaTable>& DeltaTableHistory::getTableRoleByRoundAndIndex(int round, DeltaTable::RoundLevel index)
 {
 	tableTemp.clear();
 	if (round <= roundNumberRole)
 	{
-		std::vector<DeltaTable>::iterator it = tableRoleHistory.begin();
+		std::vector<DeltaTable>::iterator it = tableHistoryRole.begin();
 		int beginIt;
 		int endIt;
 		switch (index)
 		{
 		case DeltaTable::RoundLevel_Before:
-			beginIt = roundRoleHistory[round].before;
-			endIt = roundRoleHistory[round].in;
+			beginIt = roundHistoryRole[round - 1].before;
+			endIt = roundHistoryRole[round - 1].in;
 			break;
 		case DeltaTable::RoundLevel_In:
-			beginIt = roundRoleHistory[round].in;
-			endIt = roundRoleHistory[round].after;
+			beginIt = roundHistoryRole[round - 1].in;
+			endIt = roundHistoryRole[round - 1].after;
 			break;
 		case DeltaTable::RoundLevel_After:
-			beginIt = roundRoleHistory[round].after;
-			endIt = roundRoleHistory[round].total;
+			beginIt = roundHistoryRole[round - 1].after;
+			endIt = roundHistoryRole[round - 1].total;
 			break;
 		case DeltaTable::RoundLevel_Total:
-			beginIt = roundRoleHistory[round].total;
-			endIt = roundRoleHistory[round].total;
+			beginIt = roundHistoryRole[round - 1].total;
+			endIt = roundHistoryRole[round - 1].total;
 			break;
 		default:
 			return tableTemp;
@@ -123,25 +136,25 @@ const std::vector<DeltaTable>& DeltaTableHistory::getRoundRoleTable(int round, D
 	return tableTemp;
 }
 
-const std::vector<DeltaTable>& DeltaTableHistory::getCurrentRoundRoleTable(int round)
+const std::vector<DeltaTable>& DeltaTableHistory::getTableRoleInCurrentRound()
 {
 	tableTemp.clear();
-	if (round < 1)
+	if (roundNumberRole < 1)
 	{
 		return tableTemp;
 	}
 	int index = 0;
 	//若指定的回合数不是第1回合
-	if (round > 1)
+	if (roundNumberRole > 1)
 	{
 		//获取当前回合历史效果的初始下标
-		index = roundRoleHistory.at(round - 2).total + 1;
+		index = roundHistoryRole.at(roundNumberRole - 2).total + 1;
 	}
-	auto itBegin = tableRoleHistory.begin() + index;
-	auto itEnd = tableRoleHistory.end();
+	auto itBegin = tableHistoryRole.begin() + index;
+	auto itEnd = tableHistoryRole.end();
 	for (; itBegin != itEnd; ++itBegin)
 	{
-		if (itBegin->roundNumber == round)
+		if (itBegin->roundNumber == roundNumberRole)
 		{
 			tableTemp.push_back(*itBegin);
 			
@@ -150,107 +163,122 @@ const std::vector<DeltaTable>& DeltaTableHistory::getCurrentRoundRoleTable(int r
 	return tableTemp;
 }
 
-bool DeltaTableHistory::addTableMonsterHistory(DeltaTable dt)
+bool DeltaTableHistory::addTableHistoryMonster(const DeltaTable& deltaTable)
 {
-	tableMonsterHistory.push_back(dt);
+	if (deltaTable.ID == DeltaTable::invalid || deltaTable.roundLevel == DeltaTable::RoundLevel_invalid || deltaTable.roundNumber == EffectAffixes::invalidEffectRoundValue)
+	{
+		return false;
+	}
+	tableHistoryMonster.push_back(deltaTable);
 	return true;
 }
 
-void DeltaTableHistory::addTotalMonsterHistory(int round)
+void DeltaTableHistory::addTotalTableHistoryMonster(int round)
 {
 	//添加怪物效果总表
-	DeltaTable total;
+	DeltaTable totalTable;
 	roundNumberMonster = round;
-	total.roundNumber = roundNumberMonster;
-	total.roundLevel = DeltaTable::RoundLevel_Total;
+	totalTable.roundNumber = roundNumberMonster;
+	totalTable.roundLevel = DeltaTable::RoundLevel_Total;
 
-	auto itBegin = this->getCurrentRoundMonsterTable(round).begin();
-	auto itEnd = this->getCurrentRoundMonsterTable(round).end();
+	auto itBegin = this->getTableMonsterInCurrentRound().begin();
+	auto itEnd = this->getTableMonsterInCurrentRound().end();
+	int rowIndex, colIndex;
 
 	for (; itBegin != itEnd;++itBegin)
 	{
-		for (int i = 0; i < total.row; ++i)
+		if (itBegin->flag == DeltaTable::Flag_Invalid)
 		{
-			for (int j = 0; j < total.col; ++j)
+			for (int i = 0; i < totalTable.row; ++i)
 			{
-				total.effectTable[i][j] += itBegin->effectTable[i][j];
+				for (int j = 0; j < totalTable.col; ++j)
+				{
+					totalTable.effectTable[i][j] += itBegin->effectTable[i][j];
+				}
 			}
 		}
+		else
+		{
+			getIndexByFlag(rowIndex, colIndex, itBegin->flag);
+			totalTable.effectTable[rowIndex][colIndex] += itBegin->effectTable[rowIndex][colIndex];
+		}
+		
 	}
-	tableMonsterHistory.push_back(total);
+
+	tableHistoryMonster.push_back(totalTable);
 
 	//添加怪物回合结构体
-	DeltaRound dr;
-	dr.total = tableMonsterHistory.size() - 1;
-	dr.roundNumber = round;
+	DeltaRound deltaRound;
+	deltaRound.total = tableHistoryMonster.size() - 1;
+	deltaRound.roundNumber = round;
 	int curFirstIndex = 0;
 	if (round > 1)
 	{
-		curFirstIndex = roundMonsterHistory.back().total + 1;
+		curFirstIndex = roundHistoryMonster.back().total + 1;
 	}
-	for (int i = dr.total; i >= curFirstIndex; --i)
+	for (int i = deltaRound.total; i >= curFirstIndex; --i)
 	{
-		switch (tableMonsterHistory[i].roundLevel)
+		switch (tableHistoryMonster[i].roundLevel)
 		{
 		case DeltaTable::RoundLevel_Before:
-			dr.before = i;
+			deltaRound.before = i;
 			break;
 		case DeltaTable::RoundLevel_In:
-			dr.in = i;
+			deltaRound.in = i;
 			break;
 		case DeltaTable::RoundLevel_After:
-			dr.after = i;
+			deltaRound.after = i;
 			break;
 		case DeltaTable::RoundLevel_Total:
-			dr.total = i;
+			deltaRound.total = i;
 			break;
 		default:
 			break;
 		}
 	}
-	roundMonsterHistory.push_back(dr);
+	roundHistoryMonster.push_back(deltaRound);
 }
 
-const std::vector<DeltaTable>& DeltaTableHistory::getRoundAllMonsterTable(int round)
+const std::vector<DeltaTable>& DeltaTableHistory::getAllTableMonsterByRound(int round)
 {
 	tableTemp.clear();
 	//若存在指定的回合数
 	if (round <= roundNumberMonster && round > 0)
 	{
-		std::vector<DeltaTable>::iterator it = tableMonsterHistory.begin();
-		int beginIt = roundMonsterHistory[round].before;
-		int endIt = roundMonsterHistory[round].total;
+		std::vector<DeltaTable>::iterator it = tableHistoryMonster.begin();
+		int beginIt = roundHistoryMonster[round].before;
+		int endIt = roundHistoryMonster[round].total;
 		tableTemp.resize(endIt - beginIt + 1);
 		copy(it + beginIt, it + endIt + 1, tableTemp.begin());
 	}
 	return tableTemp;
 }
 
-const std::vector<DeltaTable>& DeltaTableHistory::getRoundMonsterTable(int round, DeltaTable::RoundLevel index)
+const std::vector<DeltaTable>& DeltaTableHistory::getTableMonsterByRoundAndIndex(int round, DeltaTable::RoundLevel index)
 {
 	tableTemp.clear();
 	if (round <= roundNumberMonster && round > 0)
 	{
-		std::vector<DeltaTable>::iterator it = tableMonsterHistory.begin();
+		std::vector<DeltaTable>::iterator it = tableHistoryMonster.begin();
 		int beginIt;
 		int endIt;
 		switch (index)
 		{
 		case DeltaTable::RoundLevel_Before:
-			beginIt = roundMonsterHistory[round - 1].before;
-			endIt = roundRoleHistory[round - 1].in;
+			beginIt = roundHistoryMonster[round - 1].before;
+			endIt = roundHistoryRole[round - 1].in;
 			break;
 		case DeltaTable::RoundLevel_In:
-			beginIt = roundMonsterHistory[round - 1].in;
-			endIt = roundMonsterHistory[round - 1].after;
+			beginIt = roundHistoryMonster[round - 1].in;
+			endIt = roundHistoryMonster[round - 1].after;
 			break;
 		case DeltaTable::RoundLevel_After:
-			beginIt = roundMonsterHistory[round - 1].after;
-			endIt = roundMonsterHistory[round - 1].total;
+			beginIt = roundHistoryMonster[round - 1].after;
+			endIt = roundHistoryMonster[round - 1].total;
 			break;
 		case DeltaTable::RoundLevel_Total:
-			beginIt = roundMonsterHistory[round - 1].total;
-			endIt = roundMonsterHistory[round - 1].total;
+			beginIt = roundHistoryMonster[round - 1].total;
+			endIt = roundHistoryMonster[round - 1].total;
 			break;
 		default:
 			return tableTemp;
@@ -263,25 +291,25 @@ const std::vector<DeltaTable>& DeltaTableHistory::getRoundMonsterTable(int round
 	return tableTemp;
 }
 
-const std::vector<DeltaTable>& DeltaTableHistory::getCurrentRoundMonsterTable(int round)
+const std::vector<DeltaTable>& DeltaTableHistory::getTableMonsterInCurrentRound()
 {
 	tableTemp.clear();
-	if (round < 1)
+	if (roundNumberMonster < 1)
 	{
 		return tableTemp;
 	}
 	int index = 0;
 	//若指定的回合数不是第1回合
-	if (round > 1)
+	if (roundNumberMonster > 1)
 	{
 		//获取当前回合历史效果的初始下标
-		index = roundMonsterHistory.at(round - 2).total + 1;
+		index = roundHistoryMonster.at(roundNumberMonster - 2).total + 1;
 	}
-	auto itBegin = tableMonsterHistory.begin() + index;
-	auto itEnd = tableMonsterHistory.end();
+	auto itBegin = tableHistoryMonster.begin() + index;
+	auto itEnd = tableHistoryMonster.end();
 	for (; itBegin != itEnd; ++itBegin)
 	{
-		if (itBegin->roundNumber == round)
+		if (itBegin->roundNumber == roundNumberMonster)
 		{
 			tableTemp.push_back(*itBegin);
 		}
@@ -289,6 +317,43 @@ const std::vector<DeltaTable>& DeltaTableHistory::getCurrentRoundMonsterTable(in
 	return tableTemp;
 }
 
+
+void DeltaTableHistory::getIndexByFlag(int& rowIndex, int& colIndex, DeltaTable::Flag flag)
+{
+	switch (flag)
+	{
+	case DeltaTable::Flag_Blood_Role:
+		rowIndex = 0;
+		colIndex = 0;
+		break;
+	case DeltaTable::Flag_Blood_Monster:
+		rowIndex = 0;
+		colIndex = 1;
+		break;
+	case DeltaTable::Flag_Armor_Role:
+		rowIndex = 1;
+		colIndex = 0;
+		break;
+	case DeltaTable::Flag_Armor_Monster:
+		rowIndex = 1;
+		colIndex = 1;
+		break;
+	case DeltaTable::Flag_Hand_Role:
+		rowIndex = 2;
+		colIndex = 0;
+		break;
+	case DeltaTable::Flag_Draw_Role:
+		rowIndex = 3;
+		colIndex = 0;
+		break;
+	case DeltaTable::Flag_Discard_Role:
+		rowIndex = 4;
+		colIndex = 0;
+		break;
+	default:
+		break;
+	}
+}
 
 void DeltaTableHistory::test()
 {

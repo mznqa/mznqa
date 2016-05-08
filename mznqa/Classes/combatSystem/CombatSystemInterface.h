@@ -6,9 +6,7 @@
 #include "gameobject/Role.h"
 #include "gameobject/Monster.h"
 #include "combatSystem/DeltaTableHistory.h"
-#include "combatSystem/EffectPQ.h"
 #include "combatSystem/CombatSystem.h"
-#include "Effect/Effect.h"
 
 /*！
  * \class	CombatSystemInterface
@@ -47,7 +45,7 @@ public:
 	 *
 	 * \return	返回角色当前血量
 	 */
-	int getRoleBlood();
+	int getBloodRole();
 
 	/*！
 	 * \fn	int CombatSystemInterface::getRoleArmor();
@@ -56,7 +54,7 @@ public:
 	 *
 	 * \return	返回角色当前护甲
 	 */
-	int getRoleArmor();
+	int getArmorRole();
 
 	/*！
 	 * \fn	int CombatSystemInterface::getRoleBloodMax();
@@ -65,7 +63,7 @@ public:
 	 *
 	 * \return	返回角色血量上限
 	 */
-	int getRoleBloodMax();
+	int getBloodMaxRole();
 
 	/*！
 	 * \fn	int CombatSystemInterface::getRoleHandCount();
@@ -74,7 +72,7 @@ public:
 	 *
 	 * \return	返回角色当前手牌数
 	 */
-	int getRoleHandCount();
+	int getHandCountRole();
 
 	/*！
 	 * \fn	void CombatSystemInterface::updateRoleHandCount(int delta);
@@ -83,7 +81,7 @@ public:
 	 *
 	 * \param	delta	指定将用于更新角色手牌数的增减量
 	 */
-	void updateRoleHandCount(int delta);
+	void updateHandCountRole(int delta);
 
 	/*！
 	 * \fn	void CombatSystemInterface::setRoleDiscountCount(int delta);
@@ -92,7 +90,7 @@ public:
 	 *
 	 * \param	delta	指定用于设置角色手牌数的值
 	 */
-	void setRoleDiscountCount(int delta);
+	void setDiscountCountRole(int delta);
 
 	/*！
 	 * \fn	void CombatSystemInterface::updateRoleDrawCardCount(int delta);
@@ -101,7 +99,7 @@ public:
 	 *
 	 * \param	delta	指定将用于更新角色抽牌数的增减量
 	 */
-	void updateRoleDrawCardCount(int delta);
+	void updateDrawCardCountRole(int delta);
 
 	/*！
 	 * \fn	void CombatSystemInterface::updateRoleBlood(int delta);
@@ -110,7 +108,7 @@ public:
 	 *
 	 * \param	delta	指定将用于更新角色血量的增减量
 	 */
-	void updateRoleBlood(int delta);
+	void updateBloodRole(int delta);
 
 	/*！
 	 * \fn	void CombatSystemInterface::updateRoleArmor(int delta);
@@ -119,7 +117,7 @@ public:
 	 *
 	 * \param	delta	指定将用于更新角色护甲的增减量
 	 */
-	void updateRoleArmor(int delta);
+	void updateArmorRole(int delta);
 
 	/*！
 	 * \fn	int CombatSystemInterface::getMonsterBlood();
@@ -128,7 +126,7 @@ public:
 	 *
 	 * \return	返回怪物当前血量
 	 */
-	int getMonsterBlood();
+	int getBloodMonster();
 
 	/*！
 	 * \fn	int CombatSystemInterface::getMonsterArmor();
@@ -137,7 +135,7 @@ public:
 	 *
 	 * \return	返回怪物当前护甲
 	 */
-	int getMonsterArmor();
+	int getArmorMonster();
 
 	/*！
 	 * \fn	int CombatSystemInterface::getMonsterBloodMax();
@@ -146,7 +144,7 @@ public:
 	 *
 	 * \return	返回怪物血量上限
 	 */
-	int getMonsterBloodMax();
+	int getBloodMaxMonster();
 
 	/*！
 	 * \fn	void CombatSystemInterface::updateMonsterBlood(int delta);
@@ -155,7 +153,7 @@ public:
 	 *
 	 * \param	delta	指定将用于更新怪物血量的增减量
 	 */
-	void updateMonsterBlood(int delta);
+	void updateBloodMonster(int delta);
 
 	/*！
 	 * \fn	void CombatSystemInterface::updateMonsterArmor(int delta);
@@ -164,7 +162,7 @@ public:
 	 *
 	 * \param	delta	指定将用于更新怪物护甲的增减量
 	 */
-	void updateMonsterArmor(int delta);
+	void updateArmorMonster(int delta);
 
 	/*！
 	* \fn	DeltaTableHistory& CombatSystemInterface::getDeltaTableHistory();
@@ -179,15 +177,13 @@ public:
 	}
 
 	/*！
-	 * \fn	const std::vector<DeltaTable>& CombatSystemInterface::getCurrentRoundRoleDeltaTable(const int round);
+	 * \fn	const std::vector<DeltaTable>& CombatSystemInterface::getDeltaTableRoleInCurrentRound();
 	 *
 	 * \brief	根据指定的回合数来获取角色当前回合的效果历史向量.
 	 *
-	 * \param	round	指定的回合数
-	 *
 	 * \return	返回角色当前回合的效果历史向量.
 	 */
-	const std::vector<DeltaTable>& getCurrentRoundRoleDeltaTable(const int round);
+	const std::vector<DeltaTable>& getDeltaTableRoleInCurrentRound();
 	
 	/*！
 	 * \fn	const std::vector<DeltaTable>& CombatSystemInterface::getRoundRoleDeltaTable(int round, DeltaTable::RoundLevel index);
@@ -214,16 +210,15 @@ public:
 	const std::vector<DeltaTable>& getRoundMonsterDeltaTable(int round, DeltaTable::RoundLevel index);
 
 	/*！
-	 * \fn	const std::vector<DeltaTable>& CombatSystemInterface::getCurrentRoundMonsterDeltaTable(int round);
+	 * \fn	const std::vector<DeltaTable>& CombatSystemInterface::getDeltaTableMonsterInCurrentRound();
 	 *
 	 * \brief	根据指定的回合数来获取怪物当前历史效果向量.
 	 *
-	 * \param	round	指定的回合数.
-	 *
 	 * \return	返回怪物当前历史效果向量.
+	 *
+	 * param	round	指定的回合数.
 	 */
-
-	const std::vector<DeltaTable>& getCurrentRoundMonsterDeltaTable(int round);
+	const std::vector<DeltaTable>& getDeltaTableMonsterInCurrentRound();
 
 	/*！
 	 * \fn	const EffectAffixes& CombatSystemInterface::getCurrentEffectAffixes()

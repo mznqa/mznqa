@@ -129,7 +129,7 @@ private:
 	/*! \brief	存放效果函数的集合 */
 	static const std::map<int, std::function<bool(const std::vector<int>&)>> funSet;
 
-	static CombatSystemInterface* const csi;
+	static CombatSystemInterface* const combatSystemInterface;
 };
 
 #endif

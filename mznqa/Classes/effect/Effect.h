@@ -58,17 +58,6 @@ public:
 		Receiver_Self = 1	///< 自身
 	};
 
-	/*！
-	* \enum	Releaser
-	*
-	* \brief	枚举效果的释放者
-	*/
-	enum Releaser
-	{
-		Releaser_Monster = 0,	///< 怪物
-		Releaser_Role = 1		///< 角色
-	};
-
 	/*!
 	 * \fn	Effect::Effect ( const std::string &describe, Behavior behavior, Receiver receiver, ExcuteStyle excuteStyle, int funIndex, const std::vector<int> &args )
 	 *

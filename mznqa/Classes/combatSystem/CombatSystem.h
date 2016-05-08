@@ -173,7 +173,7 @@ public:
 
 	static EffectAffixes& getEffectAffixes()
 	{
-		return efAffixes;
+		return currentEffectAffixes;
 	}
 
 	//测试单元
@@ -191,8 +191,8 @@ private:
 	/*! \brief	怪物选定的用于战斗的技能卡 */
 	int monsterUseCardId = CardBase::invalidID;
 
-	//当前效果附加属性
-	static EffectAffixes efAffixes;
+	/* \brief	当前效果附加属性 */
+	static EffectAffixes currentEffectAffixes;
 };
 
 #endif // !MZNQA_CLASSES_COMBATSYSTEM_COMBATSYSTEM_H_

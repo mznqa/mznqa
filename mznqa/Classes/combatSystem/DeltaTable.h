@@ -39,13 +39,12 @@ struct DeltaTable
 	/* \brief	记录效果的执行阶段 */
 	RoundLevel roundLevel = RoundLevel_invalid;
 
-
 	//效果释放者
-	Effect::Releaser releaser;
+	EffectAffixes::Releaser releaser;
 	//效果接收者
 	Effect::Receiver receiver;
 	//设置历史效果信息
-	void setEffectHistoryInfo(const EffectAffixes& ea);
+	void setEffectHistoryInfo(const EffectAffixes& effectAffixes);
 	//设置历史效果基础血量
 	void setEffectTableBlood(const int deltaBlood);
 	//设置历史效果基础护甲
@@ -59,9 +58,21 @@ struct DeltaTable
 	//添加历史效果
 	void addHistoryEffect();
 
+	enum Flag
+	{
+		Flag_Invalid = -1,
+		Flag_Blood_Role,
+		Flag_Blood_Monster,
+		Flag_Armor_Role,
+		Flag_Armor_Monster,
+		Flag_Hand_Role,
+		Flag_Draw_Role,
+		Flag_Discard_Role
+	};
+	Flag flag = Flag_Invalid;
 
 	/* \brief	记录效果的释放回合数 */
-	int roundNumber = invalid;
+	int roundNumber = EffectAffixes::invalidEffectRoundValue;
 
 	static const int row = 5,  col = 2;
 	/* \brief	记录效果影响基础属性的二维表 */
@@ -114,7 +125,7 @@ struct DeltaRound
 	int total = invalIndex;
 
 	/* \brief	回合数 */
-	int roundNumber = 1;
+	int roundNumber = EffectAffixes::invalidEffectRoundValue;
 };
 
 

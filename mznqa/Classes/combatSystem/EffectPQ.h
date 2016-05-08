@@ -11,6 +11,7 @@
 
 #include <queue>
 #include <functional>
+#include <array>
 #include <vector>
 #include "effect/Effect.h"
 #include "card/CardBase.h"
@@ -32,15 +33,26 @@ struct EffectAffixes
 	/*! \brief	指向技能卡 cardId 中的效果的索引 */
 	int effectIndex;
 
+	/*！
+	* \enum	Releaser
+	*
+	* \brief	枚举效果的释放者
+	*/
+	enum Releaser
+	{
+		Releaser_Monster = 0,	///< 怪物
+		Releaser_Role = 1		///< 角色
+	};
+
 	/* \brief	效果的释放者 */
-	Effect::Releaser releaser;
+	Releaser releaser;
 	/* \brief	指向技能卡 cardId 中的效果的接收者 */
 	Effect::Receiver receiver;
 	/* \brief	标识效果在哪个阶段执行 */
 	Effect::ExcuteStyle excuteStyle;
 	/* \brief	标识效果在第几回合执行 */
-	int efRound;
-
+	int efRound = invalidEffectRoundValue;
+	
 	/*！
 	 * \fn	EffectAffixes()
 	 *
@@ -57,21 +69,31 @@ struct EffectAffixes
 	static const int invalidCardIdValue = CardBase::invalidID;
 	/*! \brief	无效的效果索引 */
 	static const int invalidEffectIndexValue = -1;
+	/* \brief	无效的效果回合数 */
+	static const int invalidEffectRoundValue = -1;
 
-	/*!
-	 * \fn	EffectAffixes(int level, int cardId, int effectIndex)
+	/*！
+	 * \fn	EffectAffixes(int level, int cardId, int effectIndex, Releaser releaser, Effect::Receiver receiver, Effect::ExcuteStyle excuteStyle, int efRound)
 	 *
-	 * \brief	构造函数
+	 * \brief	构造函数.
 	 *
 	 * \param	level	   	指定优先级
 	 * \param	cardId	   	指定指向的技能卡id
-	 * \param	effectIndex	指向指向的效果索引
+	 * \param	effectIndex	指定指向的效果索引
+	 * \param	releaser   	指定指向的效果释放者
+	 * \param	receiver   	指定指向的效果接收者
+	 * \param	excuteStyle	指定指向的效果执行段
+	 * \param	efRound	   	指定指向的效果回合数
 	 */
-	EffectAffixes(int level, int cardId, int effectIndex)
+	EffectAffixes(int level, int cardId, int effectIndex, Releaser releaser, Effect::Receiver receiver, Effect::ExcuteStyle excuteStyle, int efRound)
 	{
 		this->level = level;
 		this->cardId = cardId;
 		this->effectIndex = effectIndex;
+		this->releaser = releaser;
+		this->receiver = receiver;
+		this->excuteStyle = excuteStyle;
+		this->efRound = efRound;
 	}
 
 	/*!
@@ -113,7 +135,13 @@ struct EffectAffixes
 	 */
 	bool operator == (const EffectAffixes &rhs) const
 	{
-		return ((this->level == rhs.level) && (this->cardId == rhs.cardId) && (this->effectIndex == rhs.effectIndex));
+		return ((this->level == rhs.level) && 
+				(this->cardId == rhs.cardId) && 
+				(this->effectIndex == rhs.effectIndex) &&
+				(this->releaser == rhs.releaser) && 
+				(this->receiver == rhs.receiver) &&
+				(this->excuteStyle == rhs.excuteStyle) &&
+				(this->efRound == rhs.efRound));
 	}
 };
 
@@ -125,209 +153,66 @@ struct EffectAffixes
  */
 class EffectPQ
 {
+public:
+	//效果队列下标索引
+	enum EffectQueueIndex
+	{
+		EffectQueueIndex_Global = 0,
+		EffectQueueIndex_Before = 1,
+		EffectQueueIndex_In = 2,
+		EffectQueueIndex_After = 3		
+	};
+	//每回合最大的队列个数
+	static const int queueSizeMax = 4;
+
+	//构造函数
+	EffectPQ();
+	//析构函数
+	~EffectPQ();
+	//根据指定的相对回合数和下标索引，向角色队列添加效果附加属性
+	void pushEffectAffixesRole(EffectAffixes& effectAffixes, const int relRound, const int index);
+
+	//根据效果的执行阶段，获取角色当前回合该阶段的效果附加属性实例
+	const EffectAffixes& getEffectAffixesRole(EffectQueueIndex effectQueueIndex);
+
+	//根据指定的相对回合数和下标索引，获取角色指定索引内的最大的优先级
+	int getEPQLevelMaxRoleByRoundAndIndex(const int relRound, const int index);
+
+	//根据指定的相对回合数和下标索引，弹出角色指定索引内最小优先级的效果附加属性实例
+	void popEffectAffixesRole(const int relRound, const int index);
+
+	//角色每回合的效果向后推移
+	void decreaseRoundEffectRole();
+
+
+	//根据指定的相对回合数和下标索引，向怪物队列添加效果附加属性
+	void pushEffectAffixesMonster(EffectAffixes& effectAffixes, const int relRound, const int index);
+	//根据效果的执行阶段，获取怪物当前回合该阶段的效果附加属性实例
+	const EffectAffixes& getEffectAffixesMonster(EffectQueueIndex effectQueueIndex);
+	//根据指定的相对回合数和下标索引，获取怪物指定索引内的最大的优先级
+	int getEPQLevelMaxMonsterByRoundAndIndex(const int relRound, const int index);
+
+	//根据指定的相对回合数和下标索引，弹出怪物指定索引内最小优先级的效果附加属性实例
+	void popEffectAffixesMonster(const int relRound, const int index);
+
+	//怪物每回合的效果向后推移
+	void decreaseRoundEffectMonster();
+	
+	//根据直效果的执行阶段，获取队列的索引
+	const int getIndexByExcuteStyle(Effect::ExcuteStyle excuteStyle);
+
+	//检查指定参数是否越界
+	bool checkOutOfRange(const int& relRound, const int& index);
+	
 private:
 
-	/*! \brief	预定义的空效果 */
+	//角色效果队列
+	std::vector<std::array<std::priority_queue<int, std::vector<EffectAffixes>, std::greater<EffectAffixes>>, queueSizeMax>> rolePQ;
+	//怪物效果队列
+	std::vector<std::array<std::priority_queue<int, std::vector<EffectAffixes>, std::greater<EffectAffixes>>, queueSizeMax>> monsterPQ;
+	//预定义的空效果
 	const static EffectAffixes nullEffectAffixes;
-
-	/*! \brief	子队列：角色用效果队列 */
-	std::priority_queue<EffectAffixes, std::vector<EffectAffixes>, std::greater<EffectAffixes>> rolePQ;
-	/*! \brief	子队列：怪物用效果队列 */
-	std::priority_queue<EffectAffixes, std::vector<EffectAffixes>, std::greater<EffectAffixes>> monsterPQ;
-
-public:
-
-	/*!
-	 * \enum	EffectLevelInterval
-	 *
-	 * \brief	分级区间
-	 */
-	enum EffectLevelInterval
-	{
-		EffectLevelInterval_Global_Left = 0,	///< 全局-左端点
-		EffectLevelInterval_Global_Right = 99,	///< 全局-右端点
-		EffectLevelInterval_Before_Left = 100,	///< 战斗前-左端点
-		EffectLevelInterval_Before_Right = 199,	///< 战斗前-右端点
-		EffectLevelInterval_In_Left = 200,		///< 战斗过程中-左端点
-		EffectLevelInterval_In_Right = 299,		///< 战斗过程中-右端点
-		EffectLevelInterval_After_Left = 300,	///< 战斗后-左端点
-		EffectLevelInterval_After_Right = 399	///< 战斗后-右端点
-	};
-
-	/*! \brief	逐回合效果优先级递增值，每回合效果队列中的优先级应减少该值 */
-	static const int roundEffectLevel = 1000;
-
-	/*!
-	 * \fn	EffectPQ::EffectPQ();
-	 *
-	 * \brief	构造函数
-	 *
-	 */
-	EffectPQ();
-
-	/*!
-	 * \fn	EffectPQ::~EffectPQ();
-	 *
-	 * \brief	析构函数
-	 *
-	 */
-	~EffectPQ();
-
-	/*!
-	 * \fn	void EffectPQ::pushRoleEffectAffixes(EffectAffixes effectAffixes);
-	 *
-	 * \brief	向角色队列中推送效果
-	 *
-	 * \param	effectAffixes	待推送的效果实例
-	 */
-	void pushRoleEffectAffixes(EffectAffixes effectAffixes);
-
-	/*!
-	 * \fn	bool EffectPQ::isRoleEffectPQEmpty();
-	 *
-	 * \brief	判断角色效果队列是否为空
-	 *
-	 * \return	返回角色效果队列是否为空
-	 */
-	bool isRoleEffectPQEmpty();
-
-	/*!
-	 * \fn	EffectAffixes EffectPQ::getRoleEffectAffixesByInterval(EffectPQ::EffectLevelInterval leftInterval, EffectPQ::EffectLevelInterval rightInterval);
-	 *
-	 * \brief	从角色队中弹出给定优先级区间内的最小优先级效果实例
-	 *
-	 * \param	leftInterval 	左优先级区间
-	 * \param	rightInterval	右优先级区间
-	 *
-	 * \return	弹出角色队列中给定优先级区间内的最小优先级效果实例
-	 */
-	EffectAffixes getRoleEffectAffixesByInterval(EffectPQ::EffectLevelInterval leftInterval, EffectPQ::EffectLevelInterval rightInterval);
-
-	/*!
-	 * \fn	void EffectPQ::decreaseRoleEffectLevel();
-	 *
-	 * \brief	将整个角色队列中的元素逐一递减一个 roundEffectLevel
-	 *
-	 */
-	void decreaseRoleEffectLevel();
-
-	/*!
-	 * \fn	int EffectPQ::getRoleEPQLevelMaxByRoundAndInterval(int relRound, EffectPQ::EffectLevelInterval leftInterval, EffectPQ::EffectLevelInterval rightInterval);
-	 *
-	 * \brief	获取给定相对回合和优先级区间内的当前角色队列中的最大优先级值
-	 *
-	 * \param	relRound	 	给定相对回合数，0指代当前回合，1则为下回合，以此类推
-	 * \param	leftInterval	优先级左端点
-	 * \param	rightInterval	优先级右端点
-	 *
-	 * \return	返回给定相对回合和优先级区间内的当前角色队列中的最大优先级值
-	 */
-	int getRoleEPQLevelMaxByRoundAndInterval(int relRound, EffectPQ::EffectLevelInterval leftInterval, EffectPQ::EffectLevelInterval rightInterval);
-
-	/*!
-	 * \fn	void EffectPQ::popRoleEffectAffixes();
-	 *
-	 * \brief	弹出整个角色队列中优先级最小的效果
-	 *
-	 */
-	void popRoleEffectAffixes();
-
-	/*!
-	 * \fn	void EffectPQ::popRoleEffectAffixes(EffectPQ::EffectLevelInterval leftInterval, EffectPQ::EffectLevelInterval rightInterval);
-	 *
-	 * \brief	弹出角色队列中给定优先级区间内优先级最小的效果
-	 *
-	 * \param	leftInterval 	优先级左端点
-	 * \param	rightInterval	优先级右端点
-	 */
-	void popRoleEffectAffixes(EffectPQ::EffectLevelInterval leftInterval, EffectPQ::EffectLevelInterval rightInterval);
-
-	/*!
-	 * \fn	void EffectPQ::popRoleEffectAffixes(EffectAffixes effectAffixes);
-	 *
-	 * \brief	给定角色队列中的某一效果，并将其弹出
-	 *
-	 * \param	effectAffixes	指定角色队列中的某一效果
-	 */
-	void popRoleEffectAffixes(EffectAffixes effectAffixes);
-
-	/*!
-	 * \fn	void EffectPQ::pushMonsterEffectAffixes(EffectAffixes effectAffixes);
-	 *
-	 * \brief	向怪物队列中推送效果
-	 *
-	 * \param	effectAffixes	待推送的效果实例
-	 */
-	void pushMonsterEffectAffixes(EffectAffixes effectAffixes);
-
-	/*!
-	 * \fn	bool EffectPQ::isMonsterEffectPQEmpty();
-	 *
-	 * \brief	判断怪物效果队列是否为空
-	 *
-	 * \return	返回怪物效果队列是否为空
-	 */
-	bool isMonsterEffectPQEmpty();
-
-	/*!
-	 * \fn	EffectAffixes EffectPQ::getMonsterEffectAffixesByInterval(EffectPQ::EffectLevelInterval leftInterval, EffectPQ::EffectLevelInterval rightInterval);
-	 *
-	 * \brief	从怪物队中弹出给定优先级区间内的最小优先级效果实例
-	 *
-	 * \param	leftInterval 	左优先级区间
-	 * \param	rightInterval	右优先级区间
-	 *
-	 * \return	弹出角色队列中给定优先级区间内的最小优先级效果实例
-	 */
-	EffectAffixes getMonsterEffectAffixesByInterval(EffectPQ::EffectLevelInterval leftInterval, EffectPQ::EffectLevelInterval rightInterval);
-
-	/*!
-	 * \fn	void EffectPQ::decreaseMonsterEffectLevel();
-	 *
-	 * \brief	将整个怪物队列中的元素逐一递减一个 roundEffectLevel
-	 *
-	 */
-	void decreaseMonsterEffectLevel();
-
-	/*!
-	 * \fn	int EffectPQ::getMonsterEPQLevelMaxByRoundAndInterval(int relRound, EffectPQ::EffectLevelInterval leftInterval, EffectPQ::EffectLevelInterval rightInterval);
-	 *
-	 * \brief	获取给定相对回合和优先级区间内的当前怪物队列中的最大优先级值
-	 *
-	 * \param	relRound	 	给定相对回合数，0指代当前回合，1则为下回合，以此类推
-	 * \param	leftInterval	优先级左端点
-	 * \param	rightInterval	优先级右端点
-	 *
-	 * \return	返回给定相对回合和优先级区间内的当前怪物队列中的最大优先级值
-	 */
-	int getMonsterEPQLevelMaxByRoundAndInterval(int relRound, EffectPQ::EffectLevelInterval leftInterval, EffectPQ::EffectLevelInterval rightInterval);
-
-	/*!
-	 * \fn	void EffectPQ::popMonsterEffectAffixes();
-	 *
-	 * \brief	弹出整个角色队列中优先级最小的效果
-	 *
-	 */
-	void popMonsterEffectAffixes();
-
-	/*!
-	 * \fn	void EffectPQ::popMonsterEffectAffixes(EffectPQ::EffectLevelInterval leftInterval, EffectPQ::EffectLevelInterval rightInterval);
-	 *
-	 * \brief	弹出怪物队列中给定优先级区间内优先级最小的效果
-	 *
-	 * \param	leftInterval 	优先级左端点
-	 * \param	rightInterval	优先级右端点
-	 */
-	void popMonsterEffectAffixes(EffectPQ::EffectLevelInterval leftInterval, EffectPQ::EffectLevelInterval rightInterval);
-
-	/*!
-	 * \fn	void EffectPQ::popMonsterEffectAffixes(EffectAffixes effectAffixes);
-	 *
-	 * \brief	给定怪物队列中的某一效果，并将其弹出
-	 *
-	 * \param	effectAffixes	指定怪物队列中的某一效果
-	 */
-	void popMonsterEffectAffixes(EffectAffixes effectAffixes);
 };
+
 
 #endif
