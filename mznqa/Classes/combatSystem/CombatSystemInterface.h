@@ -39,128 +39,128 @@ public:
 	static CombatSystemInterface* Instance();
 
 	/*！
-	 * \fn	int CombatSystemInterface::getRoleBlood();
+	 * \fn	int CombatSystemInterface::getBloodRole();
 	 *
-	 * \brief	获取角色当前血量
+	 * \brief	获取角色当前血量.
 	 *
-	 * \return	返回角色当前血量
+	 * \return	返回角色当前血量.
 	 */
 	int getBloodRole();
 
 	/*！
-	 * \fn	int CombatSystemInterface::getRoleArmor();
+	 * \fn	int CombatSystemInterface::getArmorRole();
 	 *
-	 * \brief	获取角色当前护甲
+	 * \brief	获取角色当前护甲.
 	 *
-	 * \return	返回角色当前护甲
+	 * \return	返回角色当前护甲.
 	 */
 	int getArmorRole();
 
 	/*！
-	 * \fn	int CombatSystemInterface::getRoleBloodMax();
+	 * \fn	int CombatSystemInterface::getBloodMaxRole();
 	 *
-	 * \brief	获取角色血量上限
+	 * \brief	获取角色血量上限.
 	 *
-	 * \return	返回角色血量上限
+	 * \return	返回角色血量上限.
 	 */
 	int getBloodMaxRole();
 
 	/*！
-	 * \fn	int CombatSystemInterface::getRoleHandCount();
+	 * \fn	int CombatSystemInterface::getHandCountRole();
 	 *
-	 * \brief	获取角色当前手牌数
+	 * \brief	获取角色当前手牌数.
 	 *
-	 * \return	返回角色当前手牌数
+	 * \return	返回角色当前手牌数.
 	 */
 	int getHandCountRole();
 
 	/*！
-	 * \fn	void CombatSystemInterface::updateRoleHandCount(int delta);
+	 * \fn	void CombatSystemInterface::updateHandCountRole(int delta);
 	 *
-	 * \brief	根据给定的增减量来更新角色的手牌数
+	 * \brief	根据给定的增减量来更新角色的手牌数.
 	 *
-	 * \param	delta	指定将用于更新角色手牌数的增减量
+	 * \param	delta	指定将用于更新角色手牌数的增减量.
 	 */
 	void updateHandCountRole(int delta);
 
 	/*！
-	 * \fn	void CombatSystemInterface::setRoleDiscountCount(int delta);
+	 * \fn	void CombatSystemInterface::setDiscountCountRole(int delta);
 	 *
-	 * \brief	根据指定值来设置角色手牌数
+	 * \brief	根据指定值来设置角色手牌数.
 	 *
-	 * \param	delta	指定用于设置角色手牌数的值
+	 * \param	delta	指定用于设置角色手牌数的值.
 	 */
 	void setDiscountCountRole(int delta);
 
 	/*！
-	 * \fn	void CombatSystemInterface::updateRoleDrawCardCount(int delta);
+	 * \fn	void CombatSystemInterface::updateDrawCardCountRole(int delta);
 	 *
-	 * \brief	根据给定的增减量来更新角色的抽牌数
+	 * \brief	根据给定的增减量来更新角色的抽牌数.
 	 *
-	 * \param	delta	指定将用于更新角色抽牌数的增减量
+	 * \param	delta	指定将用于更新角色抽牌数的增减量.
 	 */
 	void updateDrawCardCountRole(int delta);
 
 	/*！
-	 * \fn	void CombatSystemInterface::updateRoleBlood(int delta);
+	 * \fn	void CombatSystemInterface::updateBloodRole(int delta);
 	 *
-	 * \brief	根据给定的增减量来更新角色的血量
+	 * \brief	根据给定的增减量来更新角色的血量.
 	 *
-	 * \param	delta	指定将用于更新角色血量的增减量
+	 * \param	delta	指定将用于更新角色血量的增减量.
 	 */
 	void updateBloodRole(int delta);
 
 	/*！
-	 * \fn	void CombatSystemInterface::updateRoleArmor(int delta);
+	 * \fn	void CombatSystemInterface::updateArmorRole(int delta);
 	 *
-	 * \brief	根据给定的增减量来更新角色的护甲
+	 * \brief	根据给定的增减量来更新角色的护甲.
 	 *
-	 * \param	delta	指定将用于更新角色护甲的增减量
+	 * \param	delta	指定将用于更新角色护甲的增减量.
 	 */
 	void updateArmorRole(int delta);
 
 	/*！
-	 * \fn	int CombatSystemInterface::getMonsterBlood();
+	 * \fn	int CombatSystemInterface::getBloodMonster();
 	 *
-	 * \brief	获取怪物当前血量
+	 * \brief	获取怪物当前血量.
 	 *
-	 * \return	返回怪物当前血量
+	 * \return	返回怪物当前血量.
 	 */
 	int getBloodMonster();
 
 	/*！
-	 * \fn	int CombatSystemInterface::getMonsterArmor();
+	 * \fn	int CombatSystemInterface::getArmorMonster();
 	 *
-	 * \brief	获取怪物当前护甲
+	 * \brief	获取怪物当前护甲.
 	 *
-	 * \return	返回怪物当前护甲
+	 * \return	返回怪物当前护甲.
 	 */
 	int getArmorMonster();
 
 	/*！
-	 * \fn	int CombatSystemInterface::getMonsterBloodMax();
+	 * \fn	int CombatSystemInterface::getBloodMaxMonster();
 	 *
-	 * \brief	获取怪物血量上限
+	 * \brief	获取怪物血量上限.
 	 *
-	 * \return	返回怪物血量上限
+	 * \return	返回怪物血量上限.
 	 */
 	int getBloodMaxMonster();
 
 	/*！
-	 * \fn	void CombatSystemInterface::updateMonsterBlood(int delta);
+	 * \fn	void CombatSystemInterface::updateBloodMonster(int delta);
 	 *
-	 * \brief	根据给定的增减量来更新怪物的血量
+	 * \brief	根据给定的增减量来更新怪物的血量.
 	 *
-	 * \param	delta	指定将用于更新怪物血量的增减量
+	 * \param	delta	指定将用于更新怪物血量的增减量.
 	 */
 	void updateBloodMonster(int delta);
 
 	/*！
-	 * \fn	void CombatSystemInterface::updateMonsterArmor(int delta);
+	 * \fn	void CombatSystemInterface::updateArmorMonster(int delta);
 	 *
-	 * \brief	根据给定的增减量来更新怪物的护甲
+	 * \brief	根据给定的增减量来更新怪物的护甲.
 	 *
-	 * \param	delta	指定将用于更新怪物护甲的增减量
+	 * \param	delta	指定将用于更新怪物护甲的增减量.
 	 */
 	void updateArmorMonster(int delta);
 
@@ -175,50 +175,6 @@ public:
 	{
 		return dtHistory;
 	}
-
-	/*！
-	 * \fn	const std::vector<DeltaTable>& CombatSystemInterface::getDeltaTableRoleInCurrentRound();
-	 *
-	 * \brief	根据指定的回合数来获取角色当前回合的效果历史向量.
-	 *
-	 * \return	返回角色当前回合的效果历史向量.
-	 */
-	const std::vector<DeltaTable>& getDeltaTableRoleInCurrentRound();
-	
-	/*！
-	 * \fn	const std::vector<DeltaTable>& CombatSystemInterface::getRoundRoleDeltaTable(int round, DeltaTable::RoundLevel index);
-	 *
-	 * \brief	根据指定的回合数和索引，获取指定索引内的所有的角色效果历史
-	 *
-	 * \param	round	指定的回合数值
-	 * \param	index	指定的索引值
-	 *
-	 * \return	返回指定索引内的所有角色效果历史
-	 */
-	const std::vector<DeltaTable>& getRoundRoleDeltaTable(int round, DeltaTable::RoundLevel index);
-
-	/*！
-	 * \fn	const std::vector<DeltaTable>& CombatSystemInterface::getRoundMonsterDeltaTable(int round, DeltaTable::RoundLevel index);
-	 *
-	 * \brief	根据指定的回合数和索引，获取指定索引内的所有的怪物效果历史
-	 *
-	 * \param	round	指定的回合数值
-	 * \param	index	指定的索引值
-	 *
-	 * \return	返回指定索引内的所有怪物效果历史
-	 */
-	const std::vector<DeltaTable>& getRoundMonsterDeltaTable(int round, DeltaTable::RoundLevel index);
-
-	/*！
-	 * \fn	const std::vector<DeltaTable>& CombatSystemInterface::getDeltaTableMonsterInCurrentRound();
-	 *
-	 * \brief	根据指定的回合数来获取怪物当前历史效果向量.
-	 *
-	 * \return	返回怪物当前历史效果向量.
-	 *
-	 * param	round	指定的回合数.
-	 */
-	const std::vector<DeltaTable>& getDeltaTableMonsterInCurrentRound();
 
 	/*！
 	 * \fn	const EffectAffixes& CombatSystemInterface::getCurrentEffectAffixes()

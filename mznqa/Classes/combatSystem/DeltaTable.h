@@ -7,6 +7,8 @@
 #include "effect/Effect.h"
 #include "combatSystem/EffectPQ.h"
 
+class CombatSystemInterface;
+
 /*！
  * \struct	DeltaTable
  *
@@ -61,18 +63,19 @@ struct DeltaTable
 	enum Flag
 	{
 		Flag_Invalid = -1,
-		Flag_Blood_Role,
-		Flag_Blood_Monster,
-		Flag_Armor_Role,
-		Flag_Armor_Monster,
-		Flag_Hand_Role,
-		Flag_Draw_Role,
-		Flag_Discard_Role
+		Flag_Blood_Role=0,
+		Flag_Blood_Monster = 1,
+		Flag_Armor_Role = 2,
+		Flag_Armor_Monster = 3,
+		Flag_Hand_Role = 4,
+		Flag_Draw_Role = 5,
+		Flag_Discard_Role = 6
 	};
+	
 	Flag flag = Flag_Invalid;
 
 	/* \brief	记录效果的释放回合数 */
-	int roundNumber = EffectAffixes::invalidEffectRoundValue;
+	static int roundNumber;
 
 	static const int row = 5,  col = 2;
 	/* \brief	记录效果影响基础属性的二维表 */
@@ -99,6 +102,8 @@ struct DeltaTable
 	{
 
 	}
+
+	static CombatSystemInterface* const combatSystemInterface;
 };
 
 /*！
@@ -125,7 +130,7 @@ struct DeltaRound
 	int total = invalIndex;
 
 	/* \brief	回合数 */
-	int roundNumber = EffectAffixes::invalidEffectRoundValue;
+	static int roundNumber;
 };
 
 

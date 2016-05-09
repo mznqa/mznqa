@@ -37,7 +37,7 @@ public:
 	 *
 	 * \brief	根据指定的增量表结构体，来添加角色效果历史.
 	 *
-	 * \param	dt	指定的增量表结构体.
+	 * \param	deltaTable	指定的增量表结构体.
 	 *
 	 * \return	返回添加角色效果历史是否成功.
 	 */
@@ -53,45 +53,137 @@ public:
 	void addTotalTableHistoryRole(int round);
 
 	/*！
-	 * \fn	const std::vector<DeltaTable>& DeltaTableHistory::getAllTableRoleByRound(int round);
+	 * \fn	void DeltaTableHistory::syncRoundDeltaTableAndTableHistory(const int round);
 	 *
-	 * \brief	根据给定的回合数，获取指定回合内所有的角色历史效果表.
+	 * \brief	根据指定的回合数同步历史表的回合数
 	 *
-	 * \param	round	指定的回合数值.
-	 *
-	 * \return	返回指定回合内所有的角色历史效果表.
+	 * \param	round	指定的回合数
 	 */
-	const std::vector<DeltaTable>& getAllTableRoleByRound(int round);
+	void  syncRoundDeltaTableAndTableHistory(const int round);
 
 	/*！
-	 * \fn	const std::vector<DeltaTable>& DeltaTableHistory::getTableRoleByRoundAndIndex(int round, DeltaTable::RoundLevel index);
+	 * \fn	void DeltaTableHistory::setTotalTableBaseValue(std::vector<DeltaTable>& dtHistory, DeltaTable& deltaTable, const int beginIndex, const int endIndex);
 	 *
-	 * \brief	根据给定的回合数和索引，获取指定索引内的所有的角色历史表.
+	 * \brief	根据指定的历史表和增量表实例来设置总表的基础值
 	 *
-	 * \param	round	指定的回合数值.
-	 * \param	index	指定的索引值.
-	 *
-	 * \return	返回指定索引内的所有的角色历史效果表.
+	 * \param	dtHistory 	指定的历史表
+	 * \param	deltaTable	指定的增量表实例
+	 * \param	beginIndex	开始计算的历史表下标索引
+	 * \param	endIndex	结束计算的历史表下标索引
 	 */
-	const std::vector<DeltaTable>& getTableRoleByRoundAndIndex(int round, DeltaTable::RoundLevel index);
+	void setTotalTableBaseValue(std::vector<DeltaTable>& dtHistory, DeltaTable& deltaTable, const int beginIndex, const int endIndex);
 
 	/*！
-	 * \fn	const std::vector<DeltaTable>& DeltaTableHistory::getTableRoleInCurrentRound(int round);
+	 * \fn	void DeltaTableHistory::setRoundTableInfo(std::vector<DeltaRound>& roundHistory, std::vector<DeltaTable>& dtHistory, DeltaRound& deltaRound);
 	 *
-	 * \brief	根据指定的回合数，获取角色当前回合的历史效果表.
+	 * \brief	根据指定的回合索引实例和指定的历史表来设置指定的回合索引历史表
 	 *
-	 * \param	round	指定的回合数值.
-	 *
-	 * \return	返回角色当前回合的历史效果表.
+	 * \param [in,out]	roundHistory	指定的回合索引历史表
+	 * \param [in,out]	dtHistory   	指定的历史表
+	 * \param [in,out]	deltaRound  	指定的回合索引实例
 	 */
-	const std::vector<DeltaTable>& getTableRoleInCurrentRound();
+	void setRoundTableInfo(std::vector<DeltaRound>& roundHistory, std::vector<DeltaTable>& dtHistory, DeltaRound& deltaRound);
 
 	/*！
-	 * \fn	bool DeltaTableHistory::addTableHistoryMonster(DeltaTable deltaTable);
+	 * \fn	int DeltaTableHistory::getSettleBaseValue(const int round, const int rowIndex, const int colIndex);
 	 *
-	 * \brief	根据指定的增量表结构体，来添加怪物效果历史.
+	 * \brief	根据指定的回合数和增量表的行列下标来获取指定回合结算后的指定基础值
 	 *
-	 * \param	dt	指定的增量表结构体.
+	 * \param	round   	指定的回合数
+	 * \param	rowIndex	指定的增量表的行下标
+	 * \param	colIndex	指定的增量表的列下标
+	 *
+	 * \return	返回指定回合结算后的指定基础值
+	 */
+	int getSettleBaseValue(const int round, const int rowIndex, const int colIndex);
+
+	/*！
+	 * \fn	int DeltaTableHistory::getAttackValueMonster();
+	 *
+	 * \brief	获取当前回合怪物对角色的伤害(血量)值.
+	 *
+	 * \return	获取当前回合怪物对角色的伤害值
+	 */
+	int getAttackValueMonster();
+
+	/*！
+	 * \fn	int DeltaTableHistory::getAttackValueRole();
+	 *
+	 * \brief	获取当前回合角色对怪物的伤害(血量)值.
+	 *
+	 * \return	返回当前回合角色对怪物的伤害值
+	 */
+	int getAttackValueRole();
+
+	/*！
+	 * \fn	int DeltaTableHistory::getBackBaseValue(const int rowIndex, const int colIndex);
+	 *
+	 * \brief	根据指定的行列下标来获取指定的回复基础值（如：回血值，回甲值...)
+	 *
+	 * \param	rowIndex	指定的行下标
+	 * \param	colIndex	指定的列下标
+	 *
+	 * \return	返回指定的回复基础值
+	 */
+	int getBackBaseValue(const int rowIndex, const int colIndex);
+
+	/*！
+	 * \fn	int DeltaTableHistory::getCountBaseValueInInterval(int round,const int baseValueMax, const int leftInterval, const int rightInterval,const int rowIndex,const int colIndex);
+	 *
+	 * \brief	根据指定的行列下标来获取开局起至指定的回合数内的指定的基础值在指定区间内的次数
+	 *
+	 * \param	round		 	指定的回合数
+	 * \param	baseValueMax 	指定基础值的最大值
+	 * \param	leftInterval 	指定的左区间
+	 * \param	rightInterval	指定的右区间
+	 * \param	rowIndex	 	指定的行下标
+	 * \param	colIndex	 	指定的列下标
+	 *
+	 * \return	返回开局起至指定的回合数内的指定的基础值在指定区间内的次数
+	 */
+	int getCountBaseValueInInterval(int round,const int baseValueMax, const int leftInterval, const int rightInterval,const int rowIndex,const int colIndex);
+
+	/*！
+	 * \fn	bool DeltaTableHistory::checkOutOfRange(const int rowIndex, const int colIndex);
+	 *
+	 * \brief	根据指定的行列下标来检查指定的下标是否越界.
+	 *
+	 * \param	rowIndex	指定的行下标
+	 * \param	colIndex	指定的列下标
+	 *
+	 * \return	返回指定的下标是否越界
+	 */
+	bool checkOutOfRange(const int rowIndex, const int colIndex);
+
+	/*！
+	 * \fn	void DeltaTableHistory::getAllTableRoleByRound(int round, int& beginIndex, int& endIndex);
+	 *
+	 * \brief	根据指定的回合数来获取指定回合内所有的角色效果历史开始索引和结束索引
+	 *
+	 * \param	round		指定的回合数值.
+	 * \param	beginIndex	存放角色效果历史的开始索引
+	 * \param	endIndex  	存放角色效果历史的结束索引
+	 */
+	void getAllTableRoleByRound(int round, int& beginIndex, int& endIndex);
+
+	/*！
+	 * \fn	void DeltaTableHistory::getTableRoleByRoundAndIndex(int round, DeltaTable::RoundLevel index, int& beginIndex, int& endIndex);
+	 *
+	 * \brief	根据给定的回合数和索引来获取指定索引内的所有的角色效果历史的开始索引和结束索引
+	 *
+	 * \param	round	指定的回合数
+	 * \param	index	指定的索引值
+	 * \param	beginIndex	存放角色效果历史的开始索引
+	 * \param	endIndex  存放角色效果历史的结束索引	
+	 */
+	void getTableRoleByRoundAndIndex(int round, DeltaTable::RoundLevel index, int& beginIndex, int& endIndex);
+
+	/*！
+	 * \fn	bool DeltaTableHistory::addTableHistoryMonster(const DeltaTable& deltaTable);
+	 *
+	 * \brief	根据指定的增量表结构体来添加怪物效果历史.
+	 *
+	 * \param	deltaTable	指定的增量表结构体.
 	 *
 	 * \return	返回添加怪物效果历史是否成功.
 	 */
@@ -100,51 +192,46 @@ public:
 	/*！
 	 * \fn	void DeltaTableHistory::addTotalTableHistoryMonster(int round);
 	 *
-	 * \brief	根据给定的回合数，获取指定回合内所有的怪物历史效果表.
+	 * \brief	根据给定的回合数来添加怪物历史总表
 	 *
-	 * \param	round	指定的回合数值.
+	 * \param	round	指定的回合数值
 	 */
 	void addTotalTableHistoryMonster(int round);
 
 	/*！
-	 * \fn	const std::vector<DeltaTable>& DeltaTableHistory::getAllTableMonsterByRound(int round);
+	 * \fn	void DeltaTableHistory::getAllTableMonsterByRound(int round,int& beginIndex,int& endIndex);
 	 *
-	 * \brief	根据给定的回合数，获取指定回合内所有的怪物历史效果表.
+	 * \brief	根据给定的回合数，获取指定回合内所有的怪物效果历史表的开始索引和结束索引
 	 *
-	 * \param	round	指定的回合数值.
-	 *
-	 * \return	返回指定回合内所有的怪物历史效果表.
+	 * \param	round		指定的回合数值.
+	 * \param	beginIndex	存放怪物效果历史的开始索引
+	 * \param	endIndex  	存放怪物效果历史的结束索引
 	 */
-	const std::vector<DeltaTable>& getAllTableMonsterByRound(int round);
+	void getAllTableMonsterByRound(int round,int& beginIndex,int& endIndex);
 
 	/*！
-	 * \fn	const std::vector<DeltaTable>& DeltaTableHistory::getTableMonsterByRoundAndIndex(int round, DeltaTable::RoundLevel index);
+	 * \fn	void DeltaTableHistory::getTableMonsterByRoundAndIndex(int round, DeltaTable::RoundLevel index, int& beginIndex, int& endIndex);
 	 *
 	 * \brief	根据给定的回合数和索引，获取指定索引内的所有的怪物历史表.
 	 *
-	 * \param	round	指定的回合数值.
-	 * \param	index	指定的索引值.
-	 *
-	 * \return	返回指定索引内的所有的怪物历史效果表.
+	 * \param	round		指定的回合数值.
+	 * \param	index		指定的索引值
+	 * \param	beginIndex	存放指定索引内怪物历史的开始索引
+	 * \param	endIndex  	存放指定索引内怪物历史的结束索引
 	 */
-	const std::vector<DeltaTable>& getTableMonsterByRoundAndIndex(int round, DeltaTable::RoundLevel index);
+	void getTableMonsterByRoundAndIndex(int round, DeltaTable::RoundLevel index, int& beginIndex, int& endIndex);
 
 	/*！
-	 * \fn	const std::vector<DeltaTable>& DeltaTableHistory::getTableMonsterInCurrentRound();
+	 * \fn	void DeltaTableHistory::getIndexByFlag(int& rowIndex, int& colIndex, DeltaTable::Flag flag);
 	 *
-	 * \brief	根据指定的回合数，获取怪物当前回合的历史效果表.
+	 * \brief	根据指定的枚举标志来获取一个有数据的下标索引
 	 *
-	 * \return	返回怪物当前回合的历史效果表.
-	 *
-	 * param	round	指定的回合数值.
+	 * \param	rowIndex	存放有数据的行下标
+	 * \param	colIndex	存放有数据的列下标
+	 * \param	flag		指定的枚举标志
 	 */
-
-	const std::vector<DeltaTable>& getTableMonsterInCurrentRound();
-
-	//获取一个有数据的下标索引，通过一个标志
 	void getIndexByFlag(int& rowIndex, int& colIndex, DeltaTable::Flag flag);
-
-
+	
 	/*！
 	 * \fn	void DeltaTableHistory::test();
 	 *
@@ -167,9 +254,6 @@ private:
 	std::vector<DeltaRound> roundHistoryMonster;
 	/* \brief	记录怪物历史的回合数. */
 	int roundNumberMonster = 1;
-
-	/* \brief	临时向量，用于返回获取的历史效果表 */
-	std::vector<DeltaTable> tableTemp;
 };
 
 

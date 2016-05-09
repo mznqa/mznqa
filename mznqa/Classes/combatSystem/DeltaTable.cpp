@@ -1,7 +1,13 @@
 #pragma execution_character_set("utf-8")
 
 #include "DeltaTable.h"
-#include "CombatSystemInterface.h"
+#include "combatSystem/CombatSystemInterface.h"
+
+int DeltaTable::roundNumber = EffectAffixes::invalidEffectRoundValue;
+
+int DeltaRound::roundNumber = EffectAffixes::invalidEffectRoundValue;
+
+CombatSystemInterface* const DeltaTable::combatSystemInterface = CombatSystemInterface::Instance();
 
 void DeltaTable::setEffectHistoryInfo(const EffectAffixes& effectAffixes)
 {
@@ -75,10 +81,11 @@ void DeltaTable::addHistoryEffect()
 	switch (releaser)
 	{
 	case EffectAffixes::Releaser::Releaser_Role:
-		CombatSystemInterface::Instance()->getDeltaTableHistory().addTableHistoryRole(*this);
+		combatSystemInterface->getDeltaTableHistory().addTableHistoryRole(*this);
 		break;
 	case EffectAffixes::Releaser::Releaser_Monster:
-		CombatSystemInterface::Instance()->getDeltaTableHistory().addTableHistoryMonster(*this);
+		combatSystemInterface->getDeltaTableHistory().addTableHistoryMonster(*this);
 		break;
 	}
 }
+

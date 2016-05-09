@@ -85,30 +85,9 @@ void CombatSystemInterface::updateArmorMonster(int delta)
 	return;
 }
 
-const std::vector<DeltaTable>& CombatSystemInterface::getRoundRoleDeltaTable(int round, DeltaTable::RoundLevel index)
-{
-	return dtHistory.getTableRoleByRoundAndIndex(round, index);
-}
-
-const std::vector<DeltaTable>& CombatSystemInterface::getDeltaTableRoleInCurrentRound()
-{
-	return dtHistory.getTableRoleInCurrentRound();
-
-}
-
-const std::vector<DeltaTable>& CombatSystemInterface::getRoundMonsterDeltaTable(int round, DeltaTable::RoundLevel index)
-{
-	return dtHistory.getTableMonsterByRoundAndIndex(round, index);
-}
-
-const std::vector<DeltaTable>& CombatSystemInterface::getDeltaTableMonsterInCurrentRound()
-{
-	return dtHistory.getTableMonsterInCurrentRound();
-}
-
 const EffectAffixes& CombatSystemInterface::getCurrentEffectAffixes()
 {
-	return CombatSystem::getEffectAffixes();
+	return CombatSystem::getCurrentEffectAffixes();
 }
 
 EffectPQ& CombatSystemInterface::getEffectPQ()

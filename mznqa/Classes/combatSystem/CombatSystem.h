@@ -171,7 +171,14 @@ public:
 		return round;
 	}	
 
-	static EffectAffixes& getEffectAffixes()
+	/*！
+	 * \fn	static EffectAffixes& CombatSystem::getCurrentEffectAffixes()
+	 *
+	 * \brief	获取当前效果的附加属性.
+	 *
+	 * \return	返回当前效果的附加属性.
+	 */
+	static EffectAffixes& getCurrentEffectAffixes()
 	{
 		return currentEffectAffixes;
 	}

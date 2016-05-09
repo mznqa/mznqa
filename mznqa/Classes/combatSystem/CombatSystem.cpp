@@ -204,6 +204,9 @@ void CombatSystem::executeGlobalOperation()
 	cocos2d::log("<<<<<<<<<<<<<<<进入全局操作<<<<<<<<<<<<<<<<<");
 	round++;
 	
+	//同步回合数
+	csi->getDeltaTableHistory().syncRoundDeltaTableAndTableHistory(round);
+
 	epq.decreaseRoundEffectRole();
 	epq.decreaseRoundEffectMonster();
 
@@ -233,7 +236,6 @@ void CombatSystem::executeRoleBeforeTheCombatOperation()
 		if (CardSet::Instance()->getCardSkillByID(effectAffixes.cardId)->getEffectSet().at(effectAffixes.effectIndex).getExcuteStyle() != Effect::ExcuteStyle_Before)
 			continue;
 		
-		effectAffixes.efRound = this->round;
 		currentEffectAffixes = effectAffixes;
 		
 		//执行角色战斗前的效果
@@ -258,8 +260,8 @@ void CombatSystem::excuteRoleInCombatOperation()
 		// 如果该效果不是在该位置执行的效果
 		if (CardSet::Instance()->getCardSkillByID(effectAffixes.cardId)->getEffectSet().at(effectAffixes.effectIndex).getExcuteStyle() != Effect::ExcuteStyle_In)
 			continue;
-		
-		effectAffixes.efRound = this->round;
+
+		//设置当前效果附加属性实例
 		currentEffectAffixes = effectAffixes;
 
 		//执行角色战斗时效果
@@ -284,8 +286,7 @@ void CombatSystem::excuteRoleAfterCombatOperation()
 		if (CardSet::Instance()->getCardSkillByID(effectAffixes.cardId)->getEffectSet().at(effectAffixes.effectIndex).getExcuteStyle() != Effect::ExcuteStyle_After)
 			continue;
 
-		
-		effectAffixes.efRound = this->round;
+		//设置当前效果附加属性实例
 		currentEffectAffixes = effectAffixes;
 
 		//执行角色战斗后效果
@@ -309,7 +310,7 @@ void CombatSystem::executeMonsterBeforeTheCombatOperator()
 		if (CardSet::Instance()->getCardSkillByID(effectAffixes.cardId)->getEffectSet().at(effectAffixes.effectIndex).getExcuteStyle() != Effect::ExcuteStyle_Before)
 			continue;
 
-		effectAffixes.efRound = this->round;
+		//设置当前效果附加属性实例
 		currentEffectAffixes = effectAffixes;
 
 		//执行怪物战斗前的效果
@@ -334,7 +335,7 @@ void CombatSystem::excuteMonsterInCombatOperator()
 		if (CardSet::Instance()->getCardSkillByID(effectAffixes.cardId)->getEffectSet().at(effectAffixes.effectIndex).getExcuteStyle() != Effect::ExcuteStyle_In)
 			continue;
 				
-		effectAffixes.efRound = this->round;
+		//设置当前效果附加属性实例
 		currentEffectAffixes = effectAffixes;
 
 		//执行怪物战斗时的效果
@@ -358,7 +359,7 @@ void CombatSystem::excuteMonsterAfterCombatOperator()
 		if (CardSet::Instance()->getCardSkillByID(effectAffixes.cardId)->getEffectSet().at(effectAffixes.effectIndex).getExcuteStyle() != Effect::ExcuteStyle_After)
 			continue;
 
-		effectAffixes.efRound = this->round;
+		//设置当前效果附加属性实例
 		currentEffectAffixes = effectAffixes;
 
 		//执行怪物战斗后的效果
