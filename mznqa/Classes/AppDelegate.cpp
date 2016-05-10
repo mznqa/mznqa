@@ -144,5 +144,19 @@ void AppDelegate::setResolutionPolicy()
 		-0.5*(TargetInfoInstance->getRealityDesignSize().width - TargetInfoInstance->getWindowSize().width),
 		TargetInfoInstance->getWindowSize().height
 		);
+
+	// 保存目标设备的语言
+	switch (Application::getCurrentLanguage())
+	{
+	case LanguageType::CHINESE:
+		TargetInfoInstance->setLanguage(TargetInfo::Language_Zh);
+		break;
+	case LanguageType::ENGLISH:
+		TargetInfoInstance->setLanguage(TargetInfo::Language_En);
+		break;
+	default:
+		TargetInfoInstance->setLanguage(TargetInfo::Language_Other);
+		break;
+	}
 	//////////////////////////////////////////////////////////////////////////
 }

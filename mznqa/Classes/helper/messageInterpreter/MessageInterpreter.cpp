@@ -1,12 +1,12 @@
 /*!
- * \file	Classes\helper\bridge\MessageInterpreter.cpp
+ * \file	Classes\helper\messageInterpreter\MessageInterpreter.cpp
  *
  * \brief	¶¨ÒåÀà MessageInterpreter
  */
 
 #pragma execution_character_set("utf-8")
 
-#include "helper/bridge/MessageInterpreter.h"
+#include "helper/messageInterpreter/MessageInterpreter.h"
 
 MessageInterpreter::MessageInterpreter()
 {

@@ -8,7 +8,7 @@
 
 #include "helper/bridge/Bridge.h"
 
-#include "helper/bridge/MessageInterpreter.h"
+#include "helper/messageInterpreter/MessageInterpreter.h"
 
 Bridge::Bridge()
 {

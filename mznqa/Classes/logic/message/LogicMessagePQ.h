@@ -45,7 +45,12 @@ public:
 	 */
 	enum LogicMessageID
 	{
-		LogicMessageID_ValidID
+		LogicMessageID_ValidID,
+		LogicMessageID_FileLoadingFail_String_Zh_Json,
+		LogicMessageID_FileLoadingFail_String_En_Json,
+		LogicMessageID_FileLoadingFail_String_Set,
+		LogicMessageID_FileLoadingSucc_String_zh_Json,
+		LogicMessageID_FileLoadingSucc_String_En_Json
 	};
 
 	/*!

@@ -15,46 +15,11 @@
 /*!
  * \class	TargetInfo
  *
- * \brief	[单例]有关窗口和设备等有关尺寸和坐标信息
+ * \brief	[单例]有关窗口和设备等有关的尺寸、坐标以及语言等信息
  *
  */
 class TargetInfo
 {
-private:
-
-	/*!
-	 * \fn	TargetInfo::TargetInfo();
-	 *
-	 * \brief	隐藏的默认构造函数
-	 *
-	 */
-	TargetInfo();
-
-	/*!
-	 * \fn	TargetInfo::TargetInfo(const TargetInfo &sizeManager);
-	 *
-	 * \brief	隐藏的拷贝构造函数
-	 *
-	 */
-	TargetInfo(const TargetInfo &sizeManager);
-
-	/*!
-	 * \fn	TargetInfo& TargetInfo::operator=(const TargetInfo &sizeManager);
-	 *
-	 * \brief	隐藏的拷贝赋值运算符
-	 *
-	 */
-	TargetInfo& operator=(const TargetInfo &sizeManager);
-
-	/*! \brief	窗口（屏幕）尺寸 */
-	ArKCa::Size<float> windowSize = ArKCa::Size<float>(0.0f, 0.0f);
-	/*! \brief	预设的设计尺寸 */
-	ArKCa::Size<float> defineDesignSize = ArKCa::Size<float>(0.0f, 0.0f);
-	/*! \brief	经多分辨率支持策略匹配设备后经缩放的实际设计尺寸 */
-	ArKCa::Size<float> realityDesignSize = ArKCa::Size<float>(0.0f, 0.0f);
-	/*! \brief	实际设计尺寸的左上角点在屏幕中的坐标 */
-	ArKCa::Vector2<float> realityDesignOrigin = ArKCa::Vector2<float>(0.0f, 0.0f);
-
 public:
 
 	/*!
@@ -72,6 +37,18 @@ public:
 	 *
 	 */
 	static TargetInfo* Instance();
+
+	/*!
+	 * \enum	Language
+	 *
+	 * \brief	枚举目标设备的语言
+	 */
+	enum Language
+	{
+		Language_Other,	///< 除以下的任一语言
+		Language_Zh,	///< 中文
+		Language_En		///< 英文
+	};
 
 	/*!
 	 * \fn	void TargetInfo::setWindowSize(float width, float height)
@@ -168,6 +145,67 @@ public:
 	{
 		return realityDesignOrigin;
 	}
+
+	/*!
+	 * \fn	void TargetInfo::setLanguage(Language language)
+	 *
+	 * \brief	设置目标设备的语言
+	 *
+	 * \param	language	指定语言以设置目标设备的语言
+	 */
+	void setLanguage(Language language)
+	{
+		this->language = language;
+	}
+
+	/*!
+	 * \fn	Language TargetInfo::getLanguage()const
+	 *
+	 * \brief	获取目标设备的语言
+	 *
+	 */
+	Language getLanguage()const
+	{
+		return language;
+	}
+
+private:
+
+	/*!
+	 * \fn	TargetInfo::TargetInfo();
+	 *
+	 * \brief	隐藏的默认构造函数
+	 *
+	 */
+	TargetInfo();
+
+	/*!
+	 * \fn	TargetInfo::TargetInfo(const TargetInfo &sizeManager);
+	 *
+	 * \brief	隐藏的拷贝构造函数
+	 *
+	 */
+	TargetInfo(const TargetInfo &sizeManager);
+
+	/*!
+	 * \fn	TargetInfo& TargetInfo::operator=(const TargetInfo &sizeManager);
+	 *
+	 * \brief	隐藏的拷贝赋值运算符
+	 *
+	 */
+	TargetInfo& operator=(const TargetInfo &sizeManager);
+
+	/*! \brief	窗口（屏幕）尺寸 */
+	ArKCa::Size<float> windowSize = ArKCa::Size<float>(0.0f, 0.0f);
+	/*! \brief	预设的设计尺寸 */
+	ArKCa::Size<float> defineDesignSize = ArKCa::Size<float>(0.0f, 0.0f);
+	/*! \brief	经多分辨率支持策略匹配设备后经缩放的实际设计尺寸 */
+	ArKCa::Size<float> realityDesignSize = ArKCa::Size<float>(0.0f, 0.0f);
+	/*! \brief	实际设计尺寸的左上角点在屏幕中的坐标 */
+	ArKCa::Vector2<float> realityDesignOrigin = ArKCa::Vector2<float>(0.0f, 0.0f);
+
+	/*! \brief	目标设备的语言 */
+	Language language = Language_Zh;
 };
 
 #endif

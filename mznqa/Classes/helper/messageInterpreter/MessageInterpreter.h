@@ -1,13 +1,13 @@
 /*!
- * \file	Classes\helper\bridge\MessageInterpreter.h
+ * \file	Classes\helper\messageInterpreter\MessageInterpreter.h
  *
  * \brief	∂®“Â¿‡ MessageInterpreter
  */
 
 #pragma execution_character_set("utf-8")
 
-#ifndef MZNQA_CLASSES_HELPER_BRIDGE_MESSAGEINTERPRETER__H_
-#define MZNQA_CLASSES_HELPER_BRIDGE_MESSAGEINTERPRETER__H_
+#ifndef MZNQA_CLASSES_HELPER_MESSAGEINTERPRETER_MESSAGEINTERPRETER_H_
+#define MZNQA_CLASSES_HELPER_MESSAGEINTERPRETER_MESSAGEINTERPRETER_H_
 
 #include "common/arkca/message/Message.h"
 #include "logic/message/LogicMessagePQ.h"
