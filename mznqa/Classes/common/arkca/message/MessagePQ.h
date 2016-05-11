@@ -1,5 +1,5 @@
 /*!
-* \file	Classes\common\arkca\message\MessagePQ.h
+* \file		Classes\common\arkca\message\MessagePQ.h
 *
 * \brief	∂®“Â¿‡ ArKCa::MessagePQ
 */
@@ -11,7 +11,7 @@
 
 #include <queue>
 #include <vector>
-#include <functional>
+
 #include "common/arkca/message/Message.h"
 
 namespace ArKCa

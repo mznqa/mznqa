@@ -57,5 +57,6 @@ void SceneResLoading::onExit()
 void SceneResLoading::update(float dt)
 {
 	log("[information] 进入 SceneResLoading 场景的逐帧调度器...");
+	BridgeInstance->update(dt);
 	log("[information] 离开 SceneResLoading 场景的逐帧调度器");
 }

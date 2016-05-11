@@ -6,10 +6,12 @@
 
 #pragma execution_character_set("utf-8")
 
-#ifndef MZNQA_CLASSES_INTERACTIVE_ASSETS_SCENERESLOADING_H_
-#define MZNQA_CLASSES_INTERACTIVE_ASSETS_SCENERESLOADING_H_
+#ifndef MZNQA_CLASSES_INTERACTIVE_ASSETS_SCENE_SCENERESLOADING_H_
+#define MZNQA_CLASSES_INTERACTIVE_ASSETS_SCENE_SCENERESLOADING_H_
 
 #include "cocos2d.h"
+
+#include "helper/bridge/Bridge.h"
 
 /*!
  * \class	SceneResLoading
@@ -20,6 +22,10 @@
 class SceneResLoading : public cocos2d::Layer
 {
 private:
+	// 单例别名 //////////////////////////////////////////////////////////////////////////
+	Bridge *const BridgeInstance = Bridge::Instance();
+	//////////////////////////////////////////////////////////////////////////
+
 	// 场景私有量 //////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////
 

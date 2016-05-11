@@ -27,14 +27,14 @@ namespace ArKCa
 		NumType y;
 
 		/*!
-		 * \fn	Vector2(NumType x, NumType y)
+		 * \fn	Vector2(const NumType &x, const NumType &y)
 		 *
 		 * \brief	构造函数
 		 *
 		 * \param	x	指定向量的横向值
 		 * \param	y	指定向量的纵向值
 		 */
-		Vector2(NumType x, NumType y) :
+		Vector2(const NumType &x, const NumType &y) :
 			x(x),
 			y(y)
 		{}
@@ -67,14 +67,14 @@ namespace ArKCa
 		}
 
 		/*!
-		 * \fn	void set(NumType x, NumType y)
+		 * \fn	void set(const NumType &x, const NumType &y)
 		 *
 		 * \brief	设置向量的值
 		 *
 		 * \param	x	指定向量的横向量
 		 * \param	y	指定向量的纵向量
 		 */
-		void set(NumType x, NumType y)
+		void set(const NumType &x, const NumType &y)
 		{
 			this->x = x;
 			this->y = y;

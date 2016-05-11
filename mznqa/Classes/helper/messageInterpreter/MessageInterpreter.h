@@ -57,7 +57,7 @@ public:
 	 *
 	 * \param	message	指定待转译的逻辑层消息
 	 *
-	 * \return	返回转译后的交流层消息
+	 * \return	返回转译后的交互层消息
 	 */
 	static ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> interpret(const ArKCa::Message<LogicMessagePQ::LogicMessageID> &message);
 };

@@ -9,6 +9,8 @@
 #ifndef MZNQA_CLASSES_COMMON_ARKCA_FINITESTATEMACHINE_FINITESTATEMACHINE_H_
 #define MZNQA_CLASSES_COMMON_ARKCA_FINITESTATEMACHINE_FINITESTATEMACHINE_H_
 
+#include <typeinfo>
+
 #include "common/arkca/finiteStateMachine/State.h"
 
 namespace ArKCa
@@ -126,16 +128,19 @@ namespace ArKCa
 		 *
 		 * \brief	执行状态机
 		 *
+		 * \return	返回执行成功与否
+		 *
 		 */
 		bool update(double intervalTime)
 		{
+			bool result = true;
 			if (globalState != nullptr && isGlobalStatePaused == false)
-				globalState->update(owner, intervalTime);
+				result = globalState->update(owner, intervalTime);
 
 			if (currentState != nullptr && isCurrentStatePaused == false)
-				currentState->update(owner, intervalTime);
+				result = currentState->update(owner, intervalTime);
 
-			return true;
+			return result;
 		}
 
 		/*!

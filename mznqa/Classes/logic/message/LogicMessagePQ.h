@@ -49,8 +49,12 @@ public:
 		LogicMessageID_FileLoadingFail_String_Zh_Json,
 		LogicMessageID_FileLoadingFail_String_En_Json,
 		LogicMessageID_FileLoadingFail_String_Set,
+		LogicMessageID_ParsingFail_String_Set,
+		LogicMessageID_DataLoadingFail_String_Set,
 		LogicMessageID_FileLoadingSucc_String_zh_Json,
-		LogicMessageID_FileLoadingSucc_String_En_Json
+		LogicMessageID_FileLoadingSucc_String_En_Json,
+		LogicMessageID_ParsingSucc_String_Set,
+		LogicMessageID_DataLoadingSucc_String_Set
 	};
 
 	/*!

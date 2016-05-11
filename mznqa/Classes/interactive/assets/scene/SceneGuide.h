@@ -6,12 +6,12 @@
 
 #pragma execution_character_set("utf-8")
 
-#ifndef MZNQA_CLASSES_INTERACTIVE_ASSETS_SCENEGUIDE_H_
-#define MZNQA_CLASSES_INTERACTIVE_ASSETS_SCENEGUIDE_H_
+#ifndef MZNQA_CLASSES_INTERACTIVE_ASSETS_SCENE_SCENEGUIDE_H_
+#define MZNQA_CLASSES_INTERACTIVE_ASSETS_SCENE_SCENEGUIDE_H_
 
 #include "cocos2d.h"
 
-#include "logic/core/CoreController.h"
+#include "helper/bridge/Bridge.h"
 
 /*!
 * \class	SceneGuide
@@ -23,7 +23,7 @@ class SceneGuide : public cocos2d::Layer
 {
 private:
 	// 单例别名 //////////////////////////////////////////////////////////////////////////
-	CoreController *const CoreControllerInstance = CoreController::Instance();
+	Bridge *const BridgeInstance = Bridge::Instance();
 	//////////////////////////////////////////////////////////////////////////
 
 	// 场景私有量 //////////////////////////////////////////////////////////////////////////

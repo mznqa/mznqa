@@ -8,12 +8,6 @@
 #include "interactive/assets/scene/SceneGuide.h"
 #include "interactive/assets/scene/SceneResLoading.h"
 
-// TODO 测试用 //////////////////////////////////////////////////////////////////////////
-#include "logic/dataLoader/StaticDataLoader.h"
-#include "logic/message/LogicMessagePQ.h"
-#include "logic/data/static/StringSet/StringSet.h"
-//////////////////////////////////////////////////////////////////////////
-
 USING_NS_CC;
 
 Scene* SceneGuide::createScene()
@@ -49,12 +43,6 @@ void SceneGuide::onEnter()
 	log("[information] 准备进入 SceneGuide 场景...");
 	// 首先，调用基类方法
 	Layer::onEnter();
-	// TODO 测试用 //////////////////////////////////////////////////////////////////////////
-	StaticDataLoader::loadStringSet();
-	auto aaa = LogicMessagePQ::Instance()->getNextMessage();
-	auto bbb = StringSet::Instance()->getString(StringSet::StringID_Null);
-	auto ccc = StringSet::Instance()->getString(StringSet::StringID_GameName);
-	//////////////////////////////////////////////////////////////////////////
 	log("[information] 成功进入 SceneGuide 场景");
 }
 
@@ -69,7 +57,7 @@ void SceneGuide::onExit()
 void SceneGuide::update(float dt)
 {
 	log("[information] 进入 SceneGuide 场景的逐帧调度器...");
-	CoreControllerInstance->update(dt);
+	BridgeInstance->update(dt);
 	log("[information] 离开 SceneGuide 场景的逐帧调度器");
 }
 

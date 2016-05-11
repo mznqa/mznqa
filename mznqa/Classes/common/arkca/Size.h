@@ -27,14 +27,14 @@ namespace ArKCa
 		NumType height;
 
 		/*!
-		 * \fn	Size(NumType width, NumType height)
+		 * \fn	Size(const NumType &width, const NumType &height)
 		 *
 		 * \brief	默认构造函数
 		 *
 		 * \param	width 	指定宽度值
 		 * \param	height	指定高度值
 		 */
-		Size(NumType width, NumType height) :
+		Size(const NumType &width, const NumType &height) :
 			width(width),
 			height(height)
 		{
@@ -69,14 +69,14 @@ namespace ArKCa
 		}
 
 		/*!
-		 * \fn	void set(NumType width, NumType height)
+		 * \fn	void set(const NumType &width, const NumType &height)
 		 *
 		 * \brief	设置尺寸
 		 *
 		 * \param	width 	指定宽度值
 		 * \param	height	指定高度值
 		 */
-		void set(NumType width, NumType height)
+		void set(const NumType &width, const NumType &height)
 		{
 			this->width = width;
 			this->height = height;

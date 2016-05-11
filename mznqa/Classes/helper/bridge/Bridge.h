@@ -13,6 +13,7 @@
 #include "logic/message/LogicMessagePQ.h"
 #include "interactive/message/InteractiveMessagePQ.h"
 #include "interactive/manager/TargetInfo.h"
+#include "logic/core/CoreController.h"
 
 /*!
  * \class	Bridge
@@ -55,6 +56,8 @@ private:
 	InteractiveMessagePQ *const InteractiveMessagePQInstance = InteractiveMessagePQ::Instance();
 	/*! \brief	TargetInfo 单例别名 */
 	TargetInfo *const TargetInfoInstance = TargetInfo::Instance();
+	/*! \brief	Controller 单例别名 */
+	CoreController *const CoreControllerInstance = CoreController::Instance();
 	//////////////////////////////////////////////////////////////////////////
 
 public:
@@ -85,6 +88,17 @@ public:
 		Language_Zh,	///< 中文
 		Language_En		///< 英文
 	};
+
+	/*!
+	 * \fn	bool Bridge::update(double intervalTime);
+	 *
+	 * \brief	用于驱动逻辑层
+	 *
+	 * \param	intervalTime	自上次调用以来所经历的时间
+	 *
+	 * \return	返回执行成功与否
+	 */
+	bool update(double intervalTime);
 
 	/*!
 	 * \fn	void Bridge::pushMessage2Logic(const ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> &message);

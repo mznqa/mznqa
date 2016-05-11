@@ -73,7 +73,7 @@ public:
 	 *
 	 * \param	fileName	指定文件路径及文件名
 	 *
-	 * \return	以 char*const 作为文件数据返回
+	 * \return	以 char*const 作为文件数据返回，并记得用 free() 进行释放
 	 */
 	char *const getDataFromFile(const std::string& fileName)const;
 };

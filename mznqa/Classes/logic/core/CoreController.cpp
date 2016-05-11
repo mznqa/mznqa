@@ -29,6 +29,5 @@ CoreController* CoreController::Instance()
 
 bool CoreController::update(double intervalTime)
 {
-	fSM.update(intervalTime);
-	return true;
+	return fSM.update(intervalTime);
 }

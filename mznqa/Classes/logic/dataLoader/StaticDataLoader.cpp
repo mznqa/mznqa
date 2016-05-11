@@ -75,8 +75,30 @@ bool StaticDataLoader::loadStringSet()
 		return false;
 	}
 
-	ParseStringSet::parse(buffer);
-	StringSet::Instance()->init(ParseStringSet::bufferStringSet);
+	if (ParseStringSet::parse(buffer) == true)
+	{
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_ParsingSucc_String_Set
+			)
+			);
+
+		StringSet::Instance()->init(ParseStringSet::bufferStringSet);
+
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_DataLoadingSucc_String_Set
+			)
+			);
+	}
+	else
+	{
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_ParsingFail_String_Set
+			)
+			);
+	}
 
 	free(buffer);
 	buffer = nullptr;

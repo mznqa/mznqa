@@ -24,6 +24,11 @@ Bridge* Bridge::Instance()
 	return &instance;
 }
 
+bool Bridge::update(double intervalTime)
+{
+	return CoreControllerInstance->update(intervalTime);
+}
+
 void Bridge::pushMessage2Logic(const ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> &message)
 {
 	LogicMessagePQInstance->pushMessage(MessageInterpreter::interpret(message));
