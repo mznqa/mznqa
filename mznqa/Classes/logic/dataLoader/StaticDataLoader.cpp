@@ -13,7 +13,9 @@
 #include "helper/bridge/Bridge.h"
 #include "logic/message/LogicMessagePQ.h"
 #include "helper/dataLoader/ParseStringSet.h"
-#include "logic/data/static/StringSet/StringSet.h"
+#include "logic/data/static/stringSet/StringSet.h"
+#include "helper/dataLoader/ParseCardRoadSet.h"
+#include "logic/data/static/card/CardSet.h"
 
 bool StaticDataLoader::loadStringSet()
 {
@@ -41,7 +43,7 @@ bool StaticDataLoader::loadStringSet()
 		{
 			LogicMessagePQ::Instance()->pushMessage(
 				ArKCa::Message<LogicMessagePQ::LogicMessageID>(
-				LogicMessagePQ::LogicMessageID_FileLoadingSucc_String_zh_Json
+				LogicMessagePQ::LogicMessageID_FileLoadingSucc_String_Zh_Json
 				)
 				);
 		}
@@ -98,6 +100,62 @@ bool StaticDataLoader::loadStringSet()
 			LogicMessagePQ::LogicMessageID_ParsingFail_String_Set
 			)
 			);
+
+		free(buffer);
+		buffer = nullptr;
+		return false;
+	}
+
+	free(buffer);
+	buffer = nullptr;
+	return true;
+}
+
+bool StaticDataLoader::loadCardRoadSet()
+{
+	char* buffer = FileManager::Instance()->getDataFromFile(DATAFILEPATH_CARDROADSET);
+	if (buffer == nullptr)
+	{
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_FileLoadingFail_Card_Road_Json
+			)
+			);
+		return false;
+	}
+	else
+	{
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_FileLoadingSucc_Card_Road_Json
+			)
+			);
+	}
+
+	if (ParseCardRoadSet::parse(buffer) == true)
+	{
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_ParsingSucc_CardRoad_Set
+			)
+			);
+		CardSet::Instance()->loadCardRoadSet(ParseCardRoadSet::bufferCardRoadSet);
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_DataLoadingSucc_CardRoad_Set
+			)
+			);
+	}
+	else
+	{
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_ParsingFail_CardRoad_Set
+			)
+			);
+		free(buffer);
+		buffer = nullptr;
+		return false;
 	}
 
 	free(buffer);

@@ -15,7 +15,7 @@
 /*!
  * \class	CoreStateGuide
  *
- * \brief	核心状态，最为第一个载入的状态用于引导进入下一状态
+ * \brief	[单例]核心状态，最为第一个载入的状态用于引导进入下一状态
  *
  */
 class CoreStateGuide : public ArKCa::State<CoreController>

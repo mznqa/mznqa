@@ -15,7 +15,7 @@
 /*!
  * \class	CoreStateResLoading
  *
- * \brief	核心状态，用于处理资源载入
+ * \brief	[单例]核心状态，用于处理资源载入
  *
  */
 class CoreStateResLoading : public ArKCa::State<CoreController>

@@ -1,16 +1,20 @@
+/*!
+ * \file	Classes\logic\gameObject\card\CardBase.cpp
+ *
+ * \brief	¶¨ÒåÀà CardBase
+ */
 #pragma execution_character_set("utf-8")
 
-#ifndef MZNQA_CLASSES_LOGIC_GAMEOBJECT_CARD_CARDBASE_H_
-#define MZNQA_CLASSES_LOGIC_GAMEOBJECT_CARD_CARDBASE_H_
+#include "logic/gameObject/card/CardBase.h"
 
-class CardBase
+#include "logic/data/static/StringSet/StringSet.h"
+
+const std::string *const CardBase::getName()const
 {
-private:
-	CardBase(const CardBase &cardBase);
-	CardBase& operator=(const CardBase &cardBase);
-public:
-	CardBase();
-	virtual ~CardBase();
-};
+	return StringSet::Instance()->getString((StringSet::StringID)sidName);
+}
 
-#endif
+const std::string *const CardBase::getDescribe()const
+{
+	return StringSet::Instance()->getString((StringSet::StringID)sidName);
+}

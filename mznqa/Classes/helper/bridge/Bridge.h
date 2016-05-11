@@ -6,8 +6,8 @@
 
 #pragma execution_character_set("utf-8")
 
-#ifndef MZNQA_CLASSES_HELPER_BRIDGE_BRIDGE__H_
-#define MZNQA_CLASSES_HELPER_BRIDGE_BRIDGE__H_
+#ifndef MZNQA_CLASSES_HELPER_BRIDGE_BRIDGE_H_
+#define MZNQA_CLASSES_HELPER_BRIDGE_BRIDGE_H_
 
 #include "common/arkca/message/Message.h"
 #include "logic/message/LogicMessagePQ.h"
@@ -18,7 +18,7 @@
 /*!
  * \class	Bridge
  *
- * \brief	用于逻辑层和交互层之间的交流
+ * \brief	[单例]用于逻辑层和交互层之间的交流
  *
  */
 class Bridge

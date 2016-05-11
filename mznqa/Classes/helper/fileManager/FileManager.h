@@ -14,7 +14,7 @@
 /*!
  * \class	FileManager
  *
- * \brief	文件管理器，由于读取写入文件，以及处理文件夹
+ * \brief	[单例]文件管理器，由于读取写入文件，以及处理文件夹
  *
  */
 class FileManager

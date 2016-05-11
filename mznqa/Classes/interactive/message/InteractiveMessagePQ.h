@@ -15,7 +15,7 @@
 /*!
  * \class	InteractiveMessagePQ
  *
- * \brief	交互层的消息队列
+ * \brief	[单例]交互层的消息队列
  *
  */
 class InteractiveMessagePQ

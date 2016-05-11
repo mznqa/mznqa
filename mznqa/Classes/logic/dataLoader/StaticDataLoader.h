@@ -64,6 +64,15 @@ public:
 	 * \return	返回是否载入成功
 	 */
 	static bool loadStringSet();
+
+	/*!
+	 * \fn	static bool StaticDataLoader::loadCardRoadSet();
+	 *
+	 * \brief	载入静态数据-地形卡集合
+	 *
+	 * \return	返回是否载入成功
+	 */
+	static bool loadCardRoadSet();
 };
 
 #endif

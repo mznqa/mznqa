@@ -14,7 +14,7 @@
 /*!
  * \class	CoreController
  *
- * \brief	处理游戏逻辑的核心控制器
+ * \brief	[单例]处理游戏逻辑的核心控制器
  *
  */
 class CoreController

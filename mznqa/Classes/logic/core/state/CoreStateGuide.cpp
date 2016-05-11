@@ -8,6 +8,15 @@
 
 #include "logic/core/state/CoreStateGuide.h"
 
+// TODO ²âÊÔÓÃ //////////////////////////////////////////////////////////////////////////
+#include "logic/dataLoader/StaticDataLoader.h"
+#include "logic/gameObject/card/CardBase.h"
+#include "logic/gameObject/card/CardRoad.h"
+#include "helper/dataLoader/ParseCardRoadSet.h"
+#include "logic/data/static/card/CardSet.h"
+#include "logic/message/LogicMessagePQ.h"
+//////////////////////////////////////////////////////////////////////////
+
 CoreStateGuide::CoreStateGuide()
 {
 }
@@ -28,6 +37,13 @@ bool CoreStateGuide::enter(CoreController *owner)
 }
 bool CoreStateGuide::update(CoreController *owner, double intervalTime)
 {
+	// TODO ²âÊÔÓÃ //////////////////////////////////////////////////////////////////////////
+	StaticDataLoader::loadStringSet();
+
+	StaticDataLoader::loadCardRoadSet();
+	auto xx = CardSet::Instance()->getCardRoadByID(11);
+	auto msgC = LogicMessagePQ::Instance()->getMessageCount();
+	//////////////////////////////////////////////////////////////////////////
 	return true;
 }
 bool CoreStateGuide::exit(CoreController *owner)

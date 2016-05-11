@@ -11,6 +11,7 @@
 
 #include <queue>
 #include <vector>
+#include <functional>
 
 #include "common/arkca/message/Message.h"
 
@@ -52,7 +53,7 @@ namespace ArKCa
 		std::priority_queue<
 			Message<MessageIDType>,
 			std::vector<Message<MessageIDType>>,
-			std::less<Message<MessageIDType>>
+			std::greater<Message<MessageIDType>>
 		> msgPQ;
 
 	public:
