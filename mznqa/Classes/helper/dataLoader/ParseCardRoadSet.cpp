@@ -121,7 +121,7 @@ namespace ForParseCardRoadSet
 				for (int y = 0; y < MAPNODE_GROUPSIZE; ++y)
 					for (int x = 0; x < MAPNODE_GROUPSIZE; ++x)
 					{
-						roadNode[y][x] = (intArgs[step] == 1) ? (true) : (false);
+						roadNode[y][x] = (intArgs[step] == 0) ? (false) : (true);
 						++step;
 					}
 

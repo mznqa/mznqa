@@ -24,18 +24,18 @@ private:
 	/*! \brief	存放所有地图节点 */
 	std::vector<MapNode> nodeSet;
 	/*! \brief	组织图结构 */
-	std::vector<std::vector<MapNode*>> graph;
+	std::vector<std::vector<int>> graph;
 public:
 
 	/*!
-	 * \fn	GameMap::GameMap(const std::vector<MapNode> &nodeSet, const std::vector<std::vector<MapNode*>> &graph)
+	 * \fn	GameMap::GameMap(const std::vector<MapNode> &nodeSet, const std::vector<std::vector<int>> &graph)
 	 *
 	 * \brief	构造函数
 	 *
 	 * \param	nodeSet	指定所有地图节点
 	 * \param	graph  	指定图结构
 	 */
-	GameMap(const std::vector<MapNode> &nodeSet, const std::vector<std::vector<MapNode*>> &graph) :
+	GameMap(const std::vector<MapNode> &nodeSet, const std::vector<std::vector<int>> &graph) :
 		nodeSet(nodeSet),
 		graph(graph)
 	{
