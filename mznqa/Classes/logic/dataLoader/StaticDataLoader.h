@@ -9,6 +9,8 @@
 #ifndef MZNQA_CLASSES_DATALOADER_STATICDATALOADER_H_
 #define MZNQA_CLASSES_DATALOADER_STATICDATALOADER_H_
 
+#include "logic/data/static/missionMap/MissionMapSet.h"
+
 /*!
  * \class	StaticDataLoader
  *
@@ -73,6 +75,24 @@ public:
 	 * \return	返回是否载入成功
 	 */
 	static bool loadCardRoadSet();
+
+	/*!
+	 * \fn	static bool StaticDataLoader::loadMissionMapMain(MissionMapSet::MissionMapIDMain id);
+	 *
+	 * \brief	载入静态数据-主线地图
+	 *
+	 * \return	返回是否载入成功
+	 */
+	static bool loadMissionMapMain(MissionMapSet::MissionMapIDMain id);
+
+	/*!
+	 * \fn	static bool StaticDataLoader::loadMissionMapSecondary(MissionMapSet::MissionMapIDSecondary id);
+	 *
+	 * \brief	载入静态数据-支线地图
+	 *
+	 * \return	返回是否载入成功
+	 */
+	static bool loadMissionMapSecondary(MissionMapSet::MissionMapIDSecondary id);
 };
 
 #endif

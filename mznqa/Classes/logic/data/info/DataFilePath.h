@@ -11,6 +11,6 @@
 #define DATAFILEPATH_STRINGSETZH ("/data/static/stringSet/string_zh.json")
 #define DATAFILEPATH_STRINGSETEN ("/data/static/stringSet/string_en.json")
 #define DATAFILEPATH_CARDROADSET ("/data/static/card/card_road.json")
-#define DATAFILEPATH_MISSIONMAP_MAIN_01 ("/data/static/missionMap/main_map_01.json")
+#define DATAFILEPATH_MISSIONMAP_MAIN_0 ("/data/static/missionMap/main_map_0.json")
 
 #endif

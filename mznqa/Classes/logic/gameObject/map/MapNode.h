@@ -42,6 +42,9 @@ struct MapNode
 		ExtraType_None
 	};
 
+	/*! \brief	标识无效的地图节点ID */
+	static const int mapNodeInvalidID = -1;
+
 	/*! \brief	节点ID */
 	int id;
 	/*! \brief	节点横坐标 */
@@ -56,9 +59,17 @@ struct MapNode
 	bool nodeVisible;
 	/*! \brief	附加物可见性 */
 	bool extraVisible;
+	/*! \brief	上邻接节点ID */
+	int adjacencyUp;
+	/*! \brief	右邻接节点ID */
+	int adjacencyRight;
+	/*! \brief	下邻接节点ID */
+	int adjacencyDown;
+	/*! \brief	左邻接节点ID */
+	int adjacencyLeft;
 
 	/*!
-	 * \fn	MapNode(int id, int x, int y, NodeType nodeType, ExtraType extraType, bool nodeVisible, bool extraVisible)
+	 * \fn	MapNode( int id, int x, int y, NodeType nodeType, ExtraType extraType, bool nodeVisible, bool extraVisible, int adjacencyUp, int adjacencyRight, int adjacencyDown, int adjacencyLeft )
 	 *
 	 * \brief	构造函数
 	 *
@@ -69,15 +80,35 @@ struct MapNode
 	 * \param	extraType   	指定节点附加物类型
 	 * \param	nodeVisible 	指定节点可见性
 	 * \param	extraVisible	指定节点附加物可见性
+	 * \param	adjacencyUp   	指定上方向邻接点ID
+	 * \param	adjacencyRight	指定右方向邻接点ID
+	 * \param	adjacencyDown 	指定下方向邻接点ID
+	 * \param	adjacencyLeft 	指定左方向邻接点ID
 	 */
-	MapNode(int id, int x, int y, NodeType nodeType, ExtraType extraType, bool nodeVisible, bool extraVisible) :
+	MapNode(
+		int id,
+		int x,
+		int y,
+		NodeType nodeType,
+		ExtraType extraType,
+		bool nodeVisible,
+		bool extraVisible,
+		int adjacencyUp,
+		int adjacencyRight,
+		int adjacencyDown,
+		int adjacencyLeft
+		) :
 		id(id),
 		x(x),
 		y(y),
 		nodeType(nodeType),
 		extraType(extraType),
 		nodeVisible(nodeVisible),
-		extraVisible(extraVisible)
+		extraVisible(extraVisible),
+		adjacencyUp(adjacencyUp),
+		adjacencyRight(adjacencyRight),
+		adjacencyDown(adjacencyDown),
+		adjacencyLeft(adjacencyLeft)
 	{
 	}
 
@@ -94,7 +125,11 @@ struct MapNode
 		nodeType(mapNode.nodeType),
 		extraType(mapNode.extraType),
 		nodeVisible(mapNode.nodeVisible),
-		extraVisible(mapNode.extraVisible)
+		extraVisible(mapNode.extraVisible),
+		adjacencyUp(mapNode.adjacencyUp),
+		adjacencyRight(mapNode.adjacencyRight),
+		adjacencyDown(mapNode.adjacencyDown),
+		adjacencyLeft(mapNode.adjacencyLeft)
 	{
 	}
 
@@ -113,6 +148,10 @@ struct MapNode
 		this->extraType = mapNode.extraType;
 		this->nodeVisible = mapNode.nodeVisible;
 		this->extraVisible = mapNode.extraVisible;
+		this->adjacencyUp = mapNode.adjacencyUp;
+		this->adjacencyRight = mapNode.adjacencyRight;
+		this->adjacencyDown = mapNode.adjacencyDown;
+		this->adjacencyLeft = mapNode.adjacencyLeft;
 		return *this;
 	}
 

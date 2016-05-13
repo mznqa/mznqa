@@ -50,17 +50,23 @@ public:
 		LogicMessageID_FileLoadingFail_String_En_Json,
 		LogicMessageID_FileLoadingFail_String_Set,
 		LogicMessageID_FileLoadingFail_Card_Road_Json,
+		LogicMessageID_FileLoadingFail_MissionMap_Map_TMissionMapSet__MissionMapIDMainT,
 		LogicMessageID_ParsingFail_String_Set,
 		LogicMessageID_ParsingFail_CardRoad_Set,
+		LogicMessageID_ParsingFail_MissionMap_Map_TMissionMapSet__MissionMapIDMainT,
 		LogicMessageID_DataLoadingFail_String_Set,
 		LogicMessageID_DataLoadingFail_CardRoad_Set,
+		LogicMessageID_DataLoadingFail_MissionMap_Map_TMissionMapSet__MissionMapIDMainT,
 		LogicMessageID_FileLoadingSucc_String_Zh_Json,
 		LogicMessageID_FileLoadingSucc_String_En_Json,
 		LogicMessageID_FileLoadingSucc_Card_Road_Json,
+		LogicMessageID_FileLoadingSucc_MissionMap_Map_TMissionMapSet__MissionMapIDMainT,
 		LogicMessageID_ParsingSucc_String_Set,
 		LogicMessageID_ParsingSucc_CardRoad_Set,
+		LogicMessageID_ParsingSucc_MissionMap_Map_TMissionMapSet__MissionMapIDMainT,
 		LogicMessageID_DataLoadingSucc_String_Set,
-		LogicMessageID_DataLoadingSucc_CardRoad_Set
+		LogicMessageID_DataLoadingSucc_CardRoad_Set,
+		LogicMessageID_DataLoadingSucc_MissionMap_Map_TMissionMapSet__MissionMapIDMainT
 	};
 
 	/*!

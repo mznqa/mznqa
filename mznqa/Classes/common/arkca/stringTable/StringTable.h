@@ -64,6 +64,19 @@ namespace ArKCa
 		}
 
 		/*!
+		 * \fn	void StringTable::swap(std::map<int, std::string> &stringTable)
+		 *
+		 * \brief	从外部转换字符串表
+		 *
+		 * \param [in,out]	stringTable	外界ID-字符串键值对表
+		 */
+		void swap(std::map<int, std::string> &stringTable)
+		{
+			this->clear();
+			this->strTable.swap(stringTable);
+		}
+
+		/*!
 		 * \fn	void StringTable::insert(int key, const std::string &value);
 		 *
 		 * \brief	插入字符键值对

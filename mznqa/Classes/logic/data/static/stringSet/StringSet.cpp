@@ -14,15 +14,10 @@ StringSet* StringSet::Instance()
 	return &instance;
 }
 
-void StringSet::init(const std::map<int, std::string> &stringSet)
+void StringSet::init(std::map<int, std::string> &stringSet)
 {
-	auto it = stringSet.cbegin();
-	auto itEnd = stringSet.cend();
-	while (it != itEnd)
-	{
-		stringTable.insert(it->first, it->second);
-		++it;
-	}
+	stringTable.clear();
+	stringTable.swap(stringSet);
 }
 
 void StringSet::clear()

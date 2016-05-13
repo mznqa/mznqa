@@ -73,9 +73,22 @@ public:
 	 *
 	 * \param	fileName	指定文件路径及文件名
 	 *
-	 * \return	以 char*const 作为文件数据返回，并记得用 free() 进行释放
+	 * \return	以 char*const 作为文件数据返回，并记得用 releaseData() 进行释放
 	 */
 	char *const getDataFromFile(const std::string& fileName)const;
+
+	/*!
+	 * \fn	static void FileManager::releaseData(char *data)
+	 *
+	 * \brief	用于释放由 FileManager 载入的数据
+	 *
+	 * \param [in,out]	data	指定由 FileManager 载入的资源
+	 */
+	static void releaseData(char *data)
+	{
+		free(data);
+		data = nullptr;
+	}
 };
 
 #endif

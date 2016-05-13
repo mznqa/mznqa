@@ -18,6 +18,7 @@
 #include "helper/dataLoader/ParseMissionMapMain.h"
 #include "helper/fileManager/FileManager.h"
 #include "logic/data/info/DataFilePath.h"
+#include "logic/data/static/missionMap/MissionMapSet.h"
 //////////////////////////////////////////////////////////////////////////
 
 CoreStateGuide::CoreStateGuide()
@@ -41,18 +42,8 @@ bool CoreStateGuide::enter(CoreController *owner)
 bool CoreStateGuide::update(CoreController *owner, double intervalTime)
 {
 	// TODO ²âÊÔÓÃ //////////////////////////////////////////////////////////////////////////
-	StaticDataLoader::loadStringSet();
-
-	StaticDataLoader::loadCardRoadSet();
-	auto xx = CardSet::Instance()->getCardRoadByID(11);
-	auto msgC = LogicMessagePQ::Instance()->getMessageCount();
-
-	char *data = FileManager::Instance()->getDataFromFile(DATAFILEPATH_MISSIONMAP_MAIN_01);
-	ParseMissionMapMain::parse(data);
-	auto a = ParseMissionMapMain::bufferMapNodeSet;
-	auto b = ParseMissionMapMain::bufferGraph;
-	free(data);
-	data = nullptr;
+	StaticDataLoader::loadMissionMapMain(MissionMapSet::MissionMapIDMain_0);
+	MissionMapSet::Instance()->Instance();
 	//////////////////////////////////////////////////////////////////////////
 	return true;
 }

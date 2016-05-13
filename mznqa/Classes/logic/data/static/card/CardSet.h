@@ -72,13 +72,13 @@ public:
 	static CardSet* Instance();
 
 	/*!
-	 * \fn	void CardSet::loadCardRoadSet(const std::vector<CardRoad> &cardRoadSet);
+	 * \fn	void CardSet::loadCardRoadSet(std::map<int, CardRoad> &cardRoadSet);
 	 *
 	 * \brief	载入地形卡集合数据
 	 *
 	 * \param	cardRoadSet	指定地形卡集合数据缓存
 	 */
-	void loadCardRoadSet(const std::vector<CardRoad> &cardRoadSet);
+	void loadCardRoadSet(std::map<int, CardRoad> &cardRoadSet);
 
 	/*!
 	 * \fn	const CardRoad *const CardSet::getCardRoadByID(int id)const;

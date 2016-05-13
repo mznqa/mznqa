@@ -8,7 +8,7 @@
 #ifndef MZNQA_CLASSES_LOGIC_GAMEOBJECT_MAP_GAMEMAP_H_
 #define MZNQA_CLASSES_LOGIC_GAMEOBJECT_MAP_GAMEMAP_H_
 
-#include <vector>
+#include <map>
 
 #include "logic/gameObject/map/MapNode.h"
 
@@ -22,44 +22,43 @@ class GameMap
 {
 private:
 	/*! \brief	存放所有地图节点 */
-	std::vector<MapNode> nodeSet;
-	/*! \brief	组织图结构 */
-	std::vector<std::vector<int>> graph;
+	std::map<int, MapNode> nodeSet;
 public:
 
 	/*!
-	 * \fn	GameMap::GameMap(const std::vector<MapNode> &nodeSet, const std::vector<std::vector<int>> &graph)
+	 * \fn	GameMap::GameMap()
 	 *
-	 * \brief	构造函数
+	 * \brief	默认构造函数，创建一个空的地图
 	 *
-	 * \param	nodeSet	指定所有地图节点
-	 * \param	graph  	指定图结构
 	 */
-	GameMap(const std::vector<MapNode> &nodeSet, const std::vector<std::vector<int>> &graph) :
-		nodeSet(nodeSet),
-		graph(graph)
+	GameMap()
 	{
 	}
 
 	/*!
-	 * \fn	GameMap::GameMap(const GameMap &gameMap)
+	 * \fn	GameMap::GameMap(std::map<int, MapNode> &mapNodeSet);
+	 *
+	 * \brief	构造函数，指定存放地图数据容器以创建地图
+	 *
+	 * \param	mapNodeSet	指定存放所有地图节点的容器
+	 */
+	GameMap(std::map<int, MapNode> &mapNodeSet);
+
+	/*!
+	 * \fn	GameMap::GameMap(const GameMap &gameMap);
 	 *
 	 * \brief	拷贝构造函数
 	 *
 	 */
-	GameMap(const GameMap &gameMap)
-	{
-	}
+	GameMap(const GameMap &gameMap);
 
 	/*!
-	 * \fn	GameMap& GameMap::operator=(const GameMap &gameMap)
+	 * \fn	GameMap& GameMap::operator=(const GameMap &gameMap);
 	 *
 	 * \brief	拷贝赋值运算符
 	 *
 	 */
-	GameMap& operator=(const GameMap &gameMap)
-	{
-	}
+	GameMap& operator=(const GameMap &gameMap);
 
 	/*!
 	 * \fn	GameMap::~GameMap()
@@ -70,6 +69,23 @@ public:
 	~GameMap()
 	{
 	}
+
+	/*!
+	 * \fn	void GameMap::loadMapNode(std::map<int, MapNode> &mapNodeSet);
+	 *
+	 * \brief	载入地图节点
+	 *
+	 * \param	mapNodeSet	指定存放所有地图节点的容器
+	 */
+	void loadMapNode(std::map<int, MapNode> &mapNodeSet);
+
+	/*!
+	 * \fn	const std::map<int, MapNode>& GameMap::getMapNodeSet()const;
+	 *
+	 * \brief	获取地图节点集合
+	 *
+	 */
+	const std::map<int, MapNode>& getMapNodeSet()const;
 };
 
 #endif

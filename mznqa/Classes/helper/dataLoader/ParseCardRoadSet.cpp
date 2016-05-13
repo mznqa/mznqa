@@ -13,7 +13,7 @@
 
 #include "json/reader.h"
 
-std::vector<CardRoad> ParseCardRoadSet::bufferCardRoadSet;
+std::map<int, CardRoad> ParseCardRoadSet::bufferCardRoadSet;
 
 namespace ForParseCardRoadSet
 {
@@ -125,13 +125,15 @@ namespace ForParseCardRoadSet
 						++step;
 					}
 
-				ParseCardRoadSet::bufferCardRoadSet.push_back(CardRoad(
+				ParseCardRoadSet::bufferCardRoadSet.insert(std::pair<int, CardRoad>(
+					intArgs[0],
+					CardRoad(
 					intArgs[0],
 					StringSet::StringID_Null,
 					StringSet::StringID_Null,
 					CardBase::BelongTo_Character,
 					roadNode
-					));
+					)));
 
 				intArgs.clear();
 			}

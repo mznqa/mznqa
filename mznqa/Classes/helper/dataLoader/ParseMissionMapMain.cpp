@@ -7,10 +7,14 @@
 
 #include "helper/dataLoader/ParseMissionMapMain.h"
 
-#include "json\reader.h"
+#include <vector>
 
-std::vector<MapNode> ParseMissionMapMain::bufferMapNodeSet;
-std::vector<std::vector<int>> ParseMissionMapMain::bufferGraph;
+#include "json/reader.h"
+
+#include "logic/data/info/NumDefine.h"
+#include "logic/gameObject/map/MapNode.h"
+
+std::map<int, MapNode> ParseMissionMapMain::bufferMapNodeSet;
 
 namespace ForParseMissionMapMain
 {
@@ -62,7 +66,6 @@ namespace ForParseMissionMapMain
 		ParseState ps;
 
 		std::vector<int> mapNodeArgs;
-		std::vector<int> edgeArgs;
 
 	public:
 		bool Null()
@@ -75,18 +78,14 @@ namespace ForParseMissionMapMain
 		}
 		bool Int(int i)
 		{
-			if (ps.state == ParseState::State_MapNode)
+			if (ps.state == ParseState::State_MapNode || ps.state == ParseState::State_EdgeSet)
 				mapNodeArgs.push_back(i);
-			else if (ps.state == ParseState::State_EdgeSet)
-				edgeArgs.push_back(i);
 			return true;
 		}
 		bool Uint(unsigned u)
 		{
-			if (ps.state == ParseState::State_MapNode)
+			if (ps.state == ParseState::State_MapNode || ps.state == ParseState::State_EdgeSet)
 				mapNodeArgs.push_back(u);
-			else if (ps.state == ParseState::State_EdgeSet)
-				edgeArgs.push_back(u);
 			return true;
 		}
 		bool Int64(int64_t i)
@@ -121,19 +120,6 @@ namespace ForParseMissionMapMain
 		}
 		bool StartArray()
 		{
-			if (ps.state == ParseState::State_MapNode)
-			{
-				ParseMissionMapMain::bufferMapNodeSet.push_back(MapNode(
-					mapNodeArgs[0],
-					mapNodeArgs[1],
-					mapNodeArgs[2],
-					(MapNode::NodeType)(mapNodeArgs[3]),
-					(MapNode::ExtraType)(mapNodeArgs[4]),
-					(mapNodeArgs[5] == 0) ? (false) : (true),
-					(mapNodeArgs[6] == 0) ? (false) : (true)
-					));
-				mapNodeArgs.clear();
-			}
 			++ps;
 			return true;
 		}
@@ -141,18 +127,20 @@ namespace ForParseMissionMapMain
 		{
 			if (ps.state == ParseState::State_EdgeSet)
 			{
-				auto itBegin = edgeArgs.cbegin();
-				auto itEnd = edgeArgs.cend();
-				auto it = edgeArgs.cbegin();
-				if (ParseMissionMapMain::bufferGraph.size() <= *itBegin)
-					ParseMissionMapMain::bufferGraph.push_back(std::vector<int>());
-				++it;
-				while (it != itEnd)
-				{
-					ParseMissionMapMain::bufferGraph[*itBegin].push_back(*it);
-					++it;
-				}
-				edgeArgs.clear();
+				ParseMissionMapMain::bufferMapNodeSet.insert(std::pair<int, MapNode>(mapNodeArgs[0], MapNode(
+					mapNodeArgs[0],
+					mapNodeArgs[1],
+					mapNodeArgs[2],
+					(MapNode::NodeType)(mapNodeArgs[3]),
+					(MapNode::ExtraType)(mapNodeArgs[4]),
+					(mapNodeArgs[5] == 0) ? (false) : (true),
+					(mapNodeArgs[6] == 0) ? (false) : (true),
+					mapNodeArgs[7],
+					mapNodeArgs[8],
+					mapNodeArgs[9],
+					mapNodeArgs[10]
+					)));
+				mapNodeArgs.clear();
 			}
 			--ps;
 			return true;
@@ -174,7 +162,6 @@ bool ParseMissionMapMain::parse(const char *const data)
 	if (reader.HasParseError())
 	{
 		bufferMapNodeSet.clear();
-		bufferGraph.clear();
 		return false;
 	}
 	else

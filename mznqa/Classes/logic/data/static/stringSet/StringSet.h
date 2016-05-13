@@ -53,13 +53,13 @@ public:
 	};
 
 	/*!
-	 * \fn	void StringSet::init(const std::map<int, std::string> &stringSet);
+	 * \fn	void StringSet::init(std::map<int, std::string> &stringSet);
 	 *
 	 * \brief	初始化字符表
 	 *
 	 * \param	stringSet	指定外部字符表以载入
 	 */
-	void init(const std::map<int, std::string> &stringSet);
+	void init(std::map<int, std::string> &stringSet);
 
 	/*!
 	 * \fn	void StringSet::clear();

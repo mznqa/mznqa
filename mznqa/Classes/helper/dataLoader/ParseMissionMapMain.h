@@ -8,7 +8,7 @@
 #ifndef MZNQA_CLASSES_HELPER_DATALOADER_PARSEMISSIONMAPMAIN_H_
 #define MZNQA_CLASSES_HELPER_DATALOADER_PARSEMISSIONMAPMAIN_H_
 
-#include <vector>
+#include <map>
 
 #include "logic/gameObject/map/MapNode.h"
 
@@ -67,9 +67,7 @@ public:
 	static bool parse(const char *const data);
 
 	/*! \brief	暂存解析结果 */
-	static std::vector<MapNode> bufferMapNodeSet;
-	/*! \brief	暂存解析结果 */
-	static std::vector<std::vector<int>> bufferGraph;
+	static std::map<int, MapNode> bufferMapNodeSet;
 };
 
 #endif

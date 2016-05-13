@@ -14,15 +14,10 @@ CardSet* CardSet::Instance()
 	return &instance;
 }
 
-void CardSet::loadCardRoadSet(const std::vector<CardRoad> &cardRoadSet)
+void CardSet::loadCardRoadSet(std::map<int, CardRoad> &cardRoadSet)
 {
-	auto it = cardRoadSet.cbegin();
-	auto itEnd = cardRoadSet.cend();
-	while (it != itEnd)
-	{
-		this->cardRoadSet.insert(std::pair<int, CardRoad>(it->getID(), *it));
-		++it;
-	}
+	this->cardRoadSet.clear();
+	this->cardRoadSet.swap(cardRoadSet);
 }
 
 const CardRoad *const CardSet::getCardRoadByID(int id)const

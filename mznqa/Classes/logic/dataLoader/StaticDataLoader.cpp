@@ -8,6 +8,8 @@
 
 #include "logic/dataLoader/StaticDataLoader.h"
 
+#include <string>
+
 #include "logic/data/info/DataFilePath.h"
 #include "helper/fileManager/FileManager.h"
 #include "helper/bridge/Bridge.h"
@@ -16,6 +18,7 @@
 #include "logic/data/static/stringSet/StringSet.h"
 #include "helper/dataLoader/ParseCardRoadSet.h"
 #include "logic/data/static/card/CardSet.h"
+#include "helper/dataLoader/ParseMissionMapMain.h"
 
 bool StaticDataLoader::loadStringSet()
 {
@@ -101,13 +104,11 @@ bool StaticDataLoader::loadStringSet()
 			)
 			);
 
-		free(buffer);
-		buffer = nullptr;
+		FileManager::releaseData(buffer);
 		return false;
 	}
 
-	free(buffer);
-	buffer = nullptr;
+	FileManager::releaseData(buffer);
 	return true;
 }
 
@@ -153,12 +154,87 @@ bool StaticDataLoader::loadCardRoadSet()
 			LogicMessagePQ::LogicMessageID_ParsingFail_CardRoad_Set
 			)
 			);
-		free(buffer);
-		buffer = nullptr;
+		FileManager::releaseData(buffer);
 		return false;
 	}
 
-	free(buffer);
-	buffer = nullptr;
+	FileManager::releaseData(buffer);
+	return true;
+}
+
+bool StaticDataLoader::loadMissionMapMain(MissionMapSet::MissionMapIDMain id)
+{
+	std::string fileName;
+	switch (id)
+	{
+	case MissionMapSet::MissionMapIDMain_0:
+		fileName = std::string(DATAFILEPATH_MISSIONMAP_MAIN_0);
+		break;
+	default:
+		break;
+	}
+
+	char* buffer = FileManager::Instance()->getDataFromFile(fileName);
+	if (buffer == nullptr)
+	{
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_FileLoadingFail_MissionMap_Map_TMissionMapSet__MissionMapIDMainT,
+			id
+			)
+			);
+		return false;
+	}
+	else
+	{
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_FileLoadingSucc_MissionMap_Map_TMissionMapSet__MissionMapIDMainT,
+			id
+			)
+			);
+	}
+
+	if (ParseMissionMapMain::parse(buffer) == true)
+	{
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_ParsingSucc_MissionMap_Map_TMissionMapSet__MissionMapIDMainT,
+			id
+			)
+			);
+
+		MissionMapSet::Instance()->loadMapMain(id, GameMap(ParseMissionMapMain::bufferMapNodeSet));
+
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_DataLoadingSucc_MissionMap_Map_TMissionMapSet__MissionMapIDMainT,
+			id
+			)
+			);
+	}
+	else
+	{
+		LogicMessagePQ::Instance()->pushMessage(
+			ArKCa::Message<LogicMessagePQ::LogicMessageID>(
+			LogicMessagePQ::LogicMessageID_ParsingFail_MissionMap_Map_TMissionMapSet__MissionMapIDMainT
+			)
+			);
+		FileManager::releaseData(buffer);
+		return false;
+	}
+
+	FileManager::releaseData(buffer);
+	return true;
+}
+
+bool StaticDataLoader::loadMissionMapSecondary(MissionMapSet::MissionMapIDSecondary id)
+{
+	std::string fileName;
+	switch (id)
+	{
+	default:
+		break;
+	}
 	return true;
 }

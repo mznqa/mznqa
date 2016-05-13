@@ -10,6 +10,7 @@
 #define MZNQA_CLASSES_HELPER_DATALOADER_PARSECARDROADSET_H_
 
 #include <vector>
+#include <map>
 
 #include "logic/gameObject/card/CardRoad.h"
 
@@ -72,7 +73,7 @@ public:
 	static bool parse(const char *const data);
 
 	/*! \brief	»º´æ½âÎö½á¹û */
-	static std::vector<CardRoad> bufferCardRoadSet;
+	static std::map<int, CardRoad> bufferCardRoadSet;
 };
 
 #endif
