@@ -14,6 +14,7 @@
 #include "logic/data/info/NumDefine.h"
 #include "logic/gameObject/map/MapNode.h"
 
+ArKCa::Size<int> ParseMissionMapMain::bufferMapSize(0, 0);
 std::map<int, MapNode> ParseMissionMapMain::bufferMapNodeSet;
 
 namespace ForParseMissionMapMain
@@ -29,9 +30,10 @@ namespace ForParseMissionMapMain
 		enum State
 		{
 			State_Global = 0,
-			State_MapNodeSet = 1,
-			State_MapNode = 2,
-			State_EdgeSet = 3
+			State_MapArgs = 1,
+			State_MapNodeSet = 2,
+			State_MapNode = 3,
+			State_EdgeSet = 4
 		};
 
 		int state;
@@ -65,6 +67,7 @@ namespace ForParseMissionMapMain
 	private:
 		ParseState ps;
 
+		std::vector<int> mapArgs;
 		std::vector<int> mapNodeArgs;
 
 	public:
@@ -78,13 +81,25 @@ namespace ForParseMissionMapMain
 		}
 		bool Int(int i)
 		{
-			if (ps.state == ParseState::State_MapNode || ps.state == ParseState::State_EdgeSet)
+			if (ps.state == ParseState::State_MapArgs)
+			{
+				mapArgs.push_back(i);
+				if (mapArgs.size() >= 2)
+					ParseMissionMapMain::bufferMapSize.set(mapArgs[0], mapArgs[1]);
+			}
+			else if (ps.state == ParseState::State_MapNode || ps.state == ParseState::State_EdgeSet)
 				mapNodeArgs.push_back(i);
 			return true;
 		}
 		bool Uint(unsigned u)
 		{
-			if (ps.state == ParseState::State_MapNode || ps.state == ParseState::State_EdgeSet)
+			if (ps.state == ParseState::State_MapArgs)
+			{
+				mapArgs.push_back(u);
+				if (mapArgs.size() >= 2)
+					ParseMissionMapMain::bufferMapSize.set(mapArgs[0], mapArgs[1]);
+			}
+			else if (ps.state == ParseState::State_MapNode || ps.state == ParseState::State_EdgeSet)
 				mapNodeArgs.push_back(u);
 			return true;
 		}

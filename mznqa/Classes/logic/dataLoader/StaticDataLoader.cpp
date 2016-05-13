@@ -204,7 +204,10 @@ bool StaticDataLoader::loadMissionMapMain(MissionMapSet::MissionMapIDMain id)
 			)
 			);
 
-		MissionMapSet::Instance()->loadMapMain(id, GameMap(ParseMissionMapMain::bufferMapNodeSet));
+		MissionMapSet::Instance()->loadMapMain(id, GameMap(
+			ParseMissionMapMain::bufferMapSize,
+			ParseMissionMapMain::bufferMapNodeSet
+			));
 
 		LogicMessagePQ::Instance()->pushMessage(
 			ArKCa::Message<LogicMessagePQ::LogicMessageID>(

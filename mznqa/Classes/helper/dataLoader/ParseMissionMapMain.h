@@ -10,6 +10,8 @@
 
 #include <map>
 
+#include "common/arkca/Size.h"
+
 #include "logic/gameObject/map/MapNode.h"
 
 /*!
@@ -66,6 +68,8 @@ public:
 	 */
 	static bool parse(const char *const data);
 
+	/*! \brief	暂存解析结果 */
+	static ArKCa::Size<int> bufferMapSize;
 	/*! \brief	暂存解析结果 */
 	static std::map<int, MapNode> bufferMapNodeSet;
 };
