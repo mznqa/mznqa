@@ -8,6 +8,8 @@
 #ifndef MZNQA_CLASSES_LOGIC_GAMEOBJECT_MAP_MAPNODE_H_
 #define MZNQA_CLASSES_LOGIC_GAMEOBJECT_MAP_MAPNODE_H_
 
+#include "common/arkca/Vector2.h"
+
 /*!
  * \struct	MapNode
  *
@@ -29,7 +31,8 @@ struct MapNode
 
 		NodeType_None_Const = 100,
 		NodeType_Road_Const = 101,
-		NodeType_Wall_Const = 102
+		NodeType_Wall_Const = 102,
+		NodeType_Border_Const = 103
 	};
 
 	/*!
@@ -39,18 +42,17 @@ struct MapNode
 	 */
 	enum ExtraType
 	{
-		ExtraType_None
+		ExtraType_None,
+		ExtraType_Door_Mission_Main,
+		ExtraType_Door_Mission_Secondary,
+		ExtraType_Door_NextMap
 	};
 
-	/*! \brief	标识无效的地图节点ID */
-	static const int mapNodeInvalidID = -1;
+	/*! \brief	无效的节点位置 */
+	static const ArKCa::Vector2<int> invalidPosition;
 
-	/*! \brief	节点ID */
-	int id;
-	/*! \brief	节点横坐标 */
-	int x;
-	/*! \brief	节点纵坐标 */
-	int y;
+	/*! \brief	节点位置 */
+	ArKCa::Vector2<int> position;
 	/*! \brief	节点类型 */
 	NodeType nodeType;
 	/*! \brief	附加物类型 */
@@ -60,22 +62,39 @@ struct MapNode
 	/*! \brief	附加物可见性 */
 	bool extraVisible;
 	/*! \brief	上邻接节点ID */
-	int adjacencyUp;
+	ArKCa::Vector2<int> adjacencyUp;
 	/*! \brief	右邻接节点ID */
-	int adjacencyRight;
+	ArKCa::Vector2<int> adjacencyRight;
 	/*! \brief	下邻接节点ID */
-	int adjacencyDown;
+	ArKCa::Vector2<int> adjacencyDown;
 	/*! \brief	左邻接节点ID */
-	int adjacencyLeft;
+	ArKCa::Vector2<int> adjacencyLeft;
 
 	/*!
-	 * \fn	MapNode( int id, int x, int y, NodeType nodeType, ExtraType extraType, bool nodeVisible, bool extraVisible, int adjacencyUp, int adjacencyRight, int adjacencyDown, int adjacencyLeft )
+	 * \fn	MapNode()
+	 *
+	 * \brief	默认构造函数
+	 *
+	 */
+	MapNode() :
+		position(invalidPosition),
+		nodeType(NodeType_None),
+		extraType(ExtraType_None),
+		nodeVisible(false),
+		extraVisible(false),
+		adjacencyUp(invalidPosition),
+		adjacencyRight(invalidPosition),
+		adjacencyDown(invalidPosition),
+		adjacencyLeft(invalidPosition)
+	{
+	}
+
+	/*!
+	 * \fn	MapNode( const ArKCa::Vector2<int> &position, NodeType nodeType, ExtraType extraType, bool nodeVisible, bool extraVisible, const ArKCa::Vector2<int> &adjacencyUp, const ArKCa::Vector2<int> &adjacencyRight, const ArKCa::Vector2<int> &adjacencyDown, const ArKCa::Vector2<int> &adjacencyLeft )
 	 *
 	 * \brief	构造函数
 	 *
-	 * \param	id				指定节点ID
-	 * \param	x				指定节点横坐标
-	 * \param	y				指定节点纵坐标
+	 * \param	position		指定节点横坐标
 	 * \param	nodeType		指定节点类型
 	 * \param	extraType   	指定节点附加物类型
 	 * \param	nodeVisible 	指定节点可见性
@@ -86,21 +105,17 @@ struct MapNode
 	 * \param	adjacencyLeft 	指定左方向邻接点ID
 	 */
 	MapNode(
-		int id,
-		int x,
-		int y,
+		const ArKCa::Vector2<int> &position,
 		NodeType nodeType,
 		ExtraType extraType,
 		bool nodeVisible,
 		bool extraVisible,
-		int adjacencyUp,
-		int adjacencyRight,
-		int adjacencyDown,
-		int adjacencyLeft
+		const ArKCa::Vector2<int> &adjacencyUp,
+		const ArKCa::Vector2<int> &adjacencyRight,
+		const ArKCa::Vector2<int> &adjacencyDown,
+		const ArKCa::Vector2<int> &adjacencyLeft
 		) :
-		id(id),
-		x(x),
-		y(y),
+		position(position),
 		nodeType(nodeType),
 		extraType(extraType),
 		nodeVisible(nodeVisible),
@@ -119,9 +134,7 @@ struct MapNode
 	 *
 	 */
 	MapNode(const MapNode &mapNode) :
-		id(mapNode.id),
-		x(mapNode.x),
-		y(mapNode.y),
+		position(mapNode.position),
 		nodeType(mapNode.nodeType),
 		extraType(mapNode.extraType),
 		nodeVisible(mapNode.nodeVisible),
@@ -141,9 +154,7 @@ struct MapNode
 	 */
 	MapNode& operator=(const MapNode &mapNode)
 	{
-		this->id = mapNode.id;
-		this->x = mapNode.x;
-		this->y = mapNode.y;
+		this->position = mapNode.position;
 		this->nodeType = mapNode.nodeType;
 		this->extraType = mapNode.extraType;
 		this->nodeVisible = mapNode.nodeVisible;

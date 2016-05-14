@@ -8,18 +8,8 @@
 
 #include "logic/core/state/CoreStateGuide.h"
 
-// TODO ²âÊÔÓÃ //////////////////////////////////////////////////////////////////////////
+#include "logic/core/state/CoreStateResLoading.h"
 #include "logic/dataLoader/StaticDataLoader.h"
-#include "logic/gameObject/card/CardBase.h"
-#include "logic/gameObject/card/CardRoad.h"
-#include "helper/dataLoader/ParseCardRoadSet.h"
-#include "logic/data/static/card/CardSet.h"
-#include "logic/message/LogicMessagePQ.h"
-#include "helper/dataLoader/ParseMissionMapMain.h"
-#include "helper/fileManager/FileManager.h"
-#include "logic/data/info/DataFilePath.h"
-#include "logic/data/static/missionMap/MissionMapSet.h"
-//////////////////////////////////////////////////////////////////////////
 
 CoreStateGuide::CoreStateGuide()
 {
@@ -41,10 +31,9 @@ bool CoreStateGuide::enter(CoreController *owner)
 }
 bool CoreStateGuide::update(CoreController *owner, double intervalTime)
 {
-	// TODO ²âÊÔÓÃ //////////////////////////////////////////////////////////////////////////
-	StaticDataLoader::loadMissionMapMain(MissionMapSet::MissionMapIDMain_0);
-	MissionMapSet::Instance()->Instance();
-	//////////////////////////////////////////////////////////////////////////
+	StaticDataLoader::loadStringSet();
+	StaticDataLoader::loadCardRoadSet();
+	owner->fSM.changeState(CoreStateResLoading::Instance());
 	return true;
 }
 bool CoreStateGuide::exit(CoreController *owner)

@@ -29,3 +29,21 @@ void MissionMapSet::loadMapSecondary(MissionMapIDSecondary id, const GameMap &ga
 	else
 		secondarySet.insert(std::pair<MissionMapIDSecondary, GameMap>(id, gameMap));
 }
+
+const GameMap *const MissionMapSet::getMapMain(MissionMapIDMain id)const
+{
+	auto it = mainSet.find(id);
+	if (it == mainSet.end())
+		return nullptr;
+	else
+		return &(it->second);
+}
+
+const GameMap *const MissionMapSet::getMapSecondary(MissionMapIDSecondary id)const
+{
+	auto it = secondarySet.find(id);
+	if (it == secondarySet.end())
+		return nullptr;
+	else
+		return &(it->second);
+}

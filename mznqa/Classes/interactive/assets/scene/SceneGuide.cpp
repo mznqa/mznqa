@@ -6,7 +6,9 @@
 #pragma execution_character_set("utf-8")
 
 #include "interactive/assets/scene/SceneGuide.h"
+
 #include "interactive/assets/scene/SceneResLoading.h"
+#include "interactive/manager/ResFilePath.h"
 
 USING_NS_CC;
 
@@ -30,6 +32,9 @@ bool SceneGuide::init()
 	{
 		return false;
 	}
+	// 载入精灵集 //////////////////////////////////////////////////////////////////////////
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile(RESFILEPATH_IMAGESET_PLIST_01, RESFILEPATH_IMAGESET_PNG_01);
+	//////////////////////////////////////////////////////////////////////////
 
 	// 添加逐帧调度器
 	this->scheduleUpdate();
@@ -57,6 +62,21 @@ void SceneGuide::onExit()
 void SceneGuide::update(float dt)
 {
 	log("[information] 进入 SceneGuide 场景的逐帧调度器...");
+	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
+	auto msg = InteractiveMessagePQInstance->getTopMessage();
+	if (msg != nullptr)
+	{
+		switch (msg->getID())
+		{
+		case InteractiveMessagePQ::InteractiveMessageID_ChangeScene_SceneGuide_SceneResLoading:
+			replaceSceneResLoading();
+			break;
+		default:
+			break;
+		}
+		InteractiveMessagePQInstance->popTopMessage();
+	}
+	//////////////////////////////////////////////////////////////////////////
 	BridgeInstance->update(dt);
 	log("[information] 离开 SceneGuide 场景的逐帧调度器");
 }

@@ -8,6 +8,8 @@
 
 #include "interactive/assets/scene/SceneResLoading.h"
 
+#include "interactive/assets/scene/SceneGameMain.h"
+
 USING_NS_CC;
 
 Scene* SceneResLoading::createScene()
@@ -57,6 +59,28 @@ void SceneResLoading::onExit()
 void SceneResLoading::update(float dt)
 {
 	log("[information] 进入 SceneResLoading 场景的逐帧调度器...");
+	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
+	auto msg = InteractiveMessagePQInstance->getTopMessage();
+	if (msg != nullptr)
+	{
+		switch (msg->getID())
+		{
+		case InteractiveMessagePQ::InteractiveMessageID_ChangeScene_SceneResLoading_SceneGameMain:
+			replaceSceneGameMain();
+			break;
+		default:
+			break;
+		}
+		InteractiveMessagePQInstance->popTopMessage();
+	}
+	//////////////////////////////////////////////////////////////////////////
 	BridgeInstance->update(dt);
 	log("[information] 离开 SceneResLoading 场景的逐帧调度器");
+}
+
+void SceneResLoading::replaceSceneGameMain()
+{
+	log("[information] 准备从 SceneResLoading 场景切换到 SceneGameMain 场景...");
+	Director::getInstance()->replaceScene(SceneGameMain::createScene());
+	log("[information] 从 SceneResLoading 场景切换到 SceneGameMain 场景准备成功");
 }

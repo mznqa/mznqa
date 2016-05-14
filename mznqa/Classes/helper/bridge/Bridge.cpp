@@ -29,11 +29,11 @@ bool Bridge::update(double intervalTime)
 	return CoreControllerInstance->update(intervalTime);
 }
 
-void Bridge::pushMessage2Logic(const ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> &message)
+void Bridge::pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID messageID)
 {
-	LogicMessagePQInstance->pushMessage(MessageInterpreter::interpret(message));
+	LogicMessagePQInstance->pushMessage(MessageInterpreter::interpret(messageID));
 }
-void Bridge::pushMessage2Interactive(const ArKCa::Message<LogicMessagePQ::LogicMessageID> &message)
+void Bridge::pushMessage2Interactive(LogicMessagePQ::LogicMessageID messageID)
 {
-	InteractiveMessagePQInstance->pushMessage(MessageInterpreter::interpret(message));
+	InteractiveMessagePQInstance->pushMessage(MessageInterpreter::interpret(messageID));
 }

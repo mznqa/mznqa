@@ -1,33 +1,30 @@
 /*!
- * \file	Classes\interactive\assets\scene\SceneResLoading.h
+ * \file	Classes\interactive\assets\scene\SceneGameMain.h
  *
- * \brief	定义类 SceneResLoading
+ * \brief	定义类 SceneGameMain
  */
 
 #pragma execution_character_set("utf-8")
 
-#ifndef MZNQA_CLASSES_INTERACTIVE_ASSETS_SCENE_SCENERESLOADING_H_
-#define MZNQA_CLASSES_INTERACTIVE_ASSETS_SCENE_SCENERESLOADING_H_
+#ifndef MZNQA_CLASSES_INTERACTIVE_ASSETS_SCENE_SCENEGAMEMAIN_H_
+#define MZNQA_CLASSES_INTERACTIVE_ASSETS_SCENE_SCENEGAMEMAIN_H_
 
 #include "cocos2d.h"
 
 #include "helper/bridge/Bridge.h"
-#include "interactive/message/InteractiveMessagePQ.h"
+#include "interactive/assets/layer/LayerMap.h"
 
 /*!
- * \class	SceneResLoading
- *
- * \brief	用于载入资源的场景
- *
- */
-class SceneResLoading : public cocos2d::Layer
+* \class	SceneGameMain
+*
+* \brief	游戏主场景
+*
+*/
+class SceneGameMain : public cocos2d::Layer
 {
 private:
 	// 单例别名 //////////////////////////////////////////////////////////////////////////
-	//	/*! \brief	BridgeInstance 单例别名 *
 	Bridge *const BridgeInstance = Bridge::Instance();
-	/*! \brief	InteractiveMessagePQ 单例别名 */
-	InteractiveMessagePQ *const InteractiveMessagePQInstance = InteractiveMessagePQ::Instance();
 	//////////////////////////////////////////////////////////////////////////
 
 	// 场景私有量 //////////////////////////////////////////////////////////////////////////
@@ -36,7 +33,7 @@ private:
 	// 调度器 //////////////////////////////////////////////////////////////////////////
 
 	/*!
-	* \fn	void SceneResLoading::update(float dt);
+	* \fn	void SceneGameMain::update(float dt);
 	*
 	* \brief	逐帧调度器
 	*
@@ -44,13 +41,13 @@ private:
 	void update(float dt);
 	//////////////////////////////////////////////////////////////////////////
 public:
-	CREATE_FUNC(SceneResLoading);
+	CREATE_FUNC(SceneGameMain);
 	static cocos2d::Scene* createScene();
 
 	// 固有的场景生命周期方法 //////////////////////////////////////////////////////////////////////////
 
 	/*!
-	* \fn	virtual bool SceneResLoading::init() override;
+	* \fn	virtual bool SceneGameMain::init() override;
 	*
 	* \brief	重写场景初始化方法
 	*
@@ -58,7 +55,7 @@ public:
 	virtual bool init() override;
 
 	/*!
-	* \fn	virtual void SceneResLoading::onEnter() override;
+	* \fn	virtual void SceneGameMain::onEnter() override;
 	*
 	* \brief	重写场景进入方法
 	*
@@ -66,7 +63,7 @@ public:
 	virtual void onEnter() override;
 
 	/*!
-	* \fn	virtual void SceneResLoading::onExit() override;
+	* \fn	virtual void SceneGameMain::onExit() override;
 	*
 	* \brief	重写场景离开方法
 	*
@@ -75,13 +72,6 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 
 	// 接口 //////////////////////////////////////////////////////////////////////////
-	/*!
-	* \fn	void SceneResLoading::replaceSceneGameMain();
-	*
-	* \brief	用于从当前场景切换到 SceneGameMain
-	*
-	*/
-	void replaceSceneGameMain();
 	//////////////////////////////////////////////////////////////////////////
 };
 

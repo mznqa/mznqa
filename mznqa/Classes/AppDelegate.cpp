@@ -140,9 +140,21 @@ void AppDelegate::setResolutionPolicy()
 		);
 
 	// 计算实际设计尺寸原点（即设计尺寸左上角）在世界中的坐标
+	// 旧 //////////////////////////////////////////////////////////////////////////
+	//TargetInfoInstance->setRealityDesignOrigin(
+	//	-0.5*(TargetInfoInstance->getRealityDesignSize().width - TargetInfoInstance->getWindowSize().width),
+	//	TargetInfoInstance->getWindowSize().height
+	//	);
+	//////////////////////////////////////////////////////////////////////////
 	TargetInfoInstance->setRealityDesignOrigin(
-		-0.5*(TargetInfoInstance->getRealityDesignSize().width - TargetInfoInstance->getWindowSize().width),
-		TargetInfoInstance->getWindowSize().height
+		-0.5*(TargetInfoInstance->getExpectedDesignSize().width - (TargetInfoInstance->getExpectedDesignSize().height / TargetInfoInstance->getWindowSize().height * TargetInfoInstance->getWindowSize().width)),
+		TargetInfoInstance->getExpectedDesignSize().height
+		);
+
+	// 计算屏幕尺寸左上角在世界中的坐标
+	TargetInfoInstance->setScreenLeftTopOrigin(
+		0.0,
+		TargetInfoInstance->getExpectedDesignSize().height
 		);
 
 	// 保存目标设备的语言

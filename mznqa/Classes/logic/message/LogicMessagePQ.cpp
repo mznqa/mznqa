@@ -27,9 +27,9 @@ void LogicMessagePQ::pushMessage(const ArKCa::Message<LogicMessageID> &message)
 	msgPQ.pushMessage(message);
 }
 
-ArKCa::Message<LogicMessagePQ::LogicMessageID> LogicMessagePQ::getNextMessage()
+const ArKCa::Message<LogicMessagePQ::LogicMessageID> *const LogicMessagePQ::getTopMessage()const
 {
-	return msgPQ.getNextMessage();
+	return msgPQ.getTopMessage();
 }
 
 bool LogicMessagePQ::isEmpty()const

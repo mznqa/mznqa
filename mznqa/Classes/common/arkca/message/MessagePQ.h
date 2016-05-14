@@ -94,19 +94,28 @@ namespace ArKCa
 		}
 
 		/*!
-		* \fn	Message<MessageIDType> getNextMessage();
+		* \fn	const Message<MessageIDType> *const getTopMessage()const;
 		*
-		* \brief	获取并弹出下一个优先级最高的消息
+		* \brief	获取优先级最高的消息
 		*
 		*/
-		Message<MessageIDType> getNextMessage()
+		const Message<MessageIDType> *const getTopMessage()const
 		{
 			if (msgPQ.empty())
-				return Message<MessageIDType>(InvalidID);
+				return nullptr;
+			else
+				return &(msgPQ.top());
+		}
 
-			Message<MessageIDType>  msg = msgPQ.top();
+		/*!
+		 * \fn	void MessagePQ::popTopMessage()
+		 *
+		 * \brief	弹出优先级最高的消息
+		 *
+		 */
+		void popTopMessage()
+		{
 			msgPQ.pop();
-			return msg;
 		}
 
 		/*!

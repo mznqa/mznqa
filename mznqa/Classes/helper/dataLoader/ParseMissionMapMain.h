@@ -8,7 +8,7 @@
 #ifndef MZNQA_CLASSES_HELPER_DATALOADER_PARSEMISSIONMAPMAIN_H_
 #define MZNQA_CLASSES_HELPER_DATALOADER_PARSEMISSIONMAPMAIN_H_
 
-#include <map>
+#include <vector>
 
 #include "common/arkca/Size.h"
 
@@ -71,7 +71,7 @@ public:
 	/*! \brief	暂存解析结果 */
 	static ArKCa::Size<int> bufferMapSize;
 	/*! \brief	暂存解析结果 */
-	static std::map<int, MapNode> bufferMapNodeSet;
+	static std::vector<std::vector<MapNode>> bufferMapNodeSet;
 };
 
 #endif

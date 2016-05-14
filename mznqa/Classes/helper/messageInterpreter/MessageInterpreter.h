@@ -40,26 +40,60 @@ public:
 	~MessageInterpreter();
 
 	/*!
-	 * \fn	static ArKCa::Message<LogicMessagePQ::LogicMessageID> MessageInterpreter::interpret(const ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> &message);
+	 * \fn	static ArKCa::Message<LogicMessagePQ::LogicMessageID> MessageInterpreter::interpret(InteractiveMessagePQ::InteractiveMessageID messageID);
 	 *
-	 * \brief	将一个交互层消息转译成逻辑层消息
+	 * \brief	转译一个交互层消息为逻辑层消息
 	 *
-	 * \param	message	指定待转换的交互层消息
+	 * \param	messageID	指定一个交互层消息ID
 	 *
-	 * \return	返回转译后的逻辑层消息
+	 * \return	返回一个逻辑层消息
 	 */
-	static ArKCa::Message<LogicMessagePQ::LogicMessageID> interpret(const ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> &message);
+	static ArKCa::Message<LogicMessagePQ::LogicMessageID> interpret(InteractiveMessagePQ::InteractiveMessageID messageID);
 
 	/*!
-	 * \fn	static ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> MessageInterpreter::interpret(const ArKCa::Message<LogicMessagePQ::LogicMessageID> &message);
+	 * \fn	template<typename ExtrasType> static ArKCa::Message<LogicMessagePQ::LogicMessageID> MessageInterpreter::interpret(InteractiveMessagePQ::InteractiveMessageID messageID, const ExtrasType &extras)
 	 *
-	 * \brief	将一个逻辑层消息转译成交互层消息
+	 * \brief	转译一个交互层消息为逻辑层消息
 	 *
-	 * \param	message	指定待转译的逻辑层消息
+	 * \param	messageID	指定一个交互层消息ID
+	 * \param	extras   	指定附加值
 	 *
-	 * \return	返回转译后的交互层消息
+	 * \return	返回一个逻辑层消息
 	 */
-	static ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> interpret(const ArKCa::Message<LogicMessagePQ::LogicMessageID> &message);
+	template<typename ExtrasType>
+	static ArKCa::Message<LogicMessagePQ::LogicMessageID> interpret(InteractiveMessagePQ::InteractiveMessageID messageID, const ExtrasType &extras)
+	{
+		ArKCa::Message<LogicMessagePQ::LogicMessageID> message(interpret(messageID).getID(), extras);
+		return message;
+	}
+
+	/*!
+	 * \fn	static ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> MessageInterpreter::interpret(LogicMessagePQ::LogicMessageID messageID);
+	 *
+	 * \brief	转译一个逻辑层消息为交互层消息
+	 *
+	 * \param	messageID	指定一个逻辑层消息ID
+	 *
+	 * \return	返回一个交互层消息
+	 */
+	static ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> interpret(LogicMessagePQ::LogicMessageID messageID);
+
+	/*!
+	 * \fn	template<typename ExtrasType> static ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> MessageInterpreter::interpret(LogicMessagePQ::LogicMessageID messageID, const ExtrasType &extras)
+	 *
+	 * \brief	转译一个逻辑层消息为交互层消息
+	 *
+	 * \param	messageID	指定一个逻辑层消息
+	 * \param	extras   	指定一个附加值
+	 *
+	 * \return	返回一个交互层消息
+	 */
+	template<typename ExtrasType>
+	static ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> interpret(LogicMessagePQ::LogicMessageID messageID, const ExtrasType &extras)
+	{
+		ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> message(interpret(messageID).getID(), extras);
+		return message;
+	}
 };
 
 #endif

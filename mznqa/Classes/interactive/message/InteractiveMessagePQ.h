@@ -45,7 +45,9 @@ public:
 	 */
 	enum InteractiveMessageID
 	{
-		InteractiveMessageID_ValidID
+		InteractiveMessageID_ValidID,
+		InteractiveMessageID_ChangeScene_SceneGuide_SceneResLoading,
+		InteractiveMessageID_ChangeScene_SceneResLoading_SceneGameMain
 	};
 
 	/*!
@@ -58,12 +60,23 @@ public:
 	void pushMessage(const ArKCa::Message<InteractiveMessageID> &message);
 
 	/*!
-	 * \fn	ArKCa::Message<InteractiveMessageID> InteractiveMessagePQ::getNextMessage();
+	 * \fn	const ArKCa::Message<InteractiveMessageID> * const InteractiveMessagePQ::getTopMessage()const;
 	 *
-	 * \brief	获取并弹出下一个优先级最高的交互层消息
+	 * \brief	获取优先级最高的交互层消息
 	 *
 	 */
-	ArKCa::Message<InteractiveMessageID> getNextMessage();
+	const ArKCa::Message<InteractiveMessageID> *const getTopMessage()const;
+
+	/*!
+	 * \fn	void InteractiveMessagePQ::popTopMessage()
+	 *
+	 * \brief	弹出优先级最高的交互层消息
+	 *
+	 */
+	void popTopMessage()
+	{
+		msgPQ.popTopMessage();
+	}
 
 	/*!
 	 * \fn	bool InteractiveMessagePQ::isEmpty()const;

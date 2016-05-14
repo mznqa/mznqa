@@ -8,7 +8,7 @@
 #ifndef MZNQA_CLASSES_LOGIC_GAMEOBJECT_MAP_GAMEMAP_H_
 #define MZNQA_CLASSES_LOGIC_GAMEOBJECT_MAP_GAMEMAP_H_
 
-#include <map>
+#include <vector>
 
 #include "common/arkca/Size.h"
 
@@ -26,13 +26,24 @@ private:
 	/*! \brief	尺寸信息，地图整体宽高值 */
 	ArKCa::Size<int> size;
 	/*! \brief	存放所有地图节点 */
-	std::map<int, MapNode> nodeSet;
+	std::vector<std::vector<MapNode>> nodeSet;
 public:
+
+	/*!
+	* \fn	GameMap::GameMap()
+	*
+	* \brief	默认构造函数，创建一个空的地图
+	*
+	*/
+	GameMap() :
+		size(0, 0)
+	{
+	}
 
 	/*!
 	 * \fn	GameMap::GameMap(const ArKCa::Size<int> size)
 	 *
-	 * \brief	默认构造函数，创建一个空的地图
+	 * \brief	构造函数，创建一个空的地图
 	 *
 	 * \param	size	指定地图的尺寸信息
 	 */
@@ -42,14 +53,14 @@ public:
 	}
 
 	/*!
-	 * \fn	GameMap::GameMap(const ArKCa::Size<int> size, std::map<int, MapNode> &mapNodeSet);
+	 * \fn	GameMap::GameMap(const ArKCa::Size<int> size, std::vector<std::vector<MapNode>> &mapNodeSet);
 	 *
 	 * \brief	构造函数，指定存放地图数据容器以创建地图
 	 *
 	 * \param	size		指定地图的尺寸信息
 	 * \param	mapNodeSet	指定存放所有地图节点的容器
 	 */
-	GameMap(const ArKCa::Size<int> size, std::map<int, MapNode> &mapNodeSet);
+	GameMap(const ArKCa::Size<int> size, std::vector<std::vector<MapNode>> &mapNodeSet);
 
 	/*!
 	 * \fn	GameMap::GameMap(const GameMap &gameMap);
@@ -78,22 +89,22 @@ public:
 	}
 
 	/*!
-	 * \fn	void GameMap::loadMapNode(const ArKCa::Size<int> size, std::map<int, MapNode> &mapNodeSet);
+	 * \fn	void GameMap::loadMapNode(const ArKCa::Size<int> size, std::vector<std::vector<MapNode>> &mapNodeSet);
 	 *
 	 * \brief	载入地图节点
 	 *
 	 * \param	size		指定地图的尺寸信息
 	 * \param	mapNodeSet	指定存放所有地图节点的容器
 	 */
-	void loadMapNode(const ArKCa::Size<int> size, std::map<int, MapNode> &mapNodeSet);
+	void loadMapNode(const ArKCa::Size<int> size, std::vector<std::vector<MapNode>> &mapNodeSet);
 
 	/*!
-	 * \fn	const std::map<int, MapNode>& GameMap::getMapNodeSet()const;
+	 * \fn	const std::vector<std::vector<MapNode> >& GameMap::getMapNodeSet()const;
 	 *
 	 * \brief	获取地图节点集合
 	 *
 	 */
-	const std::map<int, MapNode>& getMapNodeSet()const;
+	const std::vector<std::vector<MapNode> >& getMapNodeSet()const;
 
 	/*!
 	 * \fn	void GameMap::clear();
@@ -110,6 +121,46 @@ public:
 	 *
 	 */
 	const ArKCa::Size<int>& getSize()const;
+
+	/*!
+	 * \fn	const MapNode *const GameMap::getMapNode(const ArKCa::Vector2<int> &position)const
+	 *
+	 * \brief	获取地图节点
+	 *
+	 * \param	position	指定地图节点的位置
+	 *
+	 */
+	const MapNode *const getMapNode(const ArKCa::Vector2<int> &position)const
+	{
+		if (
+			0 <= position.x && position.x < size.width &&
+			0 <= position.y && position.y < size.height
+			)
+		{
+			return &(nodeSet[position.y][position.x]);
+		}
+		else
+			return nullptr;
+	}
+
+	/*!
+	 * \fn	void GameMap::modifyMapNodeType(const ArKCa::Vector2<int> &position, MapNode::NodeType nodeType)
+	 *
+	 * \brief	修改地图节点的节点类型
+	 *
+	 * \param	position	指定待修改的节点的位置
+	 * \param	nodeType	指定新的节点类型
+	 */
+	void modifyMapNodeType(const ArKCa::Vector2<int> &position, MapNode::NodeType nodeType)
+	{
+		if (
+			0 <= position.x && position.x < size.width &&
+			0 <= position.y && position.y < size.height
+			)
+		{
+			nodeSet[position.y][position.x].nodeType = nodeType;
+		}
+	};
 };
 
 #endif

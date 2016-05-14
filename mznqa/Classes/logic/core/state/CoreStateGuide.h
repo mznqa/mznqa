@@ -11,6 +11,7 @@
 
 #include "common/arkca/finiteStateMachine/State.h"
 #include "logic/core/CoreController.h"
+#include "helper/bridge/Bridge.h"
 
 /*!
  * \class	CoreStateGuide
@@ -21,6 +22,10 @@
 class CoreStateGuide : public ArKCa::State<CoreController>
 {
 private:
+	// 单例别名 //////////////////////////////////////////////////////////////////////////
+	/*! \brief	BridgeInstance 单例别名 */
+	Bridge *const BridgeInstance = Bridge::Instance();
+	//////////////////////////////////////////////////////////////////////////
 
 	/*!
 	 * \fn	CoreStateGuide::CoreStateGuide();

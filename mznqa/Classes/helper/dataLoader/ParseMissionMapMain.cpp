@@ -7,15 +7,13 @@
 
 #include "helper/dataLoader/ParseMissionMapMain.h"
 
-#include <vector>
-
 #include "json/reader.h"
 
 #include "logic/data/info/NumDefine.h"
 #include "logic/gameObject/map/MapNode.h"
 
 ArKCa::Size<int> ParseMissionMapMain::bufferMapSize(0, 0);
-std::map<int, MapNode> ParseMissionMapMain::bufferMapNodeSet;
+std::vector<std::vector<MapNode>> ParseMissionMapMain::bufferMapNodeSet;
 
 namespace ForParseMissionMapMain
 {
@@ -33,7 +31,7 @@ namespace ForParseMissionMapMain
 			State_MapArgs = 1,
 			State_MapNodeSet = 2,
 			State_MapNode = 3,
-			State_EdgeSet = 4
+			State_AdjArgs = 4
 		};
 
 		int state;
@@ -44,7 +42,7 @@ namespace ForParseMissionMapMain
 
 		ParseState& operator++()
 		{
-			if (state + 1 <= State_EdgeSet)
+			if (state + 1 <= State_AdjArgs)
 				++state;
 			return *this;
 		}
@@ -85,9 +83,16 @@ namespace ForParseMissionMapMain
 			{
 				mapArgs.push_back(i);
 				if (mapArgs.size() >= 2)
+				{
 					ParseMissionMapMain::bufferMapSize.set(mapArgs[0], mapArgs[1]);
+					for (int y = 0; y < ParseMissionMapMain::bufferMapSize.height; ++y)
+						ParseMissionMapMain::bufferMapNodeSet.push_back(std::vector<MapNode>(
+						ParseMissionMapMain::bufferMapSize.width,
+						MapNode()
+						));
+				}
 			}
-			else if (ps.state == ParseState::State_MapNode || ps.state == ParseState::State_EdgeSet)
+			else if (ps.state == ParseState::State_MapNode || ps.state == ParseState::State_AdjArgs)
 				mapNodeArgs.push_back(i);
 			return true;
 		}
@@ -97,9 +102,16 @@ namespace ForParseMissionMapMain
 			{
 				mapArgs.push_back(u);
 				if (mapArgs.size() >= 2)
+				{
 					ParseMissionMapMain::bufferMapSize.set(mapArgs[0], mapArgs[1]);
+					for (int y = 0; y < ParseMissionMapMain::bufferMapSize.height; ++y)
+						ParseMissionMapMain::bufferMapNodeSet.push_back(std::vector<MapNode>(
+						ParseMissionMapMain::bufferMapSize.width,
+						MapNode()
+						));
+				}
 			}
-			else if (ps.state == ParseState::State_MapNode || ps.state == ParseState::State_EdgeSet)
+			else if (ps.state == ParseState::State_MapNode || ps.state == ParseState::State_AdjArgs)
 				mapNodeArgs.push_back(u);
 			return true;
 		}
@@ -140,21 +152,19 @@ namespace ForParseMissionMapMain
 		}
 		bool EndArray(rapidjson::SizeType elementCount)
 		{
-			if (ps.state == ParseState::State_EdgeSet)
+			if (ps.state == ParseState::State_MapNode)
 			{
-				ParseMissionMapMain::bufferMapNodeSet.insert(std::pair<int, MapNode>(mapNodeArgs[0], MapNode(
-					mapNodeArgs[0],
-					mapNodeArgs[1],
-					mapNodeArgs[2],
-					(MapNode::NodeType)(mapNodeArgs[3]),
-					(MapNode::ExtraType)(mapNodeArgs[4]),
+				ParseMissionMapMain::bufferMapNodeSet[mapNodeArgs[1]][mapNodeArgs[0]] = MapNode(
+					ArKCa::Vector2<int>(mapNodeArgs[0], mapNodeArgs[1]),
+					(MapNode::NodeType)(mapNodeArgs[2]),
+					(MapNode::ExtraType)(mapNodeArgs[3]),
+					(mapNodeArgs[4] == 0) ? (false) : (true),
 					(mapNodeArgs[5] == 0) ? (false) : (true),
-					(mapNodeArgs[6] == 0) ? (false) : (true),
-					mapNodeArgs[7],
-					mapNodeArgs[8],
-					mapNodeArgs[9],
-					mapNodeArgs[10]
-					)));
+					(mapNodeArgs[6] == 0) ? (MapNode::invalidPosition) : (ArKCa::Vector2<int>(mapNodeArgs[0], mapNodeArgs[1] - 1)),
+					(mapNodeArgs[7] == 0) ? (MapNode::invalidPosition) : (ArKCa::Vector2<int>(mapNodeArgs[0] + 1, mapNodeArgs[1])),
+					(mapNodeArgs[8] == 0) ? (MapNode::invalidPosition) : (ArKCa::Vector2<int>(mapNodeArgs[0], mapNodeArgs[1] + 1)),
+					(mapNodeArgs[9] == 0) ? (MapNode::invalidPosition) : (ArKCa::Vector2<int>(mapNodeArgs[0] - 1, mapNodeArgs[1]))
+					);
 				mapNodeArgs.clear();
 			}
 			--ps;

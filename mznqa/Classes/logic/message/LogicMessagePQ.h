@@ -66,7 +66,9 @@ public:
 		LogicMessageID_ParsingSucc_MissionMap_Map_TMissionMapSet__MissionMapIDMainT,
 		LogicMessageID_DataLoadingSucc_String_Set,
 		LogicMessageID_DataLoadingSucc_CardRoad_Set,
-		LogicMessageID_DataLoadingSucc_MissionMap_Map_TMissionMapSet__MissionMapIDMainT
+		LogicMessageID_DataLoadingSucc_MissionMap_Map_TMissionMapSet__MissionMapIDMainT,
+		LogicMessageID_StateChangeDone_CoreStateGuide_CoreStateResLoading,
+		LogicMessageID_StateChangeDone_CoreStateResLoading_CoreStateGameMain
 	};
 
 	/*!
@@ -79,12 +81,23 @@ public:
 	void pushMessage(const ArKCa::Message<LogicMessageID> &message);
 
 	/*!
-	 * \fn	ArKCa::Message<LogicMessageID> LogicMessagePQ::getNextMessage();
+	 * \fn	const ArKCa::Message<LogicMessageID> *const LogicMessagePQ::getTopMessage()const;
 	 *
-	 * \brief	获取并弹出下一个优先级最高的逻辑层消息
+	 * \brief	获取优先级最高的逻辑层消息
 	 *
 	 */
-	ArKCa::Message<LogicMessageID> getNextMessage();
+	const ArKCa::Message<LogicMessageID> *const getTopMessage()const;
+
+	/*!
+	 * \fn	void LogicMessagePQ::popTopMessage()
+	 *
+	 * \brief	弹出优先级最高的逻辑层消息
+	 *
+	 */
+	void popTopMessage()
+	{
+		msgPQ.popTopMessage();
+	}
 
 	/*!
 	 * \fn	bool LogicMessagePQ::isEmpty()const;

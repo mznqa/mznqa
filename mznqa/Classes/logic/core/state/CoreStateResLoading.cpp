@@ -8,6 +8,8 @@
 
 #include "logic/core/state/CoreStateResLoading.h"
 
+#include "logic/core/state/CoreStateGameMain.h"
+
 CoreStateResLoading::CoreStateResLoading()
 {
 }
@@ -24,10 +26,13 @@ CoreStateResLoading* CoreStateResLoading::Instance()
 
 bool CoreStateResLoading::enter(CoreController *owner)
 {
+	// do something
+	BridgeInstance->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_StateChangeDone_CoreStateGuide_CoreStateResLoading);
 	return true;
 }
 bool CoreStateResLoading::update(CoreController *owner, double intervalTime)
 {
+	owner->fSM.changeState(CoreStateGameMain::Instance());
 	return true;
 }
 bool CoreStateResLoading::exit(CoreController *owner)

@@ -79,6 +79,26 @@ public:
 	 * \param	gameMap	指定直线地图
 	 */
 	void loadMapSecondary(MissionMapIDSecondary id, const GameMap &gameMap);
+
+	/*!
+	 * \fn	const GameMap *const MissionMapSet::getMapMain(MissionMapIDMain id)const;
+	 *
+	 * \brief	根据ID获取主线任务图
+	 *
+	 * \param	id	指定主线任务图ID
+	 *
+	 */
+	const GameMap *const getMapMain(MissionMapIDMain id)const;
+
+	/*!
+	 * \fn	const GameMap *const MissionMapSet::getMapSecondary(MissionMapIDSecondary id)const;
+	 *
+	 * \brief	根据ID获取支线任务图
+	 *
+	 * \param	id	指定支线任务图ID
+	 *
+	 */
+	const GameMap *const getMapSecondary(MissionMapIDSecondary id)const;
 private:
 
 	/*!

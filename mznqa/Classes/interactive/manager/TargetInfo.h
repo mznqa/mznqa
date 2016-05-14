@@ -147,6 +147,30 @@ public:
 	}
 
 	/*!
+	 * \fn	void TargetInfo::setScreenLeftTopOrigin(float x, float y)
+	 *
+	 * \brief	设置屏幕左上角在屏幕中的坐标
+	 *
+	 * \param	x	指定横坐标
+	 * \param	y	指定纵坐标
+	 */
+	void setScreenLeftTopOrigin(float x, float y)
+	{
+		screenLeftTopOrigin.set(x, y);
+	}
+
+	/*!
+	 * \fn	const ArKCa::Vector2<float>& TargetInfo::getScreenLeftTopOrigin()const
+	 *
+	 * \brief	获取屏幕左上角在屏幕中的坐标
+	 *
+	 */
+	const ArKCa::Vector2<float>& getScreenLeftTopOrigin()const
+	{
+		return screenLeftTopOrigin;
+	}
+
+	/*!
 	 * \fn	void TargetInfo::setLanguage(Language language)
 	 *
 	 * \brief	设置目标设备的语言
@@ -203,6 +227,8 @@ private:
 	ArKCa::Size<float> realityDesignSize = ArKCa::Size<float>(0.0f, 0.0f);
 	/*! \brief	实际设计尺寸的左上角点在屏幕中的坐标 */
 	ArKCa::Vector2<float> realityDesignOrigin = ArKCa::Vector2<float>(0.0f, 0.0f);
+	/*! \brief	屏幕左上角的坐标在屏幕中的坐标 */
+	ArKCa::Vector2<float> screenLeftTopOrigin = ArKCa::Vector2<float>(0.0f, 0.0f);
 
 	/*! \brief	目标设备的语言 */
 	Language language = Language_Zh;

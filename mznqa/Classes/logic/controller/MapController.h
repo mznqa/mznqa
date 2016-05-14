@@ -13,6 +13,7 @@
 
 #include "logic/gameObject/map/GameMap.h"
 #include "logic/data/static/missionMap/MissionMapSet.h"
+#include "logic/gameObject/map/MapView.h"
 
 /*!
  * \class	MapController
@@ -31,7 +32,7 @@ private:
 	 *
 	 */
 	MapController() :
-		gameMap(nullptr)
+		gameMap()
 	{
 	}
 
@@ -52,7 +53,9 @@ private:
 	MapController& operator=(const MapController &mapController);
 
 	/*! \brief	内建地图 */
-	GameMap *gameMap;
+	GameMap gameMap;
+	/*! \brief	地图视野 */
+	MapView mapView;
 public:
 
 	/*!
@@ -74,17 +77,48 @@ public:
 	static MapController* Instance();
 
 	/*!
-	 * \fn	void MapController::build( const std::vector<MissionMapSet::MissionMapIDMain> &mainIDSet, const std::vector<MissionMapSet::MissionMapIDSecondary> &secondaryIDSet );
+	 * \fn	void MapController::build(MissionMapSet::MissionMapIDMain id);
 	 *
 	 * \brief	构建地图
 	 *
-	 * \param	mainIDSet	  	指定主线地图ID集合
-	 * \param	secondaryIDSet	指定支线地图ID集合
+	 * \param	id	指定主线地图ID
 	 */
-	void build(
-		const std::vector<MissionMapSet::MissionMapIDMain> &mainIDSet,
-		const std::vector<MissionMapSet::MissionMapIDSecondary> &secondaryIDSet
-		);
+	void build(MissionMapSet::MissionMapIDMain id);
+
+	/*!
+	 * \fn	void MapController::setMapView(const ArKCa::Size<int> &size, const ArKCa::Vector2<int> &originPosition)
+	 *
+	 * \brief	设置地图视野
+	 *
+	 * \param	size		   	指定地图视野的尺寸
+	 * \param	originPosition	指定地图视野
+	 */
+	void setMapView(const ArKCa::Size<int> &size, const ArKCa::Vector2<int> &originPosition)
+	{
+		mapView = MapView(size, originPosition);
+	}
+
+	/*!
+	 * \fn	const ArKCa::Size<int>& MapController::getMapSize()const
+	 *
+	 * \brief	获取地图尺寸信息
+	 *
+	 */
+	const ArKCa::Size<int>& getMapSize()const
+	{
+		return gameMap.getSize();
+	}
+
+	/*!
+	 * \fn	const std::vector<std::vector<MapNode> >& MapController::getMapNodeSet()const
+	 *
+	 * \brief	获取所有地图节点
+	 *
+	 */
+	const std::vector<std::vector<MapNode> >& getMapNodeSet()const
+	{
+		return gameMap.getMapNodeSet();
+	}
 };
 
 #endif

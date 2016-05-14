@@ -101,22 +101,50 @@ public:
 	bool update(double intervalTime);
 
 	/*!
-	 * \fn	void Bridge::pushMessage2Logic(const ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> &message);
+	 * \fn	void Bridge::pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID messageID);
 	 *
 	 * \brief	推送消息到逻辑层
 	 *
-	 * \param	message	指定一个交互层的消息
+	 * \param	messageID	指定一个交互层消息ID
 	 */
-	void pushMessage2Logic(const ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> &message);
+	void pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID messageID);
 
 	/*!
-	 * \fn	void Bridge::pushMessage2Interactive(const ArKCa::Message<LogicMessagePQ::LogicMessageID> &message);
+	 * \fn	template <typename ExtrasType> void Bridge::pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID messageID, const ExtrasType &extras)
+	 *
+	 * \brief	推送消息到逻辑层
+	 *
+	 * \param	messageID	指定一个交互层消息ID
+	 * \param	extras   	指定一个附加值
+	 */
+	template <typename ExtrasType>
+	void pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID messageID, const ExtrasType &extras)
+	{
+		LogicMessagePQInstance->pushMessage(MessageInterpreter::interpret(messageID, extras));
+	}
+
+	/*!
+	 * \fn	void Bridge::pushMessage2Interactive(LogicMessagePQ::LogicMessageID messageID);
 	 *
 	 * \brief	推送消息到交互层
 	 *
-	 * \param	message	指定一个逻辑层消息
+	 * \param	messageID	指定一个逻辑层消息ID
 	 */
-	void pushMessage2Interactive(const ArKCa::Message<LogicMessagePQ::LogicMessageID> &message);
+	void pushMessage2Interactive(LogicMessagePQ::LogicMessageID messageID);
+
+	/*!
+	 * \fn	template <typename ExtrasType> void Bridge::pushMessage2Interactive(LogicMessagePQ::LogicMessageID messageID, const ExtrasType &extras)
+	 *
+	 * \brief	推送消息到交互层
+	 *
+	 * \param	messageID	指定一个逻辑层消息ID
+	 * \param	extras	  	指定一个附加值
+	 */
+	template <typename ExtrasType>
+	void pushMessage2Interactive(LogicMessagePQ::LogicMessageID messageID, const ExtrasType &extras)
+	{
+		InteractiveMessagePQInstance->pushMessage(MessageInterpreter::interpret(messageID, extras));
+	}
 
 	/*!
 	 * \fn	Language Bridge::getLanguage()

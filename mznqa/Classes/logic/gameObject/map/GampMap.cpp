@@ -8,7 +8,7 @@
 
 #include "logic/gameObject/map/GameMap.h"
 
-GameMap::GameMap(const ArKCa::Size<int> size, std::map<int, MapNode> &mapNodeSet) :
+GameMap::GameMap(const ArKCa::Size<int> size, std::vector<std::vector<MapNode>> &mapNodeSet) :
 size(size)
 {
 	nodeSet.clear();
@@ -23,26 +23,29 @@ nodeSet(gameMap.getMapNodeSet())
 
 GameMap& GameMap::operator=(const GameMap &gameMap)
 {
-	size = gameMap.getSize();
+	this->size = gameMap.getSize();
 	this->nodeSet.clear();
-	auto it = gameMap.getMapNodeSet().cbegin();
-	auto itEnd = gameMap.getMapNodeSet().cend();
-	while (it != itEnd)
-	{
-		this->nodeSet.insert(*it);
-		++it;
-	}
+	for (int y = 0; y < this->size.height; ++y)
+		this->nodeSet.push_back(std::vector<MapNode>(
+		this->size.width,
+		MapNode()
+		));
+	for (int y = 0; y < this->size.height; ++y)
+		for (int x = 0; x < this->size.width; ++x)
+		{
+			this->nodeSet[y][x] = gameMap.getMapNodeSet()[y][x];
+		}
 	return *this;
 }
 
-void GameMap::loadMapNode(const ArKCa::Size<int> size, std::map<int, MapNode> &mapNodeSet)
+void GameMap::loadMapNode(const ArKCa::Size<int> size, std::vector<std::vector<MapNode>> &mapNodeSet)
 {
 	this->size = size;
 	nodeSet.clear();
 	nodeSet.swap(mapNodeSet);
 }
 
-const std::map<int, MapNode>& GameMap::getMapNodeSet()const
+const std::vector<std::vector<MapNode>>& GameMap::getMapNodeSet()const
 {
 	return nodeSet;
 }

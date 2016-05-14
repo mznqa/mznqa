@@ -27,9 +27,9 @@ void InteractiveMessagePQ::pushMessage(const ArKCa::Message<InteractiveMessageID
 	msgPQ.pushMessage(message);
 }
 
-ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> InteractiveMessagePQ::getNextMessage()
+const ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> *const InteractiveMessagePQ::getTopMessage()const
 {
-	return msgPQ.getNextMessage();
+	return msgPQ.getTopMessage();
 }
 
 bool InteractiveMessagePQ::isEmpty()const

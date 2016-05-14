@@ -45,8 +45,6 @@ private:
 	 */
 	CoreController& operator=(const CoreController &coreController);
 
-	/*! \brief	有限状态机 */
-	ArKCa::FiniteStateMachine<CoreController> fSM;
 public:
 
 	/*!
@@ -64,6 +62,9 @@ public:
 	 *
 	 */
 	static CoreController* Instance();
+
+	/*! \brief	有限状态机 */
+	ArKCa::FiniteStateMachine<CoreController> fSM;
 
 	/*!
 	 * \fn	bool CoreController::update(double intervalTime);

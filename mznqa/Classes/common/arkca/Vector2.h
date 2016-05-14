@@ -63,7 +63,7 @@ namespace ArKCa
 		{
 			x = vector2.x;
 			y = vector2.y;
-			return &this;
+			return *this;
 		}
 
 		/*!
@@ -79,6 +79,154 @@ namespace ArKCa
 			this->x = x;
 			this->y = y;
 		}
+
+		/*!
+		 * \fn	Vector2& operator+=(const Vector2 &rhs)
+		 *
+		 * \brief	加法运算
+		 *
+		 */
+		Vector2& operator+=(const Vector2 &rhs)
+		{
+			this->x += rhs.x;
+			this->y += rhs.y;
+			return *this;
+		}
+
+		/*!
+		 * \fn	Vector2& operator-=(const Vector2 &rhs)
+		 *
+		 * \brief	减法运算
+		 *
+		 */
+		Vector2& operator-=(const Vector2 &rhs)
+		{
+			this->x -= rhs.x;
+			this->y -= rhs.y;
+			return *this;
+		}
+
+		/*!
+		 * \fn	Vector2& operator*=(const NumType &rhs)
+		 *
+		 * \brief	数乘运算
+		 *
+		 */
+		Vector2& operator*=(const NumType &rhs)
+		{
+			this->x *= rhs;
+			this->y *= rhs;
+			return *this;
+		}
+
+		/*!
+		 * \fn	Vector2& operator/=(const NumType &rhs)
+		 *
+		 * \brief	数除运算
+		 *
+		 */
+		Vector2& operator/=(const NumType &rhs)
+		{
+			this->x /= rhs;
+			this->y /= rhs;
+			return *this;
+		}
 	};
+
+	/*!
+	 * \fn	template <typename NumType> bool operator==(const Vector2<NumType> &lhs, const Vector2<NumType> &rhs)
+	 *
+	 * \brief	相等运算符
+	 *
+	 */
+	template <typename NumType>
+	bool operator==(const Vector2<NumType> &lhs, const Vector2<NumType> &rhs)
+	{
+		return (lhs.x == rhs.x && lhs.y == rhs.y);
+	}
+
+	/*!
+	 * \fn	template <typename NumType> Vector2<NumType> operator+(const Vector2<NumType> &lhs, const Vector2<NumType> &rhs)
+	 *
+	 * \brief	加法运算
+	 *
+	 */
+	template <typename NumType>
+	Vector2<NumType> operator+(const Vector2<NumType> &lhs, const Vector2<NumType> &rhs)
+	{
+		Vector2<NumType> vector2 = lhs;
+		vector2 += rhs;
+		return vector2;
+	}
+
+	/*!
+	 * \fn	template <typename NumType> Vector2<NumType> operator-(const Vector2<NumType> &lhs, const Vector2<NumType> &rhs)
+	 *
+	 * \brief	减法运算
+	 *
+	 */
+	template <typename NumType>
+	Vector2<NumType> operator-(const Vector2<NumType> &lhs, const Vector2<NumType> &rhs)
+	{
+		Vector2<NumType> vector2 = lhs;
+		vector2 -= rhs;
+		return vector2;
+	}
+
+	/*!
+	 * \fn	template <typename NumType> Vector2<NumType> operator*(const Vector2<NumType> &lhs, const NumType &rhs)
+	 *
+	 * \brief	数乘运算
+	 *
+	 */
+	template <typename NumType>
+	Vector2<NumType> operator*(const Vector2<NumType> &lhs, const NumType &rhs)
+	{
+		Vector2<NumType> vector2 = lhs;
+		vector2 *= rhs;
+		return vector2;
+	}
+
+	/*!
+	 * \fn	template <typename NumType> Vector2<NumType> operator*(const NumType &lhs, const Vector2<NumType> &rhs)
+	 *
+	 * \brief	数乘运算
+	 *
+	 */
+	template <typename NumType>
+	Vector2<NumType> operator*(const NumType &lhs, const Vector2<NumType> &rhs)
+	{
+		Vector2<NumType> vector2 = rhs;
+		vector2 *= lhs;
+		return vector2;
+	}
+
+	/*!
+	 * \fn	template <typename NumType> Vector2<NumType> operator/(const Vector2<NumType> &lhs, const NumType &rhs)
+	 *
+	 * \brief	数除运算
+	 *
+	 */
+	template <typename NumType>
+	Vector2<NumType> operator/(const Vector2<NumType> &lhs, const NumType &rhs)
+	{
+		Vector2<NumType> vector2 = lhs;
+		vector2 /= rhs;
+		return vector2;
+	}
+
+	/*!
+	 * \fn	template <typename NumType> Vector2<NumType> operator/(const NumType &lhs, const Vector2<NumType> &rhs)
+	 *
+	 * \brief	数除运算
+	 *
+	 */
+	template <typename NumType>
+	Vector2<NumType> operator/(const NumType &lhs, const Vector2<NumType> &rhs)
+	{
+		Vector2<NumType> vector2 = rhs;
+		vector2 /= lhs;
+		return vector2;
+	}
 }
 #endif
