@@ -8,9 +8,9 @@
 #ifndef MZNQA_CLASSES_LOGIC_DATA_INFO_DATAFILEPATH_H_
 #define MZNQA_CLASSES_LOGIC_DATA_INFO_DATAFILEPATH_H_
 
-#define DATAFILEPATH_STRINGSETZH ("/data/static/stringSet/string_zh.json")
-#define DATAFILEPATH_STRINGSETEN ("/data/static/stringSet/string_en.json")
-#define DATAFILEPATH_CARDROADSET ("/data/static/card/card_road.json")
-#define DATAFILEPATH_MISSIONMAP_MAIN_0 ("/data/static/missionMap/main_map_0.json")
+#define DATAFILEPATH_STRINGSETZH ("data/static/stringSet/string_zh.json")
+#define DATAFILEPATH_STRINGSETEN ("data/static/stringSet/string_en.json")
+#define DATAFILEPATH_CARDROADSET ("data/static/card/card_road.json")
+#define DATAFILEPATH_MISSIONMAP_MAIN_0 ("data/static/missionMap/main_map_0.json")
 
 #endif

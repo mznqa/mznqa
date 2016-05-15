@@ -10,11 +10,8 @@
 #define MZNQA_CLASSES_HELPER_BRIDGE_BRIDGE_H_
 
 #include "common/arkca/message/Message.h"
-#include "logic/message/LogicMessagePQ.h"
-#include "interactive/message/InteractiveMessagePQ.h"
-#include "interactive/manager/TargetInfo.h"
-#include "logic/core/CoreController.h"
 #include "helper/messageInterpreter/MessageInterpreter.h"
+#include "interactive/manager/TargetInfo.h"
 
 /*!
  * \class	Bridge
@@ -49,17 +46,6 @@ private:
 	 *
 	 */
 	Bridge& operator=(const Bridge &bridge);
-
-	// 单例别名 //////////////////////////////////////////////////////////////////////////
-	/*! \brief	LogicMessagePQ 单例别名 */
-	LogicMessagePQ *const LogicMessagePQInstance = LogicMessagePQ::Instance();
-	/*! \brief	InteractiveMessagePQ 单例别名 */
-	InteractiveMessagePQ *const InteractiveMessagePQInstance = InteractiveMessagePQ::Instance();
-	/*! \brief	TargetInfo 单例别名 */
-	TargetInfo *const TargetInfoInstance = TargetInfo::Instance();
-	/*! \brief	Controller 单例别名 */
-	CoreController *const CoreControllerInstance = CoreController::Instance();
-	//////////////////////////////////////////////////////////////////////////
 
 public:
 
@@ -121,7 +107,7 @@ public:
 	template <typename ExtrasType>
 	void pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID messageID, const ExtrasType &extras)
 	{
-		LogicMessagePQInstance->pushMessage(MessageInterpreter::interpret(messageID, extras));
+		LogicMessagePQ::Instance()->pushMessage(MessageInterpreter::interpret(messageID, extras));
 	}
 
 	/*!
@@ -144,7 +130,7 @@ public:
 	template <typename ExtrasType>
 	void pushMessage2Interactive(LogicMessagePQ::LogicMessageID messageID, const ExtrasType &extras)
 	{
-		InteractiveMessagePQInstance->pushMessage(MessageInterpreter::interpret(messageID, extras));
+		InteractiveMessagePQ::Instance()->pushMessage(MessageInterpreter::interpret(messageID, extras));
 	}
 
 	/*!
@@ -155,9 +141,9 @@ public:
 	 */
 	Language getLanguage()
 	{
-		if (TargetInfoInstance->getLanguage() == TargetInfo::Language_Zh)
+		if (TargetInfo::Instance()->getLanguage() == TargetInfo::Language_Zh)
 			return Language_Zh;
-		else if (TargetInfoInstance->getLanguage() == TargetInfo::Language_En)
+		else if (TargetInfo::Instance()->getLanguage() == TargetInfo::Language_En)
 			return Language_En;
 		else
 			return Language_Zh;

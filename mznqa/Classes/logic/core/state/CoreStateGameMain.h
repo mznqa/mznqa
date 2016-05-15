@@ -11,9 +11,6 @@
 
 #include "common/arkca/finiteStateMachine/State.h"
 #include "logic/core/CoreController.h"
-#include "helper/bridge/Bridge.h"
-#include "logic/message/LogicMessagePQ.h"
-#include "logic/controller/MapController.h"
 
 /*!
 * \class	CoreStateGameMain
@@ -24,15 +21,6 @@
 class CoreStateGameMain : public ArKCa::State<CoreController>
 {
 private:
-	// 单例别名 //////////////////////////////////////////////////////////////////////////
-	/*! \brief	BridgeInstance 单例别名 */
-	Bridge *const BridgeInstance = Bridge::Instance();
-	/*! \brief	LogicMessagePQ 单例别名 */
-	LogicMessagePQ *const LogicMessagePQInstance = LogicMessagePQ::Instance();
-	/*! \brief	MapController 单例别名 */
-	MapController *const MapControllerInstance = MapController::Instance();
-	//////////////////////////////////////////////////////////////////////////
-
 	/*!
 	* \fn	CoreStateGameMain::CoreStateGameMain();
 	*

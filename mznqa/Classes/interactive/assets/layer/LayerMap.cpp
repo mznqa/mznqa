@@ -9,6 +9,7 @@
 #include "interactive/assets/layer/LayerMap.h"
 
 #include "interactive/manager/SizeDefine.h"
+#include "helper/bridge/Bridge.h"
 
 USING_NS_CC;
 
@@ -47,12 +48,12 @@ void LayerMap::onTouchMoved(Touch *touch, Event *unused_event)
 			if (delta.x > 0)
 			{
 				// right
-				BridgeInstance->pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Right);
+				Bridge::Instance()->pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Right);
 			}
 			else if (delta.x < 0)
 			{
 				// left
-				BridgeInstance->pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Left);
+				Bridge::Instance()->pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Left);
 			}
 		}
 		else
@@ -60,12 +61,12 @@ void LayerMap::onTouchMoved(Touch *touch, Event *unused_event)
 			if (delta.y > 0)
 			{
 				// up
-				BridgeInstance->pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Up);
+				Bridge::Instance()->pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Up);
 			}
 			else if (delta.y < 0)
 			{
 				// down
-				BridgeInstance->pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Down);
+				Bridge::Instance()->pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Down);
 			}
 		}
 		touchPoint = touch->getLocation();
@@ -144,8 +145,8 @@ void LayerMap::loadMap()
 	removeChildByTag(extarFlag);
 	extraSet.clear();
 
-	auto mapSize = MapControllerInstance->getMapSize();
-	auto map = MapControllerInstance->getMapNodeSet();
+	auto mapSize = MapController::Instance()->getMapSize();
+	auto map = MapController::Instance()->getMapNodeSet();
 	for (int y = 0; y < mapSize.height; ++y)
 	{
 		mapNodeSet.push_back(std::vector<Sprite*>(mapSize.width, nullptr));
@@ -175,7 +176,7 @@ void LayerMap::loadMap()
 
 void LayerMap::updateGlobalMapPosition()
 {
-	auto origin = MapControllerInstance->getViewOrigin();
+	auto origin = MapController::Instance()->getViewOrigin();
 	auto mVO = getMapViewOrigin();
 	this->setPosition(Vec2(
 		mVO.x - origin.x * MAPCELL_SIZE,
@@ -187,18 +188,18 @@ const ArKCa::Vector2<float> LayerMap::getMapViewOrigin()const
 {
 	// TODO 待优化计算，此处应对实际屏幕宽度不是 MAPCELL_SIZE 的整数倍，而计算地图层的横向偏移量以使地图处于屏幕中心
 	return ArKCa::Vector2<float>(
-		TargetInfoInstance->getScreenLeftTopOrigin().x + (
-		TargetInfoInstance->getScreenSize().width -
-		MapControllerInstance->getViewSize().width * MAPCELL_SIZE
+		TargetInfo::Instance()->getScreenLeftTopOrigin().x + (
+		TargetInfo::Instance()->getScreenSize().width -
+		MapController::Instance()->getViewSize().width * MAPCELL_SIZE
 		) / 2.0,
-		TargetInfoInstance->getScreenLeftTopOrigin().y
+		TargetInfo::Instance()->getScreenLeftTopOrigin().y
 		);
 }
 
 const ArKCa::Size<float> LayerMap::getMapViewSize()const
 {
 	return ArKCa::Size<float>(
-		MapControllerInstance->getViewSize().width * MAPCELL_SIZE,
-		MapControllerInstance->getViewSize().height * MAPCELL_SIZE
+		MapController::Instance()->getViewSize().width * MAPCELL_SIZE,
+		MapController::Instance()->getViewSize().height * MAPCELL_SIZE
 		);
 }

@@ -7,6 +7,9 @@
 #pragma execution_character_set("utf-8")
 
 #include "interactive/assets/scene/SceneGameMain.h"
+#include "interactive/manager/TargetInfo.h"
+#include "helper/bridge/Bridge.h"
+#include "interactive/message/InteractiveMessagePQ.h"
 
 // 测试区域 //////////////////////////////////////////////////////////////////////////
 #include "logic/controller/MapController.h"
@@ -39,9 +42,9 @@ bool SceneGameMain::init()
 
 	// 测试区域 //////////////////////////////////////////////////////////////////////////
 	StaticDataLoader::loadMissionMapMain(MissionMapSet::MissionMapIDMain_0);
-	MapControllerInstance->build(MissionMapSet::MissionMapIDMain_0);
+	MapController::Instance()->build(MissionMapSet::MissionMapIDMain_0);
 	//////////////////////////////////////////////////////////////////////////
-	MapControllerInstance->setMapView(
+	MapController::Instance()->setMapView(
 		ArKCa::Size<int>(
 		TargetInfo::Instance()->getScreenSize().width / MAPCELL_SIZE,
 		TargetInfo::Instance()->getScreenSize().height / MAPCELL_SIZE
@@ -81,7 +84,7 @@ void SceneGameMain::update(float dt)
 {
 	//log("[information] 进入 SceneGameMain 场景的逐帧调度器...");
 	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
-	auto msg = InteractiveMessagePQInstance->getTopMessage();
+	auto msg = InteractiveMessagePQ::Instance()->getTopMessage();
 	if (msg != nullptr)
 	{
 		switch (msg->getID())
@@ -92,9 +95,9 @@ void SceneGameMain::update(float dt)
 		default:
 			break;
 		}
-		InteractiveMessagePQInstance->popTopMessage();
+		InteractiveMessagePQ::Instance()->popTopMessage();
 	}
 	//////////////////////////////////////////////////////////////////////////
-	BridgeInstance->update(dt);
+	Bridge::Instance()->update(dt);
 	//log("[information] 离开 SceneGameMain 场景的逐帧调度器");
 }

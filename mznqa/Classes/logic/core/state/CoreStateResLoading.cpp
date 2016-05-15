@@ -9,6 +9,7 @@
 #include "logic/core/state/CoreStateResLoading.h"
 
 #include "logic/core/state/CoreStateGameMain.h"
+#include "helper/bridge/Bridge.h"
 
 CoreStateResLoading::CoreStateResLoading()
 {
@@ -27,7 +28,7 @@ CoreStateResLoading* CoreStateResLoading::Instance()
 bool CoreStateResLoading::enter(CoreController *owner)
 {
 	// do something
-	BridgeInstance->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_StateChangeDone_CoreStateGuide_CoreStateResLoading);
+	Bridge::Instance()->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_StateChangeDone_CoreStateGuide_CoreStateResLoading);
 	return true;
 }
 bool CoreStateResLoading::update(CoreController *owner, double intervalTime)

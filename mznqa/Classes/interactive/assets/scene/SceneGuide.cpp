@@ -9,6 +9,8 @@
 
 #include "interactive/assets/scene/SceneResLoading.h"
 #include "interactive/manager/ResFilePath.h"
+#include "helper/bridge/Bridge.h"
+#include "interactive/message/InteractiveMessagePQ.h"
 
 USING_NS_CC;
 
@@ -63,7 +65,7 @@ void SceneGuide::update(float dt)
 {
 	log("[information] 进入 SceneGuide 场景的逐帧调度器...");
 	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
-	auto msg = InteractiveMessagePQInstance->getTopMessage();
+	auto msg = InteractiveMessagePQ::Instance()->getTopMessage();
 	if (msg != nullptr)
 	{
 		switch (msg->getID())
@@ -74,10 +76,10 @@ void SceneGuide::update(float dt)
 		default:
 			break;
 		}
-		InteractiveMessagePQInstance->popTopMessage();
+		InteractiveMessagePQ::Instance()->popTopMessage();
 	}
 	//////////////////////////////////////////////////////////////////////////
-	BridgeInstance->update(dt);
+	Bridge::Instance()->update(dt);
 	log("[information] 离开 SceneGuide 场景的逐帧调度器");
 }
 

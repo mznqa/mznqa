@@ -11,9 +11,6 @@
 
 #include "cocos2d.h"
 
-#include "helper/bridge/Bridge.h"
-#include "interactive/message/InteractiveMessagePQ.h"
-
 /*!
  * \class	SceneResLoading
  *
@@ -23,13 +20,6 @@
 class SceneResLoading : public cocos2d::Layer
 {
 private:
-	// 单例别名 //////////////////////////////////////////////////////////////////////////
-	//	/*! \brief	BridgeInstance 单例别名 *
-	Bridge *const BridgeInstance = Bridge::Instance();
-	/*! \brief	InteractiveMessagePQ 单例别名 */
-	InteractiveMessagePQ *const InteractiveMessagePQInstance = InteractiveMessagePQ::Instance();
-	//////////////////////////////////////////////////////////////////////////
-
 	// 场景私有量 //////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////
 

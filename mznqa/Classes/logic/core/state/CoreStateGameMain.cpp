@@ -7,6 +7,9 @@
 #pragma execution_character_set("utf-8")
 
 #include "logic/core/state/CoreStateGameMain.h"
+#include "logic/message/LogicMessagePQ.h"
+#include "logic/controller/MapController.h"
+#include "helper/bridge/Bridge.h"
 
 CoreStateGameMain::CoreStateGameMain()
 {
@@ -24,37 +27,37 @@ CoreStateGameMain* CoreStateGameMain::Instance()
 
 bool CoreStateGameMain::enter(CoreController *owner)
 {
-	BridgeInstance->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_StateChangeDone_CoreStateResLoading_CoreStateGameMain);
+	Bridge::Instance()->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_StateChangeDone_CoreStateResLoading_CoreStateGameMain);
 	return true;
 }
 bool CoreStateGameMain::update(CoreController *owner, double intervalTime)
 {
 	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
-	auto msg = LogicMessagePQInstance->getTopMessage();
+	auto msg = LogicMessagePQ::Instance()->getTopMessage();
 	if (msg != nullptr)
 	{
 		switch (msg->getID())
 		{
 		case LogicMessagePQ::LogicMessageID_MoveMapView_Up:
-			MapControllerInstance->viewMoveUp(1);
-			BridgeInstance->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
+			MapController::Instance()->viewMoveUp(1);
+			Bridge::Instance()->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
 			break;
 		case LogicMessagePQ::LogicMessageID_MoveMapView_Right:
-			MapControllerInstance->viewMoveRight(1);
-			BridgeInstance->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
+			MapController::Instance()->viewMoveRight(1);
+			Bridge::Instance()->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
 			break;
 		case LogicMessagePQ::LogicMessageID_MoveMapView_Down:
-			MapControllerInstance->viewMoveDown(1);
-			BridgeInstance->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
+			MapController::Instance()->viewMoveDown(1);
+			Bridge::Instance()->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
 			break;
 		case LogicMessagePQ::LogicMessageID_MoveMapView_Left:
-			MapControllerInstance->viewMoveLeft(1);
-			BridgeInstance->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
+			MapController::Instance()->viewMoveLeft(1);
+			Bridge::Instance()->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
 			break;
 		default:
 			break;
 		}
-		LogicMessagePQInstance->popTopMessage();
+		LogicMessagePQ::Instance()->popTopMessage();
 	}
 	//////////////////////////////////////////////////////////////////////////
 	return true;

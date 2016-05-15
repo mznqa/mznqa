@@ -9,6 +9,7 @@
 #include "helper/bridge/Bridge.h"
 
 #include "helper/messageInterpreter/MessageInterpreter.h"
+#include "logic/core/CoreController.h"
 
 Bridge::Bridge()
 {
@@ -26,14 +27,14 @@ Bridge* Bridge::Instance()
 
 bool Bridge::update(double intervalTime)
 {
-	return CoreControllerInstance->update(intervalTime);
+	return CoreController::Instance()->update(intervalTime);
 }
 
 void Bridge::pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID messageID)
 {
-	LogicMessagePQInstance->pushMessage(MessageInterpreter::interpret(messageID));
+	LogicMessagePQ::Instance()->pushMessage(MessageInterpreter::interpret(messageID));
 }
 void Bridge::pushMessage2Interactive(LogicMessagePQ::LogicMessageID messageID)
 {
-	InteractiveMessagePQInstance->pushMessage(MessageInterpreter::interpret(messageID));
+	InteractiveMessagePQ::Instance()->pushMessage(MessageInterpreter::interpret(messageID));
 }

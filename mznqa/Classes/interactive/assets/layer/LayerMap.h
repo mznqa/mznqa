@@ -13,10 +13,7 @@
 
 #include "cocos2d.h"
 
-#include "interactive/manager/TargetInfo.h"
 #include "logic/controller/MapController.h"
-#include "logic/gameObject/map/MapNode.h"
-#include "helper/bridge/Bridge.h"
 
 /*!
  * \class	LayerMap
@@ -27,15 +24,6 @@
 class LayerMap : public cocos2d::Layer
 {
 private:
-	// 单例别名 //////////////////////////////////////////////////////////////////////////
-	/*! \brief	TargetInfo 单例别名 */
-	TargetInfo *const TargetInfoInstance = TargetInfo::Instance();
-	/*! \brief	MapControllerInstance 单例别名 */
-	MapController *const MapControllerInstance = MapController::Instance();
-	/*! \brief	Bridge 单例别名 */
-	Bridge *const BridgeInstance = Bridge::Instance();
-	//////////////////////////////////////////////////////////////////////////
-
 	/*! \brief	地图节点的ZOrder */
 	static const int mapNodeZOrder = 1;
 	/*! \brief	标识地图节点 */

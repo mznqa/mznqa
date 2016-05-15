@@ -11,10 +11,7 @@
 
 #include "cocos2d.h"
 
-#include "helper/bridge/Bridge.h"
 #include "interactive/assets/layer/LayerMap.h"
-#include "interactive/message/InteractiveMessagePQ.h"
-#include "logic/controller/MapController.h"
 
 /*!
 * \class	SceneGameMain
@@ -25,15 +22,6 @@
 class SceneGameMain : public cocos2d::Layer
 {
 private:
-	// 单例别名 //////////////////////////////////////////////////////////////////////////
-	/*! \brief	Bridge 单例别名 */
-	Bridge *const BridgeInstance = Bridge::Instance();
-	/*! \brief	InteractiveMessagePQ 单例别名 */
-	InteractiveMessagePQ *const InteractiveMessagePQInstance = InteractiveMessagePQ::Instance();
-	/*! \brief	MapController 单例别名 */
-	MapController *const MapControllerInstance = MapController::Instance();
-	//////////////////////////////////////////////////////////////////////////
-
 	// 场景私有量 //////////////////////////////////////////////////////////////////////////
 	/*! \brief	地图层 */
 	LayerMap *layerMap;

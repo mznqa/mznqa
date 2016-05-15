@@ -9,6 +9,8 @@
 #include "interactive/assets/scene/SceneResLoading.h"
 
 #include "interactive/assets/scene/SceneGameMain.h"
+#include "interactive/message/InteractiveMessagePQ.h"
+#include "helper/bridge/Bridge.h"
 
 USING_NS_CC;
 
@@ -60,7 +62,7 @@ void SceneResLoading::update(float dt)
 {
 	log("[information] 进入 SceneResLoading 场景的逐帧调度器...");
 	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
-	auto msg = InteractiveMessagePQInstance->getTopMessage();
+	auto msg = InteractiveMessagePQ::Instance()->getTopMessage();
 	if (msg != nullptr)
 	{
 		switch (msg->getID())
@@ -71,10 +73,10 @@ void SceneResLoading::update(float dt)
 		default:
 			break;
 		}
-		InteractiveMessagePQInstance->popTopMessage();
+		InteractiveMessagePQ::Instance()->popTopMessage();
 	}
 	//////////////////////////////////////////////////////////////////////////
-	BridgeInstance->update(dt);
+	Bridge::Instance()->update(dt);
 	log("[information] 离开 SceneResLoading 场景的逐帧调度器");
 }
 
