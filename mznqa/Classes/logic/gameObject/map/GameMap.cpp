@@ -1,5 +1,5 @@
 /*!
- * \file	Classes\logic\gameObject\map\GampMap.cpp
+ * \file	Classes\logic\gameObject\map\GameMap.cpp
  *
  * \brief	∂®“Â¿‡ GameMap
  */

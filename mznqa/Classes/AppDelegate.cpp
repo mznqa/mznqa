@@ -139,6 +139,12 @@ void AppDelegate::setResolutionPolicy()
 		frameSize.height
 		);
 
+	// 计算屏幕实际分辨率
+	TargetInfoInstance->setScreenSize(
+		TargetInfoInstance->getExpectedDesignSize().height / TargetInfoInstance->getWindowSize().height * TargetInfoInstance->getWindowSize().width,
+		TargetInfoInstance->getExpectedDesignSize().height
+		);
+
 	// 计算实际设计尺寸原点（即设计尺寸左上角）在世界中的坐标
 	// 旧 //////////////////////////////////////////////////////////////////////////
 	//TargetInfoInstance->setRealityDesignOrigin(

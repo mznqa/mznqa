@@ -11,47 +11,35 @@ LOCAL_MODULE := cocos2dcpp_shared
 LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
-                   ../../Classes/AppDelegate.cpp \
-                   ../../Classes/card/CardBase.cpp \
-                   ../../Classes/card/CardMonster.cpp \
-                   ../../Classes/card/CardRoad.cpp \
-                   ../../Classes/card/CardSkill.cpp \
-                   ../../Classes/card/CardTreasure.cpp \
-                   ../../Classes/cardController/CardBoxRTM.cpp \
-                   ../../Classes/cardController/CardControllerCombat.cpp \
-                   ../../Classes/cardController/CardControllerExplore.cpp \
-                   ../../Classes/combatSystem/EffectPQ.cpp \
-                   ../../Classes/coreStateMachine/CoreStateMachine.cpp \
-                   ../../Classes/coreStateMachine/CoreStateNone.cpp \
-                   ../../Classes/dataHandle/CharBufferArea.cpp \
-                   ../../Classes/dataHandle/ParserCardSkill.cpp \
-                   ../../Classes/dataHandle/ParserMapArchives.cpp \
-                   ../../Classes/dataHandle/ParserMapMissionMain.cpp \
-                   ../../Classes/dataHandle/StaticDataLoader.cpp \
-                   ../../Classes/effect/EffectFunSet.cpp \
-                   ../../Classes/engine/FileController.cpp \
-                   ../../Classes/engine/LayerMap.cpp \
-                   ../../Classes/engine/LayerWorkbench.cpp \
-                   ../../Classes/engine/SceneDebug.cpp \
-                   ../../Classes/engine/SceneGameMain.cpp \
-                   ../../Classes/engine/SceneGuide.cpp \
-                   ../../Classes/engine/SceneLoadRes.cpp \
-                   ../../Classes/engine/SpriteCard.cpp \
-                   ../../Classes/engine/SpriteHandCard.cpp \
-                   ../../Classes/engine/SpriteRole.cpp \
-                   ../../Classes/gameObject/Monster.cpp \
-                   ../../Classes/gameObject/Role.cpp \
-                   ../../Classes/map/MapController.cpp \
-                   ../../Classes/map/MapView.cpp \
-                   ../../Classes/map/MissionMap.cpp \
-                   ../../Classes/message/EngineMessagePQ.cpp \
-                   ../../Classes/message/LogicMessagePQ.cpp \
-                   ../../Classes/message/MsgInterpreter.cpp \
-                   ../../Classes/runtime/SceneGameMainState.cpp \
-                   ../../Classes/runtime/SceneGuideState.cpp \
-                   ../../Classes/runtime/SceneLoadResState.cpp \
-                   ../../Classes/staticData/CardSet.cpp \
-                   ../../Classes/staticData/MissionMapSet.cpp
+../../Classes/AppDelegate.cpp \
+../../Classes/helper/bridge/Bridge.cpp \
+../../Classes/logic/gameObject/card/CardBase.cpp \
+../../Classes/logic/gameObject/card/CardRoad.cpp \
+../../Classes/logic/data/static/card/CardSet.cpp \
+../../Classes/logic/core/CoreController.cpp \
+../../Classes/logic/core/state/CoreStateGameMain.cpp \
+../../Classes/logic/core/state/CoreStateGuide.cpp \
+../../Classes/logic/core/state/CoreStateResLoading.cpp \
+../../Classes/helper/fileManager/FileManager.cpp \
+../../Classes/logic/gameObject/map/GameMap.cpp \
+../../Classes/interactive/message/InteractiveMessagePQ.cpp \
+../../Classes/interactive/assets/layer/LayerMap.cpp \
+../../Classes/logic/message/LogicMessagePQ.cpp \
+../../Classes/logic/controller/MapController.cpp \
+../../Classes/logic/gameObject/map/MapNode.cpp \
+../../Classes/logic/gameObject/map/MapView.cpp \
+../../Classes/helper/messageInterpreter/MessageInterpreter.cpp \
+../../Classes/logic/data/static/missionMap/MissionMapSet.cpp \
+../../Classes/helper/dataLoader/ParseCardRoadSet.cpp \
+../../Classes/helper/dataLoader/ParseMissionMapMain.cpp \
+../../Classes/helper/dataLoader/ParseStringSet.cpp \
+../../Classes/interactive/assets/scene/SceneGameMain.cpp \
+../../Classes/interactive/assets/scene/SceneGuide.cpp \
+../../Classes/interactive/assets/scene/SceneResLoading.cpp \
+../../Classes/logic/dataLoader/StaticDataLoader.cpp \
+../../Classes/logic/data/static/stringSet/StringSet.cpp \
+../../Classes/common/arkca/stringTable/StringTable.cpp \
+../../Classes/interactive/manager/TargetInfo.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

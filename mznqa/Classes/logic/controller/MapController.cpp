@@ -23,7 +23,7 @@ void MapController::build(MissionMapSet::MissionMapIDMain id)
 
 	gameMap.clear();
 
-	ArKCa::Size<int> mapSize(20, 20);
+	ArKCa::Size<int> mapSize(64, 48);
 	std::vector<std::vector<MapNode>> mapNodeSet;
 	for (int y = 0; y < mapSize.height; ++y)
 		mapNodeSet.push_back(std::vector<MapNode>(mapSize.width, MapNode()));
@@ -63,4 +63,63 @@ void MapController::build(MissionMapSet::MissionMapIDMain id)
 	}
 
 	gameMap.loadMapNode(mapSize, mapNodeSet);
+
+	xRange.set(0, gameMap.getSize().width - mapView.getViewSize().width);
+	yRange.set(0, gameMap.getSize().height - mapView.getViewSize().height);
+}
+
+void MapController::viewMoveUp(int step)
+{
+	if (step <= 0)
+		return;
+
+	auto curOrigin = mapView.getViewOrigin();
+	ArKCa::Vector2<int> newOrigin(curOrigin);
+	if (yRange.within(curOrigin.y - step))
+		newOrigin.y -= step;
+	else
+		newOrigin.y = yRange.min;
+	mapView.setViewOrigin(newOrigin);
+}
+
+void MapController::viewMoveRight(int step)
+{
+	if (step <= 0)
+		return;
+
+	auto curOrigin = mapView.getViewOrigin();
+	ArKCa::Vector2<int> newOrigin(curOrigin);
+	if (xRange.within(curOrigin.x + step))
+		newOrigin.x += step;
+	else
+		newOrigin.x = xRange.max;
+	mapView.setViewOrigin(newOrigin);
+}
+
+void MapController::viewMoveDown(int step)
+{
+	if (step <= 0)
+		return;
+
+	auto curOrigin = mapView.getViewOrigin();
+	ArKCa::Vector2<int> newOrigin(curOrigin);
+	if (yRange.within(curOrigin.y + step))
+		newOrigin.y += step;
+	else
+		newOrigin.y = yRange.max;
+	mapView.setViewOrigin(newOrigin);
+}
+
+void MapController::viewMoveLeft(int step)
+{
+	if (step <= 0)
+		return;
+
+	auto curOrigin = mapView.getViewOrigin();
+	ArKCa::Vector2<int> newOrigin(curOrigin);
+	if (xRange.within(curOrigin.x - step))
+		newOrigin.x -= step;
+	else
+		newOrigin.x = xRange.min;
+	mapView.setViewOrigin(newOrigin);
 }

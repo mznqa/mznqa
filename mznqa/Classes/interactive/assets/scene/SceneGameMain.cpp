@@ -11,6 +11,7 @@
 // 测试区域 //////////////////////////////////////////////////////////////////////////
 #include "logic/controller/MapController.h"
 #include "logic/dataLoader/StaticDataLoader.h"
+#include "interactive/manager/SizeDefine.h"
 //////////////////////////////////////////////////////////////////////////
 
 USING_NS_CC;
@@ -38,11 +39,20 @@ bool SceneGameMain::init()
 
 	// 测试区域 //////////////////////////////////////////////////////////////////////////
 	StaticDataLoader::loadMissionMapMain(MissionMapSet::MissionMapIDMain_0);
-	MapController::Instance()->build(MissionMapSet::MissionMapIDMain_0);
-	LayerMap *lm = LayerMap::create();
-	lm->loadMap();
-	addChild(lm);
+	MapControllerInstance->build(MissionMapSet::MissionMapIDMain_0);
 	//////////////////////////////////////////////////////////////////////////
+	MapControllerInstance->setMapView(
+		ArKCa::Size<int>(
+		TargetInfo::Instance()->getScreenSize().width / MAPCELL_SIZE,
+		TargetInfo::Instance()->getScreenSize().height / MAPCELL_SIZE
+		),
+		ArKCa::Vector2<int>(
+		0, 0
+		)
+		);
+	layerMap = LayerMap::create();
+	layerMap->loadMap();
+	addChild(layerMap);
 
 	// 添加逐帧调度器
 	this->scheduleUpdate();
@@ -69,7 +79,22 @@ void SceneGameMain::onExit()
 
 void SceneGameMain::update(float dt)
 {
-	log("[information] 进入 SceneGameMain 场景的逐帧调度器...");
+	//log("[information] 进入 SceneGameMain 场景的逐帧调度器...");
+	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
+	auto msg = InteractiveMessagePQInstance->getTopMessage();
+	if (msg != nullptr)
+	{
+		switch (msg->getID())
+		{
+		case InteractiveMessagePQ::InteractiveMessageID_Update_LayerMapPosition:
+			layerMap->updateGlobalMapPosition();
+			break;
+		default:
+			break;
+		}
+		InteractiveMessagePQInstance->popTopMessage();
+	}
+	//////////////////////////////////////////////////////////////////////////
 	BridgeInstance->update(dt);
-	log("[information] 离开 SceneGameMain 场景的逐帧调度器");
+	//log("[information] 离开 SceneGameMain 场景的逐帧调度器");
 }

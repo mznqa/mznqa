@@ -47,7 +47,12 @@ public:
 	{
 		InteractiveMessageID_ValidID,
 		InteractiveMessageID_ChangeScene_SceneGuide_SceneResLoading,
-		InteractiveMessageID_ChangeScene_SceneResLoading_SceneGameMain
+		InteractiveMessageID_ChangeScene_SceneResLoading_SceneGameMain,
+		InteractiveMessageID_OP_DragMap_Up,
+		InteractiveMessageID_OP_DragMap_Right,
+		InteractiveMessageID_OP_DragMap_Down,
+		InteractiveMessageID_OP_DragMap_Left,
+		InteractiveMessageID_Update_LayerMapPosition
 	};
 
 	/*!

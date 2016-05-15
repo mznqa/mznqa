@@ -14,6 +14,7 @@
 #include "logic/gameObject/map/GameMap.h"
 #include "logic/data/static/missionMap/MissionMapSet.h"
 #include "logic/gameObject/map/MapView.h"
+#include "common/arkca/Range.h"
 
 /*!
  * \class	MapController
@@ -32,7 +33,10 @@ private:
 	 *
 	 */
 	MapController() :
-		gameMap()
+		gameMap(),
+		mapView(),
+		xRange(0, 0),
+		yRange(0, 0)
 	{
 	}
 
@@ -56,6 +60,11 @@ private:
 	GameMap gameMap;
 	/*! \brief	地图视野 */
 	MapView mapView;
+
+	/*! \brief	视野左上角起点允许的横坐标值 */
+	ArKCa::Range<int> xRange;
+	/*! \brief	视野左上角起点允许的纵坐标值 */
+	ArKCa::Range<int> yRange;
 public:
 
 	/*!
@@ -96,6 +105,8 @@ public:
 	void setMapView(const ArKCa::Size<int> &size, const ArKCa::Vector2<int> &originPosition)
 	{
 		mapView = MapView(size, originPosition);
+		xRange.set(0, gameMap.getSize().width - mapView.getViewSize().width);
+		yRange.set(0, gameMap.getSize().height - mapView.getViewSize().height);
 	}
 
 	/*!
@@ -119,6 +130,64 @@ public:
 	{
 		return gameMap.getMapNodeSet();
 	}
+
+	/*!
+	 * \fn	const ArKCa::Vector2<int>& MapController::getViewOrigin()const
+	 *
+	 * \brief	获取地图视野原点
+	 *
+	 */
+	const ArKCa::Vector2<int>& getViewOrigin()const
+	{
+		return mapView.getViewOrigin();
+	}
+
+	/*!
+	 * \fn	const ArKCa::Size<int>& MapController::getViewSize()const
+	 *
+	 * \brief	获取视野尺寸
+	 *
+	 */
+	const ArKCa::Size<int>& getViewSize()const
+	{
+		return mapView.getViewSize();
+	}
+
+	/*!
+	 * \fn	void MapController::viewMoveUp(int step);
+	 *
+	 * \brief	上移视野
+	 *
+	 * \param	step	指定移动格数
+	 */
+	void viewMoveUp(int step);
+
+	/*!
+	 * \fn	void MapController::viewMoveRight(int step);
+	 *
+	 * \brief	右移视野
+	 *
+	 * \param	step	指定移动格数
+	 */
+	void viewMoveRight(int step);
+
+	/*!
+	 * \fn	void MapController::viewMoveDown(int step);
+	 *
+	 * \brief	下移视野
+	 *
+	 * \param	step	指定移动格数
+	 */
+	void viewMoveDown(int step);
+
+	/*!
+	 * \fn	void MapController::viewMoveLeft(int step);
+	 *
+	 * \brief	左移视野
+	 *
+	 * \param	step	指定移动格数
+	 */
+	void viewMoveLeft(int step);
 };
 
 #endif

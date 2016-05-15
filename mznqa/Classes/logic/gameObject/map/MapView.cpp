@@ -12,6 +12,7 @@
 
 std::vector<ArKCa::Vector2<int>> MapView::getMapGroupPositionSet(const ArKCa::Vector2<int> &position)
 {
+	std::vector<ArKCa::Vector2<int>> idSet;
 	if (
 		origin.x <= position.x &&
 		position.x <= origin.x + size.width &&
@@ -19,10 +20,9 @@ std::vector<ArKCa::Vector2<int>> MapView::getMapGroupPositionSet(const ArKCa::Ve
 		position.y <= origin.y + size.height)
 	{
 		ArKCa::Vector2<int> basePostion = (position - origin) / MAPNODE_GROUPSIZE;
-		std::vector<ArKCa::Vector2<int>> idSet;
 		for (int y = 0; y < MAPNODE_GROUPSIZE; ++y)
 			for (int x = 0; x < MAPNODE_GROUPSIZE; ++x)
 				idSet.push_back(basePostion + ArKCa::Vector2<int>(x, y));
-		return idSet;
 	}
+	return idSet;
 }

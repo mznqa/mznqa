@@ -8,6 +8,8 @@
 
 #include "interactive/assets/layer/LayerMap.h"
 
+#include "interactive/manager/SizeDefine.h"
+
 USING_NS_CC;
 
 bool LayerMap::init()
@@ -17,12 +19,72 @@ bool LayerMap::init()
 		return false;
 	}
 
-	this->setPosition(Vec2(
-		TargetInfoInstance->getScreenLeftTopOrigin().x,
-		TargetInfoInstance->getScreenLeftTopOrigin().y
-		));
+	updateGlobalMapPosition();
+
+	addGlobalEventListener();
 
 	return true;
+}
+
+bool LayerMap::onTouchBegan(Touch *touch, Event *unused_event)
+{
+	cocos2d::log("[warning] LayerMap::onTouchBegan()");
+	touchPoint = touch->getLocation();
+	return true;
+}
+
+void LayerMap::onTouchMoved(Touch *touch, Event *unused_event)
+{
+	cocos2d::log("[warning] LayerMap::onTouchMoved()");
+
+	Vec2 delta = touch->getLocation() - touchPoint;
+	if (abs(delta.x) < MAPCELL_SIZE && abs(delta.y) < MAPCELL_SIZE)
+		return;
+	else
+	{
+		if (abs(delta.x) > abs(delta.y))
+		{
+			if (delta.x > 0)
+			{
+				// right
+				BridgeInstance->pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Right);
+			}
+			else if (delta.x < 0)
+			{
+				// left
+				BridgeInstance->pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Left);
+			}
+		}
+		else
+		{
+			if (delta.y > 0)
+			{
+				// up
+				BridgeInstance->pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Up);
+			}
+			else if (delta.y < 0)
+			{
+				// down
+				BridgeInstance->pushMessage2Logic(InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Down);
+			}
+		}
+		touchPoint = touch->getLocation();
+	}
+}
+
+void LayerMap::onTouchEnded(Touch *touch, Event *unused_event)
+{
+	cocos2d::log("[warning] LayerMap::onTouchEnded()");
+}
+
+void LayerMap::addGlobalEventListener()
+{
+	auto touchListener = EventListenerTouchOneByOne::create();
+	touchListener->setSwallowTouches(true);
+	touchListener->onTouchBegan = CC_CALLBACK_2(LayerMap::onTouchBegan, this);
+	touchListener->onTouchMoved = CC_CALLBACK_2(LayerMap::onTouchMoved, this);
+	touchListener->onTouchEnded = CC_CALLBACK_2(LayerMap::onTouchEnded, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
 
 Sprite* LayerMap::createMapNodeByNodeType(MapNode::NodeType nodeType)
@@ -69,6 +131,7 @@ Sprite* LayerMap::createExtraByExtraType(MapNode::ExtraType extraType)
 		return nullptr;
 		break;
 	default:
+		return nullptr;
 		break;
 	}
 }
@@ -96,8 +159,7 @@ void LayerMap::loadMap()
 			if (mapNodeSet[y][x] != nullptr)
 			{
 				mapNodeSet[y][x]->setAnchorPoint(Vec2(0, 1));
-				// TODO 魔数
-				mapNodeSet[y][x]->setPosition(Vec2(x*64.0, -y*64.0));
+				mapNodeSet[y][x]->setPosition(Vec2(x*MAPCELL_SIZE, -y*MAPCELL_SIZE));
 				addChild(mapNodeSet[y][x], mapNodeZOrder, mapNodeFlag);
 			}
 
@@ -105,9 +167,38 @@ void LayerMap::loadMap()
 			if (extraSet[y][x] != nullptr)
 			{
 				extraSet[y][x]->setAnchorPoint(Vec2(0, 1));
-				// TODO 魔数
-				extraSet[y][x]->setPosition(Vec2(x*64.0, -y*64.0));
+				extraSet[y][x]->setPosition(Vec2(x*MAPCELL_SIZE, -y*MAPCELL_SIZE));
 				addChild(extraSet[y][x], extraZOrder, extarFlag);
 			}
 		}
+}
+
+void LayerMap::updateGlobalMapPosition()
+{
+	auto origin = MapControllerInstance->getViewOrigin();
+	auto mVO = getMapViewOrigin();
+	this->setPosition(Vec2(
+		mVO.x - origin.x * MAPCELL_SIZE,
+		mVO.y + origin.y * MAPCELL_SIZE
+		));
+}
+
+const ArKCa::Vector2<float> LayerMap::getMapViewOrigin()const
+{
+	// TODO 待优化计算，此处应对实际屏幕宽度不是 MAPCELL_SIZE 的整数倍，而计算地图层的横向偏移量以使地图处于屏幕中心
+	return ArKCa::Vector2<float>(
+		TargetInfoInstance->getScreenLeftTopOrigin().x + (
+		TargetInfoInstance->getScreenSize().width -
+		MapControllerInstance->getViewSize().width * MAPCELL_SIZE
+		) / 2.0,
+		TargetInfoInstance->getScreenLeftTopOrigin().y
+		);
+}
+
+const ArKCa::Size<float> LayerMap::getMapViewSize()const
+{
+	return ArKCa::Size<float>(
+		MapControllerInstance->getViewSize().width * MAPCELL_SIZE,
+		MapControllerInstance->getViewSize().height * MAPCELL_SIZE
+		);
 }

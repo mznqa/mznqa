@@ -14,6 +14,7 @@
 #include "interactive/message/InteractiveMessagePQ.h"
 #include "interactive/manager/TargetInfo.h"
 #include "logic/core/CoreController.h"
+#include "helper/messageInterpreter/MessageInterpreter.h"
 
 /*!
  * \class	Bridge

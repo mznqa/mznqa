@@ -87,11 +87,11 @@ public:
 	 */
 	MapView& operator=(const MapView &mapView)
 	{
-		if (size.width < 0 || size.height < 0 || origin.x < 0 || origin.y < 0)
+		if (mapView.size.width < 0 || mapView.size.height < 0 || mapView.origin.x < 0 || mapView.origin.y < 0)
 			return *this;
 
-		this->size = size;
-		this->origin = origin;
+		this->size = mapView.size;
+		this->origin = mapView.origin;
 		return *this;
 	}
 
@@ -114,6 +114,39 @@ public:
 	 *
 	 */
 	std::vector<ArKCa::Vector2<int> > getMapGroupPositionSet(const ArKCa::Vector2<int> &position);
+
+	/*!
+	 * \fn	const ArKCa::Size<int>& MapView::getViewSize()const
+	 *
+	 * \brief	获取视野尺寸
+	 *
+	 */
+	const ArKCa::Size<int>& getViewSize()const
+	{
+		return size;
+	}
+
+	/*!
+	 * \fn	const ArKCa::Vector2<int>& MapView::getViewOrigin()const
+	 *
+	 * \brief	获取视野原点的地图坐标
+	 *
+	 */
+	const ArKCa::Vector2<int>& getViewOrigin()const
+	{
+		return origin;
+	}
+
+	/*!
+	 * \fn	void MapView::setViewOrigin(const ArKCa::Vector2<int> &origin)
+	 *
+	 * \brief	设置视野原点
+	 *
+	 */
+	void setViewOrigin(const ArKCa::Vector2<int> &origin)
+	{
+		this->origin = origin;
+	}
 };
 
 #endif

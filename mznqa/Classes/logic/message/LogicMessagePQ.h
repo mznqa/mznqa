@@ -68,7 +68,12 @@ public:
 		LogicMessageID_DataLoadingSucc_CardRoad_Set,
 		LogicMessageID_DataLoadingSucc_MissionMap_Map_TMissionMapSet__MissionMapIDMainT,
 		LogicMessageID_StateChangeDone_CoreStateGuide_CoreStateResLoading,
-		LogicMessageID_StateChangeDone_CoreStateResLoading_CoreStateGameMain
+		LogicMessageID_StateChangeDone_CoreStateResLoading_CoreStateGameMain,
+		LogicMessageID_MoveMapView_Down,
+		LogicMessageID_MoveMapView_Left,
+		LogicMessageID_MoveMapView_Up,
+		LogicMessageID_MoveMapView_Right,
+		LogicMessageID_Update_MapViewPosition
 	};
 
 	/*!

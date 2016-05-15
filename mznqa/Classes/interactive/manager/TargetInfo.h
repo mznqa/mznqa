@@ -171,6 +171,30 @@ public:
 	}
 
 	/*!
+	 * \fn	void TargetInfo::setScreenSize(float x, float y)
+	 *
+	 * \brief	设置屏幕实际分辨率
+	 *
+	 * \param	x	指定宽度
+	 * \param	y	指定高度
+	 */
+	void setScreenSize(float x, float y)
+	{
+		screenSize.set(x, y);
+	}
+
+	/*!
+	 * \fn	const ArKCa::Size<float>& TargetInfo::getScreenSize()const
+	 *
+	 * \brief	获取屏幕实际分辨率
+	 *
+	 */
+	const ArKCa::Size<float>& getScreenSize()const
+	{
+		return screenSize;
+	}
+
+	/*!
 	 * \fn	void TargetInfo::setLanguage(Language language)
 	 *
 	 * \brief	设置目标设备的语言
@@ -229,6 +253,8 @@ private:
 	ArKCa::Vector2<float> realityDesignOrigin = ArKCa::Vector2<float>(0.0f, 0.0f);
 	/*! \brief	屏幕左上角的坐标在屏幕中的坐标 */
 	ArKCa::Vector2<float> screenLeftTopOrigin = ArKCa::Vector2<float>(0.0f, 0.0f);
+	/*! \brief	窗口实际分辨率尺寸 */
+	ArKCa::Size<float> screenSize = ArKCa::Size<float>(0.0f, 0.0f);
 
 	/*! \brief	目标设备的语言 */
 	Language language = Language_Zh;

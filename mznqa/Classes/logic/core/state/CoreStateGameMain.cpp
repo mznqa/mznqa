@@ -29,6 +29,34 @@ bool CoreStateGameMain::enter(CoreController *owner)
 }
 bool CoreStateGameMain::update(CoreController *owner, double intervalTime)
 {
+	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
+	auto msg = LogicMessagePQInstance->getTopMessage();
+	if (msg != nullptr)
+	{
+		switch (msg->getID())
+		{
+		case LogicMessagePQ::LogicMessageID_MoveMapView_Up:
+			MapControllerInstance->viewMoveUp(1);
+			BridgeInstance->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
+			break;
+		case LogicMessagePQ::LogicMessageID_MoveMapView_Right:
+			MapControllerInstance->viewMoveRight(1);
+			BridgeInstance->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
+			break;
+		case LogicMessagePQ::LogicMessageID_MoveMapView_Down:
+			MapControllerInstance->viewMoveDown(1);
+			BridgeInstance->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
+			break;
+		case LogicMessagePQ::LogicMessageID_MoveMapView_Left:
+			MapControllerInstance->viewMoveLeft(1);
+			BridgeInstance->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
+			break;
+		default:
+			break;
+		}
+		LogicMessagePQInstance->popTopMessage();
+	}
+	//////////////////////////////////////////////////////////////////////////
 	return true;
 }
 bool CoreStateGameMain::exit(CoreController *owner)
