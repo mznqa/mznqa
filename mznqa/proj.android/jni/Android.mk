@@ -12,7 +12,6 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
               ../../Classes/AppDelegate.cpp \
-              ../../Classes/HelloWorldScene.cpp \
               ../../Classes/helper/bridge/Bridge.cpp \
               ../../Classes/logic/gameObject/card/CardBase.cpp \
               ../../Classes/logic/gameObject/card/CardRoad.cpp \
