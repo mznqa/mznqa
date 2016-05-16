@@ -20,13 +20,12 @@
 class CardRoad : public CardBase
 {
 private:
-	/*! \brief	卡牌类型 */
-	static const CardBase::CardType cardType;
-
 	/*! \brief	道路节点 */
 	bool roadNode[MAPNODE_GROUPSIZE][MAPNODE_GROUPSIZE];
 
 public:
+	/*! \brief	卡牌类型 */
+	static const CardBase::CardType cardType;
 
 	/*!
 	 * \fn	CardRoad::~CardRoad()

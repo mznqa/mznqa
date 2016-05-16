@@ -47,11 +47,11 @@ void ArKCa::StringTable::clear()
 {
 	strTable.clear();
 }
-std::map<int, std::string>::const_iterator ArKCa::StringTable::getIteratorBegin()const
+const std::map<int, std::string>::const_iterator ArKCa::StringTable::getIteratorBegin()const
 {
 	return strTable.cbegin();
 }
-std::map<int, std::string>::const_iterator ArKCa::StringTable::getIteratorEnd()const
+const std::map<int, std::string>::const_iterator ArKCa::StringTable::getIteratorEnd()const
 {
 	return strTable.cend();
 }

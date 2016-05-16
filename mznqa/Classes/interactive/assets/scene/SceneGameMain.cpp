@@ -15,6 +15,9 @@
 #include "logic/controller/MapController.h"
 #include "logic/dataLoader/StaticDataLoader.h"
 #include "interactive/manager/SizeDefine.h"
+#include "logic/data/static/card/CardSet.h"
+#include "logic/gameObject/cardContainer/CardBox.h"
+#include "logic/gameObject/cardContainer/CardArray.h"
 //////////////////////////////////////////////////////////////////////////
 
 USING_NS_CC;
@@ -43,6 +46,13 @@ bool SceneGameMain::init()
 	// ²âÊÔÇøÓò //////////////////////////////////////////////////////////////////////////
 	StaticDataLoader::loadMissionMapMain(MissionMapSet::MissionMapIDMain_0);
 	MapController::Instance()->build(MissionMapSet::MissionMapIDMain_0);
+	CardArray<CardRoad, 5> ca;
+	ca.set(1, 1);
+	ca.set(2, 2);
+	ca.set(3, 3);
+	ca.set(4, 4);
+	ca.removeByIndex(1);
+	ca.removeByIndex(2);
 	//////////////////////////////////////////////////////////////////////////
 	MapController::Instance()->setMapView(
 		ArKCa::Size<int>(

@@ -20,9 +20,9 @@
 class CardMonster : public CardBase
 {
 private:
+public:
 	/*! \brief	ø®≈∆¿‡–Õ */
 	static const CardBase::CardType cardType;
-public:
 
 	/*!
 	 * \fn	CardMonster::CardMonster( int id, int sidName, int sidDescribe, CardBase::BelongTo belongTo )

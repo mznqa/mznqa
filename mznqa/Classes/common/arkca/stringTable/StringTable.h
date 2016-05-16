@@ -106,20 +106,20 @@ namespace ArKCa
 		void clear();
 
 		/*!
-		 * \fn	std::map<int, std::string>::const_iterator StringTable::getIteratorBegin()const;
+		 * \fn	const std::map<int, std::string>::const_iterator StringTable::getIteratorBegin()const;
 		 *
 		 * \brief	获取键值对表的起始迭代器
 		 *
 		 */
-		std::map<int, std::string>::const_iterator getIteratorBegin()const;
+		const std::map<int, std::string>::const_iterator getIteratorBegin()const;
 
 		/*!
-		 * \fn	std::map<std::string, std::string>::const_iterator StringTable::getIteratorEnd()const;
+		 * \fn	const std::map<std::string, std::string>::const_iterator StringTable::getIteratorEnd()const;
 		 *
 		 * \brief	获取键值对表的终止迭代器
 		 *
 		 */
-		std::map<int, std::string>::const_iterator getIteratorEnd()const;
+		const std::map<int, std::string>::const_iterator getIteratorEnd()const;
 
 		/*!
 		 * \fn	void StringTable::getIterator( std::map<int, std::string>::const_iterator &begin, std::map<int, std::string>::const_iterator &end )const;

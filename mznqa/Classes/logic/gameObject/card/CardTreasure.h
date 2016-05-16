@@ -20,9 +20,9 @@
 class CardTreasure : public CardBase
 {
 private:
+public:
 	/*! \brief	ø®≈∆¿‡–Õ */
 	static const CardBase::CardType cardType;
-public:
 
 	/*!
 	* \fn	CardTreasure::CardTreasure( int id, int sidName, int sidDescribe, CardBase::BelongTo belongTo )

@@ -23,12 +23,11 @@
 class CardSkill : public CardBase
 {
 private:
-	/*! \brief	卡牌类型 */
-	static const CardBase::CardType cardType;
-
 	/*! \brief	效果集合 */
 	std::vector<Effect> effectSet;
 public:
+	/*! \brief	卡牌类型 */
+	static const CardBase::CardType cardType;
 
 	/*!
 	 * \fn	CardSkill::CardSkill( int id, int sidName, int sidDescribe, CardBase::BelongTo belongTo, const std::vector<Effect> &effectSet )
