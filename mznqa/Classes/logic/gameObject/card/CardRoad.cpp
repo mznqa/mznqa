@@ -7,4 +7,4 @@
 
 #include "logic/gameObject/card/CardRoad.h"
 
-CardBase::CardType CardRoad::cardType = CardBase::CardType_Road;
+const CardBase::CardType CardRoad::cardType = CardBase::CardType_Road;

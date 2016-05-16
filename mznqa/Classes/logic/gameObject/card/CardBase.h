@@ -103,6 +103,7 @@ public:
 		this->sidName = cardBase.sidName;
 		this->sidDescribe = cardBase.sidDescribe;
 		this->belongTo = cardBase.belongTo;
+		return *this;
 	}
 
 	/*!
@@ -116,6 +117,12 @@ public:
 		return id;
 	}
 
+	/*!
+	 * \fn	virtual const int CardBase::getSIDName()const
+	 *
+	 * \brief	获取卡牌名称对应的SID
+	 *
+	 */
 	virtual const int getSIDName()const
 	{
 		return sidName;
@@ -129,6 +136,12 @@ public:
 	 */
 	virtual const std::string *const getName()const;
 
+	/*!
+	 * \fn	virtual const int CardBase::getSIDDescribe()const
+	 *
+	 * \brief	返回卡牌描述对应的SID
+	 *
+	 */
 	virtual const int getSIDDescribe()const
 	{
 		return sidDescribe;
