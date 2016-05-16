@@ -64,7 +64,7 @@ public:
 	 *
 	 */
 	CardRoad(const CardRoad &cardRoad) :
-		CardBase(cardRoad.getID(), cardRoad.getSIDName(), cardRoad.getSIDDescribe(), cardRoad.getBelongTo())
+		CardBase(cardRoad)
 	{
 		for (int y = 0; y < MAPNODE_GROUPSIZE; ++y)
 			for (int x = 0; x < MAPNODE_GROUPSIZE; ++x)

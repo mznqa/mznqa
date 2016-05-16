@@ -60,12 +60,7 @@ public:
 	 *
 	 */
 	CardSkill(const CardSkill &cardSkill) :
-		CardBase(
-		cardSkill.getID(),
-		cardSkill.getSIDName(),
-		cardSkill.getSIDDescribe(),
-		cardSkill.getBelongTo()
-		),
+		CardBase(cardSkill),
 		effectSet(cardSkill.getEffectSet())
 	{
 	}
