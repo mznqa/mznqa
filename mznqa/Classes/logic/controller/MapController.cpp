@@ -75,7 +75,7 @@ void MapController::viewMoveUp(int step)
 
 	auto curOrigin = mapView.getViewOrigin();
 	ArKCa::Vector2<int> newOrigin(curOrigin);
-	if (yRange.within(curOrigin.y - step))
+	if (yRange.isInclude(curOrigin.y - step))
 		newOrigin.y -= step;
 	else
 		newOrigin.y = yRange.min;
@@ -89,7 +89,7 @@ void MapController::viewMoveRight(int step)
 
 	auto curOrigin = mapView.getViewOrigin();
 	ArKCa::Vector2<int> newOrigin(curOrigin);
-	if (xRange.within(curOrigin.x + step))
+	if (xRange.isInclude(curOrigin.x + step))
 		newOrigin.x += step;
 	else
 		newOrigin.x = xRange.max;
@@ -103,7 +103,7 @@ void MapController::viewMoveDown(int step)
 
 	auto curOrigin = mapView.getViewOrigin();
 	ArKCa::Vector2<int> newOrigin(curOrigin);
-	if (yRange.within(curOrigin.y + step))
+	if (yRange.isInclude(curOrigin.y + step))
 		newOrigin.y += step;
 	else
 		newOrigin.y = yRange.max;
@@ -117,7 +117,7 @@ void MapController::viewMoveLeft(int step)
 
 	auto curOrigin = mapView.getViewOrigin();
 	ArKCa::Vector2<int> newOrigin(curOrigin);
-	if (xRange.within(curOrigin.x - step))
+	if (xRange.isInclude(curOrigin.x - step))
 		newOrigin.x -= step;
 	else
 		newOrigin.x = xRange.min;

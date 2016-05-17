@@ -18,6 +18,9 @@
 #include "logic/data/static/card/CardSet.h"
 #include "logic/gameObject/cardContainer/CardBox.h"
 #include "logic/gameObject/cardContainer/CardArray.h"
+#include "logic/gameObject/cardContainer/CardBox3.h"
+#include <map>
+#include "logic/gameObject/cardContainer/CardArray3.h"
 //////////////////////////////////////////////////////////////////////////
 
 USING_NS_CC;
@@ -46,13 +49,36 @@ bool SceneGameMain::init()
 	// ²âÊÔÇøÓò //////////////////////////////////////////////////////////////////////////
 	StaticDataLoader::loadMissionMapMain(MissionMapSet::MissionMapIDMain_0);
 	MapController::Instance()->build(MissionMapSet::MissionMapIDMain_0);
-	CardArray<CardRoad, 5> ca;
-	ca.set(1, 1);
-	ca.set(2, 2);
-	ca.set(3, 3);
-	ca.set(4, 4);
-	ca.removeByIndex(1);
-	ca.removeByIndex(2);
+	std::map<int, CardSkill> cardSkillSet = {
+		std::pair<int, CardSkill>(1000, CardSkill(1000, 0, 0, CardBase::BelongTo_Both, std::vector<Effect>())),
+		std::pair<int, CardSkill>(1001, CardSkill(1001, 0, 0, CardBase::BelongTo_Both, std::vector<Effect>())),
+		std::pair<int, CardSkill>(1002, CardSkill(1002, 0, 0, CardBase::BelongTo_Both, std::vector<Effect>())),
+		std::pair<int, CardSkill>(1003, CardSkill(1003, 0, 0, CardBase::BelongTo_Both, std::vector<Effect>())),
+		std::pair<int, CardSkill>(1004, CardSkill(1004, 0, 0, CardBase::BelongTo_Both, std::vector<Effect>())),
+		std::pair<int, CardSkill>(1005, CardSkill(1005, 0, 0, CardBase::BelongTo_Both, std::vector<Effect>())),
+		std::pair<int, CardSkill>(1006, CardSkill(1006, 0, 0, CardBase::BelongTo_Both, std::vector<Effect>()))
+	};
+	CardSet::Instance()->loadCardSkillSet(cardSkillSet);
+	std::map<int, CardMonster> cardMonsterSet = {
+		std::pair<int, CardMonster>(2000, CardMonster(2000, 0, 0, CardBase::BelongTo_Both)),
+		std::pair<int, CardMonster>(2001, CardMonster(2001, 0, 0, CardBase::BelongTo_Both)),
+		std::pair<int, CardMonster>(2002, CardMonster(2002, 0, 0, CardBase::BelongTo_Both)),
+		std::pair<int, CardMonster>(2003, CardMonster(2003, 0, 0, CardBase::BelongTo_Both)),
+		std::pair<int, CardMonster>(2004, CardMonster(2004, 0, 0, CardBase::BelongTo_Both)),
+		std::pair<int, CardMonster>(2005, CardMonster(2005, 0, 0, CardBase::BelongTo_Both)),
+		std::pair<int, CardMonster>(2006, CardMonster(2006, 0, 0, CardBase::BelongTo_Both))
+	};
+	CardSet::Instance()->loadCardMonsterSet(cardMonsterSet);
+	CardArray3<CardRoad, CardSkill, CardMonster, 10> ca;
+	ca.add(0);
+	ca.add(1);
+	ca.add(2);
+	ca.add(1000);
+	ca.add(1001);
+	ca.add(1002);
+	ca.add(2000);
+	ca.add(2001);
+	ca.add(2002);
 	//////////////////////////////////////////////////////////////////////////
 	MapController::Instance()->setMapView(
 		ArKCa::Size<int>(

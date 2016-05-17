@@ -125,7 +125,7 @@ public:
 	{
 		int result = CardBase::invalidCardID;
 
-		if (0 <= index && index <= cardIDSet.size() - 1)
+		if (0 <= index && index < cardIDSet.size())
 		{
 			auto it = cardIDSet.begin();
 			for (int i = 0; i < index; ++i)
@@ -138,15 +138,28 @@ public:
 	}
 
 	/*!
-	 * \fn	void CardBox::popByCardID(int cardID)
+	 * \fn	int CardBox::popByCardID(int cardID)
 	 *
 	 * \brief	指定卡牌ID以弹出卡牌
 	 *
 	 * \param	cardID	指定卡牌ID
 	 */
-	void popByCardID(int cardID)
+	int popByCardID(int cardID)
 	{
-		cardIDSet.remove(cardID);
+		int result = CardBase::invalidCardID;
+		auto it = cardIDSet.begin();
+		auto itEnd = cardIDSet.end();
+		while (it != itEnd)
+		{
+			if (*it == cardID)
+			{
+				result = *it;
+				cardIDSet.erase(it);
+				return result;
+			}
+			++it;
+		}
+		return result;
 	}
 
 	/*!
@@ -157,7 +170,18 @@ public:
 	 */
 	void clear()
 	{
-		cardIDSet.clear;
+		cardIDSet.clear();
+	}
+
+	/*!
+	 * \fn	int CardBox::getCardCount()const
+	 *
+	 * \brief	获取容器当前的卡牌数量
+	 *
+	 */
+	int getCardCount()const
+	{
+		return cardIDSet.size();
 	}
 
 	/*!

@@ -44,7 +44,7 @@ private:
 	 */
 	bool checkIndex(int index)
 	{
-		return indexRange.within(index);
+		return indexRange.isInclude(index);
 	}
 
 public:
@@ -97,6 +97,33 @@ public:
 	}
 
 	/*!
+	 * \fn	int CardArray::add(int cardID)
+	 *
+	 * \brief	容器中的第一个空位添加指定ID卡牌
+	 *
+	 * \param	cardID	指定待添加的卡牌ID
+	 *
+	 * \return	返回放置卡牌的位置，若无空位以放置卡牌则返回 -1
+	 */
+	int add(int cardID)
+	{
+		auto it = cardIDArray.begin();
+		auto itEnd = cardIDArray.end();
+		int i = 0;
+		while (it != itEnd)
+		{
+			if (*it == CardBase::invalidCardID)
+			{
+				set(i, cardID);
+				return i;
+			}
+			++it;
+			++i;
+		}
+		return -1;
+	}
+
+	/*!
 	 * \fn	void CardArray::set(int index, int cardID)
 	 *
 	 * \brief	设置指定索引位置上的卡牌
@@ -123,11 +150,29 @@ public:
 	{
 		int result = CardBase::invalidCardID;
 
-		int luckyDog = RandomGenerator::Instance()->getRandomNumber(indexRange.min, indexRange.max);
+		if (getCardCount() <= 0)
+			return result;
+
+		int luckyDog = RandomGenerator::Instance()->getRandomNumber(0, getCardCount() - 1);
 		if (checkIndex(luckyDog))
 		{
-			result = cardIDArray[luckyDog];
-			cardIDArray[luckyDog] = CardBase::invalidCardID;
+			auto it = cardIDArray.begin();
+			auto itEnd = cardIDArray.end();
+			int count = 0;
+			while (it != itEnd)
+			{
+				if (*it != CardBase::invalidCardID)
+				{
+					if (count == luckyDog)
+					{
+						result = *it;
+						*it = CardBase::invalidCardID;
+						return result;
+					}
+					++count;
+				}
+				++it;
+			}
 		}
 		return result;
 	}
@@ -188,6 +233,37 @@ public:
 	{
 		for (int i = indexRange.min; i <= indexRange.max; ++i)
 			cardIDArray[i] = CardBase::invalidCardID;
+	}
+
+	/*!
+	 * \fn	int CardArray::getSize()const
+	 *
+	 * \brief	获取容器的容量
+	 *
+	 */
+	int getSize()const
+	{
+		return cardIDArray.size();
+	}
+
+	/*!
+	 * \fn	int CardArray::getCardCount()const
+	 *
+	 * \brief	获取当前的卡牌数
+	 *
+	 */
+	int getCardCount()const
+	{
+		auto it = cardIDArray.cbegin();
+		auto itEnd = cardIDArray.cend();
+		int count = 0;
+		while (it != itEnd)
+		{
+			if (*it != CardBase::invalidCardID)
+				++count;
+			++it;
+		}
+		return count;
 	}
 
 	/*!
