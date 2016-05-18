@@ -356,7 +356,7 @@ public:
 				int i = RandomGenerator::Instance()->getRandomNumber(0, 1);
 				if (i == 0)
 					return removeByRandom(cardType0);
-				else (i == 1)
+				else if (i == 1)
 					return removeByRandom(cardType1);
 			}
 			else if (cardCount0 <= 0 && cardCount1 <= 0)
@@ -375,7 +375,7 @@ public:
 		{
 			if (checkCardType(cardType0))
 				return removeByRandom(cardType0);
-			else (checkCardType(cardType1))
+			else if (checkCardType(cardType1))
 				return removeByRandom(cardType1);
 		}
 		return result;
@@ -406,11 +406,11 @@ public:
 				{
 					if (count == luckyDog)
 					{
-						if (cardType == CardType0::cardType)
+						if (CardSet::Instance()->isCardType(CardType0::cardType, *it))
 							--cardType0Count;
-						else if (cardType == CardType1::cardType)
+						else if (CardSet::Instance()->isCardType(CardType1::cardType, *it))
 							--cardType1Count;
-						else if (cardType == CardType2::cardType)
+						else if (CardSet::Instance()->isCardType(CardType2::cardType, *it))
 							--cardType2Count;
 						else
 							return result;
