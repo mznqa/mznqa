@@ -11,4 +11,6 @@
 
 #define MAPNODE_GROUPSIZE 3
 
+#define EXPLORE_CARDHOLDERSIZE 5
+
 #endif

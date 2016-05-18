@@ -76,6 +76,17 @@ public:
 	}
 
 	/*!
+	 * \fn	bool CardBox::isEmpty()const
+	 *
+	 * \brief	判断容器是否为空
+	 *
+	 */
+	bool isEmpty()const
+	{
+		return cardIDSet.empty();
+	}
+
+	/*!
 	 * \fn	void CardBox::add(int cardID)
 	 *
 	 * \brief	向容器中添加卡牌

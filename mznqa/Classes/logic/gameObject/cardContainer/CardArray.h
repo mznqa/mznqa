@@ -97,6 +97,44 @@ public:
 	}
 
 	/*!
+	 * \fn	bool CardArray::isEmpty()const
+	 *
+	 * \brief	判断容器中是否不含任何卡牌
+	 *
+	 */
+	bool isEmpty()const
+	{
+		auto it = cardIDArray.cbegin();
+		auto itEnd = cardIDArray.cend();
+		while (it != itEnd)
+		{
+			if (*it != CardBase::invalidCardID)
+				return false;
+			++it;
+		}
+		return true;
+	}
+
+	/*!
+	 * \fn	bool CardArray::isFull()const
+	 *
+	 * \brief	返回容器是否填满
+	 *
+	 */
+	bool isFull()const
+	{
+		auto it = cardIDArray.cbegin();
+		auto itEnd = cardIDArray.cend();
+		while (it != itEnd)
+		{
+			if (*it == CardBase::invalidCardID)
+				return false;
+			++it;
+		}
+		return true;
+	}
+
+	/*!
 	 * \fn	int CardArray::add(int cardID)
 	 *
 	 * \brief	容器中的第一个空位添加指定ID卡牌

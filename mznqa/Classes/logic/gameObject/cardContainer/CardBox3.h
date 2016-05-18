@@ -124,6 +124,17 @@ public:
 	}
 
 	/*!
+	 * \fn	bool CardBox3::isEmpty()const
+	 *
+	 * \brief	返回容器是否为空
+	 *
+	 */
+	bool isEmpty()const
+	{
+		return cardIDSet.empty();
+	}
+
+	/*!
 	 * \fn	int CardBox3::getCardCount()const
 	 *
 	 * \brief	获取当前的卡牌总数

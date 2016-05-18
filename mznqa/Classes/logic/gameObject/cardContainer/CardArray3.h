@@ -135,6 +135,44 @@ public:
 	}
 
 	/*!
+	 * \fn	bool CardArray3::isEmpty()const
+	 *
+	 * \brief	判断容器中是否不含有任何卡牌
+	 *
+	 */
+	bool isEmpty()const
+	{
+		auto it = cardIDArray.cbegin();
+		auto itEnd = cardIDArray.cend();
+		while (it != itEnd)
+		{
+			if (*it != CardBase::invalidCardID)
+				return false;
+			++it;
+		}
+		return true;
+	}
+
+	/*!
+	 * \fn	bool CardArray3::isFull()const
+	 *
+	 * \brief	判断容器是否已满
+	 *
+	 */
+	bool isFull()const
+	{
+		auto it = cardIDArray.cbegin();
+		auto itEnd = cardIDArray.cend();
+		while (it != itEnd)
+		{
+			if (*it == CardBase::invalidCardID)
+				return false;
+			++it;
+		}
+		return true;
+	}
+
+	/*!
 	 * \fn	int CardArray3::getSize()const
 	 *
 	 * \brief	获取容器容量
@@ -483,11 +521,11 @@ public:
 	}
 
 	/*!
-	 * \fn	const std::array<int, Size>& CardArray3::getCardIDSet()const
+	 * \fn	const std::array<int, Size>& CardArray3::getCardIDArray()const
 	 *
 	 * \brief	获取容器中所有卡牌的ID
 	 */
-	const std::array<int, Size>& getCardIDSet()const
+	const std::array<int, Size>& getCardIDArray()const
 	{
 		return cardIDArray;
 	}
