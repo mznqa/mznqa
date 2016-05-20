@@ -10,6 +10,7 @@
 #include "interactive/manager/TargetInfo.h"
 #include "helper/bridge/Bridge.h"
 #include "interactive/message/InteractiveMessagePQ.h"
+#include "interactive/assets/layer/LayerWorkbench.h"
 
 // 测试区域 //////////////////////////////////////////////////////////////////////////
 #include "logic/controller/MapController.h"
@@ -69,17 +70,9 @@ bool SceneGameMain::init()
 		std::pair<int, CardMonster>(2006, CardMonster(2006, 0, 0, CardBase::BelongTo_Both))
 	};
 	CardSet::Instance()->loadCardMonsterSet(cardMonsterSet);
-	CardArray3<CardRoad, CardSkill, CardMonster, 10> ca;
-	ca.add(0);
-	ca.add(1);
-	ca.add(2);
-	ca.add(1000);
-	ca.add(1001);
-	ca.add(1002);
-	ca.add(2000);
-	ca.add(2001);
-	ca.add(2002);
+
 	//////////////////////////////////////////////////////////////////////////
+	// 显示地图 //////////////////////////////////////////////////////////////////////////
 	MapController::Instance()->setMapView(
 		ArKCa::Size<int>(
 		TargetInfo::Instance()->getScreenSize().width / MAPCELL_SIZE,
@@ -92,6 +85,12 @@ bool SceneGameMain::init()
 	layerMap = LayerMap::create();
 	layerMap->loadMap();
 	addChild(layerMap);
+	//////////////////////////////////////////////////////////////////////////
+
+	// 工作台 //////////////////////////////////////////////////////////////////////////
+	LayerWorkbench *lw = LayerWorkbench::create();
+	addChild(lw);
+	//////////////////////////////////////////////////////////////////////////
 
 	// 添加逐帧调度器
 	this->scheduleUpdate();
