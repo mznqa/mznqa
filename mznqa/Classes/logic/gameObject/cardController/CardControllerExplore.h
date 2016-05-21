@@ -105,13 +105,30 @@ public:
 	void addCardToPool(int cardID);
 
 	/*!
-	 * \fn	int CardControllerExplore::drawCard();
+	 * \fn	void CardControllerExplore::drawCard();
+	 *
+	 * \brief	从卡池中随机抽出一张卡牌到手牌区
+	 *
+	 */
+	void drawCard();
+
+	/*!
+	 * \fn	int CardControllerExplore::drawCardAndReturnCardID();
 	 *
 	 * \brief	从卡池中随机抽出一张卡牌到手牌区
 	 *
 	 * \return	返回抽到的卡牌的ID
 	 */
-	int drawCard();
+	int drawCardAndReturnCardID();
+
+	/*!
+	 * \fn	int CardControllerExplore::drawCardAndReturnIndex();
+	 *
+	 * \brief	从卡池中随机抽出一张卡牌到手牌区
+	 *
+	 * \return	返回抽到的卡牌被放置到手牌后，在手牌的索引
+	 */
+	int drawCardAndReturnIndex();
 
 	/*!
 	 * \fn	int CardControllerExplore::discard(int index);

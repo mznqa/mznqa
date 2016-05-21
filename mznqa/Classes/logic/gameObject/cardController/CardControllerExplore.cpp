@@ -139,18 +139,38 @@ void CardControllerExplore::addCardToPool(int cardID)
 	pool.add(cardID);
 }
 
-int CardControllerExplore::drawCard()
+void CardControllerExplore::drawCard()
+{
+	if (holder.isFull())
+		return;
+
+	int cardID = pool.popByRandom();
+	if (cardID != CardBase::invalidCardID)
+		holder.add(cardID);
+}
+
+int CardControllerExplore::drawCardAndReturnCardID()
 {
 	if (holder.isFull())
 		return CardBase::invalidCardID;
 
 	int cardID = pool.popByRandom();
 	if (cardID != CardBase::invalidCardID)
-	{
 		holder.add(cardID);
-	}
 
 	return cardID;
+}
+
+int CardControllerExplore::drawCardAndReturnIndex()
+{
+	if (holder.isFull())
+		return -1;
+
+	int cardID = pool.popByRandom();
+	if (cardID != CardBase::invalidCardID)
+		return holder.add(cardID);
+
+	return -1;
 }
 
 int CardControllerExplore::discard(int index)

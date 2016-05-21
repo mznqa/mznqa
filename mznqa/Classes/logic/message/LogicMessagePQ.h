@@ -73,7 +73,11 @@ public:
 		LogicMessageID_MoveMapView_Left,
 		LogicMessageID_MoveMapView_Up,
 		LogicMessageID_MoveMapView_Right,
-		LogicMessageID_Update_MapViewPosition
+		LogicMessageID_Update_MapViewPosition,
+		LogicMessageID_Explore_DrawCrad_Role,
+		LogicMessageID_Explore_DrawCradSucc_Role_TintT,
+		LogicMessageID_Explore_DrawCradFail_Role_CardPoolEmpty,
+		LogicMessageID_Explore_DrawCradFail_Role_HandCardFull
 	};
 
 	/*!

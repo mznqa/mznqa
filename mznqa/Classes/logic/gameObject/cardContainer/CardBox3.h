@@ -298,7 +298,7 @@ public:
 			return result;
 
 		int luckyDog = RandomGenerator::Instance()->getRandomNumber(0, cardIDSet.size() - 1);
-		if (0 <= luckyDog && luckyDog < cardIDSet.size())
+		if (0 <= luckyDog && luckyDog < (int)(cardIDSet.size()))
 		{
 			auto it = cardIDSet.begin();
 			for (int i = 0; i < luckyDog; ++i)

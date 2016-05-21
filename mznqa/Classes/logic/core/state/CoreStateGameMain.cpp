@@ -10,6 +10,7 @@
 #include "logic/message/LogicMessagePQ.h"
 #include "logic/controller/MapController.h"
 #include "helper/bridge/Bridge.h"
+#include "logic/controller/CharacterController.h"
 
 CoreStateGameMain::CoreStateGameMain()
 {
@@ -53,6 +54,9 @@ bool CoreStateGameMain::update(CoreController *owner, double intervalTime)
 		case LogicMessagePQ::LogicMessageID_MoveMapView_Left:
 			MapController::Instance()->viewMoveLeft(1);
 			Bridge::Instance()->pushMessage2Interactive(LogicMessagePQ::LogicMessageID_Update_MapViewPosition);
+			break;
+		case LogicMessagePQ::LogicMessageID_Explore_DrawCrad_Role:
+			CharacterController::Instance()->getRole()->drawCard();
 			break;
 		default:
 			break;

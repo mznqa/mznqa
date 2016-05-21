@@ -90,7 +90,6 @@ void LayerMap::addGlobalEventListener()
 
 Sprite* LayerMap::createMapNodeByNodeType(MapNode::NodeType nodeType)
 {
-	// TODO 文件路径
 	switch (nodeType)
 	{
 	case MapNode::NodeType_None:
@@ -99,13 +98,16 @@ Sprite* LayerMap::createMapNodeByNodeType(MapNode::NodeType nodeType)
 		break;
 	case MapNode::NodeType_Road:
 	case MapNode::NodeType_Road_Const:
+		// TODO 待规整的文件路径
 		return Sprite::createWithSpriteFrameName("map_cell/map_cell_road_64.png");
 		break;
 	case MapNode::NodeType_Wall:
 	case MapNode::NodeType_Wall_Const:
+		// TODO 待规整的文件路径
 		return Sprite::createWithSpriteFrameName("map_cell/map_cell_wall_64.png");
 		break;
 	case MapNode::NodeType_Border_Const:
+		// TODO 待规整的文件路径
 		return Sprite::createWithSpriteFrameName("map_cell/map_cell_fence_64.png");
 		break;
 	default:
@@ -116,13 +118,13 @@ Sprite* LayerMap::createMapNodeByNodeType(MapNode::NodeType nodeType)
 
 Sprite* LayerMap::createExtraByExtraType(MapNode::ExtraType extraType)
 {
-	// TODO 文件路径
 	switch (extraType)
 	{
 	case MapNode::ExtraType_None:
 		return nullptr;
 		break;
 	case MapNode::ExtraType_Door_Mission_Main:
+		// TODO 待规整的文件路径
 		return Sprite::createWithSpriteFrameName("map_cell/map_cell_door_64.png");
 		break;
 	case MapNode::ExtraType_Door_Mission_Secondary:

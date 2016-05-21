@@ -10,7 +10,6 @@
 #include "interactive/manager/TargetInfo.h"
 #include "helper/bridge/Bridge.h"
 #include "interactive/message/InteractiveMessagePQ.h"
-#include "interactive/assets/layer/LayerWorkbench.h"
 
 // 测试区域 //////////////////////////////////////////////////////////////////////////
 #include "logic/controller/MapController.h"
@@ -22,6 +21,7 @@
 #include "logic/gameObject/cardContainer/CardBox3.h"
 #include <map>
 #include "logic/gameObject/cardContainer/CardArray3.h"
+#include "logic/controller/CharacterController.h"
 //////////////////////////////////////////////////////////////////////////
 
 USING_NS_CC;
@@ -71,6 +71,19 @@ bool SceneGameMain::init()
 	};
 	CardSet::Instance()->loadCardMonsterSet(cardMonsterSet);
 
+	CharacterController::Instance()->createRole();
+	CharacterController::Instance()->getRole()->getCardControllerExplore().addCardToPool(0);
+	CharacterController::Instance()->getRole()->getCardControllerExplore().addCardToPool(1);
+	CharacterController::Instance()->getRole()->getCardControllerExplore().addCardToPool(2);
+	CharacterController::Instance()->getRole()->getCardControllerExplore().addCardToPool(3);
+	CharacterController::Instance()->getRole()->getCardControllerExplore().addCardToPool(4);
+	CharacterController::Instance()->getRole()->getCardControllerExplore().addCardToPool(5);
+	CharacterController::Instance()->getRole()->getCardControllerExplore().addCardToPool(6);
+	CharacterController::Instance()->getRole()->getCardControllerExplore().addCardToPool(7);
+	CharacterController::Instance()->getRole()->getCardControllerExplore().drawCard();
+	CharacterController::Instance()->getRole()->getCardControllerExplore().drawCard();
+	CharacterController::Instance()->getRole()->getCardControllerExplore().drawCard();
+
 	//////////////////////////////////////////////////////////////////////////
 	// 显示地图 //////////////////////////////////////////////////////////////////////////
 	MapController::Instance()->setMapView(
@@ -88,8 +101,8 @@ bool SceneGameMain::init()
 	//////////////////////////////////////////////////////////////////////////
 
 	// 工作台 //////////////////////////////////////////////////////////////////////////
-	LayerWorkbench *lw = LayerWorkbench::create();
-	addChild(lw);
+	layerWorkbench = LayerWorkbench::create();
+	addChild(layerWorkbench);
 	//////////////////////////////////////////////////////////////////////////
 
 	// 添加逐帧调度器
@@ -126,6 +139,15 @@ void SceneGameMain::update(float dt)
 		{
 		case InteractiveMessagePQ::InteractiveMessageID_Update_LayerMapPosition:
 			layerMap->updateGlobalMapPosition();
+			break;
+		case InteractiveMessagePQ::InteractiveMessageID_Explore_PutCard_Road_TintT:
+			layerWorkbench->executeAddCard(msg->getExtras<int>());
+			break;
+		case InteractiveMessagePQ::InteractiveMessageID_Explore_PutCardFail_Road_CardPollEmpty:
+			log("[warning] 探索场景下，抽牌失败，因为卡池为空！");
+			break;
+		case InteractiveMessagePQ::InteractiveMessageID_Explore_PutCardFail_Road_HandCardFull:
+			log("[warning] 探索场景下，抽牌失败，因为手牌已满！");
 			break;
 		default:
 			break;

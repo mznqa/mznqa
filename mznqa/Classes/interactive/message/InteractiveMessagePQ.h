@@ -52,7 +52,11 @@ public:
 		InteractiveMessageID_OP_DragMap_Right,
 		InteractiveMessageID_OP_DragMap_Down,
 		InteractiveMessageID_OP_DragMap_Left,
-		InteractiveMessageID_Update_LayerMapPosition
+		InteractiveMessageID_Update_LayerMapPosition,
+		InteractiveMessageID_ButtonClicked_Explore_DrawCard,
+		InteractiveMessageID_Explore_PutCard_Road_TintT,
+		InteractiveMessageID_Explore_PutCardFail_Road_CardPollEmpty,
+		InteractiveMessageID_Explore_PutCardFail_Road_HandCardFull
 	};
 
 	/*!

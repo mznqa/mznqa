@@ -146,12 +146,34 @@ namespace ArKCa
 		}
 
 		/*!
-		 * \fn	T* AnyType::Value()
+		* \fn	T AnyType::Value()const
+		*
+		* \brief	获取所存放的值
+		*
+		*/
+		T Value()const
+		{
+			return value;
+		}
+
+		/*!
+		 * \fn	const T* AnyType::Ptr()const
 		 *
-		 * \brief	获取存放的值
+		 * \brief	获取所存放的值的指针
 		 *
 		 */
-		T* Value()
+		const T* Ptr()const
+		{
+			return &value;
+		}
+
+		/*!
+		 * \fn	T* AnyType::Ptr()
+		 *
+		 * \brief	获取所存放的值的指针
+		 *
+		 */
+		T* Ptr()
 		{
 			return &value;
 		}
@@ -234,20 +256,51 @@ namespace ArKCa
 		}
 
 		/*!
-		 * \fn	template<typename T> T* Any::Value()
+		* \fn	template<typename T> T Any::Value()const
+		*
+		* \brief	获取存放的值，应留意空指针情况
+		*
+		* \tparam	T	值的目标类型
+		*
+		*/
+		template<typename T>
+		T Value()const
+		{
+			return *(static_cast<AnyType<T>*>(value)->Ptr());
+		}
+
+		/*!
+		 * \fn	template<typename T> const T* Any::Ptr()const
 		 *
-		 * \brief	获取存放的值
+		 * \brief	获取存放的值的指针
 		 *
 		 * \tparam	T	值的目标类型
 		 *
 		 */
 		template<typename T>
-		T* Value()
+		const T* Ptr()const
 		{
 			if (value == nullptr)
 				return nullptr;
 			else
-				return static_cast<AnyType<T>*>(value)->Value();
+				return static_cast<AnyType<T>*>(value)->Ptr();
+		}
+
+		/*!
+		 * \fn	template<typename T> T* Any::Ptr()
+		 *
+		 * \brief	获取存放的值的指针
+		 *
+		 * \tparam	T	值的目标类型
+		 *
+		 */
+		template<typename T>
+		T* Ptr()
+		{
+			if (value == nullptr)
+				return nullptr;
+			else
+				return static_cast<AnyType<T>*>(value)->Ptr();
 		}
 	};
 }

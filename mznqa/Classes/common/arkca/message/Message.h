@@ -72,7 +72,7 @@ namespace ArKCa
 		}
 
 		/*!
-		 * \fn	template<typename T> const T Message::getExtras()
+		 * \fn	template<typename T> const T Message::getExtras()const
 		 *
 		 * \brief	获取消息的附加信息
 		 *
@@ -80,7 +80,21 @@ namespace ArKCa
 		 *
 		 */
 		template<typename T>
-		const T getExtras()
+		const T getExtras()const
+		{
+			return extras.Value<T>();
+		}
+
+		/*!
+		 * \fn	template<typename T> T Message::getExtras()
+		 *
+		 * \brief	获取消息的附加信息
+		 *
+		 * \tparam	T	指定消息附加信息的类型
+		 *
+		 */
+		template<typename T>
+		T getExtras()
 		{
 			return extras.Value<T>();
 		}

@@ -35,6 +35,9 @@ ArKCa::Message<LogicMessagePQ::LogicMessageID> MessageInterpreter::interpret(Int
 	case InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Left:
 		return ArKCa::Message<LogicMessagePQ::LogicMessageID>(LogicMessagePQ::LogicMessageID_MoveMapView_Right);
 		break;
+	case InteractiveMessagePQ::InteractiveMessageID_ButtonClicked_Explore_DrawCard:
+		return ArKCa::Message<LogicMessagePQ::LogicMessageID>(LogicMessagePQ::LogicMessageID_Explore_DrawCrad_Role);
+		break;
 	default:
 		return ArKCa::Message<LogicMessagePQ::LogicMessageID>(LogicMessagePQ::LogicMessageID_ValidID);
 		break;
@@ -55,6 +58,15 @@ ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID> MessageInterpreter::i
 		break;
 	case LogicMessagePQ::LogicMessageID_Update_MapViewPosition:
 		return ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID>(InteractiveMessagePQ::InteractiveMessageID_Update_LayerMapPosition);
+		break;
+	case LogicMessagePQ::LogicMessageID_Explore_DrawCradSucc_Role_TintT:
+		return ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID>(InteractiveMessagePQ::InteractiveMessageID_Explore_PutCard_Road_TintT);
+		break;
+	case LogicMessagePQ::LogicMessageID_Explore_DrawCradFail_Role_CardPoolEmpty:
+		return ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID>(InteractiveMessagePQ::InteractiveMessageID_Explore_PutCardFail_Road_CardPollEmpty);
+		break;
+	case LogicMessagePQ::LogicMessageID_Explore_DrawCradFail_Role_HandCardFull:
+		return ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID>(InteractiveMessagePQ::InteractiveMessageID_Explore_PutCardFail_Road_HandCardFull);
 		break;
 	default:
 		return ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID>(InteractiveMessagePQ::InteractiveMessageID_ValidID);
