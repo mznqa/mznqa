@@ -161,6 +161,16 @@ public:
 			nodeSet[position.y][position.x].nodeType = nodeType;
 		}
 	};
+
+	/*!
+	 * \fn	std::vector<ArKCa::Vector2<int> > GameMap::getNearPosition(const ArKCa::Vector2<int> &position)const;
+	 *
+	 * \brief	获取给定点的邻接点
+	 *
+	 * \param	position	指定地图上的点
+	 *
+	 */
+	std::vector<ArKCa::Vector2<int> > getNearPosition(const ArKCa::Vector2<int> &position)const;
 };
 
 #endif

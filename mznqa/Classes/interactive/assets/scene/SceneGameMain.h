@@ -13,6 +13,7 @@
 
 #include "interactive/assets/layer/LayerMap.h"
 #include "interactive/assets/layer/LayerWorkbench.h"
+#include "interactive/message/InteractiveMessagePQ.h"
 
 /*!
 * \class	SceneGameMain
@@ -28,10 +29,47 @@ private:
 	LayerMap *layerMap;
 	/*! \brief	工作区 */
 	LayerWorkbench *layerWorkbench;
+
+	/*! \brief	持续推送的消息 */
+	InteractiveMessagePQ::InteractiveMessageID loopMessage;
+	//////////////////////////////////////////////////////////////////////////
+
+	// 时间监听器 //////////////////////////////////////////////////////////////////////////
+
+	/*!
+	 * \fn	void SceneGameMain::addKeyboardEventListener();
+	 *
+	 * \brief	添加按键监听事件
+	 *
+	 */
+	void addKeyboardEventListener();
+
+	/*!
+	 * \fn	void SceneGameMain::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+	 *
+	 * \brief	重写按键按下事件
+	 *
+	 */
+	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+
+	/*!
+	 * \fn	void SceneGameMain::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+	 *
+	 * \brief	重写按键释放事件
+	 *
+	 */
+	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	//////////////////////////////////////////////////////////////////////////
 
 	// 调度器 //////////////////////////////////////////////////////////////////////////
 
+	/*!
+	 * \fn	void SceneGameMain::messagePushLoop(float dt);
+	 *
+	 * \brief	用于持续推送消息
+	 *
+	 */
+	void messagePushLoop(float dt);
 	/*!
 	* \fn	void SceneGameMain::update(float dt);
 	*

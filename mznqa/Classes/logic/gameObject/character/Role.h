@@ -10,6 +10,8 @@
 #define MZNQA_CLASSES_LOGIC_GAMEOBJECT_CHARACTER_ROLE_H_
 
 #include "logic/gameObject/cardController/CardControllerExplore.h"
+#include "common/arkca/Vector2.h"
+#include "common/arkca/Rectangle.h"
 
 /*!
  * \class	Role
@@ -20,18 +22,31 @@
 class Role
 {
 private:
+	/*! \brief	在地图中的坐标 */
+	ArKCa::Vector2<int> position;
+
+	/*! \brief	坐标允许的范围区间 */
+	ArKCa::Rectangle<int> positionRange;
+
 	/*! \brief	探索场景下的卡牌控制器 */
 	CardControllerExplore cardControllerExplore;
 
 public:
 
 	/*!
-	 * \fn	Role::Role()
+	 * \fn	Role::Role( const ArKCa::Vector2<int> &position, const ArKCa::Rectangle<int> &positionRange )
 	 *
 	 * \brief	构造函数
 	 *
+	 * \param	position	 	指定所在的位置
+	 * \param	positionRange	指定允许的坐标值区间
 	 */
-	Role() :
+	Role(
+		const ArKCa::Vector2<int> &position,
+		const ArKCa::Rectangle<int> &positionRange
+		) :
+		position(position),
+		positionRange(positionRange),
 		cardControllerExplore()
 	{
 	}
@@ -61,6 +76,99 @@ public:
 	 */
 	~Role()
 	{
+	}
+
+	/*!
+	 * \fn	void Role::setPosition(ArKCa::Vector2<int> position)
+	 *
+	 * \brief	设置角色的位置
+	 *
+	 */
+	void setPosition(ArKCa::Vector2<int> position)
+	{
+		if (positionRange.isContains(position))
+			this->position = position;
+	}
+
+	/*!
+	 * \fn	const ArKCa::Vector2<int>& Role::getPosition()const
+	 *
+	 * \brief	获取角色的位置
+	 *
+	 */
+	const ArKCa::Vector2<int>& getPosition()const
+	{
+		return position;
+	}
+
+	/*!
+	 * \fn	bool Role::moveUp(int step = 1)
+	 *
+	 * \brief	向上移动角色
+	 *
+	 * \param	step	指定移动的步数，默认为 1
+	 *
+	 * \return	返回是否移动成功
+	 */
+	bool moveUp(int step = 1)
+	{
+		if (step > 0 && positionRange.isContainsY(position.y - step))
+		{
+			this->position.y -= step;
+			return true;
+		}
+		return false;
+	}
+
+	/*!
+	 * \fn	bool Role::moveDown(int step = 1)
+	 *
+	 * \brief	向下移动角色
+	 *
+	 * \return	返回是否移动成功
+	 */
+	bool moveDown(int step = 1)
+	{
+		if (step > 0 && positionRange.isContainsY(position.y + step))
+		{
+			this->position.y += step;
+			return true;
+		}
+		return false;
+	}
+
+	/*!
+	 * \fn	bool Role::moveLeft(int step = 1)
+	 *
+	 * \brief	向左移动角色
+	 *
+	 * \return	返回是否移动成功
+	 */
+	bool moveLeft(int step = 1)
+	{
+		if (step > 0 && positionRange.isContainsX(position.x - step))
+		{
+			this->position.x -= step;
+			return true;
+		}
+		return false;
+	}
+
+	/*!
+	 * \fn	bool Role::moveRight(int step = 1)
+	 *
+	 * \brief	向右移动角色
+	 *
+	 * \return	返回是否移动成功
+	 */
+	bool moveRight(int step = 1)
+	{
+		if (step > 0 && positionRange.isContainsX(position.x + step))
+		{
+			this->position.x += step;
+			return true;
+		}
+		return false;
 	}
 
 	/*!

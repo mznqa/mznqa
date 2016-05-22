@@ -110,84 +110,75 @@ public:
 	}
 
 	/*!
-	 * \fn	const ArKCa::Size<int>& MapController::getMapSize()const
+	 * \fn	const GameMap& MapController::getMap()
 	 *
-	 * \brief	获取地图尺寸信息
+	 * \brief	获取地图
 	 *
 	 */
-	const ArKCa::Size<int>& getMapSize()const
+	const GameMap& getMap()
 	{
-		return gameMap.getSize();
+		return gameMap;
 	}
 
 	/*!
-	 * \fn	const std::vector<std::vector<MapNode> >& MapController::getMapNodeSet()const
+	 * \fn	const MapView& MapController::getMapView()
 	 *
-	 * \brief	获取所有地图节点
+	 * \brief	获取地图视野
 	 *
+	 * \author	Yeshiyong
+	 * \date	2016/5/22
+	 *
+	 * \return	The map view.
 	 */
-	const std::vector<std::vector<MapNode> >& getMapNodeSet()const
+
+	const MapView& getMapView()
 	{
-		return gameMap.getMapNodeSet();
+		return mapView;
 	}
 
 	/*!
-	 * \fn	const ArKCa::Vector2<int>& MapController::getViewOrigin()const
-	 *
-	 * \brief	获取地图视野原点
-	 *
-	 */
-	const ArKCa::Vector2<int>& getViewOrigin()const
-	{
-		return mapView.getViewOrigin();
-	}
-
-	/*!
-	 * \fn	const ArKCa::Size<int>& MapController::getViewSize()const
-	 *
-	 * \brief	获取视野尺寸
-	 *
-	 */
-	const ArKCa::Size<int>& getViewSize()const
-	{
-		return mapView.getViewSize();
-	}
-
-	/*!
-	 * \fn	void MapController::viewMoveUp(int step);
+	 * \fn	bool MapController::viewMoveUp(int step = 1);
 	 *
 	 * \brief	上移视野
 	 *
-	 * \param	step	指定移动格数
+	 * \param	step	指定移动格数, 默认为 1
+	 *
+	 * \return	返回是否移动成功
 	 */
-	void viewMoveUp(int step);
+	bool viewMoveUp(int step = 1);
 
 	/*!
-	 * \fn	void MapController::viewMoveRight(int step);
+	 * \fn	bool MapController::viewMoveRight(int step = 1);
 	 *
 	 * \brief	右移视野
 	 *
-	 * \param	step	指定移动格数
+	 * \param	step	指定移动格数, 默认为 1
+	 *
+	 * \return	返回是否移动成功
 	 */
-	void viewMoveRight(int step);
+	bool viewMoveRight(int step = 1);
 
 	/*!
-	 * \fn	void MapController::viewMoveDown(int step);
+	 * \fn	bool MapController::viewMoveDown(int step = 1);
 	 *
 	 * \brief	下移视野
 	 *
-	 * \param	step	指定移动格数
+	 * \param	step	指定移动格数, 默认为 1
+	 *
+	 * \return	返回是否移动成功
 	 */
-	void viewMoveDown(int step);
+	bool viewMoveDown(int step = 1);
 
 	/*!
-	 * \fn	void MapController::viewMoveLeft(int step);
+	 * \fn	bool MapController::viewMoveLeft(int step = 1);
 	 *
 	 * \brief	左移视野
 	 *
-	 * \param	step	指定移动格数
+	 * \param	step	指定移动格数, 默认为 1
+	 *
+	 * \return	返回是否移动成功
 	 */
-	void viewMoveLeft(int step);
+	bool viewMoveLeft(int step = 1);
 };
 
 #endif

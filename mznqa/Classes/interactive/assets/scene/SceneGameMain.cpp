@@ -9,7 +9,6 @@
 #include "interactive/assets/scene/SceneGameMain.h"
 #include "interactive/manager/TargetInfo.h"
 #include "helper/bridge/Bridge.h"
-#include "interactive/message/InteractiveMessagePQ.h"
 
 // 测试区域 //////////////////////////////////////////////////////////////////////////
 #include "logic/controller/MapController.h"
@@ -22,6 +21,7 @@
 #include <map>
 #include "logic/gameObject/cardContainer/CardArray3.h"
 #include "logic/controller/CharacterController.h"
+#include "interactive/assets/sprite/SpriteRole.h"
 //////////////////////////////////////////////////////////////////////////
 
 USING_NS_CC;
@@ -97,6 +97,7 @@ bool SceneGameMain::init()
 		);
 	layerMap = LayerMap::create();
 	layerMap->loadMap();
+	layerMap->loadSpriteRole();
 	addChild(layerMap);
 	//////////////////////////////////////////////////////////////////////////
 
@@ -105,8 +106,13 @@ bool SceneGameMain::init()
 	addChild(layerWorkbench);
 	//////////////////////////////////////////////////////////////////////////
 
+	addKeyboardEventListener();
+
 	// 添加逐帧调度器
 	this->scheduleUpdate();
+
+	// 添加消息推送循环
+	this->schedule(schedule_selector(SceneGameMain::messagePushLoop), 0.1f, kRepeatForever, 0);
 
 	log("[information] 场景 SceneGameMain 启动成功");
 	return true;
@@ -138,7 +144,7 @@ void SceneGameMain::update(float dt)
 		switch (msg->getID())
 		{
 		case InteractiveMessagePQ::InteractiveMessageID_Update_LayerMapPosition:
-			layerMap->updateGlobalMapPosition();
+			layerMap->updateGlobalMapPositionByAction();
 			break;
 		case InteractiveMessagePQ::InteractiveMessageID_Explore_PutCard_Road_TintT:
 			layerWorkbench->executeAddCard(msg->getExtras<int>());
@@ -157,4 +163,67 @@ void SceneGameMain::update(float dt)
 	//////////////////////////////////////////////////////////////////////////
 	Bridge::Instance()->update(dt);
 	//log("[information] 离开 SceneGameMain 场景的逐帧调度器");
+}
+
+void SceneGameMain::messagePushLoop(float dt)
+{
+	if (loopMessage != InteractiveMessagePQ::InteractiveMessageID_ValidID)
+		Bridge::Instance()->pushMessage2Logic(loopMessage);
+}
+
+void SceneGameMain::addKeyboardEventListener()
+{
+	auto listener = EventListenerKeyboard::create();
+	listener->onKeyPressed = CC_CALLBACK_2(SceneGameMain::onKeyPressed, this);
+	listener->onKeyReleased = CC_CALLBACK_2(SceneGameMain::onKeyReleased, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+}
+
+void SceneGameMain::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
+{
+	switch (keyCode)
+	{
+	case EventKeyboard::KeyCode::KEY_W:
+		loopMessage = InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Down;
+		break;
+	case EventKeyboard::KeyCode::KEY_S:
+		loopMessage = InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Up;
+		break;
+	case EventKeyboard::KeyCode::KEY_A:
+		loopMessage = InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Right;
+		break;
+	case EventKeyboard::KeyCode::KEY_D:
+		loopMessage = InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Left;
+		break;
+	default:
+		break;
+	}
+}
+
+void SceneGameMain::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
+{
+	switch (keyCode)
+	{
+	case EventKeyboard::KeyCode::KEY_W:
+		if (loopMessage == InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Down)
+			loopMessage = InteractiveMessagePQ::InteractiveMessageID_ValidID;
+		break;
+	case EventKeyboard::KeyCode::KEY_S:
+		if (loopMessage == InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Up)
+			loopMessage = InteractiveMessagePQ::InteractiveMessageID_ValidID;
+		break;
+	case EventKeyboard::KeyCode::KEY_A:
+		if (loopMessage == InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Right)
+			loopMessage = InteractiveMessagePQ::InteractiveMessageID_ValidID;
+		break;
+	case EventKeyboard::KeyCode::KEY_D:
+		if (loopMessage == InteractiveMessagePQ::InteractiveMessageID_OP_DragMap_Left)
+			loopMessage = InteractiveMessagePQ::InteractiveMessageID_ValidID;
+		break;
+	case EventKeyboard::KeyCode::KEY_ESCAPE:
+		Director::getInstance()->end();
+		break;
+	default:
+		break;
+	}
 }

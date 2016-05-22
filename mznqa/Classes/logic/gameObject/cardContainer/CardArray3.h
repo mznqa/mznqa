@@ -53,7 +53,7 @@ private:
 	 */
 	bool checkIndex(int index)const
 	{
-		return indexRange.isInclude(index);
+		return indexRange.isContains(index);
 	}
 
 public:

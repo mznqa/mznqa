@@ -90,14 +90,14 @@ namespace ArKCa
 		}
 
 		/*!
-		 * \fn	bool isInclude(const NumType &num)const
+		 * \fn	bool isContains(const NumType &num)const
 		 *
 		 * \brief	判断是否在该范围内
 		 *
 		 * \param	num	指定待判断的数值
 		 *
 		 */
-		bool isInclude(const NumType &num)const
+		bool isContains(const NumType &num)const
 		{
 			return (min <= num && num <= max);
 		}

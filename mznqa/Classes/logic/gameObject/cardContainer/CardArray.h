@@ -44,7 +44,7 @@ private:
 	 */
 	bool checkIndex(int index)
 	{
-		return indexRange.isInclude(index);
+		return indexRange.isContains(index);
 	}
 
 public:

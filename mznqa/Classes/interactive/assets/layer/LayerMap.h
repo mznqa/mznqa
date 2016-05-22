@@ -14,6 +14,7 @@
 #include "cocos2d.h"
 
 #include "logic/controller/MapController.h"
+#include "interactive/assets/sprite/SpriteRole.h"
 
 /*!
  * \class	LayerMap
@@ -34,6 +35,9 @@ private:
 	/*! \brief	标识地图附加物 */
 	static const int extarFlag = 2;
 
+	/*! \brief	角色的ZOrder */
+	static const int roleZOrder = 3;
+
 	/*! \brief	地图节点集合 */
 	std::vector<std::vector<cocos2d::Sprite*>> mapNodeSet;
 	/*! \brief	地图附加物集合 */
@@ -41,6 +45,12 @@ private:
 
 	/*! \brief	触摸使用，保存触摸点 */
 	cocos2d::Vec2 touchPoint;
+
+	/*! \brief	全局移动动作的tag */
+	static const int globalMoveActionTag = 1;
+
+	/*! \brief	角色 */
+	SpriteRole *spriteRole;
 
 	/*!
 	 * \fn	static cocos2d::Sprite* LayerMap::createMapNodeByNodeType(MapNode::NodeType nodeType);
@@ -137,6 +147,33 @@ public:
 	*
 	*/
 	void updateGlobalMapPosition();
+
+	/*!
+	 * \fn	void LayerMap::updateGlobalMapPositionByAction();
+	 *
+	 * \brief	通过动画更新全局地图的位置
+	 *
+	 */
+	void updateGlobalMapPositionByAction();
+
+	/*!
+	 * \fn	void LayerMap::loadSpriteRole();
+	 *
+	 * \brief	载入角色层
+	 *
+	 */
+	void loadSpriteRole();
+
+	/*!
+	 * \fn	SpriteRole* LayerMap::getSpriteRole()
+	 *
+	 * \brief	获取角色层
+	 *
+	 */
+	SpriteRole* getSpriteRole()
+	{
+		return spriteRole;
+	}
 };
 
 #endif

@@ -10,6 +10,7 @@
 
 #include "interactive/manager/SizeDefine.h"
 #include "helper/bridge/Bridge.h"
+#include "logic/controller/CharacterController.h"
 
 USING_NS_CC;
 
@@ -147,8 +148,8 @@ void LayerMap::loadMap()
 	removeChildByTag(extarFlag);
 	extraSet.clear();
 
-	auto mapSize = MapController::Instance()->getMapSize();
-	auto map = MapController::Instance()->getMapNodeSet();
+	auto mapSize = MapController::Instance()->getMap().getSize();
+	auto map = MapController::Instance()->getMap().getMapNodeSet();
 	for (int y = 0; y < mapSize.height; ++y)
 	{
 		mapNodeSet.push_back(std::vector<Sprite*>(mapSize.width, nullptr));
@@ -178,12 +179,25 @@ void LayerMap::loadMap()
 
 void LayerMap::updateGlobalMapPosition()
 {
-	auto origin = MapController::Instance()->getViewOrigin();
+	auto origin = MapController::Instance()->getMapView().getViewOrigin();
 	auto mVO = getMapViewOrigin();
 	this->setPosition(Vec2(
 		mVO.x - origin.x * MAPCELL_SIZE,
 		mVO.y + origin.y * MAPCELL_SIZE
 		));
+}
+
+void LayerMap::updateGlobalMapPositionByAction()
+{
+	auto origin = MapController::Instance()->getMapView().getViewOrigin();
+	auto mVO = getMapViewOrigin();
+	auto moveAction = MoveTo::create(0.08f, Vec2(
+		mVO.x - origin.x * MAPCELL_SIZE,
+		mVO.y + origin.y * MAPCELL_SIZE
+		));
+	moveAction->setTag(globalMoveActionTag);
+	this->stopActionByTag(globalMoveActionTag);
+	this->runAction(moveAction);
 }
 
 const ArKCa::Vector2<float> LayerMap::getMapViewOrigin()const
@@ -192,7 +206,7 @@ const ArKCa::Vector2<float> LayerMap::getMapViewOrigin()const
 	return ArKCa::Vector2<float>(
 		TargetInfo::Instance()->getScreenLeftTopOrigin().x + (
 		TargetInfo::Instance()->getScreenSize().width -
-		MapController::Instance()->getViewSize().width * MAPCELL_SIZE
+		MapController::Instance()->getMapView().getViewSize().width * MAPCELL_SIZE
 		) / 2.0,
 		TargetInfo::Instance()->getScreenLeftTopOrigin().y
 		);
@@ -201,7 +215,14 @@ const ArKCa::Vector2<float> LayerMap::getMapViewOrigin()const
 const ArKCa::Size<float> LayerMap::getMapViewSize()const
 {
 	return ArKCa::Size<float>(
-		MapController::Instance()->getViewSize().width * MAPCELL_SIZE,
-		MapController::Instance()->getViewSize().height * MAPCELL_SIZE
+		MapController::Instance()->getMapView().getViewSize().width * MAPCELL_SIZE,
+		MapController::Instance()->getMapView().getViewSize().height * MAPCELL_SIZE
 		);
+}
+
+void LayerMap::loadSpriteRole()
+{
+	spriteRole = SpriteRole::create();
+	spriteRole->updatePosition();
+	addChild(spriteRole, roleZOrder);
 }

@@ -60,3 +60,22 @@ const ArKCa::Size<int>& GameMap::getSize()const
 {
 	return size;
 }
+
+std::vector<ArKCa::Vector2<int>> GameMap::getNearPosition(const ArKCa::Vector2<int> &position)const
+{
+	std::vector<ArKCa::Vector2<int>> pointSet;
+
+	if (0 <= position.x && position.x < size.width && 0 <= position.y && position.y < size.height)
+	{
+		if (0 <= position.y - 1)
+			pointSet.push_back(position + ArKCa::Vector2<int>(0, -1));
+		if (position.x + 1 < size.width)
+			pointSet.push_back(position + ArKCa::Vector2<int>(1, 0));
+		if (position.y + 1 < size.height)
+			pointSet.push_back(position + ArKCa::Vector2<int>(0, 1));
+		if (0 <= position.x - 1)
+			pointSet.push_back(position + ArKCa::Vector2<int>(-1, 0));
+	}
+
+	return pointSet;
+}

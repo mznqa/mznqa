@@ -16,7 +16,7 @@ namespace ArKCa
 	 *
 	 * \brief	二维向量结构体
 	 *
-	 * \tparam	NumType	二维向量的横纵值类型
+	 * \tparam	NumType		二维向量的横纵值类型
 	 */
 	template <typename NumType>
 	struct Vector2

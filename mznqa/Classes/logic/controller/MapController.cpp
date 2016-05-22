@@ -68,58 +68,62 @@ void MapController::build(MissionMapSet::MissionMapIDMain id)
 	yRange.set(0, gameMap.getSize().height - mapView.getViewSize().height);
 }
 
-void MapController::viewMoveUp(int step)
+bool MapController::viewMoveUp(int step)
 {
 	if (step <= 0)
-		return;
+		return false;
 
 	auto curOrigin = mapView.getViewOrigin();
 	ArKCa::Vector2<int> newOrigin(curOrigin);
-	if (yRange.isInclude(curOrigin.y - step))
+	if (yRange.isContains(curOrigin.y - step))
 		newOrigin.y -= step;
 	else
 		newOrigin.y = yRange.min;
 	mapView.setViewOrigin(newOrigin);
+	return true;
 }
 
-void MapController::viewMoveRight(int step)
+bool MapController::viewMoveRight(int step)
 {
 	if (step <= 0)
-		return;
+		return false;
 
 	auto curOrigin = mapView.getViewOrigin();
 	ArKCa::Vector2<int> newOrigin(curOrigin);
-	if (xRange.isInclude(curOrigin.x + step))
+	if (xRange.isContains(curOrigin.x + step))
 		newOrigin.x += step;
 	else
 		newOrigin.x = xRange.max;
 	mapView.setViewOrigin(newOrigin);
+	return true;
 }
 
-void MapController::viewMoveDown(int step)
+bool MapController::viewMoveDown(int step)
 {
 	if (step <= 0)
-		return;
+		return false;
 
 	auto curOrigin = mapView.getViewOrigin();
 	ArKCa::Vector2<int> newOrigin(curOrigin);
-	if (yRange.isInclude(curOrigin.y + step))
+	if (yRange.isContains(curOrigin.y + step))
 		newOrigin.y += step;
 	else
 		newOrigin.y = yRange.max;
 	mapView.setViewOrigin(newOrigin);
+	return true;
 }
 
-void MapController::viewMoveLeft(int step)
+bool MapController::viewMoveLeft(int step)
 {
 	if (step <= 0)
-		return;
+		return false;
 
 	auto curOrigin = mapView.getViewOrigin();
 	ArKCa::Vector2<int> newOrigin(curOrigin);
-	if (xRange.isInclude(curOrigin.x - step))
+	if (xRange.isContains(curOrigin.x - step))
 		newOrigin.x -= step;
 	else
 		newOrigin.x = xRange.min;
 	mapView.setViewOrigin(newOrigin);
+	return true;
 }
