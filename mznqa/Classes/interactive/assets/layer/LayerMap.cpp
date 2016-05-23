@@ -191,7 +191,7 @@ void LayerMap::updateGlobalMapPositionByAction()
 {
 	auto origin = MapController::Instance()->getMapView().getViewOrigin();
 	auto mVO = getMapViewOrigin();
-	auto moveAction = MoveTo::create(0.08f, Vec2(
+	auto moveAction = MoveTo::create(0.1f, Vec2(
 		mVO.x - origin.x * MAPCELL_SIZE,
 		mVO.y + origin.y * MAPCELL_SIZE
 		));

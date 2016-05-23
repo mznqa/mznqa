@@ -22,6 +22,7 @@
 #include "logic/gameObject/cardContainer/CardArray3.h"
 #include "logic/controller/CharacterController.h"
 #include "interactive/assets/sprite/SpriteRole.h"
+#include "logic/controller/PathController.h"
 //////////////////////////////////////////////////////////////////////////
 
 USING_NS_CC;
@@ -99,6 +100,12 @@ bool SceneGameMain::init()
 	layerMap->loadMap();
 	layerMap->loadSpriteRole();
 	addChild(layerMap);
+	// 测试 //////////////////////////////////////////////////////////////////////////
+	PathController::Instance()->ready(
+		ArKCa::Vector2<int>(10, 10),
+		ArKCa::Vector2<int>(8, 3)
+		);
+	//////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////
 
 	// 工作台 //////////////////////////////////////////////////////////////////////////
@@ -112,7 +119,7 @@ bool SceneGameMain::init()
 	this->scheduleUpdate();
 
 	// 添加消息推送循环
-	this->schedule(schedule_selector(SceneGameMain::messagePushLoop), 0.1f, kRepeatForever, 0);
+	this->schedule(schedule_selector(SceneGameMain::messagePushLoop), 0.5f, kRepeatForever, 0);
 
 	log("[information] 场景 SceneGameMain 启动成功");
 	return true;
@@ -137,6 +144,24 @@ void SceneGameMain::onExit()
 void SceneGameMain::update(float dt)
 {
 	//log("[information] 进入 SceneGameMain 场景的逐帧调度器...");
+	// 测试区域 //////////////////////////////////////////////////////////////////////////
+	if (
+		PathController::Instance()->getCurrentState() == PathController::State_Ready ||
+		PathController::Instance()->getCurrentState() == PathController::State_Working
+		)
+	{
+		PathController::Instance()->planning();
+	}
+	if (PathController::Instance()->getCurrentState() == PathController::State_Done)
+	{
+		CharacterController::Instance()->getRole()->setPosition(
+			PathController::Instance()->getNextStepByCurrentPosition(
+			CharacterController::Instance()->getRole()->getPosition()
+			)
+			);
+		layerMap->getSpriteRole()->updatePosition();
+	}
+	//////////////////////////////////////////////////////////////////////////
 	// 消息处理模块 //////////////////////////////////////////////////////////////////////////
 	auto msg = InteractiveMessagePQ::Instance()->getTopMessage();
 	if (msg != nullptr)

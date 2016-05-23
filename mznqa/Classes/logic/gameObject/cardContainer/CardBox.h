@@ -116,8 +116,7 @@ public:
 		if (0 <= luckyDog && luckyDog < (int)(cardIDSet.size()))
 		{
 			auto it = cardIDSet.begin();
-			for (int i = 0; i < luckyDog; ++i)
-				++it;
+			advance(it, luckyDog);
 			result = *it;
 			cardIDSet.erase(it);
 		}
@@ -139,8 +138,7 @@ public:
 		if (0 <= index && index < cardIDSet.size())
 		{
 			auto it = cardIDSet.begin();
-			for (int i = 0; i < index; ++i)
-				++it;
+			advance(it, index);
 			result = *it;
 			cardIDSet.erase(it);
 		}

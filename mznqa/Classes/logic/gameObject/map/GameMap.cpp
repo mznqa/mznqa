@@ -61,19 +61,19 @@ const ArKCa::Size<int>& GameMap::getSize()const
 	return size;
 }
 
-std::vector<ArKCa::Vector2<int>> GameMap::getNearPosition(const ArKCa::Vector2<int> &position)const
+std::vector<ArKCa::Vector2<int>> GameMap::getCanThroughNearPosition(const ArKCa::Vector2<int> &position)const
 {
 	std::vector<ArKCa::Vector2<int>> pointSet;
 
 	if (0 <= position.x && position.x < size.width && 0 <= position.y && position.y < size.height)
 	{
-		if (0 <= position.y - 1)
+		if (0 <= position.y - 1 && nodeSet[position.y - 1][position.x].canThrough())
 			pointSet.push_back(position + ArKCa::Vector2<int>(0, -1));
-		if (position.x + 1 < size.width)
+		if (position.x + 1 < size.width && nodeSet[position.y][position.x + 1].canThrough())
 			pointSet.push_back(position + ArKCa::Vector2<int>(1, 0));
-		if (position.y + 1 < size.height)
+		if (position.y + 1 < size.height && nodeSet[position.y + 1][position.x].canThrough())
 			pointSet.push_back(position + ArKCa::Vector2<int>(0, 1));
-		if (0 <= position.x - 1)
+		if (0 <= position.x - 1 && nodeSet[position.y][position.x - 1].canThrough())
 			pointSet.push_back(position + ArKCa::Vector2<int>(-1, 0));
 	}
 

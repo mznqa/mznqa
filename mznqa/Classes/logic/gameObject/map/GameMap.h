@@ -163,14 +163,14 @@ public:
 	};
 
 	/*!
-	 * \fn	std::vector<ArKCa::Vector2<int> > GameMap::getNearPosition(const ArKCa::Vector2<int> &position)const;
+	 * \fn	std::vector<ArKCa::Vector2<int> > GameMap::getCanThroughNearPosition(const ArKCa::Vector2<int> &position)const;
 	 *
-	 * \brief	获取给定点的邻接点
+	 * \brief	获取给定点的可通过邻接点
 	 *
 	 * \param	position	指定地图上的点
 	 *
 	 */
-	std::vector<ArKCa::Vector2<int> > getNearPosition(const ArKCa::Vector2<int> &position)const;
+	std::vector<ArKCa::Vector2<int> > getCanThroughNearPosition(const ArKCa::Vector2<int> &position)const;
 };
 
 #endif

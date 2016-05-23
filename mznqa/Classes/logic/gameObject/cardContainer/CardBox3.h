@@ -301,8 +301,7 @@ public:
 		if (0 <= luckyDog && luckyDog < (int)(cardIDSet.size()))
 		{
 			auto it = cardIDSet.begin();
-			for (int i = 0; i < luckyDog; ++i)
-				++it;
+			advance(it, luckyDog);
 			if (CardSet::Instance()->isCardType(CardType0::cardType, *it))
 				minusCardCount(CardType0::cardType);
 			else if (CardSet::Instance()->isCardType(CardType1::cardType, *it))
@@ -334,8 +333,7 @@ public:
 		if (0 <= index && index < cardIDSet.size())
 		{
 			auto it = cardIDSet.begin();
-			for (int i = 0; i < index; ++i)
-				++it;
+			advance(it, index);
 			if (CardSet::Instance()->isCardType(CardType0::cardType, *it))
 				minusCardCount(CardType0::cardType);
 			else if (CardSet::Instance()->isCardType(CardType1::cardType, *it))

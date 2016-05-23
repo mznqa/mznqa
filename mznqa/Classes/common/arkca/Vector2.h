@@ -146,6 +146,18 @@ namespace ArKCa
 	}
 
 	/*!
+	 * \fn	template <typename NumType> bool operator!=(const Vector2<NumType> &lhs, const Vector2<NumType> &rhs)
+	 *
+	 * \brief	不等运算符
+	 *
+	 */
+	template <typename NumType>
+	bool operator!=(const Vector2<NumType> &lhs, const Vector2<NumType> &rhs)
+	{
+		return (lhs.x != rhs.x || lhs.y != rhs.y);
+	}
+
+	/*!
 	 * \fn	template <typename NumType> Vector2<NumType> operator+(const Vector2<NumType> &lhs, const Vector2<NumType> &rhs)
 	 *
 	 * \brief	加法运算

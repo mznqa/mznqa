@@ -175,6 +175,20 @@ struct MapNode
 	~MapNode()
 	{
 	}
+
+	/*!
+	 * \fn	bool canThrough()const
+	 *
+	 * \brief	判断是否允许通过
+	 *
+	 */
+	bool canThrough()const
+	{
+		return (
+			nodeType == NodeType_Road ||
+			nodeType == NodeType_Road_Const
+			);
+	}
 };
 
 #endif
