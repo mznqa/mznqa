@@ -395,7 +395,7 @@ public:
 			return result;
 
 		int luckyDog = RandomGenerator::Instance()->getRandomNumber(0, getCardCount() - 1);
-		if (indexRange.isInclude(luckyDog))
+		if (indexRange.isContains(luckyDog))
 		{
 			auto it = cardIDArray.begin();
 			auto itEnd = cardIDArray.end();

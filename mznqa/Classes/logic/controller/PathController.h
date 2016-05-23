@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <list>
+#include <cmath>
 
 #include "common/arkca/Vector2.h"
 
@@ -224,7 +225,7 @@ private:
 	 */
 	int getDist(const ArKCa::Vector2<int> &origin, const ArKCa::Vector2<int> &target)const
 	{
-		return (abs(target.x - origin.x) + abs(target.y - origin.y));
+		return (std::abs(target.x - origin.x) + std::abs(target.y - origin.y));
 	}
 };
 
