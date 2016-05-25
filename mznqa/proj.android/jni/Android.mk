@@ -31,8 +31,10 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
   ../../Classes/logic/gameObject/map/GameMap.cpp \
   ../../Classes/interactive/manager/GlobalManager.cpp \
   ../../Classes/interactive/message/InteractiveMessagePQ.cpp \
+  ../../Classes/interactive/assets/layer/LayerLightAndShadow.cpp \
   ../../Classes/interactive/assets/layer/LayerMap.cpp \
   ../../Classes/interactive/assets/layer/LayerWorkbench.cpp \
+  ../../Classes/interactive/manager/LightArea.cpp \
   ../../Classes/logic/message/LogicMessagePQ.cpp \
   ../../Classes/logic/controller/MapController.cpp \
   ../../Classes/logic/gameObject/map/MapNode.cpp \

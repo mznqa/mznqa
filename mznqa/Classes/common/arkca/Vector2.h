@@ -9,6 +9,8 @@
 #ifndef MZNQA_CLASSES_COMMON_ARKCA_VECTOR2_H_
 #define MZNQA_CLASSES_COMMON_ARKCA_VECTOR2_H_
 
+#include <cmath>
+
 namespace ArKCa
 {
 	/*!
@@ -88,7 +90,7 @@ namespace ArKCa
 		 */
 		double getLength()const
 		{
-			return sqrt(x * x + y * y);
+			return std::sqrt(x * x + y * y);
 		}
 
 		/*!
