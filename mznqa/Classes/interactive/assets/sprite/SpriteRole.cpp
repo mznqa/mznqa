@@ -37,3 +37,16 @@ bool SpriteRole::updatePosition()
 		));
 	return true;
 }
+
+void SpriteRole::createLightArea()
+{
+	lightArea.setLightPosition(
+		CharacterController::Instance()->getRole()->getPosition()
+		);
+	lightArea.setLightScopeRadius(5);
+}
+
+LightArea& SpriteRole::getLightArea()
+{
+	return lightArea;
+}

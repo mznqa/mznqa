@@ -11,6 +11,8 @@
 
 #include "cocos2d.h"
 
+#include "interactive/manager/LightArea.h"
+
 /*!
  * \class	SpriteRole
  *
@@ -22,6 +24,10 @@ class SpriteRole : public cocos2d::Sprite
 private:
 	/*! \brief	移动动作的tag */
 	static const int moveActionTag = 1;
+
+	/*! \brief	灯光区域 */
+	LightArea lightArea;
+
 public:
 
 	/*!
@@ -39,6 +45,22 @@ public:
 	 *
 	 */
 	bool updatePosition();
+
+	/*!
+	 * \fn	void SpriteRole::createLightArea();
+	 *
+	 * \brief	创建灯光区域
+	 *
+	 */
+	void createLightArea();
+
+	/*!
+	 * \fn	LightArea& SpriteRole::getLightArea();
+	 *
+	 * \brief	获取灯光区域
+	 *
+	 */
+	LightArea& getLightArea();
 };
 
 #endif

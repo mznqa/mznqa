@@ -79,3 +79,34 @@ std::vector<ArKCa::Vector2<int>> GameMap::getCanThroughNearPosition(const ArKCa:
 
 	return pointSet;
 }
+
+bool GameMap::getNeighborCanThrough(const ArKCa::Vector2<int> &position, ArKCa::Direction4 direction)
+{
+	if (0 <= position.x && position.x < size.width && 0 <= position.y && position.y < size.height)
+	{
+		switch (direction)
+		{
+		case ArKCa::Direction4_None:
+			return false;
+		case ArKCa::Direction4_Up:
+			if (0 <= position.y - 1)
+				return nodeSet[position.y - 1][position.x].canThrough();
+			break;
+		case ArKCa::Direction4_Right:
+			if (position.x + 1 < size.width)
+				return nodeSet[position.y][position.x + 1].canThrough();
+			break;
+		case ArKCa::Direction4_Down:
+			if (position.y + 1 < size.height)
+				return nodeSet[position.y + 1][position.x].canThrough();
+			break;
+		case ArKCa::Direction4_Left:
+			if (0 <= position.x - 1)
+				return nodeSet[position.y][position.x - 1].canThrough();
+			break;
+		default:
+			return false;
+		}
+	}
+	return false;
+}

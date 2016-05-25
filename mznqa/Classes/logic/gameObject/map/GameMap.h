@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "common/arkca/Size.h"
+#include "common/arkca/Direction.h"
 
 #include "logic/gameObject/map/MapNode.h"
 
@@ -171,6 +172,17 @@ public:
 	 *
 	 */
 	std::vector<ArKCa::Vector2<int> > getCanThroughNearPosition(const ArKCa::Vector2<int> &position)const;
+
+	/*!
+	 * \fn	bool GameMap::getNeighborCanThrough(const ArKCa::Vector2<int> &position, ArKCa::Direction4 direction);
+	 *
+	 * \brief	获取临界点的是否可以通过
+	 *
+	 * \param	position 	指定地图坐标
+	 * \param	direction	指定方向
+	 *
+	 */
+	bool getNeighborCanThrough(const ArKCa::Vector2<int> &position, ArKCa::Direction4 direction);
 };
 
 #endif

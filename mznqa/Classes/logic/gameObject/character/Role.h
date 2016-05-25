@@ -12,6 +12,8 @@
 #include "logic/gameObject/cardController/CardControllerExplore.h"
 #include "common/arkca/Vector2.h"
 #include "common/arkca/Rectangle.h"
+#include "common/arkca/Direction.h"
+#include "logic/controller/MapController.h"
 
 /*!
  * \class	Role
@@ -114,8 +116,14 @@ public:
 	{
 		if (step > 0 && positionRange.isContainsY(position.y - step))
 		{
-			this->position.y -= step;
-			return true;
+			if (MapController::Instance()->getMap().getNeighborCanThrough(
+				position,
+				ArKCa::Direction4::Direction4_Up
+				))
+			{
+				this->position.y -= step;
+				return true;
+			}
 		}
 		return false;
 	}
@@ -131,8 +139,14 @@ public:
 	{
 		if (step > 0 && positionRange.isContainsY(position.y + step))
 		{
-			this->position.y += step;
-			return true;
+			if (MapController::Instance()->getMap().getNeighborCanThrough(
+				position,
+				ArKCa::Direction4::Direction4_Down
+				))
+			{
+				this->position.y += step;
+				return true;
+			}
 		}
 		return false;
 	}
@@ -148,8 +162,14 @@ public:
 	{
 		if (step > 0 && positionRange.isContainsX(position.x - step))
 		{
-			this->position.x -= step;
-			return true;
+			if (MapController::Instance()->getMap().getNeighborCanThrough(
+				position,
+				ArKCa::Direction4::Direction4_Left
+				))
+			{
+				this->position.x -= step;
+				return true;
+			}
 		}
 		return false;
 	}
@@ -165,8 +185,14 @@ public:
 	{
 		if (step > 0 && positionRange.isContainsX(position.x + step))
 		{
-			this->position.x += step;
-			return true;
+			if (MapController::Instance()->getMap().getNeighborCanThrough(
+				position,
+				ArKCa::Direction4::Direction4_Right
+				))
+			{
+				this->position.x += step;
+				return true;
+			}
 		}
 		return false;
 	}

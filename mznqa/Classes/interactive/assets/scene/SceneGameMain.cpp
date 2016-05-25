@@ -23,6 +23,10 @@
 #include "logic/controller/CharacterController.h"
 #include "interactive/assets/sprite/SpriteRole.h"
 #include "logic/controller/PathController.h"
+#include "interactive/manager/LightArea.h"
+#include "interactive/assets/layer/LayerLightAndShadow.h"
+#include "interactive/manager/GlobalManager.h"
+#include "common/arkca/Ray.h"
 //////////////////////////////////////////////////////////////////////////
 
 USING_NS_CC;
@@ -99,12 +103,21 @@ bool SceneGameMain::init()
 	layerMap = LayerMap::create();
 	layerMap->loadMap();
 	layerMap->loadSpriteRole();
+	layerMap->getSpriteRole()->createLightArea();
 	addChild(layerMap);
 	//////////////////////////////////////////////////////////////////////////
 
 	// 工作台 //////////////////////////////////////////////////////////////////////////
 	layerWorkbench = LayerWorkbench::create();
 	addChild(layerWorkbench);
+	//////////////////////////////////////////////////////////////////////////
+
+	// 测试区域 //////////////////////////////////////////////////////////////////////////
+	layerMap->buildLayerLightAndShadow();
+	layerMap->getLayerLightAndShadow()->updateLightAndShadow(
+		layerMap->getSpriteRole()->getLightArea().getLightMapPosition(),
+		layerMap->getSpriteRole()->getLightArea().getLightBorderList()
+		);
 	//////////////////////////////////////////////////////////////////////////
 
 	addKeyboardEventListener();
@@ -243,10 +256,48 @@ void SceneGameMain::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 		Director::getInstance()->end();
 		break;
 		// 测试 //////////////////////////////////////////////////////////////////////////
-	case EventKeyboard::KeyCode::KEY_SPACE:
-		PathController::Instance()->ready(
-			ArKCa::Vector2<int>(10, 10),
-			ArKCa::Vector2<int>(8, 3)
+	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+		CharacterController::Instance()->getRole()->moveUp();
+		layerMap->getSpriteRole()->updatePosition();
+		layerMap->getSpriteRole()->getLightArea().setLightPosition(
+			CharacterController::Instance()->getRole()->getPosition()
+			);
+		layerMap->getLayerLightAndShadow()->updateLightAndShadow(
+			layerMap->getSpriteRole()->getLightArea().getLightMapPosition(),
+			layerMap->getSpriteRole()->getLightArea().getLightBorderList()
+			);
+		break;
+	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		CharacterController::Instance()->getRole()->moveRight();
+		layerMap->getSpriteRole()->updatePosition();
+		layerMap->getSpriteRole()->getLightArea().setLightPosition(
+			CharacterController::Instance()->getRole()->getPosition()
+			);
+		layerMap->getLayerLightAndShadow()->updateLightAndShadow(
+			layerMap->getSpriteRole()->getLightArea().getLightMapPosition(),
+			layerMap->getSpriteRole()->getLightArea().getLightBorderList()
+			);
+		break;
+	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+		CharacterController::Instance()->getRole()->moveDown();
+		layerMap->getSpriteRole()->updatePosition();
+		layerMap->getSpriteRole()->getLightArea().setLightPosition(
+			CharacterController::Instance()->getRole()->getPosition()
+			);
+		layerMap->getLayerLightAndShadow()->updateLightAndShadow(
+			layerMap->getSpriteRole()->getLightArea().getLightMapPosition(),
+			layerMap->getSpriteRole()->getLightArea().getLightBorderList()
+			);
+		break;
+	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		CharacterController::Instance()->getRole()->moveLeft();
+		layerMap->getSpriteRole()->updatePosition();
+		layerMap->getSpriteRole()->getLightArea().setLightPosition(
+			CharacterController::Instance()->getRole()->getPosition()
+			);
+		layerMap->getLayerLightAndShadow()->updateLightAndShadow(
+			layerMap->getSpriteRole()->getLightArea().getLightMapPosition(),
+			layerMap->getSpriteRole()->getLightArea().getLightBorderList()
 			);
 		break;
 		//////////////////////////////////////////////////////////////////////////

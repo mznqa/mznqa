@@ -12,6 +12,8 @@
 #include "cocos2d.h"
 
 #include "common/arkca/Vector2.h"
+#include "common/arkca/Direction.h"
+#include "common/arkca/LineSegment.h"
 
 #include "logic/controller/MapController.h"
 #include "interactive/manager/TargetInfo.h"
@@ -95,6 +97,48 @@ public:
 			mVO.x - (origin.x - mapPosition.x) * MAPCELL_SIZE,
 			mVO.y + (origin.y - mapPosition.y) * MAPCELL_SIZE
 			);
+	}
+
+	/*!
+	 * \fn	cocos2d::Vec2 GlobalManager::mapPosition2LayerMapPosition(const ArKCa::Vector2<int> &mapPosition)
+	 *
+	 * \brief	获取地图左边对应地图层中的坐标
+	 *
+	 * \param	mapPosition	指定地图坐标
+	 *
+	 */
+	cocos2d::Vec2 mapPosition2LayerMapPosition(const ArKCa::Vector2<int> &mapPosition)
+	{
+		return cocos2d::Vec2(
+			mapPosition.x * MAPCELL_SIZE + MAPCELL_SIZE_HALF,
+			-(mapPosition.y * MAPCELL_SIZE + MAPCELL_SIZE_HALF)
+			);
+	}
+
+	/*!
+	 * \fn	ArKCa::LineSegment<float> GlobalManager::getMapCellEdgeByDirection( const ArKCa::Vector2<int> &mapCellPosition, ArKCa::Direction4 direction );
+	 *
+	 * \brief	获取指定地图节点的边缘线段
+	 *
+	 * \param	mapCellPosition	指定地图节点坐标
+	 * \param	direction	   	指定方向
+	 *
+	 */
+	ArKCa::LineSegment<float> getMapCellEdgeByDirection(
+		const ArKCa::Vector2<int> &mapCellPosition,
+		ArKCa::Direction4 direction
+		);
+
+	/*!
+	 * \fn	template <typename T> static cocos2d::Vec2 GlobalManager::Vector22Vec2(const ArKCa::Vector2<T> &position)
+	 *
+	 * \brief	左边转换
+	 *
+	 */
+	template <typename T>
+	static cocos2d::Vec2 Vector22Vec2(const ArKCa::Vector2<T> &position)
+	{
+		return cocos2d::Vec2(position.x, position.y);
 	}
 };
 

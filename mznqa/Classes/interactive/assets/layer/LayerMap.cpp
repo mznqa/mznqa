@@ -164,7 +164,7 @@ void LayerMap::loadMap()
 			{
 				mapNodeSet[y][x]->setAnchorPoint(Vec2(0, 1));
 				mapNodeSet[y][x]->setPosition(Vec2(x*MAPCELL_SIZE, -y*MAPCELL_SIZE));
-				addChild(mapNodeSet[y][x], mapNodeZOrder, mapNodeFlag);
+				addChild(mapNodeSet[y][x], getZOrderByMapNodeType(map[y][x].nodeType), mapNodeFlag);
 			}
 
 			extraSet[y][x] = createExtraByExtraType(map[y][x].extraType);
@@ -225,4 +225,18 @@ void LayerMap::loadSpriteRole()
 	spriteRole = SpriteRole::create();
 	spriteRole->updatePosition();
 	addChild(spriteRole, roleZOrder);
+}
+
+void LayerMap::buildLayerLightAndShadow()
+{
+	layerLightAndShadow = LayerLightAndShadow::create();
+	addChild(layerLightAndShadow, layerLightAndShadowZOrder);
+	layerLightAndShadow->createStencil();
+	layerLightAndShadow->createLight();
+	layerLightAndShadow->createShadow();
+}
+
+LayerLightAndShadow* LayerMap::getLayerLightAndShadow()
+{
+	return layerLightAndShadow;
 }

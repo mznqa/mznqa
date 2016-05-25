@@ -15,6 +15,7 @@
 
 #include "logic/controller/MapController.h"
 #include "interactive/assets/sprite/SpriteRole.h"
+#include "interactive/assets/layer/LayerLightAndShadow.h"
 
 /*!
  * \class	LayerMap
@@ -25,18 +26,19 @@
 class LayerMap : public cocos2d::Layer
 {
 private:
-	/*! \brief	地图节点的ZOrder */
-	static const int mapNodeZOrder = 1;
 	/*! \brief	标识地图节点 */
 	static const int mapNodeFlag = 1;
 
 	/*! \brief	附加物的ZOrder */
-	static const int extraZOrder = 2;
+	static const int extraZOrder = 10;
 	/*! \brief	标识地图附加物 */
 	static const int extarFlag = 2;
 
 	/*! \brief	角色的ZOrder */
-	static const int roleZOrder = 3;
+	static const int roleZOrder = 11;
+
+	/*! \brief	光影层的ZOrder */
+	static const int layerLightAndShadowZOrder = 9;
 
 	/*! \brief	地图节点集合 */
 	std::vector<std::vector<cocos2d::Sprite*>> mapNodeSet;
@@ -51,6 +53,9 @@ private:
 
 	/*! \brief	角色 */
 	SpriteRole *spriteRole;
+
+	/*! \brief	光影层 */
+	LayerLightAndShadow *layerLightAndShadow;
 
 	/*!
 	 * \fn	static cocos2d::Sprite* LayerMap::createMapNodeByNodeType(MapNode::NodeType nodeType);
@@ -71,6 +76,34 @@ private:
 	 *
 	 */
 	static cocos2d::Sprite* createExtraByExtraType(MapNode::ExtraType extraType);
+
+	/*!
+	 * \fn	int LayerMap::getZOrderByMapNodeType(MapNode::NodeType nodeType)
+	 *
+	 * \brief	根据地图节点类型获取ZOrder
+	 *
+	 * \param	nodeType	指定地图节点类型
+	 *
+	 */
+	int getZOrderByMapNodeType(MapNode::NodeType nodeType)
+	{
+		switch (nodeType)
+		{
+		case MapNode::NodeType_None:
+		case MapNode::NodeType_None_Const:
+			return 1;
+		case MapNode::NodeType_Road:
+		case MapNode::NodeType_Road_Const:
+			return 2;
+		case MapNode::NodeType_Wall:
+		case MapNode::NodeType_Wall_Const:
+			return 3;
+		case MapNode::NodeType_Border_Const:
+			return 4;
+		default:
+			return 8;
+		}
+	}
 
 public:
 	CREATE_FUNC(LayerMap);
@@ -174,6 +207,22 @@ public:
 	{
 		return spriteRole;
 	}
+
+	/*!
+	 * \fn	void LayerMap::buildLayerLightAndShadow();
+	 *
+	 * \brief	建立光影层
+	 *
+	 */
+	void buildLayerLightAndShadow();
+
+	/*!
+	 * \fn	LayerLightAndShadow* LayerMap::getLayerLightAndShadow();
+	 *
+	 * \brief	获取光影层
+	 *
+	 */
+	LayerLightAndShadow* getLayerLightAndShadow();
 };
 
 #endif

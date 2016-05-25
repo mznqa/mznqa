@@ -81,6 +81,42 @@ namespace ArKCa
 		}
 
 		/*!
+		 * \fn	double getLength()const
+		 *
+		 * \brief	获取向量的长度
+		 *
+		 */
+		double getLength()const
+		{
+			return sqrt(x * x + y * y);
+		}
+
+		/*!
+		 * \fn	double getLengthSq()const
+		 *
+		 * \brief	获取向量长度的平方
+		 *
+		 */
+		double getLengthSq()const
+		{
+			return (x * x + y * y);
+		}
+
+		/*!
+		 * \fn	void normalize()
+		 *
+		 * \brief	标准化向量
+		 *
+		 */
+		void normalize()
+		{
+			double length = getLength();
+
+			this->x /= length;
+			this->y /= length;
+		}
+
+		/*!
 		 * \fn	Vector2& operator+=(const Vector2 &rhs)
 		 *
 		 * \brief	加法运算

@@ -110,12 +110,12 @@ public:
 	}
 
 	/*!
-	 * \fn	const GameMap& MapController::getMap()
+	 * \fn	GameMap& MapController::getMap()
 	 *
 	 * \brief	获取地图
 	 *
 	 */
-	const GameMap& getMap()
+	GameMap& getMap()
 	{
 		return gameMap;
 	}
@@ -179,6 +179,14 @@ public:
 	 * \return	返回是否移动成功
 	 */
 	bool viewMoveLeft(int step = 1);
+
+	/*!
+	 * \fn	void MapController::updateMapViewMoveRange();
+	 *
+	 * \brief	更新地图视野的移动范围
+	 *
+	 */
+	void updateMapViewMoveRange();
 };
 
 #endif

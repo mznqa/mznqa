@@ -8,6 +8,8 @@
 
 #include "logic/controller/MapController.h"
 
+#include "logic/controller/CharacterController.h"
+
 MapController* MapController::Instance()
 {
 	static MapController instance;
@@ -73,6 +75,8 @@ bool MapController::viewMoveUp(int step)
 	if (step <= 0)
 		return false;
 
+	updateMapViewMoveRange();
+
 	auto curOrigin = mapView.getViewOrigin();
 	ArKCa::Vector2<int> newOrigin(curOrigin);
 	if (yRange.isContains(curOrigin.y - step))
@@ -87,6 +91,8 @@ bool MapController::viewMoveRight(int step)
 {
 	if (step <= 0)
 		return false;
+
+	updateMapViewMoveRange();
 
 	auto curOrigin = mapView.getViewOrigin();
 	ArKCa::Vector2<int> newOrigin(curOrigin);
@@ -103,6 +109,8 @@ bool MapController::viewMoveDown(int step)
 	if (step <= 0)
 		return false;
 
+	updateMapViewMoveRange();
+
 	auto curOrigin = mapView.getViewOrigin();
 	ArKCa::Vector2<int> newOrigin(curOrigin);
 	if (yRange.isContains(curOrigin.y + step))
@@ -118,6 +126,8 @@ bool MapController::viewMoveLeft(int step)
 	if (step <= 0)
 		return false;
 
+	updateMapViewMoveRange();
+
 	auto curOrigin = mapView.getViewOrigin();
 	ArKCa::Vector2<int> newOrigin(curOrigin);
 	if (xRange.isContains(curOrigin.x - step))
@@ -126,4 +136,22 @@ bool MapController::viewMoveLeft(int step)
 		newOrigin.x = xRange.min;
 	mapView.setViewOrigin(newOrigin);
 	return true;
+}
+
+void MapController::updateMapViewMoveRange()
+{
+	auto position = CharacterController::Instance()->getRole()->getPosition();
+	xRange.min = position.x - mapView.getViewSize().width;
+	if (xRange.min < 0)
+		xRange.min = 0;
+	xRange.max = position.x;
+	if (xRange.max > (gameMap.getSize().width - mapView.getViewSize().width))
+		xRange.max = gameMap.getSize().width - mapView.getViewSize().width;
+
+	yRange.min = position.y - mapView.getViewSize().height;
+	if (yRange.min < 0)
+		yRange.min = 0;
+	yRange.max = position.y;
+	if (yRange.max > (gameMap.getSize().height - mapView.getViewSize().height))
+		yRange.max = gameMap.getSize().height - mapView.getViewSize().height;
 }
