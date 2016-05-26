@@ -8,6 +8,8 @@
 
 #include "interactive/assets/sprite/SpriteCard.h"
 
+#include "interactive/message/InteractiveMessagePQ.h"
+
 USING_NS_CC;
 
 SpriteCard* SpriteCard::create(int cardID)
@@ -59,6 +61,11 @@ bool SpriteCard::onTouchBegan(Touch *touch, Event *unused_event)
 	// µã»÷·¶Î§ÅĞ¶Ï¼ì²â
 	if (!rect.containsPoint(locationInNode))
 		return false;
+
+	InteractiveMessagePQ::Instance()->pushMessage(ArKCa::Message<InteractiveMessagePQ::InteractiveMessageID>(
+		InteractiveMessagePQ::InteractiveMessageID_OP_ClickHandCard_AtLayerWorkbench_TintT,
+		(int)eventIndex
+		));
 
 	cocos2d::log("[warning] SpriteCard(%d)::onTouchBegan()", (int)(this->eventIndex));
 	return true;

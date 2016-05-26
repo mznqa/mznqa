@@ -13,6 +13,7 @@
 
 #include "common/arkca/Vector2.h"
 #include "common/arkca/Size.h"
+#include "common/arkca/Range.h"
 #include "logic/data/info/NumDefine.h"
 
 /*!
@@ -146,6 +147,28 @@ public:
 	void setViewOrigin(const ArKCa::Vector2<int> &origin)
 	{
 		this->origin = origin;
+	}
+
+	/*!
+	 * \fn	ArKCa::Range<int> MapView::getRangeX()const
+	 *
+	 * \brief	获取视野的横向区间
+	 *
+	 */
+	ArKCa::Range<int> getRangeX()const
+	{
+		return ArKCa::Range<int>(origin.x, origin.x + size.width);
+	}
+
+	/*!
+	 * \fn	ArKCa::Range<int> MapView::getRangeY()const
+	 *
+	 * \brief	获取视野的纵向区间
+	 *
+	 */
+	ArKCa::Range<int> getRangeY()const
+	{
+		return ArKCa::Range<int>(origin.y, origin.y + size.height);
 	}
 };
 

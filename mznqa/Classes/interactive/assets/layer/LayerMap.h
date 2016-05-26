@@ -30,15 +30,18 @@ private:
 	static const int mapNodeFlag = 1;
 
 	/*! \brief	附加物的ZOrder */
-	static const int extraZOrder = 10;
+	static const int extraZOrder = 11;
 	/*! \brief	标识地图附加物 */
 	static const int extarFlag = 2;
 
 	/*! \brief	角色的ZOrder */
-	static const int roleZOrder = 11;
+	static const int roleZOrder = 12;
 
 	/*! \brief	光影层的ZOrder */
-	static const int layerLightAndShadowZOrder = 9;
+	static const int layerLightAndShadowZOrder = 10;
+
+	/*! \brief	参考线的ZOrder */
+	static const int guidesZOrder = 9;
 
 	/*! \brief	地图节点集合 */
 	std::vector<std::vector<cocos2d::Sprite*>> mapNodeSet;
@@ -56,6 +59,9 @@ private:
 
 	/*! \brief	光影层 */
 	LayerLightAndShadow *layerLightAndShadow;
+
+	/*! \brief	参考线层 */
+	cocos2d::DrawNode *guides;
 
 	/*!
 	 * \fn	static cocos2d::Sprite* LayerMap::createMapNodeByNodeType(MapNode::NodeType nodeType);
@@ -223,6 +229,39 @@ public:
 	 *
 	 */
 	LayerLightAndShadow* getLayerLightAndShadow();
+
+	/*!
+	 * \fn	void LayerMap::updateMapGroup(const ArKCa::Vector2<int> &groupOrigin);
+	 *
+	 * \brief	更新地图组
+	 *
+	 * \param	groupOrigin	指定地图组的原点
+	 */
+	void updateMapGroup(const ArKCa::Vector2<int> &groupOrigin);
+
+	/*!
+	 * \fn	void LayerMap::buildGuides();
+	 *
+	 * \brief	创建参考线
+	 *
+	 */
+	void buildGuides();
+
+	/*!
+	 * \fn	void LayerMap::showGuides();
+	 *
+	 * \brief	显示参考线
+	 *
+	 */
+	void showGuides();
+
+	/*!
+	 * \fn	void LayerMap::eraseGuides();
+	 *
+	 * \brief	擦出参考线
+	 *
+	 */
+	void eraseGuides();
 };
 
 #endif

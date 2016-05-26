@@ -102,6 +102,7 @@ bool SceneGameMain::init()
 		);
 	layerMap = LayerMap::create();
 	layerMap->loadMap();
+	layerMap->buildGuides();
 	layerMap->loadSpriteRole();
 	layerMap->getSpriteRole()->createLightArea();
 	addChild(layerMap);
@@ -120,6 +121,11 @@ bool SceneGameMain::init()
 		);
 	//////////////////////////////////////////////////////////////////////////
 
+	// ²âÊÔÇøÓò //////////////////////////////////////////////////////////////////////////
+	MapController::Instance()->paving(ArKCa::Vector2<int>(12, 10), 0);
+	layerMap->updateMapGroup(ArKCa::Vector2<int>(12, 9));
+	layerMap->showGuides();
+	//////////////////////////////////////////////////////////////////////////
 	addKeyboardEventListener();
 
 	// Ìí¼ÓÖðÖ¡µ÷¶ÈÆ÷
@@ -186,6 +192,9 @@ void SceneGameMain::update(float dt)
 			break;
 		case InteractiveMessagePQ::InteractiveMessageID_Explore_PutCardFail_Road_HandCardFull:
 			log("[warning] Ì½Ë÷³¡¾°ÏÂ£¬³éÅÆÊ§°Ü£¬ÒòÎªÊÖÅÆÒÑÂú£¡");
+			break;
+		case InteractiveMessagePQ::InteractiveMessageID_OP_ClickHandCard_AtLayerWorkbench_TintT:
+			layerWorkbench->showHandCard(msg->getExtras<int>());
 			break;
 		default:
 			break;

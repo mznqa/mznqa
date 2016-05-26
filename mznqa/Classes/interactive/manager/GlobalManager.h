@@ -102,7 +102,7 @@ public:
 	/*!
 	 * \fn	cocos2d::Vec2 GlobalManager::mapPosition2LayerMapPosition(const ArKCa::Vector2<int> &mapPosition)
 	 *
-	 * \brief	获取地图左边对应地图层中的坐标
+	 * \brief	获取地图坐标对应地图层中的坐标
 	 *
 	 * \param	mapPosition	指定地图坐标
 	 *
@@ -112,6 +112,22 @@ public:
 		return cocos2d::Vec2(
 			mapPosition.x * MAPCELL_SIZE + MAPCELL_SIZE_HALF,
 			-(mapPosition.y * MAPCELL_SIZE + MAPCELL_SIZE_HALF)
+			);
+	}
+
+	/*!
+	 * \fn	cocos2d::Vec2 GlobalManager::mapPosition2LayerMapLeftTopPosition(const ArKCa::Vector2<int> &mapPosition)
+	 *
+	 * \brief	获取地图坐标对应地图层中左上角的坐标
+	 *
+	 * \param	mapPosition	指定地图坐标
+	 *
+	 */
+	cocos2d::Vec2 mapPosition2LayerMapLeftTopPosition(const ArKCa::Vector2<int> &mapPosition)
+	{
+		return cocos2d::Vec2(
+			mapPosition.x * MAPCELL_SIZE,
+			-(mapPosition.y * MAPCELL_SIZE)
 			);
 	}
 

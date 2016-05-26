@@ -90,6 +90,22 @@ public:
 	}
 
 	/*!
+	 * \fn	bool GameMap::checkPosition(const ArKCa::Vector2<int> &position)
+	 *
+	 * \brief	检查坐标是否合法
+	 *
+	 * \param	position	指定坐标
+	 *
+	 */
+	bool checkPosition(const ArKCa::Vector2<int> &position)
+	{
+		return (
+			0 <= position.x && position.x < size.width &&
+			0 <= position.y && position.y < size.height
+			);
+	}
+
+	/*!
 	 * \fn	void GameMap::loadMapNode(const ArKCa::Size<int> size, std::vector<std::vector<MapNode>> &mapNodeSet);
 	 *
 	 * \brief	载入地图节点

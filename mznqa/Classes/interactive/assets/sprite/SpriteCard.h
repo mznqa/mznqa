@@ -78,6 +78,7 @@ public:
 	 *
 	 */
 	void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event);
+
 private:
 	/*! \brief	ÊÂ¼ş¼àÌıË÷Òı */
 	EventIndex eventIndex;

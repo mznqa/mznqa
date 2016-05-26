@@ -33,7 +33,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	{
 		// 此处为调试用，在win32、mac、linux平台窗口化运行，在android等移动设备全屏幕运行
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-		glview = GLViewImpl::createWithRect("mznqa", Rect(0, 0, 1440, 810));
+		glview = GLViewImpl::createWithRect("mznqa", Rect(0, 0, 1680, 945));
 #else
 		glview = GLViewImpl::createWithFullScreen("mznqa");
 #endif

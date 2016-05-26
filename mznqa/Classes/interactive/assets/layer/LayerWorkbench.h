@@ -28,6 +28,8 @@ class LayerWorkbench : public cocos2d::Layer
 private:
 	/*! \brief	手牌层的层级 */
 	static const int CardSpriteZOrder = 1;
+	/*! \brief	手牌层展示时的层级 */
+	static const int CardSpriteShowZOrder = 2;
 	/*! \brief	手牌的位置集合 */
 	static std::array<cocos2d::Vec2, EXPLORE_CARDHOLDERSIZE> cardPositionSet;
 	/*! \brief	手牌精灵的标签 */
@@ -40,6 +42,9 @@ private:
 
 	/*! \brief	手牌精灵集 */
 	std::array<SpriteCard*, EXPLORE_CARDHOLDERSIZE> cardSet;
+
+	/*! \brief	手牌的展示状态 */
+	std::array<bool, EXPLORE_CARDHOLDERSIZE> cardSetShowState;
 
 public:
 	CREATE_FUNC(LayerWorkbench);
@@ -116,6 +121,22 @@ public:
 	 * \param	index	返回新添的手牌的索引
 	 */
 	void executeAddCard(int index);
+
+	/*!
+	 * \fn	void LayerWorkbench::showHandCard(int cardIndex);
+	 *
+	 * \brief	展示手牌
+	 *
+	 */
+	void showHandCard(int cardIndex);
+
+	/*!
+	 * \fn	void LayerWorkbench::disshowAllHandCard();
+	 *
+	 * \brief	取消所有手牌的展示状态
+	 *
+	 */
+	void disshowAllHandCard();
 };
 
 #endif

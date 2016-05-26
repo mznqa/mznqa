@@ -11,6 +11,7 @@
 #include "interactive/manager/SizeDefine.h"
 #include "helper/bridge/Bridge.h"
 #include "logic/controller/CharacterController.h"
+#include "interactive/manager/GlobalManager.h"
 
 USING_NS_CC;
 
@@ -239,4 +240,51 @@ void LayerMap::buildLayerLightAndShadow()
 LayerLightAndShadow* LayerMap::getLayerLightAndShadow()
 {
 	return layerLightAndShadow;
+}
+
+void LayerMap::updateMapGroup(const ArKCa::Vector2<int> &groupOrigin)
+{
+	auto size = MapController::Instance()->getMap().getSize();
+	if (
+		0 <= groupOrigin.x && groupOrigin.y < size.width &&
+		0 <= groupOrigin.y && groupOrigin.y < size.height
+		)
+	{
+		for (int y = groupOrigin.y; y < groupOrigin.y + MAPNODE_GROUPSIZE; ++y)
+			for (int x = groupOrigin.x; x < groupOrigin.x + MAPNODE_GROUPSIZE; ++x)
+			{
+				this->removeChild(mapNodeSet[y][x]);
+				mapNodeSet[y][x] = createMapNodeByNodeType(
+					MapController::Instance()->getMap().getMapNodeSet()[y][x].nodeType
+					);
+				if (mapNodeSet[y][x] != nullptr)
+				{
+					mapNodeSet[y][x]->setAnchorPoint(Vec2(0, 1));
+					mapNodeSet[y][x]->setPosition(Vec2(x*MAPCELL_SIZE, -y*MAPCELL_SIZE));
+					addChild(mapNodeSet[y][x], getZOrderByMapNodeType(
+						MapController::Instance()->getMap().getMapNodeSet()[y][x].nodeType
+						), mapNodeFlag);
+				}
+			}
+	}
+}
+
+void LayerMap::buildGuides()
+{
+	guides = DrawNode::create();
+	addChild(guides, guidesZOrder);
+}
+
+void LayerMap::showGuides()
+{
+	guides->clear();
+	guides->drawRect(
+		GlobalManager::Instance()->mapPosition2LayerMapLeftTopPosition(ArKCa::Vector2<int>(9, 9)),
+		GlobalManager::Instance()->mapPosition2LayerMapLeftTopPosition(ArKCa::Vector2<int>(12, 12)),
+		Color4F::RED
+		);
+}
+
+void LayerMap::eraseGuides()
+{
 }

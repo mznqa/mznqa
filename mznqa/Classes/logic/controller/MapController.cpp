@@ -155,3 +155,26 @@ void MapController::updateMapViewMoveRange()
 	if (yRange.max > (gameMap.getSize().height - mapView.getViewSize().height))
 		yRange.max = gameMap.getSize().height - mapView.getViewSize().height;
 }
+
+bool MapController::paving(const ArKCa::Vector2<int> &position, int cardRoadID)
+{
+	if (gameMap.checkPosition(position))
+	{
+		ArKCa::Vector2<int> gruopPosition(position.x / MAPNODE_GROUPSIZE * MAPNODE_GROUPSIZE, position.y / MAPNODE_GROUPSIZE * MAPNODE_GROUPSIZE);
+		auto cardRoad = CardSet::Instance()->getCardRoadByID(cardRoadID);
+
+		for (int y = 0; y < MAPNODE_GROUPSIZE; ++y)
+			for (int x = 0; x < MAPNODE_GROUPSIZE; ++x)
+			{
+				gameMap.modifyMapNodeType(ArKCa::Vector2<int>(x + gruopPosition.x, y + gruopPosition.y), (
+					cardRoad->isRoadNode(x, y)
+					) ? (
+					MapNode::NodeType_Road_Const
+					) : (
+					MapNode::NodeType_Wall_Const
+					));
+			}
+		return true;
+	}
+	return false;
+}

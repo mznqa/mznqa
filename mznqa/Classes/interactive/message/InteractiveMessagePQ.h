@@ -56,7 +56,8 @@ public:
 		InteractiveMessageID_ButtonClicked_Explore_DrawCard,
 		InteractiveMessageID_Explore_PutCard_Road_TintT,
 		InteractiveMessageID_Explore_PutCardFail_Road_CardPollEmpty,
-		InteractiveMessageID_Explore_PutCardFail_Road_HandCardFull
+		InteractiveMessageID_Explore_PutCardFail_Road_HandCardFull,
+		InteractiveMessageID_OP_ClickHandCard_AtLayerWorkbench_TintT
 	};
 
 	/*!

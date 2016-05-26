@@ -187,6 +187,18 @@ public:
 	 *
 	 */
 	void updateMapViewMoveRange();
+
+	/*!
+	 * \fn	bool MapController::paving(const ArKCa::Vector2<int> &position, int cardRoadID);
+	 *
+	 * \brief	铺路
+	 *
+	 * \param	position	指定坐标
+	 * \param	cardRoadID	指定地形卡ID
+	 *
+	 * \return	返回是否执行成功
+	 */
+	bool paving(const ArKCa::Vector2<int> &position, int cardRoadID);
 };
 
 #endif

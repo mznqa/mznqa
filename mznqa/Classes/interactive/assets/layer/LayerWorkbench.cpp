@@ -51,7 +51,10 @@ bool LayerWorkbench::onTouchBegan(Touch *touch, Event *unused_event)
 
 	// µã»÷·¶Î§ÅÐ¶Ï¼ì²â
 	if (!rect.containsPoint(locationInNode))
+	{
+		disshowAllHandCard();
 		return false;
+	}
 
 	// cocos2d::log("[warning] LayerWorkbench::onTouchBegan()");
 	return true;
@@ -126,6 +129,7 @@ void LayerWorkbench::buildCardSet()
 			cardSet[i]->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 			cardSet[i]->setPosition(cardPositionSet[i]);
 			background->addChild(cardSet[i], CardSpriteZOrder, cardSpriteTag);
+			cardSetShowState[i] = false;
 		}
 		++i;
 		++it;
@@ -143,8 +147,41 @@ void LayerWorkbench::executeAddCard(int index)
 	int cardID = CharacterController::Instance()->getRole()->getCardControllerExplore().getHolderCardIDSet().at(index);
 
 	cardSet[index] = SpriteCard::create(cardID);
-	cardSet[index]->addEventListener(SpriteCard::EventIndex(cardID));
+	cardSet[index]->addEventListener(SpriteCard::EventIndex(index));
 	cardSet[index]->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	cardSet[index]->setPosition(cardPositionSet[index]);
 	background->addChild(cardSet[index], CardSpriteZOrder, cardSpriteTag);
+	cardSetShowState[index] = false;
+}
+
+void LayerWorkbench::showHandCard(int cardIndex)
+{
+	if (0 <= cardIndex && cardIndex < EXPLORE_CARDHOLDERSIZE)
+	{
+		disshowAllHandCard();
+		if (cardSet[cardIndex] != nullptr)
+		{
+			cardSet[cardIndex]->setPosition(
+				cardSet[cardIndex]->getPosition().x,
+				cardSet[cardIndex]->getPosition().y + cardSet[cardIndex]->getContentSize().width * 0.5
+				);
+			cardSet[cardIndex]->setScale(2.0);
+			cardSet[cardIndex]->setZOrder(CardSpriteShowZOrder);
+			cardSetShowState[cardIndex] = true;
+		}
+	}
+}
+
+void LayerWorkbench::disshowAllHandCard()
+{
+	for (int i = 0; i < EXPLORE_CARDHOLDERSIZE; ++i)
+	{
+		if (cardSet[i] != nullptr && cardSetShowState[i] == true)
+		{
+			cardSet[i]->setPosition(cardPositionSet[i]);
+			cardSet[i]->setScale(1.0);
+			cardSet[i]->setZOrder(CardSpriteZOrder);
+			cardSetShowState[i] = false;
+		}
+	}
 }

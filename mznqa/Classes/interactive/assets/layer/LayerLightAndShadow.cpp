@@ -38,7 +38,7 @@ void LayerLightAndShadow::createLight()
 	clipperLight->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	addChild(clipperLight, 2);
 
-	contentLight = Sprite::create("lightxx.png");
+	contentLight = Sprite::createWithSpriteFrameName("other/lightxx.png");
 	BlendFunc bl = { GL_ZERO, GL_ONE_MINUS_SRC_ALPHA };
 	contentLight->setBlendFunc(bl);
 	clipperLight->addChild(contentLight);

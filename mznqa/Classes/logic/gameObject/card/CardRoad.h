@@ -107,8 +107,8 @@ public:
 	 */
 	bool isRoadNode(int x, int y)const
 	{
-		if (0 <= x && x < MAPNODE_GROUPSIZE && 0 <= y&&y < MAPNODE_GROUPSIZE)
-			return roadNode[y][x];
+		if (0 <= x && x < MAPNODE_GROUPSIZE && 0 <= y && y < MAPNODE_GROUPSIZE)
+			return roadNode[y][x] == true;
 		return false;
 	}
 };
